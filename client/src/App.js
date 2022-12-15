@@ -29,7 +29,7 @@ function App() {
         />
         <Route
           path="/home"
-          element={user?.email ? <Home user={user} /> : <Navigate to="/" />}//cambio
+          element={user?.email ? <Home user={user} /> : <Navigate to="/" />}
         />
       </Routes>
     </BrowserRouter>
