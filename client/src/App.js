@@ -4,7 +4,7 @@ import { Landing, Login, Signup, Home } from "./components";
 import "./App.css";
 
 function App() {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState([]);//hola
 
   useEffect(() => {
     const theUser = localStorage.getItem("user");
@@ -37,3 +37,5 @@ function App() {
 }
 
 export default App;
+
+//hola con las pruebas de nuevo!!
