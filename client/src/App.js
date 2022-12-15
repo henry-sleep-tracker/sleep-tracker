@@ -4,7 +4,7 @@ import { Landing, Login, Signup, Home } from "./screens";
 import "./App.css";
 
 function App() {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState([]);//hola
 
   useEffect(() => {
     const theUser = localStorage.getItem("user");
