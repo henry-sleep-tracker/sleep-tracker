@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Landing, Login, Signup, Home } from "./screens";
+import { Landing, Login, Signup, Home } from "./components";
 import "./App.css";
 
 function App() {

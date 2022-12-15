@@ -1,27 +1,14 @@
-const express = require("express");
-const app = express();
-var bodyParser = require("body-parser");
-const cors = require("cors");
+const { Router } = require("express");
 const { OAuth2Client } = require("google-auth-library");
 const jwt = require("jsonwebtoken");
-require("dotenv/config");
 
-app.use(
-  cors({
-    origin: ["http://localhost:3000"],
-    methods: "GET,POST,PUT,DELETE,OPTIONS",
-  })
-);
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-let DB = [];
-
-// This function is used verify a google account
+const router = Router();
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+
+let DB = [];
+//DB es una db falsa, vamos a tener que reemplazarla con una nueva
 
 async function verifyGoogleToken(token) {
   try {
@@ -35,11 +22,8 @@ async function verifyGoogleToken(token) {
   }
 }
 
-app.post("/signup", async (req, res) => {
+router.post("/signup", async (req, res) => {
   try {
-    console.log("signuip req", Object.keys(req));
-    console.log("body", req.body);
-    // console.log({ verified: verifyGoogleToken(req.body.credential) });
     if (req.body.credential) {
       const verificationResponse = await verifyGoogleToken(req.body.credential);
 
@@ -74,7 +58,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.post("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     if (req.body.credential) {
       const verificationResponse = await verifyGoogleToken(req.body.credential);
@@ -114,4 +98,4 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.listen("5152", () => console.log("Server running on port 5152"));
+module.exports = router;
