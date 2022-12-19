@@ -1,21 +1,22 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Landing, Login, Signup, Home } from "./components";
 import "./App.css";
 
 function App() {
-  const [user, setUser] = useState([]);//hola
+  // const [user, setUser] = useState([]);//hola
 
-  useEffect(() => {
-    const theUser = localStorage.getItem("user");
+  // useEffect(() => {
+  //   const theUser = localStorage.getItem("user");
 
-    if (theUser && !theUser.includes("undefined")) setUser(JSON.parse(theUser));
-  }, []);
+  //   if (theUser && !theUser.includes("undefined")) setUser(JSON.parse(theUser));
+  // }, []);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route
+        {/* <Route
           path="/"
           element={user?.email ? <Navigate to="/home" /> : <Landing />}
         />
@@ -26,10 +27,10 @@ function App() {
         <Route
           path="/login"
           element={user?.email ? <Navigate to="/home" /> : <Login />}
-        />
+        /> */}
         <Route
-          path="/home"
-          element={user?.email ? <Home user={user} /> : <Navigate to="/" />}
+          path="/inicio"
+          element= <Home/>
         />
       </Routes>
     </BrowserRouter>
