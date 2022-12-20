@@ -6,13 +6,13 @@ import useFetch from "../hooks/useFetch";
 
 const SignUp = () => {
   const { handleGoogle, loading, error } = useFetch(
-    "http://localhost:5152/signup"
+    "http://localhost:3001/signup"
   );
 
   useEffect(() => {
     /* global google */
     if (window.google) {
-      google.accounts.id.initialize({
+      google.accounts.id.sinitialize({
         client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
         callback: handleGoogle,
       });
