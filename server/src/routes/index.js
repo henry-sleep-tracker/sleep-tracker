@@ -12,3 +12,5 @@ router.use("/signup", signupMiddleware);
 router.use("/login", loginMiddleware);
 
 router.use("/restapi", restapiRouter);
+
+module.exports = router;

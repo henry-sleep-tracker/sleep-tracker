@@ -48,4 +48,4 @@ const postUser = async (bodyInfo, countries) => {
   });
   return results;
 };
-module.exports = { getInfoDB, postActivity, repeatedActivities };
+module.exports = { repeatedEmail };

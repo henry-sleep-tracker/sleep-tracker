@@ -33,17 +33,18 @@ let capsEntries = entries.map((entry) => [
   entry[0][0].toUpperCase() + entry[0].slice(1),
   entry[1],
 ]);
+
 sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { User, SleepSession, Stages } = sequelize.models;
+const { User, Session, Stage } = sequelize.models;
 
-User.hasMany(SleepSession);
-SleepSession.belongsTo(User);
+User.hasMany(Session);
+Session.belongsTo(User);
 
-SleepSession.hasMany(Stages);
-Stages.belongsTo(SleepSession);
+Session.hasMany(Stage);
+Stage.belongsTo(Session);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
