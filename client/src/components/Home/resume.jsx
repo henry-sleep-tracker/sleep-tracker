@@ -1,5 +1,5 @@
+import React from "react";
 const Collection = (consumed) => {
-   
   let { cafeina, alcohol, ejercicio, comida } = consumed.arg;
 
   if (!cafeina) {
