@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Collection from "./resume";
-import Graph from "./Dream-Graph";
+import Graph from "../Graphs/Dream-Graph";
 
 const Home = () => {
   let user = {
