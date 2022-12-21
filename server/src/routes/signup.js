@@ -7,8 +7,6 @@ const router = Router();
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
-const newRecord = require("newRecord_router.js"); // ==> Oscar Sarabia
-
 let DB = [];
 //DB es una db falsa, vamos a tener que reemplazarla con una nueva
 
@@ -23,8 +21,6 @@ async function verifyGoogleToken(token) {
     return { error: "Invalid user detected. Please try again" };
   }
 }
-
-router.post("/newrecord", newRecord); // ==> Oscar Sarabia
 
 router.post("/signup", async (req, res) => {
   try {
