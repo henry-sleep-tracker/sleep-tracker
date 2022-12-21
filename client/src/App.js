@@ -10,7 +10,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/fitBit" element={<Fitbit />} />
+      <Route path="/fitbit" element={<Fitbit />} />
       <Route path="/graph" element={<Graph />} />
       <Route path="/inicio" element={<Home />} />
     </Routes>
