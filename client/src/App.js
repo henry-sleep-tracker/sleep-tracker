@@ -1,22 +1,22 @@
 /* eslint-disable no-unused-vars */
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Landing, Login, Signup, Home} from "./components";
+=======
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./components/Home/Home.jsx";
+import Fitbit from "./components/SignUp/Fitbit.js";
+>>>>>>> 20f8fd4e71b46c467eeb73ded8410c9f651054c5
 import "./App.css";
 import GraphWM from "./components/Graph-W-M";
 
 function App() {
-  // const [user, setUser] = useState([]);//hola
-
-  // useEffect(() => {
-  //   const theUser = localStorage.getItem("user");
-
-  //   if (theUser && !theUser.includes("undefined")) setUser(JSON.parse(theUser));
-  // }, []);
-
   return (
     <BrowserRouter>
       <Routes>
+<<<<<<< HEAD
         {/* <Route
           path="/"
           element={user?.email ? <Navigate to="/home" /> : <Landing />}
@@ -35,11 +35,13 @@ function App() {
         />
         <Route path="/graficas"
         element= <GraphWM/> />
+=======
+        <Route path="/" element={<Fitbit />} />
+        <Route path="/inicio" element={<Home />} />
+>>>>>>> 20f8fd4e71b46c467eeb73ded8410c9f651054c5
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
-
-//hola con las pruebas de nuevo!!
