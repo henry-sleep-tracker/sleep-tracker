@@ -1,42 +1,17 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Landing, Login, Signup, Home } from "./components";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Home from "./components/Home/Home.jsx";
+import Fitbit from "./components/SignUp/Fitbit.js";
 import "./App.css";
 
 function App() {
-  // const [user, setUser] = useState([]);//hola
-
-  // useEffect(() => {
-  //   const theUser = localStorage.getItem("user");
-
-  //   if (theUser && !theUser.includes("undefined")) setUser(JSON.parse(theUser));
-  // }, []);
-
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* <Route
-          path="/"
-          element={user?.email ? <Navigate to="/home" /> : <Landing />}
-        />
-        <Route
-          path="/signup"
-          element={user?.email ? <Navigate to="/home" /> : <Signup />}
-        />
-        <Route
-          path="/login"
-          element={user?.email ? <Navigate to="/home" /> : <Login />}
-        /> */}
-        <Route
-          path="/inicio"
-          element= <Home/>
-        />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Fitbit />} />
+      <Route path="/inicio" element={<Home />} />
+    </Routes>
   );
 }
 
 export default App;
-
-//hola con las pruebas de nuevo!!
