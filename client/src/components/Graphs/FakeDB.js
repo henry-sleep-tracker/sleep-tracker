@@ -1,5 +1,3 @@
-import React from "react";
-
 export const stages = [
   {
     dateTime: "2022-12-20T05:47:30.000",
