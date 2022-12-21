@@ -1,13 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Collection from "./resume";
-<<<<<<< HEAD:client/src/components/Home.jsx
-import GraphD from "./Graph-Day";
-
-
-=======
 import Graph from "../Graphs/Dream-Graph";
->>>>>>> 20f8fd4e71b46c467eeb73ded8410c9f651054c5:client/src/components/Home/Home.jsx
 
 const Home = () => {
   let user = {
@@ -64,8 +58,9 @@ const Home = () => {
       </div>
       <div>
         GRAFICA:
-        <GraphD prueba={prueba} />
-        <Link to='/graficas' ><p>Ver Más</p></Link>
+        <Link to="/graficas">
+          <p>Ver Más</p>
+        </Link>
       </div>
 
       <div>
@@ -82,7 +77,6 @@ const Home = () => {
           Descargar Historial
         </a>
       </button>
-
     </div>
   );
 };
