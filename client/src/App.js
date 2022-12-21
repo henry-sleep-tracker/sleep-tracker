@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Landing, Login, Signup, Home } from "./components";
+import { Landing, Login, Signup, Home} from "./components";
 import "./App.css";
+import GraphWM from "./components/Graph-W-M";
 
 function App() {
   // const [user, setUser] = useState([]);//hola
@@ -32,6 +33,8 @@ function App() {
           path="/inicio"
           element= <Home/>
         />
+        <Route path="/graficas"
+        element= <GraphWM/> />
       </Routes>
     </BrowserRouter>
   );
