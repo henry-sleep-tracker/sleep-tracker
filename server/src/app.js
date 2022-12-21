@@ -1,7 +1,8 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
-const routes = require("./routes/index.js");
+const routes = require("./index.js");
+const session = require("express-session"); //esto permite crear sesiones con un tiempo de expiracion y demas
 const { SECRET } = process.env;
 
 require("./db.js");

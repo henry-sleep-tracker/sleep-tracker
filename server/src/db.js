@@ -38,7 +38,8 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { NewRecord, CoffeeSize, AlcoholTypes } = sequelize.models;
+const { NewRecord, CoffeeSize, AlcoholType, User, Session, Stage } =
+  sequelize.models;
 
 // Aca vendrian las relaciones
 NewRecord.belongsToMany(CoffeeSize, {
@@ -46,7 +47,7 @@ NewRecord.belongsToMany(CoffeeSize, {
   timestamps: false,
 });
 
-NewRecord.belongsToMany(AlcoholTypes, {
+NewRecord.belongsToMany(AlcoholType, {
   through: "record_alchol",
   timestamps: false,
 });
@@ -56,11 +57,10 @@ CoffeeSize.belongsToMany(NewRecord, {
   timestamps: false,
 });
 
-AlcoholTypes.belongsToMany(NewRecord, {
+AlcoholType.belongsToMany(NewRecord, {
   through: "record_alcohol",
   timestamps: false,
 });
-const { User, Session, Stage } = sequelize.models;
 
 User.hasMany(Session);
 Session.belongsTo(User);

@@ -1,7 +1,7 @@
 const { Router } = require("express");
-const userMiddleware = require("./user.js");
-const signupMiddleware = require("./signup.js");
-const loginMiddleware = require("./login.js");
+const userMiddleware = require("../middlewares/user");
+const signupMiddleware = require("../middlewares/signup");
+const loginMiddleware = require("../middlewares/login");
 const restapiRouter = require("../routes/restapi");
 
 const router = Router();
