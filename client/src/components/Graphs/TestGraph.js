@@ -2,11 +2,9 @@ import React from "react";
 import { Chart } from "react-google-charts";
 import { stages } from "./FakeDB";
 
-console.log("stages", stages);
-
 const newData = [];
 
-stages.map((s) => {
+stages.forEach((s) => {
   if (s.level === "wake") {
     s.level = 4;
   }
@@ -21,7 +19,6 @@ stages.map((s) => {
   }
   newData.push([s.dateTime.split("T")[1], s.level]);
 });
-console.log("newData", newData);
 
 export const data = [
   ["x", "stage"],
@@ -29,8 +26,6 @@ export const data = [
     return [[d[0].split(":")[0], d[0].split(":")[1], d[0].split(":")[2]], d[1]];
   }),
 ];
-
-console.log("DATA", data);
 
 export const options = {
   hAxis: {
