@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { Activity } = require("../../db");
+const { Activity } = require("../db");
 const router = Router();
 const { postUser, repeatedEmail } = require("../controllers/user");
 
