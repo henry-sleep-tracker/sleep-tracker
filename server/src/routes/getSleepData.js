@@ -21,10 +21,11 @@ router.post("/", async (req, res) => {
       const getToken = await response.json();
 
       const token = await getToken.access_token;
-      console.log("response", token);
+
+      const today = new Date(Date.now() - 28800000).toISOString().split("T")[0];
 
       const data = await fetch(
-        "https://api.fitbit.com/1.2/user/-/sleep/date/2022-12-20.json",
+        `https://api.fitbit.com/1.2/user/-/sleep/date/${today}.json`,
         {
           method: "GET",
           headers: {
@@ -36,14 +37,13 @@ router.post("/", async (req, res) => {
 
       const getData = await data.json();
 
+      const summary = getData.summary.stages;
+      Summary.bulkCreate([summary]);
+
       const session = getData.sleep;
       Session.bulkCreate(session);
 
-      const summary = getData.summary.stages;
-      console.log("summary", summary);
-      Summary.bulkCreate([summary]);
-
-      const stage = getData.sleep[0].levels.data;
+      const stage = getData.sleep[0]?.levels.data;
       console.log("stage", stage);
       Stage.bulkCreate(stage);
     } else {
