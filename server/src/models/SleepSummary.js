@@ -8,31 +8,16 @@ module.exports = (sequelize) => {
       primaryKey: true,
       allowNull: false,
     },
-    logId: {
+    deep: {
       type: DataTypes.INTEGER,
     },
-    startTime: {
-      type: DataTypes.DATE,
-    },
-    endTime: {
-      type: DataTypes.DATE,
-    },
-    duration: {
+    light: {
       type: DataTypes.INTEGER,
     },
-    efficiency: {
+    rem: {
       type: DataTypes.INTEGER,
     },
-    minutesAsleep: {
-      type: DataTypes.INTEGER,
-    },
-    minutesAwake: {
-      type: DataTypes.INTEGER,
-    },
-    minutesToFallAsleep: {
-      type: DataTypes.INTEGER,
-    },
-    minutesRestless: {
+    wake: {
       type: DataTypes.INTEGER,
     },
   });

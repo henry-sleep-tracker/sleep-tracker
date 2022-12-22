@@ -12,10 +12,10 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
     },
     startTime: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
     },
     endTime: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
     },
     duration: {
       type: DataTypes.INTEGER,
@@ -30,9 +30,6 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
     },
     minutesToFallAsleep: {
-      type: DataTypes.INTEGER,
-    },
-    minutesRestless: {
       type: DataTypes.INTEGER,
     },
   });
