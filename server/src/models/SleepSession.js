@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     logId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
     },
     startTime: {
       type: DataTypes.STRING,
@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
     },
     duration: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
     },
     efficiency: {
       type: DataTypes.INTEGER,
