@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardContent,
+  Divider,
   Grid,
   Paper,
   Typography,
@@ -23,26 +24,27 @@ const Page4 = () => {
         elevation={0}
         className={classes.presentation}
       >
-              <Typography variant="h4">Planes de pago</Typography>
+        <Typography variant="h4">Planes de pago</Typography>
 
         <Grid
           container
-          spacing={8}
+          direction="row"
           justifyContent="space-evenly"
-          alignItems="center"
-          direction="stretch"
+          alignItems="stretch"
         >
-          <Grid 
-          item
-          xs={12} 
-          md={3}
+          <Grid
+            item
+            xs={12}
+            md={3}
           >
             <Card>
               <CardContent>
+                
                 <div className={classes.mosaic}>
                   <ThumbUpIcon />
                 </div>
                 <Typography variant="h5">Prueba por 3 meses.</Typography>
+                <Divider/>
                 <Typography>Registro de actividad física</Typography>
                 <Typography>
                   Registra tus consumos diarios de comida y bebida.
@@ -50,17 +52,20 @@ const Page4 = () => {
                 <Typography>
                   Información de sueño conseguido diario y semanal.
                 </Typography>
-                <Button variant="contained" size="large">
+                <Divider/>
+                <div className={classes.mosaic}>
+                <Button variant="contained" size="large" >
                   Gratis
                 </Button>
+                </div>
               </CardContent>
             </Card>
           </Grid>
 
-          <Grid 
-          item 
-          xs={12} 
-          md={3}
+          <Grid
+            item
+            xs={12}
+            md={3}
           >
             <Card>
               <CardContent>
@@ -77,17 +82,19 @@ const Page4 = () => {
                 <Typography>
                   Información de sueño conseguido diario y semanal.
                 </Typography>
+                <div className={classes.mosaic}>
                 <Button variant="contained" size="large">
                   $1 USD / Mes
                 </Button>
+                </div>
               </CardContent>
             </Card>
           </Grid>
 
-          <Grid 
-          item 
-          xs={12} 
-          md={3}
+          <Grid
+            item
+            xs={12}
+            md={3}
           >
             <Card>
               <CardContent>
@@ -102,9 +109,11 @@ const Page4 = () => {
                 <Typography>
                   Información de sueño conseguido diario y semanal.
                 </Typography>
+                <div className={classes.mosaic}>
                 <Button variant="contained" size="large">
                   $10 USD / Año
                 </Button>
+                </div>
               </CardContent>
             </Card>
           </Grid>
@@ -116,11 +125,13 @@ const Page4 = () => {
 
 export default Page4;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   mosaic: {
     display: "flex",
     flexwrap: "wrap",
     justifyContent: "space-around",
+    marginTop: '50px',
+    marginBottom: '50px'
   },
 
   ul: {

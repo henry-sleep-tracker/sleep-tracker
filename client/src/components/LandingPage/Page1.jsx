@@ -30,7 +30,6 @@ const Page1 = (
 
       <Grid
         container
-        spacing={3}
       >
         <Grid
           item
