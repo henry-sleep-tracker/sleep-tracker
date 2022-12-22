@@ -28,7 +28,10 @@ server.use(
 );
 server.use(morgan("dev"));
 server.use((req, res, next) => {
+  //Choose the line below to test with local server
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  //Choose the line below to use with gitHub
+  //  res.header("Access-Control-Allow-Origin", "https://sleep-tracker-two.vercel.app"); https://sleep-tracker-two.vercel.app
   res.header("Access-Control-Allow-Credentials", "true");
   res.header(
     "Access-Control-Allow-Headers",

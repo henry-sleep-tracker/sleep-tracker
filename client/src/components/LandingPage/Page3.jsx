@@ -9,7 +9,6 @@ const Page3 = () => {
   const classes = useStyles();
   return (
     <div>
-      <Typography variant="h4">Dispositivos soportados</Typography>
 
       <Paper
         variant="outlined"
@@ -17,13 +16,17 @@ const Page3 = () => {
         elevation={0}
         className={classes.presentation}
       >
+          <Typography variant="h4">Dispositivos soportados</Typography>
+
         <Grid
           container
           spacing={8}
           justifyContent="space-evenly"
           alignItems="center"
         >
+
           <Grid item xs={12} md={3}>
+
             <Card>
               <CardContent>
                 <div className={classes.mosaic}>
