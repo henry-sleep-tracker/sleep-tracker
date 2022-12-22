@@ -21,8 +21,14 @@ const Page2 = () => {
       >
         <Typography variant="h4">Como funciona</Typography>
 
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
+        <Grid 
+        container 
+        spacing={3}>
+
+          <Grid 
+          item 
+          xs={12} 
+          md={6}>
             <Typography variant="h6">Paso 1</Typography>
             <Typography>Registrate usando tu cuenta de Gmail.</Typography>
           </Grid>
@@ -58,7 +64,10 @@ const Page2 = () => {
               />
             </div>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid 
+          item xs={12} 
+          md={6}
+          >
             <Typography variant="h6">Paso 3</Typography>
             <Typography>
               Observa los datos de tu smartwatch en la aplicación, previamente
@@ -79,7 +88,11 @@ const Page2 = () => {
               />
             </div>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid 
+          item 
+          xs={12} 
+          md={6}
+          >
             <Typography variant="h6">Paso 4</Typography>
             <Typography>
               Lleva regisro de tu actividad física, hora de cena, consumo de
@@ -100,7 +113,11 @@ const Page2 = () => {
               />
             </div>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid 
+          item 
+          xs={12} 
+          md={6}
+          >
             <Typography variant="h6">Paso 5</Typography>
             <Typography>Observa tus estadisticas del sueno.</Typography>
           </Grid>

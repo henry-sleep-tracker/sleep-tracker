@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-import { Grid, Paper, Typography } from "@mui/material";
+import { Grid, ImageList, ImageListItem, Paper, Typography } from "@mui/material";
 import page1SleepA from "./Images/page1SleepA.jpg";
 
 const Page1 = (
@@ -14,7 +14,13 @@ const Page1 = (
 ) => {
   const classes = useStyles();
   return (
-    <div>
+
+    <Paper
+      variant="outlined"
+      square
+      elevation={0}
+      className={classes.presentation}
+    >
       <ul className={classes.ul}>
         <li onClick={() => setCurrentPage(page2)}>Como funciona</li>
         <li onClick={() => setCurrentPage(page3)}>Dispositivos soportados</li>
@@ -22,32 +28,52 @@ const Page1 = (
         <li onClick={() => setCurrentPage(page5)}>Conoce al equipo</li>
       </ul>
 
-      <Paper
-        variant="outlined"
-        square
-        elevation={0}
-        className={classes.presentation}
+      <Grid
+        container
+        spacing={3}
       >
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <Typography variant="h6">Sweet Dreams</Typography>
-            <Typography>
-              Lleva el control de tu sueño con tu telefono movil y/o reloj
-              inteligente
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <div className={classes.mosaic}>
-              <img
+        <Grid
+          item
+          xs={12}
+          md={6}
+        >
+          <Typography variant="h1">Sweet Dreams</Typography>
+          <Typography
+            variant='h6'
+          >
+            Lleva el control de tu sueño con tu telefono movil y/o reloj
+            inteligente
+          </Typography>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}>
+          {/* <div className={classes.mosaic}> */}
+          {/* <img
                 src={page1SleepA}
                 alt={"Imagen representativa"}
                 height={220}
+              /> */}
+
+          <ImageList
+            sx={{ width: 1000, height: 450 }}
+            cols={2}
+            rowHeight={'auto'}
+          >
+            <ImageListItem >
+              <img
+                src={page1SleepA}
+                alt={'imagen'}
+                loading="lazy"
               />
-            </div>
-          </Grid>
+            </ImageListItem>
+          </ImageList>
+
+          {/* </div> */}
         </Grid>
-      </Paper>
-    </div>
+      </Grid>
+    </Paper>
   );
 };
 

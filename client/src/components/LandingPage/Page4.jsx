@@ -11,13 +11,11 @@ import {
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import page1SleepA from "./Images/page1SleepA.jpg";
 
 const Page4 = () => {
   const classes = useStyles();
   return (
     <div>
-      <Typography variant="h4">Planes de pago</Typography>
 
       <Paper
         variant="outlined"
@@ -25,6 +23,8 @@ const Page4 = () => {
         elevation={0}
         className={classes.presentation}
       >
+              <Typography variant="h4">Planes de pago</Typography>
+
         <Grid
           container
           spacing={8}
@@ -32,7 +32,11 @@ const Page4 = () => {
           alignItems="center"
           direction="stretch"
         >
-          <Grid item xs={12} md={3}>
+          <Grid 
+          item
+          xs={12} 
+          md={3}
+          >
             <Card>
               <CardContent>
                 <div className={classes.mosaic}>
@@ -53,7 +57,11 @@ const Page4 = () => {
             </Card>
           </Grid>
 
-          <Grid item xs={12} md={3}>
+          <Grid 
+          item 
+          xs={12} 
+          md={3}
+          >
             <Card>
               <CardContent>
                 <div className={classes.mosaic}>
@@ -76,7 +84,11 @@ const Page4 = () => {
             </Card>
           </Grid>
 
-          <Grid item xs={12} md={3}>
+          <Grid 
+          item 
+          xs={12} 
+          md={3}
+          >
             <Card>
               <CardContent>
                 <div className={classes.mosaic}>
