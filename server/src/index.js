@@ -9,7 +9,7 @@ const updateUser= require('./routes/updateUser.js')
 
 const router = Router();
 
-router.use("/fitbitApi", getSleepData);
+router.use("/restapi", restapiRouter);
 router.use("/user", userMiddleware);
 router.use("/signup", signupMiddleware);
 router.use("/login", loginMiddleware);
