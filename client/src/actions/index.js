@@ -1,9 +1,8 @@
 import { CREATE_TOKEN } from "./constants";
 
 export const createToken = (code) => async (dispatch) => {
-  console.log("actioncode", code);
   try {
-    const sendCode = await fetch("/fitbitApi", {
+    const sendCode = await fetch("http://localhost:3001/sleepbyrange", {
       // The default URL for backEnd is written on "app.js", just write "/*yourBackenRoute*"
       method: "POST",
       headers: {
