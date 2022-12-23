@@ -4,7 +4,7 @@ import React from "react";
 // import SideBar from "./SideBar";
 import NavegationBar from "./NavegationBar";
 import ScrollButton from "./ScrollButton";
-import { Stack, Box, createTheme, ThemeProvider } from "@mui/material";
+import { Stack, Box, createTheme, ThemeProvider, Grid } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 
 function LandingPage() {
@@ -39,20 +39,43 @@ function LandingPage() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <Box bgcolor={"background.default"} color={"text.primary"}>
-        <ScrollButton />
-        <NavegationBar
-          mode={mode}
-          setMode={setMode}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          page1={page1}
-          page2={page2}
-          page3={page3}
-          page4={page4}
-          page5={page5}
-        />
-        <Stack direction="row" spacing={2} justifyContent="space-between">
+      <NavegationBar
+        mode={mode}
+        setMode={setMode}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        page1={page1}
+        page2={page2}
+        page3={page3}
+        page4={page4}
+        page5={page5}
+      />
+
+      <Grid
+        container
+        bgcolor={"background.default"}
+        color={"text.primary"}
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        spacing={0.5}
+        flex={4}
+        p={2}
+      >
+        <Grid
+          item
+          xs={12}
+        >
+          <ScrollButton />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+        >
+          {/* <Stack 
+        direction="row" 
+        spacing={2} 
+        justifyContent="space-between"> */}
           {/* <SideBar setMode={setMode} mode={mode}/> */}
           <Feed
             // pageScroll={pageScroll}
@@ -66,8 +89,10 @@ function LandingPage() {
             page5={page5}
           />
           {/* <RightBar /> */}
-        </Stack>
-      </Box>
+          {/* </Stack> */}
+
+        </Grid>
+      </Grid>
     </ThemeProvider>
   );
 }

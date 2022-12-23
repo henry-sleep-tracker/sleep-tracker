@@ -67,7 +67,6 @@ const Page5 = () => {
 
   return (
     <div>
-      <Typography variant="h4">Conoce al equipo</Typography>
 
       <Paper
         variant="outlined"
@@ -75,7 +74,9 @@ const Page5 = () => {
         elevation={0}
         className={classes.presentation}
       >
-        <ImageList sx={{ width: 500, height: 450 }}>
+        <Typography variant="h4">Conoce al equipo</Typography>
+
+        <ImageList sx={{ width: 1000, height: 450 }}>
           <div className={classes.divList}>
             {itemData.map((item) => (
               <ImageListItem key={item.img}>
