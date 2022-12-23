@@ -1,8 +1,8 @@
-const { DataTypes, INTEGER } = require('sequelize');
+const { DataTypes } = require('sequelize');
 
 module.exports = sequelize => {
   sequelize.define(
-    'coffeeSize',
+    'alcoholType',
     {
       id: {
         primaryKey: true,
@@ -10,8 +10,8 @@ module.exports = sequelize => {
         allowNull: false,
         unique: true,
       },
-      size: {
-        type: DataTypes.STRING(10),
+      drink: {
+        type: DataTypes.STRING(20),
         allowNull: true,
         unique: true,
       },
