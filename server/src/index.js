@@ -7,7 +7,7 @@ const newRecord = require("./routes/newRecord_router.js");
 
 const router = Router();
 
-router.use("/restapi", restapiRouter);
+router.use("/restapi", getSleepData);
 router.use("/user", userMiddleware);
 router.use("/signup", signupMiddleware);
 router.use("/login", loginMiddleware);
