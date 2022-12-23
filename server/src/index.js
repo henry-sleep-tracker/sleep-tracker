@@ -11,6 +11,6 @@ router.use('/restapi', restapiRouter);
 router.use('/user', userMiddleware);
 router.use('/signup', signupMiddleware);
 router.use('/login', loginMiddleware);
-router.post('/newRecord', newRecord);
+router.use('/newrecord', newRecord);
 
 module.exports = router;
