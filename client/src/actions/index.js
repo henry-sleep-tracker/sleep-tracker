@@ -3,7 +3,7 @@ import { CREATE_TOKEN } from "./constants";
 export const createToken = (code) => async (dispatch) => {
   console.log("actioncode", code);
   try {
-    const sendCode = await fetch("http://localhost:3001/restapi", {
+    const sendCode = await fetch("http://localhost:3001/fitbitApi", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
