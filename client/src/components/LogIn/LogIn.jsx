@@ -1,12 +1,12 @@
 import React from "react";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { logInUser } from "../../actions";
+// import { useHistory } from "react-router-dom";
+// import { logInUser } from "../../actions";
 import { useDispatch } from "react-redux";
 
 export default function LogIn() {
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
   var [input, setInput] = useState({
     email: "",
     password: "",
@@ -29,13 +29,13 @@ export default function LogIn() {
     try {
       console.log("component login");
       console.log("input is:", input);
-      dispatch(logInUser(input));
+      // dispatch(logInUser(input));
       alert("user validated");
       setInput({
         email: "",
         password: "",
       });
-      history.push("/home"); //asi es como se rediriges
+      // history.push("/home"); //asi es como se rediriges
     } catch (error) {
       console.log("el error es:", error);
     }

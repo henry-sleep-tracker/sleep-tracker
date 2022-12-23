@@ -1,10 +1,10 @@
-const { DataTypes, Sequelize } = require("sequelize");
+const { DataTypes, Sequelize } = require('sequelize');
 
 const sequelize = Sequelize;
 
-module.exports = (sequelize) => {
+module.exports = sequelize => {
   sequelize.define(
-    "newRecord",
+    'newRecord',
     {
       id: {
         primaryKey: true,
@@ -12,21 +12,18 @@ module.exports = (sequelize) => {
         allowNull: false,
         defaultValue: DataTypes.UUIDV4,
       },
-      dateLastMeal: {
+      dateMeal: {
         type: DataTypes.DATEONLY,
         allowNull: false,
       },
-      timeLastMeal: {
+      timeMeal: {
         type: DataTypes.TIME,
         allowNull: false,
       },
-      mealDescription: {
+      description: {
         type: DataTypes.STRING(300),
         allowNull: true,
-      },
-      physicalActivity: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
+        defaultValue: '',
       },
       sleepTime: {
         type: DataTypes.INTEGER,
@@ -35,14 +32,22 @@ module.exports = (sequelize) => {
       napTime: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
         allowNull: true,
+        defaultValue: [],
       },
-      coffeeConsumption: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
+      timeActivity: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
         allowNull: true,
+        defaultValue: [],
       },
-      alcoholConsumption: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
+      coffeeCups: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
         allowNull: true,
+        defaultValue: [],
+      },
+      drinks: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
+        allowNull: true,
+        defaultValue: [],
       },
     },
     { timestamps: false }

@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = sequelize => {
   sequelize.define(
-    'alcoholType',
+    'activity',
     {
       id: {
         primaryKey: true,
@@ -10,9 +10,9 @@ module.exports = sequelize => {
         allowNull: false,
         unique: true,
       },
-      alcoholType: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      activity: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
         unique: true,
       },
     },

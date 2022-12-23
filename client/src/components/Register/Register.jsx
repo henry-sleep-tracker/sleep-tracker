@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { postUser } from "../../actions";
+// import { useHistory } from "react-router-dom";
+// import { postUser } from "../../actions";
 import { useDispatch } from "react-redux";
 
 const nationalities = [
@@ -109,7 +109,7 @@ const nationalities = [
 
 export default function Register() {
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
   const [input, setInput] = useState({
     names: "",
     lastNames: "",
@@ -131,7 +131,7 @@ export default function Register() {
   function handleSubmit(event) {
     event.preventDefault();
     try {
-      dispatch(postUser(input));
+      // dispatch(postUser(input));
       alert("user registered");
       setInput({
         names: "",
@@ -143,39 +143,41 @@ export default function Register() {
         password: "",
         confirmPassword: "",
       });
-      history.push("/login"); //asi es como se rediriges
+      // history.push("/login"); //asi es como se rediriges
     } catch (error) {
       console.log("el error es:", error);
     }
   }
 
-  //   function handleSelect(event) {
-  //     setInput({
-  //         ...input,
-  //         nationality:event.target.value
-  //     })
-  //   }
+    function handleSelect(event) {
+      setInput({
+          ...input,
+          nationality:event.target.value
+      })
+    }
 
   return (
     <form onSubmit={(event) => handleSubmit(event)}>
       <h1>Registro</h1>
       <div>
-        <label htmlFor="name">{`Nombre(s)*:`} </label>
+        <label htmlFor="names">{`Nombre(s)*:`} </label>
         <input
           type="text"
-          name="name"
+          name="names"
           placeholder="Nombre(s)"
+          maxlength="50"
           onChange={(event) => handleChange(event)}
           required
         />
       </div>
 
       <div>
-        <label htmlFor="lastname">{`Apellido(s)*:`} </label>
+        <label htmlFor="lastNames">{`Apellido(s)*:`} </label>
         <input
           type="text"
-          name="lastname"
+          name="lastNames"
           placeholder="Apellido(s)"
+          maxlength="50"
           onChange={(event) => handleChange(event)}
           required
         />
@@ -183,11 +185,10 @@ export default function Register() {
 
       <div>
         <label htmlFor="nationality">{`Nacionalidad*:`} </label>
-        <select name="select">
+        <select name="select" onChange={(event) => handleSelect(event)}>
           {nationalities?.map((nationality) => (
             <option
               value={nationality}
-              onChange={(event) => handleSelect(event)}
             >
               {nationality}
             </option>
@@ -212,6 +213,7 @@ export default function Register() {
           type="text"
           name="googleId"
           placeholder="GoogleId"
+          maxlength="50"
           onChange={(event) => handleChange(event)}
           required
         />
@@ -223,6 +225,7 @@ export default function Register() {
           type="email"
           name="email"
           placeholder="Correo electronico"
+          maxlength="256"
           onChange={(event) => handleChange(event)}
           required
         />
@@ -234,6 +237,7 @@ export default function Register() {
           type="password"
           name="password"
           placeholder="Contraseña"
+          maxlength="32"
           onChange={(event) => handleChange(event)}
           required
         />
@@ -244,6 +248,7 @@ export default function Register() {
           type="password"
           name="confirmPassword"
           placeholder="Contraseña"
+          maxlength="32"
           onChange={(event) => handleChange(event)}
           required
         />
