@@ -18,7 +18,7 @@ server.use(cookieParser());
 server.use(
   session({
     name: "sid",
-    secret: SECRET, //aca trae el secreto del archivo .env
+    secret: SECRET || "contraseña", //aca trae el secreto del archivo .env
     resave: false,
     saveUninitialized: false,
     cookie: {
