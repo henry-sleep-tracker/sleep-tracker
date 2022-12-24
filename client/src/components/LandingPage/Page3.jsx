@@ -9,21 +9,27 @@ const Page3 = () => {
   const classes = useStyles();
   return (
     <Paper
-      variant="outlined"
-      square
-      elevation={0}
-      className={classes.presentation}
+      // variant="outlined"
+      // square
+      elevation={20}
+      // className={classes.mainPaper}
     >
       <Typography variant="h4">Dispositivos soportados</Typography>
 
       <Grid
         container
-        direction="row"
+        // direction="row"
         justifyContent="space-evenly"
-        alignItems="stretch"
+        alignItems="center"
+        className={classes.mainPaper}
+
       >
 
-        <Grid item xs={12} md={3}>
+        <Grid
+          item
+          xs={12}
+          md={3}
+        >
 
           <Card>
             <CardContent>
@@ -43,7 +49,11 @@ const Page3 = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={3}>
+        <Grid
+          item
+          xs={12}
+          md={3}
+        >
           <Card>
             <CardContent>
               <div className={classes.mosaic}>
@@ -62,7 +72,11 @@ const Page3 = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={3}>
+        <Grid
+          item
+          xs={12}
+          md={3}
+        >
           <Card>
             <CardContent>
               <div className={classes.mosaic}>
@@ -87,16 +101,9 @@ const Page3 = () => {
 
 export default Page3;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   mosaic: {
     display: "flex",
-    flexwrap: "wrap",
-    justifyContent: "space-around",
-  },
-
-  ul: {
-    display: "flex",
-    listStyle: "none",
     flexwrap: "wrap",
     justifyContent: "space-around",
   },
@@ -107,5 +114,10 @@ const useStyles = makeStyles((theme) => ({
     flexwrap: "wrap",
     justifyContent: "space-around",
 
-  }
+  },
+
+  mainPaper: {
+    height: '100vh',
+    width: '97vw'
+  },
 }));

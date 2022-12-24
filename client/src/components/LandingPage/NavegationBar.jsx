@@ -204,7 +204,7 @@ const NavegationBar = ({
                         variant='h4'
                         onClick={() => setCurrentPage(page1)}
                     >
-                        Sweet Dreams
+                        Sleep Tracker
                     </Typography>
                     <NightShelterIcon
                         sx={{ display: { xs: "block", sm: "none" } }}
