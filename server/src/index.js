@@ -1,12 +1,11 @@
-const { Router } = require("express");
+const { Router, application } = require("express");
 const getSleepData = require("./routes/getSleepData");
-const userMiddleware = require("./middlewares/user.js");
-const signupMiddleware = require("./middlewares/signup.js");
-const loginMiddleware = require("./middlewares/login.js");
-const newRecord = require("./routes/newRecord_router.js");
+const userMiddleware = require("./middlewares/user");
+const signupMiddleware = require("./middlewares/signup");
+const loginMiddleware = require("./middlewares/login");
+const newRecord = require("./routes/newRecord_router");
 
 const router = Router();
-
 router.use("/fitbitApi", getSleepData);
 router.use("/user", userMiddleware);
 router.use("/signup", signupMiddleware);
