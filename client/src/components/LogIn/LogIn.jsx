@@ -2,10 +2,10 @@ import React from "react";
 import { useState } from "react";
 // import { useHistory } from "react-router-dom";
 // import { logInUser } from "../../actions";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
 export default function LogIn() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   // const history = useHistory();
   var [input, setInput] = useState({
     email: "",
@@ -69,7 +69,7 @@ export default function LogIn() {
       </div>
       <button type="submit">Iniciar Sesion</button>
       <p>
-        No tienes cuenta? <a href="/register">registrate</a>
+        No tienes cuenta? <a href="/registro">registrate</a>
       </p>
     </form>
   );
