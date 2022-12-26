@@ -1,4 +1,4 @@
-const LocalStrategy = require("passport-local").Strategy;
+const LocalStrategy = require("passport-local").Strategy; ////permite usar usernames y passwords to log in
 const bcrypt = require("bcrypt");
 
 function initialize(passport, getUserByEmail) {
