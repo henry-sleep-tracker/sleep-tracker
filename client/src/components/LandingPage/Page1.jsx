@@ -36,6 +36,8 @@ const Page1 = (
           justifyContent="center"
           alignItems="center"
           className={classes.mainPaper}
+          flex={4}
+          p={2}
 
         >
           <Grid
@@ -71,7 +73,8 @@ const Page1 = (
               // rowHeight={'auto'}
               >
               <ImageListItem 
-              sx={{ width: '400px', height: 'auto' }}              
+              sx={{ width: '400px', height: 'auto' }}  
+              // overflow='hidden'            
               >
                 <img
                   src={page1SleepA}

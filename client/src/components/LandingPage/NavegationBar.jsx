@@ -1,11 +1,11 @@
-import { AppBar, styled, Typography, Badge, Avatar, /*InputBase,*/ Menu, MenuItem, IconButton, Box, Drawer, ListItem, ListItemButton, ListItemIcon, Switch, ListItemText, Divider, Button } from "@mui/material";
+import { AppBar, styled, Typography, /*Badge, Avatar, InputBase,*/ Menu, MenuItem, IconButton, Box, Drawer, ListItem, ListItemButton, ListItemIcon, Switch, ListItemText, Divider, Button } from "@mui/material";
 import React, { useState } from "react";
 import NightShelterIcon from '@mui/icons-material/NightShelter';
-import { AccountBalanceWalletSharp, AppRegistration, DarkMode, DevicesOther, Groups2, Home, Login, Mail, Notifications, QuestionMark } from "@mui/icons-material";
+import { AccountBalanceWalletSharp, AppRegistration, DarkMode, DevicesOther, Groups2, Home, Login, /*Mail, Notifications,*/ QuestionMark } from "@mui/icons-material";
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import { Stack } from "@mui/system";
+// import { Stack } from "@mui/system";
 import { theme } from "../../theme";
 import { ThemeProvider } from "@emotion/react";
 import LoginIcon from '@mui/icons-material/Login';
@@ -70,7 +70,6 @@ const NavegationBar = ({
                 <StyledToolbar>
 
                     <IconButton
-                        color="inherit"
                         aria-label="open drawer"
                         edge="start"
                         onClick={handleDrawerToggle}
@@ -80,7 +79,6 @@ const NavegationBar = ({
                     <Box
                         component="nav"
                         sx={{ width: { sm: 240 }, flexShrink: { sm: 0 } }}
-                        aria-label="mailbox folders"
                     >
                         <Drawer
                             variant="temporary"

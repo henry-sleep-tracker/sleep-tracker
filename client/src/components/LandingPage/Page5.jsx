@@ -85,12 +85,12 @@ const Page5 = () => {
           <Grid
             container
             // direction="row"
-            // justifyContent="flex-start"
+            justifyContent="center"
             // alignItems="flex-start"
             // spacing={0}
             // display='flex'
-            // flex={4}
-            // p={2}
+            flex={4}
+            p={9}
             // height='100vh'
             
             >

@@ -33,6 +33,8 @@ const Page4 = () => {
           justifyContent="space-evenly"
           alignItems="center"
           className={classes.mainPaper}
+          flex={4}
+          p={9}
 
         >
           <Grid
@@ -40,7 +42,9 @@ const Page4 = () => {
             xs={12}
             md={3}
           >
-            <Card>
+            <Card
+              elevation={20}
+            >
               <CardContent>
 
                 <Box
@@ -85,7 +89,9 @@ const Page4 = () => {
             xs={12}
             md={3}
           >
-            <Card>
+            <Card
+              elevation={20}
+            >
               <CardContent>
                 <Box>
 
@@ -102,16 +108,16 @@ const Page4 = () => {
                     Exporta informacion en formato PDF.
                   </Typography>
                   <Box
-                  sx={{ display: { xs: "none", sm: "none" } }}
-                >
-                  <Typography>Registro de actividad física</Typography>
-                  <Typography>
-                    Registra tus consumos diarios de comida y bebida.
-                  </Typography>
-                  <Typography>
-                    Información de sueño conseguido diario y semanal.
-                  </Typography>
-                  <Divider />
+                    sx={{ display: { xs: "none", sm: "none" } }}
+                  >
+                    <Typography>Registro de actividad física</Typography>
+                    <Typography>
+                      Registra tus consumos diarios de comida y bebida.
+                    </Typography>
+                    <Typography>
+                      Información de sueño conseguido diario y semanal.
+                    </Typography>
+                    <Divider />
                   </Box>
                   <Box
                     className={classes.mosaic}
@@ -134,7 +140,9 @@ const Page4 = () => {
             xs={12}
             md={3}
           >
-            <Card>
+            <Card
+              elevation={20}
+            >
               <CardContent>
                 <Box
                   className={classes.mosaic}
@@ -149,14 +157,14 @@ const Page4 = () => {
                 <Box
                   sx={{ display: { xs: "none", sm: "none" } }}
                 >
-                <Typography>Registro de actividad física</Typography>
-                <Typography>
-                  Registra tus consumos diarios de comida y bebida.
-                </Typography>
-                <Typography>
-                  Información de sueño conseguido diario y semanal.
-                </Typography>
-                <Divider />
+                  <Typography>Registro de actividad física</Typography>
+                  <Typography>
+                    Registra tus consumos diarios de comida y bebida.
+                  </Typography>
+                  <Typography>
+                    Información de sueño conseguido diario y semanal.
+                  </Typography>
+                  <Divider />
                 </Box>
                 <Box
                   className={classes.mosaic}

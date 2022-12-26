@@ -1,4 +1,3 @@
-import { Grid4x4 } from "@mui/icons-material";
 import { Grid } from "@mui/material";
 import React from "react";
 import Page1 from "./Page1";
@@ -31,7 +30,7 @@ const Feed = ({
     return (
         <Grid
             container
-            justifyContent="flex-start"
+            justifyContent="center"
             alignItems="stretch"
             spacing={1}
             maxWidth='100vw'

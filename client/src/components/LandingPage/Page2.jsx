@@ -23,6 +23,9 @@ const Page2 = () => {
       <Grid
         container
         alignItems="center"
+        flex={4}
+        p={9}
+
       >
 
         <Grid
