@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-import { Grid, Paper, Typography } from "@mui/material";
+import { Grid, ImageList, ImageListItem, Paper, Typography } from "@mui/material";
 import page1SleepA from "./Images/page1SleepA.jpg";
 
 const Page1 = (
@@ -14,56 +14,89 @@ const Page1 = (
 ) => {
   const classes = useStyles();
   return (
-    <div>
-      <ul className={classes.ul}>
+
+    <Paper
+      // variant="outlined"
+      // square
+      elevation={20}
+      // className={classes.mainPaper}
+    >
+      {/* <ul className={classes.ul}>
         <li onClick={() => setCurrentPage(page2)}>Como funciona</li>
         <li onClick={() => setCurrentPage(page3)}>Dispositivos soportados</li>
         <li onClick={() => setCurrentPage(page4)}>Planes de pago</li>
         <li onClick={() => setCurrentPage(page5)}>Conoce al equipo</li>
-      </ul>
+      </ul> */}
+      {/* <div className={classes.mosaic}> */}
 
-      <Paper
-        variant="outlined"
-        square
-        elevation={0}
-        className={classes.presentation}
-      >
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <Typography variant="h6">Sweet Dreams</Typography>
-            <Typography>
+        <Grid
+          container
+          // display='flex'
+          // direction="row"
+          justifyContent="center"
+          alignItems="center"
+          className={classes.mainPaper}
+          flex={4}
+          p={2}
+
+        >
+          <Grid
+            item
+            lg={6}
+            md={6}
+            xs={12}
+          >
+            <Typography
+              variant="h1"
+              display='flex'
+              flexwrap='wrap'
+            >Sleep Tracker
+            </Typography>
+            <Typography
+              variant='h6'
+              display='flex'
+              flexwrap='wrap'
+            >
               Lleva el control de tu sueño con tu telefono movil y/o reloj
               inteligente
             </Typography>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <div className={classes.mosaic}>
-              <img
-                src={page1SleepA}
-                alt={"Imagen representativa"}
-                height={220}
-              />
-            </div>
+          <Grid
+            item
+            lg={6}
+            md={6}
+            xs={12}
+            >
+
+            <ImageList
+              // cols={2}
+              // rowHeight={'auto'}
+              >
+              <ImageListItem 
+              sx={{ width: '400px', height: 'auto' }}  
+              // overflow='hidden'            
+              >
+                <img
+                  src={page1SleepA}
+                  alt={'imagen'}
+                  loading="lazy"
+                />
+              </ImageListItem>
+            </ImageList>
+
           </Grid>
         </Grid>
-      </Paper>
-    </div>
+      {/* </div> */}
+    </Paper>
   );
 };
 
 export default Page1;
 
-const useStyles = makeStyles((theme) => ({
-  mosaic: {
-    display: "flex",
-    flexwrap: "wrap",
-    justifyContent: "space-around",
-  },
+const useStyles = makeStyles(() => ({
+  mainPaper:{
+    height:'100vh',
+    width:'97vw'
 
-  ul: {
-    display: "flex",
-    listStyle: "none",
-    flexwrap: "wrap",
-    justifyContent: "space-around",
-  },
+  }
 }));
