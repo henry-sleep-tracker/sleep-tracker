@@ -1,12 +1,15 @@
-const { NewRecord } = require('../db.js');
+const { NewRecord } = require("../db.js");
 
 const new_record_validator = async (req, res, next) => {
   let { dateMeal, timeMeal, sleepTime, coffee, drink, activity } = req.body;
 
-  if (!dateMeal) return res.status(400).json({ error: 'Ingresa la fecha' });
-  if (!timeMeal) return res.status(400).json({ error: 'Ingresa la hora' });
+  if (!dateMeal) return res.status(400).json({ error: "Ingresa la fecha" });
+  if (!timeMeal) return res.status(400).json({ error: "Ingresa la hora" });
   if (!sleepTime)
-    return res.status(400).json({ error: 'Ingresa tus horas de sueño' });
+    return res.status(400).json({ error: "Ingresa tus horas de sueño" });
+  if (sleepTime) {
+    parseInt(sleepTime);
+  }
 
   if (!coffee) {
     coffee = [];

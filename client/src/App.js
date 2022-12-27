@@ -8,7 +8,8 @@ import Fitbit from "./components/SignUp/Fitbit";
 import Graph from "./components/Graphs/TestGraph.js";
 import "./App.css";
 import LandingPage from "./components/LandingPage/LandingPage.jsx";
-import Dashboard from "./components/dashboard/Dashboard.js"
+import Dashboard from "./components/dashboard/Dashboard.js";
+import Record from "./components/Record/Record.jsx";
 import axios from "axios";
 
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
@@ -23,9 +24,10 @@ function App() {
       <Route exact path="/fitBit" element={<Fitbit />} />
       <Route exact path="/graph" element={<Graph />} />
       <Route exact path="/inicio" element={<Home />} />
-      <Route path='/dashboard/*' element={<Dashboard />}/>
+      <Route path="/dashboard/*" element={<Dashboard />} />
       <Route exact path="/login" element={<LogIn />} />
       <Route exact path="/registro" element={<Register />} />
+      <Route exact path="/newrecord" element={<Record />} />
       <Route exact path="*" element={<NotFound />} />
     </Routes>
   );
