@@ -57,3 +57,25 @@ export async function getUserByEmail(email) {
     );
   }
 }
+
+export function logInUser(email, password) {
+  console.log("recibi en actions :");
+  console.log("email:", email);
+  console.log("password:", password);
+  return async function (dispatch) {
+    try {
+      const response = await fetch(`http://localhost:3001/login/manual`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email, password: password }),
+      });
+      const userFound = await response.json();
+      console.log("user found in actions:", userFound);
+      return userFound;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
