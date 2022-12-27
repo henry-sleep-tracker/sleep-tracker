@@ -8,7 +8,10 @@ import Fitbit from "./components/SignUp/Fitbit";
 import Graph from "./components/Graphs/TestGraph.js";
 import "./App.css";
 import LandingPage from "./components/LandingPage/LandingPage.jsx";
+import PublicRoute from "./components/PublicRoute/PublicRoute";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import axios from "axios";
+import { AuthContextProvider } from "./actions/authContext";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
 axios.defaults.baseURL = "http://localhost:3001/";
 //The following link must be un-comented on gitHub if you wanna work with on-line servers
@@ -25,6 +28,23 @@ function App() {
       <Route exact path="/registro" element={<Register />} />
       <Route exact path="*" element={<NotFound />} />
     </Routes>
+    // <AuthContextProvider>
+    //   <Routes>
+    //     <Route path="/" element={<PublicRoute />}>
+    //       <Route index element={<LandingPage />} />{" "}
+    //       {/* rutas publicas- lo de indez quiere decir / */}
+    //       <Route path="/login" element={<LogIn />} />
+    //       <Route path="/registro" element={<Register />} />
+    //     </Route>
+    //     <Route path="/private" element={<PrivateRoute />}>
+    //       {/* rutas privadas */}
+    //       <Route path="/private/fitBit" element={<Fitbit />} />
+    //       <Route path="/private/graph" element={<Graph />} />
+    //       <Route path="/private/inicio" element={<Home />} />
+    //     </Route>
+    //     <Route path="*" element={<NotFound />} />
+    //   </Routes>
+    // </AuthContextProvider>
   );
 }
 
