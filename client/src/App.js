@@ -5,9 +5,9 @@ import LogIn from "./components/LogIn/LogIn";
 import Register from "./components/Register/Register";
 import NotFound from "./components/NotFound/NotFound";
 import Fitbit from "./components/SignUp/Fitbit";
-import Graph from "./components/Graphs/TestGraph.js";
 import "./App.css";
 import LandingPage from "./components/LandingPage/LandingPage.jsx";
+import GraphWM from "./components/Graph-Week/Graph-W-M.jsx";
 import Dashboard from "./components/dashboard/Dashboard.js"
 import axios from "axios";
 
@@ -21,12 +21,12 @@ function App() {
     <Routes>
       <Route exact path="/" element={<LandingPage />} />
       <Route exact path="/fitBit" element={<Fitbit />} />
-      <Route exact path="/graph" element={<Graph />} />
       <Route exact path="/inicio" element={<Home />} />
       <Route path='/dashboard/*' element={<Dashboard />}/>
       <Route exact path="/login" element={<LogIn />} />
       <Route exact path="/registro" element={<Register />} />
       <Route exact path="*" element={<NotFound />} />
+      <Route exact path='/graficas' element={<GraphWM/>}/>
     </Routes>
   );
 }

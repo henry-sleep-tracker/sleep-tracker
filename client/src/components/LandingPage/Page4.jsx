@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -19,45 +20,66 @@ const Page4 = () => {
     <div>
 
       <Paper
-        variant="outlined"
-        square
-        elevation={0}
-        className={classes.presentation}
+        // variant="outlined"
+        // square
+        elevation={20}
+      // className={classes.mainPaper}
       >
         <Typography variant="h4">Planes de pago</Typography>
 
         <Grid
           container
-          direction="row"
+          // direction="row"
           justifyContent="space-evenly"
-          alignItems="stretch"
+          alignItems="center"
+          className={classes.mainPaper}
+          flex={4}
+          p={9}
+
         >
           <Grid
             item
             xs={12}
             md={3}
           >
-            <Card>
+            <Card
+              elevation={20}
+            >
               <CardContent>
-                
-                <div className={classes.mosaic}>
+
+                <Box
+                  className={classes.mosaic}
+                  sx={{
+                    marginTop: { md: '50px', xs: '5px' },
+                    marginBottom: { md: '50px', xs: '5px' }
+                  }}
+                >
                   <ThumbUpIcon />
-                </div>
+                </Box>
                 <Typography variant="h5">Prueba por 3 meses.</Typography>
-                <Divider/>
-                <Typography>Registro de actividad física</Typography>
-                <Typography>
-                  Registra tus consumos diarios de comida y bebida.
-                </Typography>
-                <Typography>
-                  Información de sueño conseguido diario y semanal.
-                </Typography>
-                <Divider/>
-                <div className={classes.mosaic}>
-                <Button variant="contained" size="large" >
-                  Gratis
-                </Button>
-                </div>
+                <Box
+                  sx={{ display: { xs: "none", sm: "none" } }}
+                >
+                  <Typography>Registro de actividad física</Typography>
+                  <Typography>
+                    Registra tus consumos diarios de comida y bebida.
+                  </Typography>
+                  <Typography>
+                    Información de sueño conseguido diario y semanal.
+                  </Typography>
+                  <Divider />
+                </Box>
+                <Box
+                  className={classes.mosaic}
+                  sx={{
+                    marginTop: { md: '50px', xs: '5px' },
+                    marginBottom: { md: '50px', xs: '5px' }
+                  }}
+                >
+                  <Button variant="contained" size="large" >
+                    Gratis
+                  </Button>
+                </Box>
               </CardContent>
             </Card>
           </Grid>
@@ -67,26 +89,48 @@ const Page4 = () => {
             xs={12}
             md={3}
           >
-            <Card>
+            <Card
+              elevation={20}
+            >
               <CardContent>
-                <div className={classes.mosaic}>
-                  <EmojiEmotionsIcon />
-                </div>
-                <Typography variant="h5">
-                  Exporta informacion en formato PDF.
-                </Typography>
-                <Typography>Registro de actividad física</Typography>
-                <Typography>
-                  Registra tus consumos diarios de comida y bebida.
-                </Typography>
-                <Typography>
-                  Información de sueño conseguido diario y semanal.
-                </Typography>
-                <div className={classes.mosaic}>
-                <Button variant="contained" size="large">
-                  $1 USD / Mes
-                </Button>
-                </div>
+                <Box>
+
+                  <Box
+                    className={classes.mosaic}
+                    sx={{
+                      marginTop: { md: '50px', xs: '5px' },
+                      marginBottom: { md: '50px', xs: '5px' }
+                    }}
+                  >
+                    <EmojiEmotionsIcon />
+                  </Box>
+                  <Typography variant="h5">
+                    Exporta informacion en formato PDF.
+                  </Typography>
+                  <Box
+                    sx={{ display: { xs: "none", sm: "none" } }}
+                  >
+                    <Typography>Registro de actividad física</Typography>
+                    <Typography>
+                      Registra tus consumos diarios de comida y bebida.
+                    </Typography>
+                    <Typography>
+                      Información de sueño conseguido diario y semanal.
+                    </Typography>
+                    <Divider />
+                  </Box>
+                  <Box
+                    className={classes.mosaic}
+                    sx={{
+                      marginTop: { md: '50px', xs: '5px' },
+                      marginBottom: { md: '50px', xs: '5px' }
+                    }}
+                  >
+                    <Button variant="contained" size="large">
+                      $1 USD / Mes
+                    </Button>
+                  </Box>
+                </Box>
               </CardContent>
             </Card>
           </Grid>
@@ -96,30 +140,49 @@ const Page4 = () => {
             xs={12}
             md={3}
           >
-            <Card>
+            <Card
+              elevation={20}
+            >
               <CardContent>
-                <div className={classes.mosaic}>
+                <Box
+                  className={classes.mosaic}
+                  sx={{
+                    marginTop: { md: '50px', xs: '5px' },
+                    marginBottom: { md: '50px', xs: '5px' }
+                  }}
+                >
                   <AutoAwesomeIcon />
-                </div>
+                </Box>
                 <Typography variant="h5">Descuento anual.</Typography>
-                <Typography>Registro de actividad física</Typography>
-                <Typography>
-                  Registra tus consumos diarios de comida y bebida.
-                </Typography>
-                <Typography>
-                  Información de sueño conseguido diario y semanal.
-                </Typography>
-                <div className={classes.mosaic}>
-                <Button variant="contained" size="large">
-                  $10 USD / Año
-                </Button>
-                </div>
+                <Box
+                  sx={{ display: { xs: "none", sm: "none" } }}
+                >
+                  <Typography>Registro de actividad física</Typography>
+                  <Typography>
+                    Registra tus consumos diarios de comida y bebida.
+                  </Typography>
+                  <Typography>
+                    Información de sueño conseguido diario y semanal.
+                  </Typography>
+                  <Divider />
+                </Box>
+                <Box
+                  className={classes.mosaic}
+                  sx={{
+                    marginTop: { md: '50px', xs: '5px' },
+                    marginBottom: { md: '50px', xs: '5px' }
+                  }}
+                >
+                  <Button variant="contained" size="large">
+                    $10 USD / Año
+                  </Button>
+                </Box>
               </CardContent>
             </Card>
           </Grid>
         </Grid>
       </Paper>
-    </div>
+    </div >
   );
 };
 
@@ -130,8 +193,8 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexwrap: "wrap",
     justifyContent: "space-around",
-    marginTop: '50px',
-    marginBottom: '50px'
+    // marginTop: '50px',
+    // marginBottom: '50px',
   },
 
   ul: {
@@ -140,4 +203,10 @@ const useStyles = makeStyles(() => ({
     flexwrap: "wrap",
     justifyContent: "space-around",
   },
+
+  mainPaper: {
+    height: '100vh',
+    width: '97vw'
+  },
+
 }));

@@ -1,15 +1,18 @@
-import { AppBar, styled, Typography, Badge, Avatar, /*InputBase,*/ Menu, MenuItem, IconButton, Box, Drawer, ListItem, ListItemButton, ListItemIcon, Switch, ListItemText, Divider, Button } from "@mui/material";
+import { AppBar, styled, Typography, /*Badge, Avatar, InputBase,*/ Menu, MenuItem, IconButton, Box, Drawer, ListItem, ListItemButton, ListItemIcon, Switch, ListItemText, Divider, Button } from "@mui/material";
 import React, { useState } from "react";
+import { Link } from 'react-router-dom'
 import NightShelterIcon from '@mui/icons-material/NightShelter';
-import { AccountBalanceWalletSharp, AppRegistration, DarkMode, DevicesOther, Groups2, Home, Login, Mail, Notifications, QuestionMark } from "@mui/icons-material";
+import { AccountBalanceWalletSharp, AppRegistration, DarkMode, DevicesOther, Groups2, Home, Login, /*Mail, Notifications,*/ QuestionMark } from "@mui/icons-material";
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import { Stack } from "@mui/system";
+// import { Stack } from "@mui/system";
 import { theme } from "../../theme";
 import { ThemeProvider } from "@emotion/react";
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import { makeStyles } from "@mui/styles";
+
 
 const StyledToolbar = styled(Toolbar)({
     display: "flex",
@@ -55,13 +58,15 @@ const NavegationBar = ({
     page5
 }) => {
 
-    const [open, setOpen] = useState(false)
+    // const [open, setOpen] = useState(false)
 
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
+
+    const classes = useStyles();
 
     return (
         <ThemeProvider theme={theme}>
@@ -70,7 +75,6 @@ const NavegationBar = ({
                 <StyledToolbar>
 
                     <IconButton
-                        color="inherit"
                         aria-label="open drawer"
                         edge="start"
                         onClick={handleDrawerToggle}
@@ -80,7 +84,6 @@ const NavegationBar = ({
                     <Box
                         component="nav"
                         sx={{ width: { sm: 240 }, flexShrink: { sm: 0 } }}
-                        aria-label="mailbox folders"
                     >
                         <Drawer
                             variant="temporary"
@@ -105,16 +108,18 @@ const NavegationBar = ({
                                     <Divider />
 
                                     <ListItem disablePadding>
-                                        <ListItemButton component='a' href='#login'>
+                                        <ListItemButton component='a' href='login'>
                                             <ListItemIcon>
                                                 <Login />
                                             </ListItemIcon>
-                                            <ListItemText primary="Iniciar sesion" />
+                                            <ListItemText
+                                             primary="Iniciar sesion"
+                                             />
                                         </ListItemButton>
                                     </ListItem>
 
                                     <ListItem disablePadding>
-                                        <ListItemButton component='a' href='#registration'>
+                                        <ListItemButton component='a' href='registro'>
                                             <ListItemIcon>
                                                 <AppRegistration />
                                             </ListItemIcon>
@@ -200,14 +205,14 @@ const NavegationBar = ({
                 placeholder="buscar..."/>
                 </Search> */}
                     <Typography
-                        sx={{ display: { xs: "none", sm: "block" } }}
+                        sx={{ display: { xs: "none",md: "block", sm: "none" } }}
                         variant='h4'
                         onClick={() => setCurrentPage(page1)}
                     >
-                        Sweet Dreams
+                        Sleep Tracker
                     </Typography>
                     <NightShelterIcon
-                        sx={{ display: { xs: "block", sm: "none" } }}
+                        sx={{ display: { xs: "block", sm: "block", md: 'none' } }}
                         onClick={() => setCurrentPage(page1)}
                     />
 
@@ -230,18 +235,21 @@ const NavegationBar = ({
                             onClick={event => setOpen(true)}
                         />
                     </Badge> */}
-                        <Button
-                            variant="text"
-                            color='lightFont'
-                        >
-                            Iniciar sesion
-                        </Button>
-                        <Button
-                            variant="outlined"
-                            color='lightFont'
-                        >
-                            Registrarse
-                        </Button>
+                            <Button
+                                variant="text"
+                                color='lightFont'
+                                href='/login'
+                            >
+                                Iniciar sesion
+                            </Button>
+
+                            <Button
+                                variant="outlined"
+                                color='lightFont'
+                                href='/registro'
+                            >
+                                Registrarse
+                            </Button>
                     </Icons>
                     {/* <UserBox>
                     <Badge>
@@ -250,8 +258,8 @@ const NavegationBar = ({
                         />
                     </Badge>
                 </UserBox> */}
-                    <Divider />
                 </StyledToolbar>
+                    {/* <Divider />
                 <Menu
                     id="demo-positioned-menu"
                     aria-labelledby="demo-positioned-button"
@@ -269,7 +277,7 @@ const NavegationBar = ({
                     <MenuItem>Profile</MenuItem>
                     <MenuItem>My account</MenuItem>
                     <MenuItem>Logout</MenuItem>
-                </Menu>
+                </Menu> */}
             </AppBar>
         </ThemeProvider>
 
@@ -277,3 +285,8 @@ const NavegationBar = ({
 }
 
 export default NavegationBar;
+
+const useStyles = makeStyles(() => ({
+  
+  }));
+  

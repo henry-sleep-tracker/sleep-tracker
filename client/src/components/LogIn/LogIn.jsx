@@ -69,7 +69,7 @@ export default function LogIn() {
       </div>
       <button type="submit">Iniciar Sesion</button>
       <p>
-        No tienes cuenta? <a href="/register">registrate</a>
+        No tienes cuenta? <a href="/registro">registrate</a>
       </p>
     </form>
   );

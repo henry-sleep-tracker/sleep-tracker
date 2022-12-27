@@ -16,79 +16,87 @@ const Page1 = (
   return (
 
     <Paper
-      variant="outlined"
-      square
-      elevation={0}
-      className={classes.presentation}
+      // variant="outlined"
+      // square
+      elevation={20}
+      // className={classes.mainPaper}
     >
-      <ul className={classes.ul}>
+      {/* <ul className={classes.ul}>
         <li onClick={() => setCurrentPage(page2)}>Como funciona</li>
         <li onClick={() => setCurrentPage(page3)}>Dispositivos soportados</li>
         <li onClick={() => setCurrentPage(page4)}>Planes de pago</li>
         <li onClick={() => setCurrentPage(page5)}>Conoce al equipo</li>
-      </ul>
+      </ul> */}
+      {/* <div className={classes.mosaic}> */}
 
-      <Grid
-        container
-      >
         <Grid
-          item
-          xs={12}
-          md={6}
+          container
+          // display='flex'
+          // direction="row"
+          justifyContent="center"
+          alignItems="center"
+          className={classes.mainPaper}
+          flex={4}
+          p={2}
+
         >
-          <Typography variant="h1">Sweet Dreams</Typography>
-          <Typography
-            variant='h6'
+          <Grid
+            item
+            lg={6}
+            md={6}
+            xs={12}
           >
-            Lleva el control de tu sueño con tu telefono movil y/o reloj
-            inteligente
-          </Typography>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          md={6}>
-          {/* <div className={classes.mosaic}> */}
-          {/* <img
-                src={page1SleepA}
-                alt={"Imagen representativa"}
-                height={220}
-              /> */}
+            <Typography
+              variant="h1"
+              display='flex'
+              flexwrap='wrap'
+            >Sleep Tracker
+            </Typography>
+            <Typography
+              variant='h6'
+              display='flex'
+              flexwrap='wrap'
+            >
+              Lleva el control de tu sueño con tu telefono movil y/o reloj
+              inteligente
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            lg={6}
+            md={6}
+            xs={12}
+            >
 
-          <ImageList
-            sx={{ width: 1000, height: 450 }}
-            cols={2}
-            rowHeight={'auto'}
-          >
-            <ImageListItem >
-              <img
-                src={page1SleepA}
-                alt={'imagen'}
-                loading="lazy"
-              />
-            </ImageListItem>
-          </ImageList>
+            <ImageList
+              // cols={2}
+              // rowHeight={'auto'}
+              >
+              <ImageListItem 
+              sx={{ width: '400px', height: 'auto' }}  
+              // overflow='hidden'            
+              >
+                <img
+                  src={page1SleepA}
+                  alt={'imagen'}
+                  loading="lazy"
+                />
+              </ImageListItem>
+            </ImageList>
 
-          {/* </div> */}
+          </Grid>
         </Grid>
-      </Grid>
+      {/* </div> */}
     </Paper>
   );
 };
 
 export default Page1;
 
-const useStyles = makeStyles((theme) => ({
-  mosaic: {
-    display: "flex",
-    flexwrap: "wrap",
-    justifyContent: "space-around",
-  },
+const useStyles = makeStyles(() => ({
+  mainPaper:{
+    height:'100vh',
+    width:'97vw'
 
-  ul: {
-    display: "flex",
-    listStyle: "none",
-    flexwrap: "wrap",
-    justifyContent: "space-around",
-  },
+  }
 }));

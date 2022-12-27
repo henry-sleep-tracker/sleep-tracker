@@ -116,6 +116,7 @@ function UsersContent() {
           rowsPerPageOptions={[5, 10, 20]}
           pageSize={pageSize}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          getRowId={(row) => row.usedId}
           getRowSpacing={(params) => ({
             top: params.isFirstVisible ? 0 : 3,
             bottom: params.isLastVisible ? 0 : 3,
