@@ -13,15 +13,19 @@ const Page2 = () => {
   const classes = useStyles();
   return (
     <Paper
-      variant="outlined"
-      square
-      elevation={0}
-      className={classes.presentation}
-    >
+      // variant="outlined"
+      // square
+      elevation={20}
+      // className={classes.mainPaper}
+      >
       <Typography variant="h4">Como funciona</Typography>
 
       <Grid
         container
+        alignItems="center"
+        flex={4}
+        p={9}
+
       >
 
         <Grid
@@ -146,6 +150,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexwrap: "wrap",
     justifyContent: "space-around",
+  },
+
+  mainPaper:{
+    height:'100vh',
+    width:'97vw'
   },
 
 }));

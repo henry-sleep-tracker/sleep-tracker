@@ -66,74 +66,78 @@ const Page5 = () => {
   ];
 
   return (
-    <div>
 
       <Paper
-        variant="outlined"
-        square
-        elevation={0}
-        className={classes.presentation}
+        // variant="outlined"
+        // square
+        elevation={20}
+        // className={classes.mainPaper}
       >
         <Typography variant="h4">Conoce al equipo</Typography>
 
-        <ImageList sx={{ width: 1000, height: 450 }}>
-          <div className={classes.divList}>
+        <ImageList 
+        // sx={{ width: 1000, height: 450 }} 
+        cols={1}
+        rows={1}
+        // display='flex'
+
+        >
+          <Grid
+            container
+            // direction="row"
+            justifyContent="center"
+            // alignItems="flex-start"
+            // spacing={0}
+            // display='flex'
+            flex={4}
+            p={9}
+            // height='100vh'
+            
+            >
             {itemData.map((item) => (
               <ImageListItem key={item.img}>
-                <img
-                  src={`${item.img}?w=248&fit=crop&auto=format`}
-                  srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                  alt={item.name}
-                  loading="lazy"
-                />
-                <ImageListItemBar
-                  title={item.name}
-                  subtitle={<span>GitHub: {item.github}</span>}
-                  actionIcon={
-                    <IconButton
-                      sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-                      aria-label={`info about ${item.name}`}
-                    >
-                      <a className={classes.aTag} href={item.githubURL}>
-                        <Info />
-                      </a>
-                    </IconButton>
-                  }
-                />
-              </ImageListItem>
+              <Grid
+                item
+              >
+                  <img
+                    src={`${item.img}?w=248&fit=crop&auto=format`}
+                    srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                    alt={item.name}
+                    loading="lazy"
+                  />
+                  <ImageListItemBar
+                    title={item.name}
+                    subtitle={<span>GitHub: {item.github}</span>}
+                    actionIcon={
+                      <IconButton
+                        sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                        aria-label={`info about ${item.name}`}
+                      >
+                        <a className={classes.aTag} href={item.githubURL}>
+                          <Info />
+                        </a>
+                      </IconButton>
+                    }
+                  />
+              </Grid>
+                </ImageListItem>
             ))}
-          </div>
-        </ImageList>
+          </Grid>
+            </ImageList>
       </Paper>
-    </div>
   );
 };
 
 export default Page5;
 
-const useStyles = makeStyles((theme) => ({
-  mosaic: {
-    display: "flex",
-    flexwrap: "wrap",
-    justifyContent: "space-around",
-  },
-
-  ul: {
-    display: "flex",
-    listStyle: "none",
-    flexwrap: "wrap",
-    justifyContent: "space-around",
-  },
-
+const useStyles = makeStyles(() => ({
   aTag: {
     color: "white",
   },
 
-  divList: {
-    display: "block",
-    justifyContent: "space-around",
-    // overflowX: 'scroll',
-    overflowX: "scroll",
-    overflowY: undefined,
+  mainPaper:{
+    height:'100vh',
+    width:'97vw'
   },
+
 }));

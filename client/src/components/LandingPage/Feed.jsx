@@ -1,7 +1,5 @@
 import { Grid } from "@mui/material";
-import React, { useState } from "react";
-import { useRef, useEffect } from "react";
-import Post from "./Post";
+import React from "react";
 import Page1 from "./Page1";
 import Page2 from "./Page2";
 import Page3 from "./Page3";
@@ -32,19 +30,26 @@ const Feed = ({
     return (
         <Grid
             container
-            direction="column"
             justifyContent="center"
-            alignItems="center"
-            spacing={0.5}
+            alignItems="stretch"
+            spacing={1}
+            maxWidth='100vw'
+            // direction="column"
             flex={4}
             p={2}
+            // flexBasis='100%'
             // overflow= 'hidden'
+            // sx={{ display: 'auto' }}
+            // minHeight='100vh'
+            // direction="column"
+            // justifyContent="center"
+            // alignItems="stretch"
         >
-            <Grid item
-                bgcolor='salmon'
-                height='100vh'
+            <Grid
+                item
                 ref={page1}
             >
+
                 <Page1
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
@@ -52,31 +57,30 @@ const Feed = ({
                     page2={page2}
                     page3={page3}
                     page4={page4}
-                    page5={page5} />
+                    page5={page5}
+                />
             </Grid>
-            <Grid item
-                bgcolor='lightblue'
-                height='100vh'
+            <Grid
+                item
                 ref={page2}
             >
                 <Page2 />
             </Grid>
-            <Grid item
-                bgcolor='lightgreen'
-                height='100vh'
+            <Grid
+                item
                 ref={page3}
             >
+
                 <Page3 />
             </Grid>
-            <Grid item
-                bgcolor='lightyellow'
-                height='100vh'
+            <Grid
+                item
                 ref={page4}
             >
                 <Page4 />
             </Grid>
-            <Grid item
-                height='100vh'
+            <Grid
+                item
                 ref={page5}
             >
                 <Page5 />
