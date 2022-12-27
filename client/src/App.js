@@ -1,46 +1,55 @@
-/* eslint-disable no-unused-vars */
-<<<<<<< HEAD
-import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Landing, Login, Signup, Home} from "./components";
-=======
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home/Home.jsx";
-import Fitbit from "./components/SignUp/Fitbit.js";
->>>>>>> 20f8fd4e71b46c467eeb73ded8410c9f651054c5
+import LogIn from "./components/LogIn/LogIn";
+import Register from "./components/Register/Register";
+import NotFound from "./components/NotFound/NotFound";
+import Fitbit from "./components/SignUp/Fitbit";
 import "./App.css";
-import GraphWM from "./components/Graph-W-M";
+import LandingPage from "./components/LandingPage/LandingPage.jsx";
+import Dashboard from "./components/dashboard/Dashboard.js";
+import Record from "./components/Record/Record.jsx";
+import GraphWM from "./components/Graph-Week/Graph-W-M.jsx";
+import axios from "axios";
+
+import PublicRoute from "./components/PublicRoute/PublicRoute";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import { AuthContextProvider } from "./actions/authContext";
+//The following link must be un-comented on gitHub if you wanna work with your "npm start" running
+axios.defaults.baseURL = "http://localhost:3001/";
+//The following link must be un-comented on gitHub if you wanna work with on-line servers
+// axios.defaults.baseURL = 'https://sleep-tracker-production.up.railway.app'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-<<<<<<< HEAD
-        {/* <Route
-          path="/"
-          element={user?.email ? <Navigate to="/home" /> : <Landing />}
-        />
-        <Route
-          path="/signup"
-          element={user?.email ? <Navigate to="/home" /> : <Signup />}
-        />
-        <Route
-          path="/login"
-          element={user?.email ? <Navigate to="/home" /> : <Login />}
-        /> */}
-        <Route
-          path="/inicio"
-          element= <Home/>
-        />
-        <Route path="/graficas"
-        element= <GraphWM/> />
-=======
-        <Route path="/" element={<Fitbit />} />
-        <Route path="/inicio" element={<Home />} />
->>>>>>> 20f8fd4e71b46c467eeb73ded8410c9f651054c5
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route exact path="/" element={<LandingPage />} />
+      <Route exact path="/fitBit" element={<Fitbit />} />
+      <Route exact path="/inicio" element={<Home />} />
+      <Route path="/dashboard/*" element={<Dashboard />} />
+      <Route exact path="/login" element={<LogIn />} />
+      <Route exact path="/registro" element={<Register />} />
+      <Route exact path="/newrecord" element={<Record />} />
+      <Route exact path="*" element={<NotFound />} />
+      <Route exact path="/graficas" element={<GraphWM />} />
+    </Routes>
+    // <AuthContextProvider>
+    //   <Routes>
+    //     <Route path="/" element={<PublicRoute />}>
+    //       <Route index element={<LandingPage />} />{" "}
+    //       {/* rutas publicas- lo de indez quiere decir / */}
+    //       <Route path="/login" element={<LogIn />} />
+    //       <Route path="/registro" element={<Register />} />
+    //     </Route>
+    //     <Route path="/private" element={<PrivateRoute />}>
+    //       {/* rutas privadas */}
+    //       <Route path="/private/fitBit" element={<Fitbit />} />
+    //       <Route path="/private/graph" element={<Graph />} />
+    //       <Route path="/private/inicio" element={<Home />} />
+    //     </Route>
+    //     <Route path="*" element={<NotFound />} />
+    //   </Routes>
+    // </AuthContextProvider>
   );
 }
 

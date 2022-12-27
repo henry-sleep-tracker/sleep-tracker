@@ -1,13 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Collection from "./resume";
-<<<<<<< HEAD:client/src/components/Home.jsx
-import GraphD from "./Graph-Day";
-
-
-=======
-import Graph from "../Graphs/Dream-Graph";
->>>>>>> 20f8fd4e71b46c467eeb73ded8410c9f651054c5:client/src/components/Home/Home.jsx
+import Graph from "../Graphs/TestGraph";
+import ResponsiveAppBar from "./Nav";
+import "./home.css";
+import Calc from "./calc";
+import Swipeable from "./tips";
+import { Grid } from "@mui/material";
 
 const Home = () => {
   let user = {
@@ -16,11 +14,11 @@ const Home = () => {
     consumo: {
       cafeina: "",
       alcohol: "2 cervezas, 3 mojitos",
-      comida: "19:00 pm",
-      ejercicio: "30 min de caminata",
+      comida: "19:00",
+      ejercicio: { tiempo: "30 minutos", tipo: "caminata" },
     },
   };
-  const consumed = user.consumo;
+  let consumed = user.consumo;
   const dream = user.sueño;
 
   let prueba = [["horas de sueño", "profundidad de sueño"]];
@@ -33,56 +31,38 @@ const Home = () => {
     var now = new Date();
     var time = now.getHours();
     if (time >= 5 && time < 13) {
-      text = "Buenos días";
+      text = "Buenos días! ☀️ ";
     } else if (time >= 13 && time < 21) {
-      text = "Buenas tardes";
+      text = "Buenas tardes! 🌎";
     } else {
-      text = "Buenas noches";
+      text = "Buenas noches! 🌙 ";
     }
     return text;
   };
 
   return (
-    <div>
-      <nav>
-        <ul>
-          <Link to="/perfil">
-            <li>Perfil</li>
-          </Link>
-          <Link to="/desarrolladores">
-            <li>Conoce al equipo</li>
-          </Link>
-          <Link to="/">
-            <li>Salir</li>
-          </Link>
-        </ul>
-      </nav>
+    <div className="Home">
       <div>
-        <p>
-          ¡Hola {user.name} {greet()}!{" "}
+        <ResponsiveAppBar />
+        <p className="saludo">
+          ¡Hola {user.name} {greet()}
         </p>
       </div>
-      <div>
-        GRAFICA:
-        <GraphD prueba={prueba} />
-        <Link to='/graficas' ><p>Ver Más</p></Link>
-      </div>
-
-      <div>
-        <span> Registro del dia: </span>
-
-        <Collection arg={consumed} />
-      </div>
-
-      <Link to="/actividad">
-        <input type="button" value="Nueva Actividad" />
-      </Link>
-      <button>
-        <a href="/pdf" download={"pdf"}>
-          Descargar Historial
-        </a>
-      </button>
-
+      <br />
+      <Grid className="containerHome">
+        <div className="graphHome">
+          <Graph />
+        </div>
+        <div className="calc">
+          <Calc />
+        </div>
+        <div className="swipeableHome">
+          <Swipeable className="swipeable" />
+        </div>
+        <div className="Collection">
+          <Collection arg={consumed} />
+        </div>
+      </Grid>
     </div>
   );
 };

@@ -11,12 +11,12 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       dateTime: {
-        type: DataTypes.DATE,
-      },
-      stage: {
         type: DataTypes.STRING,
       },
-      durationSeconds: {
+      level: {
+        type: DataTypes.STRING,
+      },
+      seconds: {
         type: DataTypes.INTEGER,
       },
     },
