@@ -1,22 +1,15 @@
 import React from "react";
 import { useState } from "react";
-// import { useHistory } from "react-router-dom";
-// import { logInUser } from "../../actions";
-import { useDispatch } from "react-redux";
+import {useDispatch} from "react-redux";
+import { logInUser} from "../../actions/index";
 
 export default function LogIn() {
-  const dispatch = useDispatch();
-  // const history = useHistory();
+  const dispatch=useDispatch();
   var [input, setInput] = useState({
     email: "",
     password: "",
   });
-  // useEffect(()=>{
-  //     setInput({
-  //         email:"",
-  //         password:"",
-  //     })
-  // })
+
   function handleChange(event) {
     setInput({
       ...input,
@@ -24,13 +17,11 @@ export default function LogIn() {
     });
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     try {
-      console.log("component login");
-      console.log("input is:", input);
-      // dispatch(logInUser(input));
-      alert("user validated");
+      dispatch( logInUser(input.email, input.password));
+      alert("usuario validado");
       setInput({
         email: "",
         password: "",
@@ -38,12 +29,12 @@ export default function LogIn() {
       // history.push("/home"); //asi es como se rediriges
     } catch (error) {
       console.log("el error es:", error);
+      alert("usuario o contraseña incorrecto");
     }
   }
   return (
     <form onSubmit={(event) => handleSubmit(event)}>
       <h1>Iniciar sesion</h1>
-
       <div>
         <label htmlFor="email">{`Correo electronico*:`} </label>
         <input
