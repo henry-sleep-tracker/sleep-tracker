@@ -1,7 +1,8 @@
 const { Router } = require("express");
 const router = Router();
 const fetch = require("node-fetch");
-const { Stage, Session, Summary } = require("../db");
+const { Stage, Session } = require("../db");
+const { Op } = require("sequelize");
 
 router.post("/", async (req, res) => {
   try {
@@ -22,30 +23,113 @@ router.post("/", async (req, res) => {
 
     const token = await getToken.access_token;
 
-    const today = new Date(Date.now() - 28800000).toISOString().split("T")[0];
+    //most recent timestamp
 
-    const data = await fetch(
-      `https://api.fitbit.com/1.2/user/-/sleep/date/${today}.json`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
+    const mostRecent = await Session.findOne({
+      where: {
+        createdAt: {
+          [Op.lt]: new Date(),
         },
-      }
-    );
+      },
+    });
 
-    const getData = await data.json();
-    console.log("getData", getData);
+    if (!mostRecent) {
+      //if no recent timestamp, adds data from the last 100 days
+      const endDate = new Date(Date.now() - 129600000)
+        .toISOString()
+        .split("T")[0];
 
-    const summary = getData.summary.stages;
-    Summary.bulkCreate([summary]);
+      const startDate = new Date(Date.now() - 8640000000)
+        .toISOString()
+        .split("T")[0];
+      console.log("startDate", startDate);
 
-    const session = getData.sleep;
-    Session.bulkCreate(session);
+      const data = await fetch(
+        `https://api.fitbit.com/1.2/user/-/sleep/date/${startDate}/${endDate}.json`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        }
+      );
 
-    const stage = getData.sleep[0]?.levels.data;
-    Stage.bulkCreate(stage);
+      const getData = await data.json();
+      console.log("dataNORECENT", getData);
+
+      getData.sleep?.map((d) => {
+        Session.bulkCreate([
+          {
+            logId: d.logId,
+            startTime: d.startTime,
+            endTime: d.endTime,
+            duration: d.duration,
+            efficiency: d.efficiency,
+            minutesAsleep: d.minutesAsleep,
+            minutesAwake: d.minutesAwake,
+            minutesToFallAsleep: d.minutesToFallAsleep,
+          },
+        ]);
+        d.levels?.data?.map((s) => {
+          Stage.bulkCreate([
+            {
+              dateTime: s.dateTime,
+              level: s.level,
+              seconds: s.seconds,
+            },
+          ]);
+        });
+      });
+    } else {
+      // if there's a recent timestamp, then adds from the past 12h to today
+      const today = mostRecent?.dataValues?.createdAt
+        .toISOString()
+        .split("T")[0];
+
+      const startDate = new Date(Date.now() - 28800000)
+        .toISOString()
+        .split("T")[0];
+      console.log("startDate", startDate);
+
+      const data = await fetch(
+        `https://api.fitbit.com/1.2/user/-/sleep/date/${startDate}/${today}.json`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        }
+      );
+
+      const getData = await data.json();
+      console.log("recentDATA", getData);
+
+      getData.sleep?.map((d) => {
+        Session.bulkCreate([
+          {
+            logId: d.logId,
+            startTime: d.startTime,
+            endTime: d.endTime,
+            duration: d.duration,
+            efficiency: d.efficiency,
+            minutesAsleep: d.minutesAsleep,
+            minutesAwake: d.minutesAwake,
+            minutesToFallAsleep: d.minutesToFallAsleep,
+          },
+        ]);
+        d.levels?.data?.map((s) => {
+          Stage.bulkCreate([
+            {
+              dateTime: s.dateTime,
+              level: s.level,
+              seconds: s.seconds,
+            },
+          ]);
+        });
+      });
+    }
   } catch (error) {
     console.error(error);
   }

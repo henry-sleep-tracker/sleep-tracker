@@ -235,23 +235,21 @@ const NavegationBar = ({
                             onClick={event => setOpen(true)}
                         />
                     </Badge> */}
-                        <Link to='login'>
                             <Button
                                 variant="text"
                                 color='lightFont'
+                                href='/login'
                             >
                                 Iniciar sesion
                             </Button>
-                        </Link>
-                        <Link to='registro'>
 
                             <Button
                                 variant="outlined"
                                 color='lightFont'
+                                href='/registro'
                             >
                                 Registrarse
                             </Button>
-                        </Link>
                     </Icons>
                     {/* <UserBox>
                     <Badge>

@@ -6,10 +6,11 @@ module.exports = (sequelize) => {
   sequelize.define(
     "user",
     {
-      usedId: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
+        allowNull: false,
       },
       googleId: {
         type: DataTypes.STRING,

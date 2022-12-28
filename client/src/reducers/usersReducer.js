@@ -1,19 +1,18 @@
-
 const initialState = {
-    users: []
+  users: [],
 };
-  
-const usersReducer = function (state = initialState, action){
-switch (action.type){
-    case 'GET_USERS_RESPONSE':
-    return {
+
+const usersReducer = function (state = initialState, action) {
+  switch (action.type) {
+    case "GET_USERS_RESPONSE":
+      return {
         ...state,
-        users: action.payload
-    }
+        users: action.payload,
+      };
 
     default:
-    return { ...state };
-}
+      return { ...state };
+  }
 };
 
 export default usersReducer;
