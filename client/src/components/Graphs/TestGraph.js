@@ -48,10 +48,10 @@ export const options = {
     title: "Sleep Stage",
     ticks: [
       { v: 0.5, f: "" },
-      { v: 1, f: "awake" },
-      { v: 2, f: "light" },
-      { v: 3, f: "deep" },
-      { v: 4, f: "rem" },
+      { v: 1, f: "awake 🟠 " },
+      { v: 2, f: "light 🟡 " },
+      { v: 3, f: "deep 🟣 " },
+      { v: 4, f: "rem 🟢 " },
     ],
   },
   series: {
