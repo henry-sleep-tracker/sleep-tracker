@@ -13,7 +13,8 @@ export default function Fitbit() {
     console.log("code", code);
     if (code) {
       dispatch(createToken(code));
-      navigate("/fitbit");
+      searchParams.delete("code");
+      navigate("/fitBit");
     }
   }, [searchParams, navigate, dispatch]);
 

@@ -5,7 +5,7 @@ const path = require("path");
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
 const sequelize = new Sequelize(
   "postgresql://postgres:WrpAbk2oBdKzw2PgQQNg@containers-us-west-153.railway.app:7381/railway",
-  // `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+  //`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
   {
     logging: false, // set to console.log to see the raw SQL queries
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
@@ -38,16 +38,8 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const {
-  NewRecord,
-  CoffeeSize,
-  AlcoholType,
-  Activity,
-  User,
-  Session,
-  Stage,
-  Summary,
-} = sequelize.models;
+const { NewRecord, CoffeeSize, AlcoholType, Activity, User, Session, Stage } =
+  sequelize.models;
 
 // Aca vendrian las relaciones
 NewRecord.belongsToMany(CoffeeSize, {
@@ -80,14 +72,13 @@ Activity.belongsToMany(NewRecord, {
   timestamps: false,
 });
 
-User.hasMany(Session);
-Session.belongsTo(User);
+// User.hasMany(Session);
+// Session.belongsTo(User);
 
 Session.hasMany(Stage);
-Stage.belongsTo(Session);
-
-Session.hasOne(Summary);
-Summary.belongsTo(Session);
+Stage.belongsTo(Session, {
+  through: "sessionId",
+});
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
