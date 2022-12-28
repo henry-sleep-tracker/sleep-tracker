@@ -2,8 +2,8 @@ import React from "react";
 import { Chart } from "react-google-charts";
 import { stages } from "./FakeDB";
 
-
 const newData = [];
+console.log("stages", stages);
 
 stages.forEach((s) => {
   if (s.level === "wake") {
@@ -18,6 +18,7 @@ stages.forEach((s) => {
   if (s.level === "rem") {
     s.level = 4;
   }
+  console.log("newData", newData);
   newData.push([s.dateTime.split("T")[1], s.level]);
 });
 
@@ -29,9 +30,11 @@ export const data = [
 ];
 
 export const options = {
+  title: `Esta es tu grafica de sueño de la noche anterior ${stages[0].dateTime.slice(
+    0,
+    -13
+  )}`,
 
-   title:`Esta es tu grafica de sueño de la noche anterior ${stages[0].dateTime.slice(0,-13)}`,
-  
   hAxis: {
     title: "Hour",
     gridlines: {
@@ -54,26 +57,19 @@ export const options = {
   series: {
     1: { curveType: "function" },
   },
- 
-  colors: ['#4fc3f7' ],
-  
- 
- 
 
+  colors: ["#4fc3f7"],
 };
 
 export default function Graph() {
   return (
-
     <>
-    <Chart
-      chartType='AreaChart'
-      data={data}
-      options={options}
-      height='380px'
-      
-    />
-</>
-
+      <Chart
+        chartType="AreaChart"
+        data={data}
+        options={options}
+        height="380px"
+      />
+    </>
   );
 }
