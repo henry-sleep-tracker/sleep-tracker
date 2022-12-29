@@ -3,7 +3,6 @@ import { Chart } from "react-google-charts";
 import { stages } from "./FakeDB";
 
 const newData = [];
-console.log("stages", stages);
 
 stages.forEach((s) => {
   if (s.level === "wake") {
@@ -18,7 +17,6 @@ stages.forEach((s) => {
   if (s.level === "rem") {
     s.level = 4;
   }
-  console.log("newData", newData);
   newData.push([s.dateTime.split("T")[1], s.level]);
 });
 
