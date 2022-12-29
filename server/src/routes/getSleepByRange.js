@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
 
     const token = await getToken.access_token;
 
-    //most recent timestamp
+    //searches for most recent timestamp
 
     const mostRecent = await Session.findOne({
       where: {
@@ -74,7 +74,8 @@ router.post("/", async (req, res) => {
         d.levels?.data?.map((s) => {
           Stage.bulkCreate([
             {
-              dateTime: s.dateTime,
+              date: s.dateTime.split("T")[0],
+              time: s.dateTime.split("T")[1].split(".")[0],
               level: s.level,
               seconds: s.seconds,
             },
@@ -90,7 +91,6 @@ router.post("/", async (req, res) => {
       const startDate = new Date(Date.now() - 28800000)
         .toISOString()
         .split("T")[0];
-      console.log("startDate", startDate);
 
       const data = await fetch(
         `https://api.fitbit.com/1.2/user/-/sleep/date/${startDate}/${today}.json`,
@@ -122,7 +122,8 @@ router.post("/", async (req, res) => {
         d.levels?.data?.map((s) => {
           Stage.bulkCreate([
             {
-              dateTime: s.dateTime,
+              date: s.dateTime.split("T")[0],
+              time: s.dateTime.split("T")[1].split(".")[0],
               level: s.level,
               seconds: s.seconds,
             },

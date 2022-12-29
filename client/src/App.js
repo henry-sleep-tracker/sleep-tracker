@@ -11,11 +11,12 @@ import LandingPage from "./components/LandingPage/LandingPage.jsx";
 import Dashboard from "./components/dashboard/Dashboard.js";
 import Record from "./components/Record/Record.jsx";
 import GraphWM from "./components/Graph-Week/Graph-W-M.jsx";
+import Calendario from "./components/Calendario/Calendario";
 import axios from "axios";
-
 import PublicRoute from "./components/PublicRoute/PublicRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import { AuthContextProvider } from "./actions/authContext";
+import Pricing from "./components/PlanesPago/PlanesPago.jsx";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
 axios.defaults.baseURL = "http://localhost:3001/";
 //The following link must be un-comented on gitHub if you wanna work with on-line servers
@@ -42,6 +43,7 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/logout" element={<LogOut />} />
           <Route path="/registro" element={<Register />} />
+          <Route exact path="/planes" element={<Pricing />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/private" element={<PrivateRoute />}>
@@ -50,6 +52,7 @@ function App() {
           <Route path="/private/newrecord" element={<Record />} />
           <Route path="/private/fitBit" element={<Fitbit />} />
           <Route path="/private/graficas" element={<GraphWM />} />
+          <Route path="/dashboard/*" element={<Dashboard />} />
         </Route>
       </Routes>
     </AuthContextProvider>
