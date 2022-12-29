@@ -7,7 +7,7 @@ import "./home.css";
 import Calc from "./calc";
 import Swipeable from "./tips";
 import { Grid } from "@mui/material";
-import Calendario from "../Calendario/Calendario";
+import Calendario from "../Calendario/dayCalendar";
 import Fitbit from "../SignUp/Fitbit";
 
 const Home = () => {
