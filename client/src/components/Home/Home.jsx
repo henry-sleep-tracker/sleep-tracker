@@ -6,6 +6,7 @@ import "./home.css";
 import Calc from "./calc";
 import Swipeable from "./tips";
 import { Grid } from "@mui/material";
+import Calendario from "../Calendario/Calendario";
 
 const Home = () => {
   let user = {
@@ -47,6 +48,9 @@ const Home = () => {
         <p className="saludo">
           ¡Hola {user.name} {greet()}
         </p>
+        <div>
+          <Calendario />
+        </div>
       </div>
       <br />
       <Grid className="containerHome">
