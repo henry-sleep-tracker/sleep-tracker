@@ -1,1 +1,2 @@
 export const CREATE_TOKEN = "CREATE_TOKEN";
+export const GET_CURRENT_USER = "GET_CURRENT_USER";
