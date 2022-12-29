@@ -52,7 +52,7 @@ function App() {
           <Route path="/private/newrecord" element={<Record />} />
           <Route path="/private/fitBit" element={<Fitbit />} />
           <Route path="/private/graficas" element={<GraphWM />} />
-          <Route path="/dashboard/*" element={<Dashboard />} />
+          <Route path="/private/dashboard/*" element={<Dashboard />} />
         </Route>
       </Routes>
     </AuthContextProvider>
