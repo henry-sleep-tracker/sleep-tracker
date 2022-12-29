@@ -2,7 +2,7 @@ import React from "react";
 import Collection from "./resume";
 import Graph from "../Graphs/TestGraph";
 import ResponsiveAppBar from "./Nav";
-import "./home.css";
+// import "./home.css";
 import Calc from "./calc";
 import Swipeable from "./tips";
 import { Grid } from "@mui/material";
