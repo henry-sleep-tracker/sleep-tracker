@@ -12,13 +12,19 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import log from "../logi/log-.png";
+import { useAuthContext } from "../../actions/authContext";
 
 function ResponsiveAppBar() {
+  const {logout} = useAuthContext();
   const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  async function handleLogOut(event) {
+    event.preventDefault();
+    await logout();
+  }
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -183,7 +189,7 @@ function ResponsiveAppBar() {
               </MenuItem>
 
               <MenuItem key="Log Out" onClick={handleCloseUserMenu}>
-                <Button>Log Out</Button>
+                <Button onClick={(event) => handleLogOut(event)}>Log Out</Button>
               </MenuItem>
             </Menu>
           </Box>
