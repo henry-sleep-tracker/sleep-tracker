@@ -7,7 +7,7 @@ import { getByDate } from "../../actions/getByDate";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 export default function Calendario() {
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState(new Date(Date.now() - 28800000));
   const dispatch = useDispatch();
 
   const dateChangeHandler = (event) => {

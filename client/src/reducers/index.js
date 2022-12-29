@@ -10,7 +10,7 @@ const reducers = combineReducers({
   logingReducer: ReducerLogin,
   users: usersReducer,
   record: recordReducer,
-  dateReducer: dateReducer,
+  date: dateReducer,
 });
 
 const store = createStore(
