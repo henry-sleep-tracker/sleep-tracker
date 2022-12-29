@@ -2,30 +2,16 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const routes = require("./index.js");
-const session = require("express-session"); //esto permite crear sesiones con un tiempo de expiracion y demas
-const { SECRET } = process.env;
-
+const session = require("express-session"); //esto permite crear sesiones con un tiempo de
 require("./db.js");
-
 const server = express();
-
 server.name = "API";
 
 server.use(express.urlencoded({ extended: false }));
 server.use(express.json());
 server.use(express.text());
 server.use(cookieParser());
-server.use(
-  session({
-    name: "sid",
-    secret: "contraseña", //aca trae el secreto del archivo .env
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 2, // 2 horas en milisegundos
-    },
-  })
-);
+
 server.use(morgan("dev"));
 server.use((req, res, next) => {
   //Choose the line below to test with local server

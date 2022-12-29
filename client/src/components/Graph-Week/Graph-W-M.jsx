@@ -1,9 +1,11 @@
 import { Chart } from "react-google-charts";
 import { porcentage, semana, total } from "./GraphW";
-import React from "react";
 import Graph from "../Graphs/TestGraph";
 import ResponsiveAppBar from "../Home/Nav";
 import './graficas.css'
+import * as React from 'react';
+import CustomizedAccordions, { CustomizedAccordions2, CustomizedAccordions3 } from "./detailsGraphs";
+
 
 const GraphWM = ()=> {
 
@@ -46,7 +48,7 @@ return(
     <div className="gafica1" > 
         <Graph/> 
         <div className="descgraph" >
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit dolorem sit libero necessitatibus recusandae eius voluptatibus incidunt ipsam asperiores vel magni totam dolor, reprehenderit deserunt unde maxime dolores earum animi?
+    <CustomizedAccordions/>
 </div>
         </div>
         <hr />
@@ -66,7 +68,7 @@ return(
    
         
         />  <div className="descgraph">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit dolorem sit libero necessitatibus recusandae eius voluptatibus incidunt ipsam asperiores vel magni totam dolor, reprehenderit deserunt unde maxime dolores earum animi?
+    <CustomizedAccordions2/>
 </div>
     </div>
     <hr />
@@ -82,7 +84,7 @@ height='400px'
 
 />
  <div className="descgraph">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit dolorem sit libero necessitatibus recusandae eius voluptatibus incidunt ipsam asperiores vel magni totam dolor, reprehenderit deserunt unde maxime dolores earum animi?
+   <CustomizedAccordions3/>
 </div>
     </div>
    

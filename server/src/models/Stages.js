@@ -10,7 +10,10 @@ module.exports = (sequelize) => {
         primaryKey: true,
         allowNull: false,
       },
-      dateTime: {
+      date: {
+        type: DataTypes.STRING,
+      },
+      time: {
         type: DataTypes.STRING,
       },
       level: {
