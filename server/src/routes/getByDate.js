@@ -7,7 +7,10 @@ router.get("/", async (req, res) => {
     const { date } = req.query;
 
     if (date) {
-      const searchByDate = await Stage.findAll({ where: { date: date } });
+      const searchByDate = await Stage.findAll({
+        where: { date: date },
+        order: [["time", "ASC"]],
+      });
       console.log("searchByDate", searchByDate);
       res.status(200).json(searchByDate);
     } else {
