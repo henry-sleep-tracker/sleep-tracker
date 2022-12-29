@@ -28,8 +28,8 @@ router.post("/session", async (req, res) => {
                     quantity: 1
                 }
         ],
-        success_url: "http://localhost:3000/inicio",  //si todo sale bien redirigira la sgt pag
-        cancel_url: "http://localhost:3000/planes", //si todo sale mal, redirigir a otra pag
+        success_url: "http://localhost:3000/private/dashboard/",  //si todo sale bien redirigira la sgt pag
+        cancel_url: "http://localhost:3000//private/planes", //si todo sale mal, redirigir a otra pag
         
     }, {
         apiKey: process.env.STRIPE_SECRET_KEY,
