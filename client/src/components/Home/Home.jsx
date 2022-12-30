@@ -10,7 +10,7 @@ import { Card, CardContent, Grid, Typography } from "@mui/material";
 import Calendario from "../Calendario/Calendario";
 import { makeStyles } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
-import { getByDate } from "../../actions/getByDate";
+import { getSleepByDate } from "../../actions/getSleepData";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const Home = () => {
     const yesterday = new Date(Date.now() - 28800000)
       .toISOString()
       .split("T")[0];
-    dispatch(getByDate(yesterday));
+    dispatch(getSleepByDate(yesterday));
   }, [dispatch]);
 
   let user = {

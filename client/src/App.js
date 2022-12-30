@@ -11,7 +11,6 @@ import LandingPage from "./components/LandingPage/LandingPage.jsx";
 import Dashboard from "./components/dashboard/Dashboard.js";
 import Record from "./components/Record/Record.jsx";
 import GraphWM from "./components/Graph-Week/Graph-W-M.jsx";
-import Calendario from "./components/Calendario/Calendario";
 import axios from "axios";
 import PublicRoute from "./components/PublicRoute/PublicRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
@@ -52,10 +51,10 @@ function App() {
         <Route path="/private" element={<PrivateRoute />}>
           {/* rutas privadas */}
           <Route index element={<Home />} />
-          <Route path="/private/newrecord" element={<Record />} />
-          <Route path="/private/fitBit" element={<Fitbit />} />
 
+          <Route path="/private/fitbit" element={<Fitbit />} />
           <Route path="/private/planes" element={<Pricing />} />
+          <Route path="/private/newrecord" element={<Record />} />
           <Route path="/private/dashboard/*" element={<Dashboard />} />
         </Route>
       </Routes>
