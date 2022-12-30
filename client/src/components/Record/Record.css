@@ -36,7 +36,7 @@ select {
 
 .x {
   margin: 0;
-  width: 1rem;
+  width: 2.5rem;
   padding: 0.2rem;
   border: solid black 0.2rem;
   border-radius: 0.2rem;
@@ -72,7 +72,7 @@ h5 {
 }
 
 .main_container {
-  width: 30rem;
+  width: 40rem;
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
   margin-top: 3rem;
   margin-bottom: 3rem;
@@ -94,6 +94,11 @@ h5 {
   margin-right: 0.5rem;
 }
 
+.general_info_container h4 {
+  margin-bottom: 0.8rem;
+  margin-top: 0.8rem;
+}
+
 .general_info_container textarea {
   margin-top: 0;
 }
@@ -107,6 +112,7 @@ h5 {
 
 .sleep_container h2 {
   margin-bottom: 0.8rem;
+  margin-top: 0.8rem;
 }
 
 .sleep_section input {
