@@ -11,7 +11,6 @@ import LandingPage from "./components/LandingPage/LandingPage.jsx";
 import Dashboard from "./components/dashboard/Dashboard.js";
 import Record from "./components/Record/Record.jsx";
 import GraphWM from "./components/Graph-Week/Graph-W-M.jsx";
-import Calendario from "./components/Calendario/Calendario";
 import axios from "axios";
 import PublicRoute from "./components/PublicRoute/PublicRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";

@@ -1,5 +1,3 @@
-import { GET_CURRENT_USER } from "../actions/constants";
-
 const initialState = {
   users: [],
   currentUser: {},
@@ -12,7 +10,8 @@ const usersReducer = function (state = initialState, action) {
         ...state,
         users: action.payload,
       };
-    case GET_CURRENT_USER:
+    case "GET_CURRENT_USER":
+      console.log("payload", action.payload);
       return {
         ...state,
         currentUser: action.payload,
