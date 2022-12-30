@@ -5,8 +5,9 @@ import ResponsiveAppBar from "./Nav";
 // import "./home.css";
 import Calc from "./calc";
 import Swipeable from "./tips";
-import { Grid } from "@mui/material";
+import { Card, CardContent, Grid, Typography } from "@mui/material";
 import Calendario from "../Calendario/Calendario";
+import { makeStyles } from "@mui/styles";
 
 const Home = () => {
   let user = {
@@ -41,34 +42,85 @@ const Home = () => {
     return text;
   };
 
+  const classes = useStyles();
+
   return (
-    <div className="Home">
-      <div>
-        <ResponsiveAppBar />
-        <p className="saludo">
+    <Grid
+      className={classes.home}
+      container
+      justifyContent="center"
+      alignItems="center"
+      direction='column'
+      spacing={1}
+      flex={4}
+      p={2}
+    // maxWidth='100vw'
+    >
+      <ResponsiveAppBar />
+      <Grid
+        item
+      >
+        <Typography
+          className={classes.saludo}
+          variant='h4'
+        >
           ¡Hola {user.name} {greet()}
-        </p>
-        <div>
-          <Calendario />
-        </div>
-      </div>
-      <br />
-      <Grid className="containerHome">
-        <div className="graphHome">
-          <Graph />
-        </div>
-        <div className="calc">
-          <Calc />
-        </div>
-        <div className="swipeableHome">
-          <Swipeable className="swipeable" />
-        </div>
-        <div className="Collection">
-          <Collection arg={consumed} />
-        </div>
+        </Typography >
+
       </Grid>
-    </div>
+
+
+      <Grid>
+        {/* <Calendario /> */}
+        <Typography variant='h6'>{Date()}</Typography>
+      </Grid>
+
+      <Grid
+        className={classes.Collection}
+        item
+      >
+        <Collection 
+        arg={consumed} 
+        />
+      </Grid>
+
+      {/* <br /> */}
+      {/* <Grid
+        className={classes.containerHome}
+        item
+      > */}
+      <Grid
+        className={classes.graphHome}
+        item
+      >
+        <Graph />
+      </Grid>
+
+      <Grid
+        className={classes.calc}
+        item
+      >
+        <Calc />
+      </Grid>
+
+      <Grid
+        className={classes.swipeableHome}
+        item
+      >
+        <Swipeable
+          className={classes.swipeable}
+        />
+      </Grid>
+
+      {/* </Grid>
+       */}
+    </Grid>
+
   );
 };
 
 export default Home;
+
+const useStyles = makeStyles(() => ({
+
+}));

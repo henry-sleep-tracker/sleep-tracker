@@ -35,7 +35,7 @@ function ResponsiveAppBar() {
   };
 
   const handleConoce = (e) => {
-    navigate("/#meetTheTeam");
+    navigate("/team");
   };
   const handleGraph = (e) => {
     navigate("/graficas");

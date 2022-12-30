@@ -16,6 +16,7 @@ import PublicRoute from "./components/PublicRoute/PublicRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import { AuthContextProvider } from "./actions/authContext";
 import Pricing from "./components/PlanesPago/PlanesPago.jsx";
+import ConoceAlEquipo from './components/Home/ConoceAlEquipo'
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
 axios.defaults.baseURL = "http://localhost:3001/";
 //The following link must be un-comented on gitHub if you wanna work with on-line servers
@@ -35,6 +36,7 @@ function App() {
       <Route exact path="*" element={<NotFound />} />
       <Route exact path="/graficas" element={<GraphWM />} />
       <Route exact path="/calendario" element={<Calendario />} />
+      <Route exact path="/team" element={<ConoceAlEquipo />} />
     </Routes>
     // <AuthContextProvider>
     //   <Routes>
