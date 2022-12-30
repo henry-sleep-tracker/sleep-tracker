@@ -7,7 +7,7 @@ const newRecord = require("./routes/newRecord_router.js");
 const getUsers = require("./routes/getUsers.js");
 const updateUser = require("./routes/updateUser.js");
 const subsRoutes = require("./routes/pagosStripe");
-const getByDate = require("./routes/getByDate");
+const getSleepByDate = require("./routes/getSleepByDate");
 
 const router = Router();
 
@@ -19,6 +19,6 @@ router.use("/newrecord", newRecord);
 router.use("/users", getUsers);
 router.use("/users/update", updateUser);
 router.use("/subs", subsRoutes);
-router.use("/search", getByDate);
+router.use("/search", getSleepByDate);
 
 module.exports = router;

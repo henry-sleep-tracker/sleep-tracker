@@ -37,9 +37,11 @@ const postUser = async (bodyInfo) => {
 };
 const getUserByEmail = async (email) => {
   try {
+    console.log("before userFound");
     const userFound = await User.findOne({
       where: { email: email },
     });
+    console.log("userFound", userFound);
     if (userFound !== null) {
       return userFound.dataValues;
     } else {
