@@ -11,7 +11,6 @@ router.get("/", async (req, res) => {
         where: { date: date },
         order: [["time", "ASC"]],
       });
-      console.log("searchByDate", searchByDate);
       res.status(200).json(searchByDate);
     } else {
       res.status(400).json({ error: "date not found" });

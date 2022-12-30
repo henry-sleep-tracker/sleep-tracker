@@ -1,5 +1,5 @@
 const { Router, application } = require("express");
-const getSleepByRange = require("./routes/getSleepByRange");
+const getSleepFitbit = require("./routes/getSleepFitbit");
 const userMiddleware = require("./middlewares/user.js");
 const signupMiddleware = require("./middlewares/signup.js");
 const loginMiddleware = require("./middlewares/login.js");
@@ -11,7 +11,7 @@ const getSleepByDate = require("./routes/getSleepByDate");
 
 const router = Router();
 
-router.use("/sleepbyrange", getSleepByRange);
+router.use("/sleepfitbit", getSleepFitbit);
 router.use("/user", userMiddleware);
 router.use("/signup", signupMiddleware);
 router.use("/login", loginMiddleware);

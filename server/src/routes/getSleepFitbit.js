@@ -88,7 +88,7 @@ router.post("/", async (req, res) => {
         .toISOString()
         .split("T")[0];
 
-      const startDate = new Date(Date.now() - 28800000)
+      const startDate = new Date(Date.now() - 43200000)
         .toISOString()
         .split("T")[0];
 

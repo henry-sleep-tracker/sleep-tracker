@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 export default function Graph() {
   const stages = useSelector((state) => state.date);
+  console.log("stages", stages);
 
   stages.forEach((s) => {
     if (s.level === "wake") {
@@ -58,8 +59,6 @@ export default function Graph() {
 
     colors: ["#4fc3f7"],
   };
-
-  console.log("graph data", data);
 
   return (
     <>
