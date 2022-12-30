@@ -47,7 +47,7 @@ router.post("/manual", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await getUserByEmail(email);
-    if (user.userId === 0) {
+    if (user.id === 0) {
       return res.status(204).send(user);
     } else {
       function copareHash(password, hashed) {

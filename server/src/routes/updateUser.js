@@ -1,20 +1,19 @@
-const { Router } = require('express');
-const { User } = require('../db.js');
+const { Router } = require("express");
+const { User } = require("../db.js");
 
 const router = Router();
 
-router.put('/:userId', async (req, res)=>{
-  
-  const { userId } = req.params;
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
   const updatedFields = req.body;
 
-  console.log(userId, updatedFields);
+  console.log(id, updatedFields);
 
   try {
-    const result = await User.update( updatedFields, {
+    const result = await User.update(updatedFields, {
       where: {
-        id: userId
-      }
+        id: id,
+      },
     });
     res.status(200).send(result);
   } catch (error) {
