@@ -42,6 +42,10 @@ const { NewRecord, CoffeeSize, AlcoholType, Activity, User, Session, Stage } =
   sequelize.models;
 
 // Aca vendrian las relaciones
+
+User.hasMany(NewRecord);
+NewRecord.belongsTo(User);
+
 NewRecord.belongsToMany(CoffeeSize, {
   through: "record_coffee",
   timestamps: false,
