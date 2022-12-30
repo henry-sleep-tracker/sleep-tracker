@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 const Pricing = () => {
   const [prices, setPrices] = useState([]);
@@ -11,7 +10,7 @@ const Pricing = () => {
 
   const fetchPrices = async () => {
     const { data: response } = await axios.get(
-      "http://localhost:3001/subs/prices"
+      "http://localhost:3001/plans/prices"
     );
     console.log(response);
     setPrices(response.data);
@@ -19,7 +18,7 @@ const Pricing = () => {
 
   const createSession = async (priceId) => {
     const { data: response } = await axios.post(
-      "http://localhost:3001/subs/session",
+      "http://localhost:3001/plans/session",
       {
         priceId,
       }
@@ -29,6 +28,7 @@ const Pricing = () => {
   };
 
  
+
 
   return (
     <div className="container">
@@ -43,33 +43,6 @@ const Pricing = () => {
       </header>
       <main>
         <div className="row row-col-1 row-cols-md-3">
-          <div className="col">
-            <div className="card text-center">
-              <div className="card-header bg-dark text-white">
-                <h4 className="fw-normal">Gratis</h4>
-              </div>
-              <div className="card-body">
-                <h1 className="card-title">
-                  $0<small className="text-muted fw-light">/month</small>
-                </h1>
-                <ul className="py-3">
-                  <li>Registro de actividad fisica</li>
-                  <li>Registro de consumos diarios( alimentos y bebidas)</li>
-                  <li>Información de sueño conseguido diario y semanal</li>
-                  <li className="text-danger">Exporta tu información completa en formato PDF</li>
-              
-                </ul>
-                <Link to={"/private/dashboard/*"}>
-                <button
-                  className="btn btn-lg text-white btn-success w-100"
-                  variant="outline-success"
-                >
-                  Prueba gratis
-                </button>
-                </Link>
-              </div>
-            </div>
-          </div>
           {prices.map((price) => (
             <div className="col">
               <div className="card text-center">
@@ -101,6 +74,5 @@ const Pricing = () => {
     </div>
   );
 };
-
 
 export default Pricing;
