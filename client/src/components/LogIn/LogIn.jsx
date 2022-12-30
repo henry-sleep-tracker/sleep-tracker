@@ -3,8 +3,13 @@ import { useState, useEffect } from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { logInUser} from "../../actions/index";
 import { useAuthContext} from "../../actions/authContext";
+import GoogleLogin from 'react-google-login';
+const { GOOGLE_DEV_ID } = process.env;
 
 export default function LogIn() {
+  const responseGoogle = (response) => {
+    console.log(response);
+  }
   const {login} = useAuthContext();
   const loggedUser =  useSelector((state)=>state?.users.currentUser)
   const dispatch=useDispatch();
@@ -69,6 +74,13 @@ export default function LogIn() {
       <p>
         No tienes cuenta? <a href="/registro">registrate</a>
       </p>
+      <GoogleLogin
+      clientId="335316690432-trah7lbld3ptrek9o23jo6n0t7g30foe.apps.googleusercontent.com"
+      buttonText="Iniciar Sesion"
+      onSuccess={responseGoogle}
+      onFailure={responseGoogle}
+      cookiePolicy={'single_host_origin'}
+      />,
     </form>
   );
 }
