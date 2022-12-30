@@ -1,4 +1,4 @@
-const { Activity } = require('../db.js');
+const { Activity } = require("../db.js");
 
 /* ================== Get List Activites =================== */
 
@@ -17,7 +17,7 @@ const newActivity = async (req, res) => {
   const { id, activity } = req.body;
   try {
     await Activity.create({ id, activity });
-    return res.status(200).json({ message: 'Actividad creada exitosamente' });
+    return res.status(200).json({ message: "Actividad creada exitosamente" });
   } catch (err) {
     return res.status(400).json(err);
   }

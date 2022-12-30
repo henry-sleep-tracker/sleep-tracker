@@ -45,11 +45,10 @@ router.post("/", async (req, res) => {
 });
 router.post("/manual", async (req, res) => {
   const { email, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10); //la segunda variable es el numero de rondas que se encriptara
   try {
     const user = await getUserByEmail(email);
-    if (!email) {
-      return res.status(204).send("that id does not exist in the database");
+    if (user.userId === 0) {
+      return res.status(204).send(user);
     } else {
       function copareHash(password, hashed) {
         return bcrypt.compareSync(password, hashed);
@@ -58,8 +57,7 @@ router.post("/manual", async (req, res) => {
         console.log("usuario correcto y contrasñea correcta");
         return res.status(200).send(user);
       } else {
-        console.log("contraseña incorrecta");
-        return res.status(204).send("password does not match");
+        return res.status(204).send("contraseña o usuario incorrecto");
       }
     }
   } catch (error) {

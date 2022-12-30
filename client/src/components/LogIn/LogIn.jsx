@@ -1,35 +1,42 @@
 import React from "react";
-import { useState } from "react";
-import {useDispatch} from "react-redux";
+import { useState, useEffect } from "react";
+import {useDispatch, useSelector} from "react-redux";
 import { logInUser} from "../../actions/index";
+import { useAuthContext} from "../../actions/authContext";
 
 export default function LogIn() {
+  const {login} = useAuthContext();
+  const loggedUser =  useSelector((state)=>state?.users.currentUser)
   const dispatch=useDispatch();
   var [input, setInput] = useState({
     email: "",
     password: "",
   });
+  useEffect(()=>{
+    if (loggedUser.hasOwnProperty('id')&&loggedUser.id!==0) {
+      alert("Usuario validado");
+      login();
+    } else if(loggedUser.id===0){
+      alert("El usuario o la contraseña no son correctos");
+    }
 
+  },[loggedUser,login])
   function handleChange(event) {
     setInput({
       ...input,
       [event.target.name]: event.target.value,
     });
   }
-
   async function handleSubmit(event) {
     event.preventDefault();
     try {
       dispatch( logInUser(input.email, input.password));
-      alert("usuario validado");
       setInput({
         email: "",
         password: "",
       });
-      // history.push("/home"); //asi es como se rediriges
     } catch (error) {
       console.log("el error es:", error);
-      alert("usuario o contraseña incorrecto");
     }
   }
   return (
