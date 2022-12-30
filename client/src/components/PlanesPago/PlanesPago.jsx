@@ -45,7 +45,7 @@ const Pricing = () => {
         <div className="row row-col-1 row-cols-md-3">
           <div className="col">
             <div className="card text-center">
-              <div className="card-header">
+              <div className="card-header bg-dark text-white">
                 <h4 className="fw-normal">Gratis</h4>
               </div>
               <div className="card-body">
@@ -59,7 +59,7 @@ const Pricing = () => {
                   <li className="text-danger">Exporta tu información completa en formato PDF</li>
               
                 </ul>
-                <Link to={"/dashboard"}>
+                <Link to={"/private/dashboard/*"}>
                 <button
                   className="btn btn-lg text-white btn-success w-100"
                   variant="outline-success"
@@ -73,7 +73,7 @@ const Pricing = () => {
           {prices.map((price) => (
             <div className="col">
               <div className="card text-center">
-                <div className="card-header">
+                <div className="card-header bg-dark text-white">
                   <h4 className="fw-normal">{price.nickname}</h4>
                 </div>
                 <div className="card-body">
