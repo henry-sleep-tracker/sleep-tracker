@@ -20,7 +20,6 @@ export default function Register() {
     lastNames: "",
     nationality: "",
     birthday: "",
-    googleId: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -30,7 +29,6 @@ export default function Register() {
     lastNames: "",
     nationality: "",
     birthday: "",
-    googleId: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -65,7 +63,7 @@ function validate(input){ //aca entra todo el estado input
       event.preventDefault();
       const existingEmail= await getUserByEmail(input.email);
       console.log("existing email:",existingEmail);
-      if(existingEmail.userId!==0){
+      if(existingEmail.id!==0){
         alert(`El email ${existingEmail.email} ya se encontraba registrado en nuestra base de datos y no es posible registrarse mas de una vez`)
       }else if(Object.keys(errorsEmptiness).length!==0 ){
         alert(`Todos los campos obligatorios deben ser llenados para poder registrarse`)
@@ -78,9 +76,6 @@ function validate(input){ //aca entra todo el estado input
       }else if(input.password!==input.confirmPassword){
         alert(`La contraseña no se confirmo correctamente`)
       }
-      // else if(input.birthday<1900-01-01||input.birthday>yourDate){
-      //   alert(`La fecha minima debe ser 1900-01-01 y la maxima la del dia de hoy`)
-      // }
       else{
         dispatch(postUser(input));
         alert("Usuario registrado correctamente");
@@ -89,7 +84,6 @@ function validate(input){ //aca entra todo el estado input
           lastNames: "",
           nationality: "",
           birthday: "",
-          googleId: "",
           email: "",
           password: "",
           confirmPassword: "",
@@ -158,18 +152,6 @@ function validate(input){ //aca entra todo el estado input
           name="birthday"
           placeholder="Cumpleaños"
           min="1900-01-01" max={yourDate}
-          onChange={(event) => handleChange(event)}
-          required
-        />
-      </div>
-
-      <div>
-        <label htmlFor="googleId">{`GoogleId:`} </label>
-        <input
-          type="text"
-          name="googleId"
-          placeholder="GoogleId"
-          maxLength="50"
           onChange={(event) => handleChange(event)}
           required
         />
