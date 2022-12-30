@@ -2,15 +2,15 @@ const axios = require("axios");
 const { User } = require("../db");
 const nullUser = {
   id: 0,
-  googleId: "",
   isAdmin: false,
-  isSubscribed: false,
+  isActive: false,
   email: "",
   hashedPassword: "",
   names: "",
   lastNames: "",
   nationality: "",
   birthday: "",
+  lastConnection: "",
 };
 const repeatedEmail = async (email) => {
   try {
