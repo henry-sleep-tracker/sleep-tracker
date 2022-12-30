@@ -1,8 +1,21 @@
 import { CREATE_TOKEN } from "./constants";
+import { GET_CURRENT_USER } from "./constants";
+const nullUser = {
+  id: 0,
+  googleId: "",
+  isAdmin: false,
+  isSubscribed: false,
+  email: "",
+  hashedPassword: "",
+  names: "",
+  lastNames: "",
+  nationality: "",
+  birthday: "",
+};
 
 export const createToken = (code) => async (dispatch) => {
   try {
-    const sendCode = await fetch("/sleepbyrange", {
+    const sendCode = await fetch("http://localhost:3001/sleepbyrange", {
       // The default URL for backEnd is written on "app.js", just write "/*yourBackenRoute*"
       method: "POST",
       headers: {
@@ -58,9 +71,6 @@ export async function getUserByEmail(email) {
 }
 
 export function logInUser(email, password) {
-  console.log("recibi en actions :");
-  console.log("email:", email);
-  console.log("password:", password);
   return async function (dispatch) {
     try {
       const response = await fetch(`http://localhost:3001/login/manual`, {
@@ -70,9 +80,18 @@ export function logInUser(email, password) {
         },
         body: JSON.stringify({ email: email, password: password }),
       });
-      const userFound = await response.json();
-      console.log("user found in actions:", userFound);
-      return userFound;
+      if (response.status === 204) {
+        return dispatch({
+          type: GET_CURRENT_USER,
+          payload: nullUser,
+        });
+      } else {
+        const userFound = await response.json();
+        return dispatch({
+          type: GET_CURRENT_USER,
+          payload: userFound,
+        });
+      }
     } catch (error) {
       console.log(error);
     }

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postUser,getUserByEmail } from "../../actions";
+import { postUser,getUserByEmail } from "../../actions/index.js";
 import { useDispatch } from "react-redux";
 import {TextField,Typography} from "@mui/material";
 
@@ -94,7 +94,7 @@ function validate(input){ //aca entra todo el estado input
           password: "",
           confirmPassword: "",
         });
-        navigate('/login')
+        navigate('/private/planes') //cambio ruta login por planes de pago
       }
     } catch (error) {
       console.log("el error es:", error.message);

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { createToken } from "../../actions/index";
+import { createToken } from "../../actions/index.js";
 
 export default function Fitbit() {
   const navigate = useNavigate();
@@ -13,7 +13,8 @@ export default function Fitbit() {
     console.log("code", code);
     if (code) {
       dispatch(createToken(code));
-      navigate("/fitbit");
+      searchParams.delete("code");
+      navigate("/fitBit");
     }
   }, [searchParams, navigate, dispatch]);
 

@@ -6,9 +6,11 @@ module.exports = (sequelize) => {
   sequelize.define(
     "user",
     {
-      userId: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
       },
       googleId: {
         type: DataTypes.STRING,
@@ -31,7 +33,6 @@ module.exports = (sequelize) => {
             msg: "Must be a valid email address",
           },
         },
-        primaryKey: true,
       },
       hashedPassword: {
         type: DataTypes.STRING(64),

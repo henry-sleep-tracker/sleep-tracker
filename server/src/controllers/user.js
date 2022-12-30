@@ -1,7 +1,7 @@
 const axios = require("axios");
 const { User } = require("../db");
 const nullUser = {
-  userId: 0,
+  id: 0,
   googleId: "",
   isAdmin: false,
   isSubscribed: false,
@@ -37,7 +37,9 @@ const postUser = async (bodyInfo) => {
 };
 const getUserByEmail = async (email) => {
   try {
-    const userFound = await User.findByPk(email);
+    const userFound = await User.findOne({
+      where: { email: email },
+    });
     if (userFound !== null) {
       return userFound.dataValues;
     } else {
