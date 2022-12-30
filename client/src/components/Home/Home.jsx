@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import Collection from "./resume";
 import Graph from "../Graphs/TestGraph";
 import ResponsiveAppBar from "./Nav";
@@ -7,13 +6,9 @@ import "./home.css";
 import Calc from "./calc";
 import Swipeable from "./tips";
 import { Grid } from "@mui/material";
-import Calendario from "../Calendario/dayCalendar";
-import Fitbit from "../SignUp/Fitbit";
+import Calendario from "../Calendario/Calendario";
 
 const Home = () => {
-  const currentUser = useSelector((state) => state?.users.currentUser);
-  console.log("currentUser", currentUser);
-
   let user = {
     name: "Juan",
     sueño: [1, 3, 2, 4, 5, 1, 3, 2, 1, 5, 3, 4],
@@ -55,9 +50,6 @@ const Home = () => {
         </p>
         <div>
           <Calendario />
-        </div>
-        <div>
-          <Fitbit />
         </div>
       </div>
       <br />

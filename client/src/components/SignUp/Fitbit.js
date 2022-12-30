@@ -14,7 +14,7 @@ export default function Fitbit() {
     if (code) {
       dispatch(createToken(code));
       searchParams.delete("code");
-      navigate("/private/inicio");
+      navigate("/fitBit");
     }
   }, [searchParams, navigate, dispatch]);
 
