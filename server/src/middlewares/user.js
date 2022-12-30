@@ -28,14 +28,7 @@ router.post("/", async (req, res) => {
       nationality,
       birthday,
     };
-    if (
-      !email ||
-      !password ||
-      !names ||
-      !lastNames ||
-      !nationality ||
-      !birthday
-    ) {
+    if (!email || !names || !lastNames) {
       return res.status(404).send("Falta enviar datos obligatorios");
     }
     const isRepeated = await repeatedEmail(email);
@@ -47,6 +40,23 @@ router.post("/", async (req, res) => {
   } catch (error) {
     console.log("El error middleware user post / es:", error.message);
     res.status(401).send("El error middleware user post / es:", error.message);
+  }
+});
+
+router.post("/google", async (req, res) => {
+  const { email, names, lastNames } = req.body;
+  const bodyInfo = { email, names, lastNames };
+  try {
+    const isRepeated = await repeatedEmail(email);
+    console.log("email repetido:", isRepeated);
+    if (isRepeated.length > 0) {
+      return res.status(202).send(isRepeated);
+    }
+    let createdUser = await postUser(bodyInfo);
+    res.status(201).json(createdUser); //201 es que fue creado
+  } catch (error) {
+    console.log("El error middleware login post /manual es:", error.message);
+    res.status(401).send("El error middleware login post /manual es");
   }
 });
 
