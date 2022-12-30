@@ -17,7 +17,7 @@ import PublicRoute from "./components/PublicRoute/PublicRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import { AuthContextProvider } from "./actions/authContext";
 import Pricing from "./components/PlanesPago/PlanesPago.jsx";
-import ConoceAlEquipo from './components/Home/ConoceAlEquipo'
+import ConoceAlEquipo from "./components/Home/ConoceAlEquipo";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
 axios.defaults.baseURL = "http://localhost:3001/";
 //The following link must be un-comented on gitHub if you wanna work with on-line servers
@@ -41,19 +41,20 @@ function App() {
         <Route path="/" element={<PublicRoute />}>
           <Route index element={<LandingPage />} />{" "}
           {/* rutas publicas- lo de indez quiere decir / */}
+          <Route path="/graficas" element={<GraphWM />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/logout" element={<LogOut />} />
           <Route path="/registro" element={<Register />} />
           <Route path="*" element={<NotFound />} />
-          <Route exact path="/team" element={<ConoceAlEquipo />} />{/*deberia ser privada, pero solo es para probar*/}
-
+          <Route exact path="/team" element={<ConoceAlEquipo />} />
+          {/*deberia ser privada, pero solo es para probar*/}
         </Route>
         <Route path="/private" element={<PrivateRoute />}>
           {/* rutas privadas */}
           <Route index element={<Home />} />
           <Route path="/private/newrecord" element={<Record />} />
           <Route path="/private/fitBit" element={<Fitbit />} />
-          <Route path="/private/graficas" element={<GraphWM />} />
+
           <Route path="/private/planes" element={<Pricing />} />
           <Route path="/private/dashboard/*" element={<Dashboard />} />
         </Route>
