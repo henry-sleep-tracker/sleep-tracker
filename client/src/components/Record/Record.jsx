@@ -2,17 +2,37 @@
 import React from "react";
 import "./Record.css";
 
+// Import Components
+import Nav from "../Home/Nav";
+
 // Hooks Imports
 import { useState, useRef } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 // Actions Imports
 import {
   getCoffeeSizes,
   getActivities,
   getDrinks,
+  createNewRecord,
+  createNewActivity,
+  getLastIdActivity,
+  createNewCoffeeSize,
+  getLastIdCoffeSize,
+  createNewDrink,
+  getLastIdDrink,
 } from "../../actions/newRecord";
+
+// Import images
+import check from "../../images/check-mark-button_2705.png";
+import memo from "../../images/memo.png";
+import personBed from "../../images/person-in-bed.png";
+import runingShoe from "../../images/running-shoe.png";
+import coffeeImg from "../../images/coffee.png";
+import drinkImg from "../../images/tropical-drink.png";
+import sync from "../../images/sync.png";
 
 //> Starts Component
 const Record = props => {
@@ -30,8 +50,22 @@ const Record = props => {
   const coffeeSizesRedux = useSelector(state => state.record.coffeeSizes);
   const activitiesRedux = useSelector(state => state.record.activities);
   const drinksRedux = useSelector(state => state.record.drinks);
+  const recordStatus = useSelector(state => state.record.statusNewRecord);
+  const activityStat = useSelector(state => state.record.statusNewActivity);
+  const lastIdActivity = useSelector(state => state.record.lastIdActivity);
+  const coffeeStat = useSelector(state => state.record.statusNewCoffeeSize);
+  const lastIdCoffee = useSelector(state => state.record.lastIdCoffeeSize);
+  const drinkStat = useSelector(state => state.record.statusNewDrink);
+  const lastIdDrink = useSelector(state => state.record.lastIdDrink);
 
   // Local States
+  const [activityStatus, setActivityStatus] = useState(false);
+  const [coffeeStatus, setCoffeeStatus] = useState(false);
+  const [drinkStatus, setDrinkStatus] = useState(false);
+  const [newActivity, setNewActivity] = useState(false);
+  const [newCoffeeSize, setNewCoffeeSize] = useState(false);
+  const [newDrink, setNewDrink] = useState(false);
+
   const [activity, setActivity] = useState([]);
   const [coffee, setCoffee] = useState([]);
   const [drink, setDrink] = useState([]);
@@ -39,7 +73,7 @@ const Record = props => {
     dateMeal: "",
     timeMeal: "",
     description: "",
-    sleepTime: "0",
+    sleepTime: "",
     napTime: [],
     timeActivity: [],
     coffeeCups: [],
@@ -49,21 +83,177 @@ const Record = props => {
     activity: [],
   });
 
+  const [addActivity, setAddActivity] = useState({
+    id: 0,
+    activity: "",
+  });
+
+  const [addCoffeSize, setAddCoffeSize] = useState({
+    id: 0,
+    size: "",
+  });
+
+  const [addNewDrink, setAddNewDrink] = useState({
+    id: 0,
+    drink: "",
+  });
+
   // Handlers
+
+  const handlerAddActivity = e => {
+    e.preventDefault();
+
+    const duplicated = activitiesRedux.filter(
+      e => e.activity === addActivity.activity
+    );
+
+    if (duplicated.length > 0) {
+      return alert(`La actividad ${addActivity.activity} no puede duplicarse`);
+    }
+
+    setAddActivity((addActivity.id = lastIdActivity));
+
+    dispatch(createNewActivity(addActivity));
+
+    if (activityStat === null) {
+      alert("Actividad creada exitosamente");
+      setAddActivity({
+        id: 0,
+        activity: "",
+      });
+
+      setNewActivity(false);
+      setActivityStatus(false);
+      activityRef.current.value = "default";
+    }
+  };
+
+  const handlerOnChangeActivity = e => {
+    e.preventDefault();
+    setAddActivity({
+      ...addActivity,
+      [e.target.name]: e.target.value.toLowerCase(),
+    });
+  };
+
+  const handlerAddSizeCoffee = e => {
+    e.preventDefault();
+
+    const duplicated = coffeeSizesRedux.filter(
+      e => e.size === addCoffeSize.size
+    );
+
+    if (duplicated.length > 0) {
+      return alert(`La medida ${addCoffeSize.size} no puede duplicarse`);
+    }
+
+    setAddCoffeSize((addCoffeSize.id = lastIdCoffee));
+    dispatch(createNewCoffeeSize(addCoffeSize));
+
+    if (coffeeStat === null) {
+      alert("Nueva porcion creada exitosamente");
+      setAddCoffeSize({
+        id: 0,
+        size: "",
+      });
+
+      setNewCoffeeSize(false);
+      setCoffeeStatus(false);
+      sizeCup.current.value = "default";
+    }
+  };
+
+  const handlerOnChangeCoffeSize = e => {
+    e.preventDefault();
+    setAddCoffeSize({
+      ...addCoffeSize,
+      [e.target.name]: e.target.value.toLowerCase(),
+    });
+  };
+
+  const handlerAddDrink = e => {
+    e.preventDefault();
+
+    const duplicated = drinksRedux.filter(e => e.drink === addNewDrink.drink);
+
+    if (duplicated.length > 0) {
+      return alert(`La bebida ${addNewDrink.drink} no puede duplicarse`);
+    }
+
+    setAddNewDrink((addNewDrink.id = lastIdDrink));
+    dispatch(createNewDrink(addNewDrink));
+
+    if (drinkStat === null) {
+      alert("Nueva bebida creada exitosamente");
+      setAddNewDrink({
+        id: 0,
+        drink: "",
+      });
+
+      setNewDrink(false);
+      setDrinkStatus(false);
+      typeDrink.current.value = "default";
+    }
+  };
+
+  const handlerOnChangeDrink = e => {
+    e.preventDefault();
+    setAddNewDrink({
+      ...addNewDrink,
+      [e.target.name]: e.target.value.toLowerCase(),
+    });
+  };
+
+  const handlerSetActivity = e => {
+    e.preventDefault();
+    if (e.target.value !== "default") setActivityStatus(true);
+    if (e.target.value === "default") setActivityStatus(false);
+    if (e.target.value === "add_activity") {
+      timeRef.current.value = "0";
+      setNewActivity(true);
+    } else {
+      setNewActivity(false);
+    }
+  };
+
+  const handlerSetCoffee = e => {
+    e.preventDefault();
+    if (e.target.value !== "default") setCoffeeStatus(true);
+    if (e.target.value === "default") setCoffeeStatus(false);
+    if (e.target.value === "add_coffee_size") {
+      cups.current.value = "0";
+      setNewCoffeeSize(true);
+    } else {
+      setNewCoffeeSize(false);
+    }
+  };
+
+  const handlerSetDrink = e => {
+    e.preventDefault();
+    if (e.target.value !== "default") setDrinkStatus(true);
+    if (e.target.value === "default") setDrinkStatus(false);
+    if (e.target.value === "add_drink") {
+      drinks.current.value = "0";
+      setNewDrink(true);
+    } else {
+      setNewDrink(false);
+    }
+  };
+
   const handlerOnChange = e => {
     setRecord({ ...record, [e.target.name]: e.target.value });
   };
 
   const handlerActivity = e => {
     e.preventDefault();
-    const timeSelected = parseInt(timeRef.current.value);
+    const timeSelected = parseInt(timeRef.current.value) + Math.random();
     const activitySelected = parseInt(activityRef.current.value);
     const timeSelectedText = timeRef.current.value;
     const nameActivity =
       activityRef.current[activityRef.current.value].innerText;
 
-    if (!timeSelected || !activitySelected) {
-      return alert("Sin datos por registrar");
+    if (!timeSelected || !activitySelected || timeSelected < 1) {
+      return alert("Ingresa los minutos");
     }
 
     setRecord({
@@ -73,6 +263,8 @@ const Record = props => {
     });
 
     setActivity([...activity, `${timeSelectedText} min. de ${nameActivity}`]);
+    activityRef.current.value = "default";
+    timeRef.current.value = "0";
   };
 
   const eraseActivity = e => {
@@ -94,17 +286,19 @@ const Record = props => {
 
     timeRef.current.value = 0;
     activityRef.current.value = "default";
+
+    setActivityStatus(false);
   };
 
   const handlerCoffee = e => {
     e.preventDefault();
-    const quantityCoffee = parseInt(cups.current.value);
+    const quantityCoffee = parseInt(cups.current.value) + Math.random();
     const cup = parseInt(sizeCup.current.value);
     const coffees = cups.current.value;
     const sizeCoffee = sizeCup.current[sizeCup.current.value].innerText;
 
-    if (!quantityCoffee || !cup) {
-      return alert("Sin datos por registrar");
+    if (!quantityCoffee || !cup || quantityCoffee < 1) {
+      return alert("Ingresa el numero de tazas");
     }
 
     setRecord({
@@ -114,6 +308,8 @@ const Record = props => {
     });
 
     setCoffee([...coffee, `${coffees} tazas de ${sizeCoffee}`]);
+    sizeCup.current.value = "default";
+    cups.current.value = "0";
   };
 
   const eraseCoffee = e => {
@@ -135,17 +331,19 @@ const Record = props => {
 
     cups.current.value = 0;
     sizeCup.current.value = "default";
+
+    setCoffeeStatus(false);
   };
 
   const handlerDrinks = e => {
     e.preventDefault();
-    const quantityDrinks = parseInt(drinks.current.value);
+    const quantityDrinks = parseInt(drinks.current.value) + Math.random();
     const typeDrinks = parseInt(typeDrink.current.value);
     const drinkss = drinks.current.value;
     const typeDrinkss = typeDrink.current[typeDrink.current.value].innerText;
 
-    if (!quantityDrinks || !typeDrinks) {
-      return alert("Sin datos por registrar");
+    if (!quantityDrinks || !typeDrinks || quantityDrinks < 1) {
+      return alert("Ingresa el numero de bebidas");
     }
 
     setRecord({
@@ -155,6 +353,8 @@ const Record = props => {
     });
 
     setDrink([...drink, `${drinkss} bebidas de ${typeDrinkss}`]);
+    typeDrink.current.value = "default";
+    drinks.current.value = "0";
   };
 
   const eraseDrink = e => {
@@ -176,6 +376,94 @@ const Record = props => {
 
     drinks.current.value = 0;
     typeDrink.current.value = "default";
+
+    setDrinkStatus(false);
+  };
+
+  const handlerOnSubmit = e => {
+    e.preventDefault();
+
+    if (record.sleepTime === "0") {
+      return alert("Ingresa tiempo de sueño");
+    }
+
+    const floorTimeActivity = record.timeActivity.map(e => Math.floor(e));
+    const floorCoffeeCups = record.coffeeCups.map(e => Math.floor(e));
+    const floorDrinks = record.drinks.map(e => Math.floor(e));
+    setRecord((record.timeActivity = floorTimeActivity));
+    setRecord((record.coffeeCups = floorCoffeeCups));
+    setRecord((record.drinks = floorDrinks));
+
+    dispatch(createNewRecord(record));
+    if (recordStatus === null) {
+      alert("Registro creado exitosamente");
+
+      setRecord({
+        dateMeal: "",
+        timeMeal: "",
+        description: "",
+        sleepTime: "",
+        napTime: [],
+        timeActivity: [],
+        coffeeCups: [],
+        drinks: [],
+        coffee: [],
+        drink: [],
+        activity: [],
+      });
+
+      setActivity([]);
+      setCoffee([]);
+      setDrink([]);
+
+      setActivityStatus(false);
+      setCoffeeStatus(false);
+      setDrinkStatus(false);
+
+      timeRef.current.value = 0;
+      activityRef.current.value = "default";
+
+      cups.current.value = 0;
+      sizeCup.current.value = "default";
+
+      drinks.current.value = 0;
+      typeDrink.current.value = "default";
+    } else {
+      alert("Hubo un problema en el registro, revisa e intenta nuevamente");
+    }
+  };
+
+  const handlerOnClear = e => {
+    e.preventDefault();
+    setRecord({
+      dateMeal: "",
+      timeMeal: "",
+      description: "",
+      sleepTime: "",
+      napTime: [],
+      timeActivity: [],
+      coffeeCups: [],
+      drinks: [],
+      coffee: [],
+      drink: [],
+      activity: [],
+    });
+
+    setActivity([]);
+    setCoffee([]);
+    setDrink([]);
+    setActivityStatus(false);
+    setCoffeeStatus(false);
+    setDrinkStatus(false);
+
+    timeRef.current.value = 0;
+    activityRef.current.value = "default";
+
+    cups.current.value = 0;
+    sizeCup.current.value = "default";
+
+    drinks.current.value = 0;
+    typeDrink.current.value = "default";
   };
 
   // Mount/Unmount Component
@@ -183,17 +471,38 @@ const Record = props => {
     dispatch(getCoffeeSizes());
     dispatch(getActivities());
     dispatch(getDrinks());
-  }, []);
+    dispatch(getLastIdActivity());
+    dispatch(getLastIdCoffeSize());
+    dispatch(getLastIdDrink());
+  }, [newActivity, newCoffeeSize, newDrink]);
 
   // Renders Elements
   return (
     <div>
+      <div className="nav_bar">
+        <Nav />
+      </div>
       <div className="form_container">
-        <form>
+        <form onSubmit={handlerOnSubmit}>
           <div className="main_container">
-            <h1>Nuevo Registro</h1>
+            <div className="x_container">
+              <Link to="/inicio" className="link">
+                <div className="x">X</div>
+              </Link>
+            </div>
+            <div className="div_head">
+              <h1>
+                <img src={memo} alt="" className="memo" />
+                Nuevo Registro
+              </h1>
+              <h5>
+                Campo Requerido ( <span className="asterisk">*</span> )
+              </h5>
+            </div>
             <div className="general_info_container">
-              <label>Dia</label>
+              <label>
+                <span className="asterisk">* </span>Dia
+              </label>
               <input
                 type="date"
                 required={true}
@@ -201,13 +510,25 @@ const Record = props => {
                 value={record.dateMeal}
                 onChange={handlerOnChange}
               />
-              <label>Hora</label>
+              <label>
+                <span className="asterisk">* </span>Hora
+              </label>
               <input
                 type="time"
                 required={true}
                 name="timeMeal"
                 value={record.timeMeal}
                 onChange={handlerOnChange}
+              />
+              <img
+                src={check}
+                alt=""
+                hidden={
+                  record.dateMeal !== "" && record.timeMeal !== ""
+                    ? false
+                    : true
+                }
+                className="img_ok"
               />
               <h4>Descripcion alimento</h4>
               <textarea
@@ -222,9 +543,21 @@ const Record = props => {
             </div>
 
             <div className="sleep_container">
-              <h3>Tiempo de Sueño</h3>
+              <img src={personBed} alt="" className="person_bed" />
+              <h2>
+                Tiempo de Sueño
+                <img
+                  src={check}
+                  alt=""
+                  hidden={record.sleepTime > 0 ? false : true}
+                  className="img_ok"
+                />
+              </h2>
+              {/* <img src={sync} alt="" /> */}
               <div className="sleep_section">
-                <label>Tiempo</label>
+                <label>
+                  <span className="asterisk">* </span>Tiempo
+                </label>
                 <input
                   className="input_number"
                   type="number"
@@ -234,6 +567,7 @@ const Record = props => {
                   name="sleepTime"
                   value={record.sleepTime}
                   onChange={handlerOnChange}
+                  placeholder="0"
                 />
                 <span>min.</span>
                 <span className="sync">sincronizar</span>
@@ -245,8 +579,19 @@ const Record = props => {
             </div>
             <br />
 
+            {/* ====================== ACTIVITY SECTION ======================= */}
+
             <div className="activity_container">
-              <h3>Actividad Fisica</h3>
+              <div className="actity_head_container">
+                <img src={runingShoe} alt="" className="runing_shoe" />
+                <h3>Actividad Fisica</h3>
+                <img
+                  src={check}
+                  alt=""
+                  hidden={activity.length > 0 ? false : true}
+                  className="img_ok"
+                />
+              </div>
               <div className="activity_section">
                 <label>Tiempo</label>
                 <input
@@ -263,18 +608,26 @@ const Record = props => {
               </div>
               <br />
               <label>Tipo de Actividad</label>
-              <select ref={activityRef}>
+              <select ref={activityRef} onChange={handlerSetActivity}>
                 <option value="default">Selecciona...</option>
                 {activitiesRedux.map((e, i) => {
                   return (
-                    <option key={i} value={e.id}>
+                    <option
+                      key={i}
+                      value={e.id}
+                      disabled={record.activity.includes(e.id) ? true : false}
+                    >
                       {e.activity}
                     </option>
                   );
                 })}
                 <option value="add_activity">Agregar Actividad</option>
               </select>
-              <span className="add_button" onClick={handlerActivity}>
+              <span
+                className="add_button"
+                hidden={activityStatus ? false : true}
+                onClick={handlerActivity}
+              >
                 Agregar
               </span>
               <div className="div_map_container">
@@ -291,10 +644,35 @@ const Record = props => {
                   );
                 })}
               </div>
+              <br hidden={newActivity ? false : true} />
+              <div className="new_item" hidden={newActivity ? false : true}>
+                <label>Nueva Actividad</label>
+                <input
+                  type="text"
+                  placeholder="Ingresa actividad..."
+                  name="activity"
+                  value={addActivity.activity}
+                  onChange={handlerOnChangeActivity}
+                />
+                <span className="add_button" onClick={handlerAddActivity}>
+                  Agregar
+                </span>
+              </div>
             </div>
 
+            {/* ====================== COOFFE SECTION ======================= */}
+
             <div className="coffee_container">
-              <h3>Cafe</h3>
+              <div className="coffee_head_container">
+                <img src={coffeeImg} alt="" className="coffee_ico" />
+                <h3>Cafe</h3>
+                <img
+                  src={check}
+                  alt=""
+                  hidden={coffee.length > 0 ? false : true}
+                  className="img_ok"
+                />
+              </div>
               <label>Cantidad</label>
               <input
                 className="input_number"
@@ -306,18 +684,26 @@ const Record = props => {
                 defaultValue="0"
               />
               <label>Tamaño Taza</label>
-              <select ref={sizeCup}>
+              <select ref={sizeCup} onChange={handlerSetCoffee}>
                 <option value="default">Selecciona...</option>
                 {coffeeSizesRedux.map((e, i) => {
                   return (
-                    <option key={i} value={e.id}>
+                    <option
+                      key={i}
+                      value={e.id}
+                      disabled={record.coffee.includes(e.id) ? true : false}
+                    >
                       {e.size}
                     </option>
                   );
                 })}
-                <option value="default">Agregar Tamaño</option>
+                <option value="add_coffee_size">Agregar Tamaño</option>
               </select>
-              <span className="add_button" onClick={handlerCoffee}>
+              <span
+                className="add_button"
+                hidden={coffeeStatus ? false : true}
+                onClick={handlerCoffee}
+              >
                 Agregar
               </span>
               <div className="div_map_container">
@@ -334,10 +720,35 @@ const Record = props => {
                   );
                 })}
               </div>
+              <br hidden={newCoffeeSize ? false : true} />
+              <div className="new_item" hidden={newCoffeeSize ? false : true}>
+                <label>Nueva medida</label>
+                <input
+                  type="text"
+                  placeholder="Ingresa medida..."
+                  name="size"
+                  value={addCoffeSize.size}
+                  onChange={handlerOnChangeCoffeSize}
+                />
+                <span className="add_button" onClick={handlerAddSizeCoffee}>
+                  Agregar
+                </span>
+              </div>
             </div>
 
+            {/* ====================== DRINK SECTION ======================= */}
+
             <div className="drink_container">
-              <h3>Bebidas</h3>
+              <div className="drink_head_container">
+                <img src={drinkImg} alt="" className="drink_ico" />
+                <h3>Bebidas</h3>
+                <img
+                  src={check}
+                  alt=""
+                  hidden={drink.length > 0 ? false : true}
+                  className="img_ok"
+                />
+              </div>
               <label>Cantidad</label>
               <input
                 className="input_number"
@@ -349,18 +760,26 @@ const Record = props => {
                 defaultValue="0"
               />
               <label>Tipo de bebida</label>
-              <select ref={typeDrink}>
+              <select ref={typeDrink} onChange={handlerSetDrink}>
                 <option value="default">Selecciona...</option>
                 {drinksRedux.map((e, i) => {
                   return (
-                    <option key={i} value={e.id}>
+                    <option
+                      key={i}
+                      value={e.id}
+                      disabled={record.drink.includes(e.id) ? true : false}
+                    >
                       {e.drink}
                     </option>
                   );
                 })}
-                <option value="default">Agregar Bebida</option>
+                <option value="add_drink">Agregar Bebida</option>
               </select>
-              <span className="add_button" onClick={handlerDrinks}>
+              <span
+                className="add_button"
+                hidden={drinkStatus ? false : true}
+                onClick={handlerDrinks}
+              >
                 Agregar
               </span>
               <div className="div_map_container">
@@ -377,11 +796,29 @@ const Record = props => {
                   );
                 })}
               </div>
+              <br hidden={newDrink ? false : true} />
+              <div className="new_item" hidden={newDrink ? false : true}>
+                <label>Nueva Actividad</label>
+                <input
+                  type="text"
+                  placeholder="Ingresa actividad..."
+                  name="drink"
+                  value={addNewDrink.drink}
+                  onChange={handlerOnChangeDrink}
+                />
+                <span className="add_button" onClick={handlerAddDrink}>
+                  Agregar
+                </span>
+              </div>
             </div>
+
+            {/* ====================== BUTTONS SECTION ======================= */}
 
             <div className="button_container">
               <button className="bottom_buttons">Guardar</button>
-              <button className="bottom_buttons">Limpiar</button>
+              <button className="bottom_buttons" onClick={handlerOnClear}>
+                Limpiar
+              </button>
             </div>
           </div>
         </form>

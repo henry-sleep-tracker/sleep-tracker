@@ -1,4 +1,4 @@
-const { Activity } = require('../db.js');
+const { Activity } = require("../db.js");
 
 const activityValidator = async (req, res, next) => {
   const { id, activity } = req.body;
@@ -6,11 +6,12 @@ const activityValidator = async (req, res, next) => {
   if (!id)
     return res
       .status(400)
-      .json({ error: 'Ingresa un id para el nuevo registro' });
+      .json({ error: "Ingresa un id para el nuevo registro" });
+
   if (!activity)
     return res
       .status(400)
-      .json({ error: 'Ingresa descripcion de la actividad' });
+      .json({ error: "Ingresa descripcion de la actividad" });
 
   const idDB = await Activity.findByPk(id);
 

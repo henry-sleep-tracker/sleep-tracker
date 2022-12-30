@@ -1,7 +1,7 @@
-h1 {
+/* h1 {
   margin-left: 8.3rem;
   cursor: default;
-}
+} */
 
 h3,
 h4 {
@@ -18,6 +18,49 @@ select {
   width: 8.2rem;
   margin-left: 0.3rem;
   margin-right: 0.3rem;
+}
+
+.asterisk {
+  color: red;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.x_container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.x {
+  margin: 0;
+  width: 1rem;
+  padding: 0.2rem;
+  border: solid black 0.2rem;
+  border-radius: 0.2rem;
+  background-color: black;
+  color: white;
+  cursor: default;
+  text-align: center;
+}
+
+.x:hover {
+  background-color: red;
+  transition: 0.5s;
+}
+
+.div_head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.div_head h1,
+h5 {
+  margin-top: 0;
+  cursor: default;
 }
 
 .form_container {
@@ -38,14 +81,32 @@ select {
   background-color: rgb(152, 198, 235)
 }
 
+.general_info_container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
 .general_info_container input {
-  width: 12rem;
+  width: 10.5rem;
   margin-left: 0.3rem;
   margin-right: 0.5rem;
 }
 
 .general_info_container textarea {
   margin-top: 0;
+}
+
+.sleep_container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.sleep_container h2 {
+  margin-bottom: 0.8rem;
 }
 
 .sleep_section input {
@@ -69,6 +130,13 @@ select {
   background-color: white;
 }
 
+.actity_head_container,
+.coffee_head_container,
+.drink_head_container {
+  display: flex;
+  align-items: center;
+}
+
 .activity_section input {
   width: 2.5rem;
   margin-left: 0.3rem;
@@ -82,6 +150,10 @@ select {
 
 .activity_section select {
   margin-top: 1rem;
+}
+
+.activity_section span {
+  cursor: default;
 }
 
 .button_container {
@@ -101,13 +173,16 @@ select {
 }
 
 .add_button {
-  padding: 0.2rem;
+  padding: 0.1rem;
   font-size: smaller;
   font-weight: lighter;
   margin-left: 0.2rem;
-  border: solid 0.01rem;
+  border: solid black 0.15rem;
   border-radius: 0.3rem;
   cursor: default;
+  background-color: black;
+  color: white;
+  font-weight: normal;
 }
 
 .add_button:hover {
@@ -130,13 +205,16 @@ select {
   margin-top: 0.5rem;
   margin-right: 0.3rem;
   width: fit-content;
-  border: solid white;
+  border: solid black 0.15rem;
   border-radius: 0.3rem;
   padding: 0.3rem;
+  background-color: darkslategray;
+  color: white
 }
 
 .div_map:hover {
   background: red;
+  color: white;
   transition: 0.5s;
 }
 
@@ -145,12 +223,55 @@ select {
   font-size: smaller;
   font-weight: lighter;
   margin-left: 0.2rem;
-  border: solid 0.01rem;
+  border: solid black 0.2rem;
   border-radius: 0.3rem;
   cursor: default;
+  background-color: black;
+  color: white;
+  font-weight: normal;
 }
 
 .sync:hover {
-  background: blue;
+  background: green;
+  border: solid black 0.2rem;
   transition: 0.5s;
+}
+
+.bottom_buttons {
+  border: solid black 0.2rem;
+  background-color: black;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.bottom_buttons:hover {
+  background: green;
+  transition: 0.5s;
+}
+
+.img_ok {
+  margin-left: 0.5rem;
+  width: 1.1rem;
+}
+
+.new_item label,
+input {
+  margin-right: 0.4rem;
+}
+
+.memo {
+  width: 2.3rem;
+  margin-right: 0.5rem;
+}
+
+.person_bed {
+  width: 2.2rem;
+  margin-right: 0.5rem;
+}
+
+.runing_shoe,
+.coffee_ico,
+.drink_ico {
+  margin-right: 0.5rem;
+  width: 1.8rem;
 }
