@@ -47,7 +47,7 @@ router.post("/manual", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await getUserByEmail(email);
-    if (user.userId === 0) {
+    if (user.id === 0) {
       return res.status(204).send(user);
     } else {
       function copareHash(password, hashed) {
@@ -64,7 +64,7 @@ router.post("/manual", async (req, res) => {
     console.log("El error middleware login post /manual es:", error.message);
     res
       .status(401)
-      .send("El error middleware login post /manual es", error.message);
+      .send("El error middleware login post /manual es");
   }
 });
 module.exports = router;

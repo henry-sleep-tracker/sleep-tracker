@@ -9,6 +9,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
+import { Card, CardContent, Grid } from '@mui/material';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -73,79 +74,118 @@ function Swipeable() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, backgroundColor: 'white' }}  >
-        <h4>Tips para dormir mejor</h4>
-      <AutoPlaySwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={activeStep}
-        onChangeIndex={handleStepChange}
-        enableMouseEvents
-      >
-        {tips.map((step, index) => (
-          <div key={step.label}>
-            {Math.abs(activeStep - index) <= 2 ? (
-              <Box
-                component="img"
-                sx={{
-                  height: 250,
-                  display: 'block',         
-                  overflow: 'hidden',
-                  width: '100%',
-                  borderRadius: '4px'
-                }}
-                src={step.im}
-                alt={step.tip}  
-              />
-            ) : null}
-          </div>
-        ))}
-      </AutoPlaySwipeableViews>
-      <Paper
-        square
-        elevation={0}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          height: 50,
-          pl: 2,
-          bgcolor: 'background.default',
-          alignText: 'center'
-        }}
-      >
-        <Typography fontFamily='Homer Simpson UI' fontSize='16px'
-        textAlign='center' >{tips[activeStep].tip}</Typography>
-      </Paper>
-     
-      <MobileStepper
-        steps={maxSteps}
-        position="static"
-        activeStep={activeStep}
-        nextButton={
-          <Button
-            size="small"
-            onClick={handleNext}
-            disabled={activeStep === maxSteps - 1}
+    <Card
+      // sx={{ 
+      //   flexGrow: 1, 
+      //   backgroundColor: 'white'
+      // }}  
+      variant='outlined'
+    >
+      <CardContent>
+
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          direction='column'
+          spacing={1}
+          flex={4}
+          p={2}
+        >
+          <Grid
+            item>
+            <Typography variant='h4'>Tips para dormir mejor</Typography>
+          </Grid>
+          <Grid
+            item
+            sx={{ width: {md:500, xs:300 }}}
           >
-            Next
-            {theme.direction === 'rtl' ? (
-              <KeyboardArrowLeft />
-            ) : (
-              <KeyboardArrowRight />
-            )}
-          </Button>
-        }
-        backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-            {theme.direction === 'rtl' ? (
-              <KeyboardArrowRight />
-            ) : (
-              <KeyboardArrowLeft />
-            )}
-            Back
-          </Button>
-        }
-      />
-    </Box>
+            <AutoPlaySwipeableViews
+              axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+              index={activeStep}
+              onChangeIndex={handleStepChange}
+              enableMouseEvents
+            >
+              {tips.map((step, index) => (
+                <div key={step.label}>
+                  {Math.abs(activeStep - index) <= 2 ? (
+                    <Box
+                      component="img"
+                      sx={{
+                        height: {md:250, xs:200},
+                        width: {md:400, xs: 250},
+                        display: 'block',
+                        // overflow: 'hidden',
+                        borderRadius: '4px'
+                      }}
+                      src={step.im}
+                      alt={step.tip}
+                    />
+                  ) : null}
+                </div>
+              ))}
+            </AutoPlaySwipeableViews>
+          </Grid>
+
+          <Grid
+            item
+          >
+            <Paper
+              square
+              elevation={0}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                height: 50,
+                pl: 2,
+                bgcolor: 'background.default',
+                alignText: 'center'
+              }}
+            >
+              <Typography
+                fontSize='16px'
+              >
+                {tips[activeStep].tip}
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid
+            item
+          >
+
+            <MobileStepper
+              steps={maxSteps}
+              position="static"
+              activeStep={activeStep}
+              nextButton={
+                <Button
+                  size="small"
+                  onClick={handleNext}
+                  disabled={activeStep === maxSteps - 1}
+                >
+                  Next
+                  {theme.direction === 'rtl' ? (
+                    <KeyboardArrowLeft />
+                  ) : (
+                    <KeyboardArrowRight />
+                  )}
+                </Button>
+              }
+              backButton={
+                <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                  {theme.direction === 'rtl' ? (
+                    <KeyboardArrowRight />
+                  ) : (
+                    <KeyboardArrowLeft />
+                  )}
+                  Back
+                </Button>
+              }
+            />
+          </Grid>
+        </Grid>
+       </CardContent>
+     </Card>
   );
 }
 

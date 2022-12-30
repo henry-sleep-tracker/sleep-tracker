@@ -37,7 +37,7 @@ export default function Graph() {
     hAxis: {
       title: "Hour",
       gridlines: {
-        count: 4,
+        count: 5,
         units: {
           hours: { format: ["HH:00"] },
         },

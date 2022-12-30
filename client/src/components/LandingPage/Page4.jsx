@@ -58,7 +58,7 @@ const Page4 = () => {
                 </Box>
                 <Typography variant="h5">Prueba por 3 meses.</Typography>
                 <Box
-                  sx={{ display: { xs: "none", sm: "none" } }}
+                  sx={{ display: { xs: "none", sm: "none", md:'block' } }}
                 >
                   <Typography>Registro de actividad física</Typography>
                   <Typography>
@@ -108,7 +108,7 @@ const Page4 = () => {
                     Exporta informacion en formato PDF.
                   </Typography>
                   <Box
-                    sx={{ display: { xs: "none", sm: "none" } }}
+                    sx={{ display: { xs: "none", sm: "none", md:'block'  } }}
                   >
                     <Typography>Registro de actividad física</Typography>
                     <Typography>
@@ -155,7 +155,7 @@ const Page4 = () => {
                 </Box>
                 <Typography variant="h5">Descuento anual.</Typography>
                 <Box
-                  sx={{ display: { xs: "none", sm: "none" } }}
+                  sx={{ display: { xs: "none", sm: "none", md:'block'  } }}
                 >
                   <Typography>Registro de actividad física</Typography>
                   <Typography>
