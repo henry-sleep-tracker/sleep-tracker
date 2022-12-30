@@ -15,7 +15,7 @@ import log from "../logi/log-.png";
 import { useAuthContext } from "../../actions/authContext";
 
 function ResponsiveAppBar() {
-  const {logout} = useAuthContext();
+  const { logout } = useAuthContext();
   const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -25,10 +25,10 @@ function ResponsiveAppBar() {
     event.preventDefault();
     await logout();
   }
-  const handleOpenNavMenu = (event) => {
+  const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
+  const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget);
   };
 
@@ -40,13 +40,13 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
-  const handleConoce = (e) => {
+  const handleConoce = e => {
     navigate("/team");
   };
-  const handleGraph = (e) => {
+  const handleGraph = e => {
     navigate("/graficas");
   };
-  const handleBack = (e) => {
+  const handleBack = e => {
     e.preventDefault();
     navigate("/inicio");
   };
@@ -149,7 +149,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               key="actividad"
-              href="/newrecord"
+              href="/private/newrecord"
               sx={{ my: 2, color: "white", display: "block" }}
             >
               Registrar Actividad
@@ -189,7 +189,7 @@ function ResponsiveAppBar() {
               </MenuItem>
 
               <MenuItem key="Log Out" onClick={handleCloseUserMenu}>
-                <Button onClick={(event) => handleLogOut(event)}>Log Out</Button>
+                <Button onClick={event => handleLogOut(event)}>Log Out</Button>
               </MenuItem>
             </Menu>
           </Box>
