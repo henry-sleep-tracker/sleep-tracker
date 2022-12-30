@@ -1,4 +1,8 @@
-import { GET_CURRENT_USER } from "../actions/constants";
+import {
+  GET_CURRENT_USER,
+  GET_USERS_RESPONSE,
+  POST_USER_WITH_GOOGLE,
+} from "../actions/constants";
 
 const initialState = {
   users: [],
@@ -7,12 +11,17 @@ const initialState = {
 
 const usersReducer = function (state = initialState, action) {
   switch (action.type) {
-    case "GET_USERS_RESPONSE":
+    case GET_USERS_RESPONSE:
       return {
         ...state,
         users: action.payload,
       };
     case GET_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    case POST_USER_WITH_GOOGLE:
       return {
         ...state,
         currentUser: action.payload,
