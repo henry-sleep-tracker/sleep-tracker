@@ -42,7 +42,6 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/logout" element={<LogOut />} />
           <Route path="/registro" element={<Register />} />
-          <Route exact path="/planes" element={<Pricing />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/private" element={<PrivateRoute />}>
@@ -51,7 +50,8 @@ function App() {
           <Route path="/private/newrecord" element={<Record />} />
           <Route path="/private/fitBit" element={<Fitbit />} />
           <Route path="/private/graficas" element={<GraphWM />} />
-          <Route path="/private/dashboard" element={<Dashboard />} />
+          <Route path="/private/planes" element={<Pricing />} />
+          <Route path="/private/dashboard/*" element={<Dashboard />} />
         </Route>
       </Routes>
     </AuthContextProvider>
