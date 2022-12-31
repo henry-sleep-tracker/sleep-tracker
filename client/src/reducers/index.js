@@ -4,13 +4,15 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import ReducerLogin from "./loginReducer";
 import usersReducer from "./usersReducer";
 import recordReducer from "./recordReducer";
-import dateReducer from "./dateReducer";
+import dateSleepReducer from "./dateSleepReducer";
+import rangeSleepReducer from "./rangeSleepReducer";
 
 const reducers = combineReducers({
   logingReducer: ReducerLogin,
   users: usersReducer,
   record: recordReducer,
-  date: dateReducer,
+  date: dateSleepReducer,
+  range: rangeSleepReducer,
 });
 
 const store = createStore(
