@@ -6,7 +6,7 @@ import ResponsiveAppBar from "./Nav";
 // import "./home.css";
 import Calc from "./calc";
 import Swipeable from "./tips";
-import { Card, CardContent, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import Calendario from "../Calendario/Calendario";
 import { makeStyles } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
