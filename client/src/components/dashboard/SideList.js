@@ -12,7 +12,7 @@ function SideListContent( ) {
     <List>
 
       <ListItem disablePadding sx={{ display: 'block' }}>
-        <ListItemButton onClick={() => navigate('/dashboard')}>
+        <ListItemButton onClick={() => navigate('/private/dashboard')}>
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
@@ -21,7 +21,7 @@ function SideListContent( ) {
       </ListItem>
 
       <ListItem disablePadding sx={{ display: 'block' }}>
-        <ListItemButton onClick={() => navigate('/dashboard/users')}>
+        <ListItemButton onClick={() => navigate('/private/dashboard/users')}>
           <ListItemIcon>
             <PeopleIcon />
           </ListItemIcon>
@@ -36,7 +36,7 @@ function SideListContent( ) {
       </ListSubheader>
 
       <ListItem disablePadding sx={{ display: 'block' }}>
-        <ListItemButton onClick={() => navigate('/dashboard')}>
+        <ListItemButton onClick={() => navigate('/private/dashboard')}>
           <ListItemIcon>
             <AssignmentIcon />
           </ListItemIcon>

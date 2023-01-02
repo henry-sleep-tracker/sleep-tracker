@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
       },
       isActive: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false,
+        defaultValue: true,
       },
       email: {
         type: DataTypes.STRING,
