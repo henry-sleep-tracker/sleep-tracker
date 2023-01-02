@@ -114,10 +114,11 @@ export function logInUserWithGoogle(response) {
         }),
       });
       const userCreated = await data.json();
+      const userId = userCreated[0].id;
       console.log("google userCreated:", userCreated);
       return dispatch({
         type: POST_USER_WITH_GOOGLE,
-        payload: userCreated,
+        payload: userId,
       });
     } catch (error) {
       console.log(error);
