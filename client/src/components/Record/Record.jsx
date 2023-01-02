@@ -46,8 +46,8 @@ import calendar from "../../images/calendar.png";
 import time from "../../images/time.png";
 
 // Temporal Constants
-const email = "arzabala12@gmail.com";
-const password = "Abcde123*";
+const email = "usertester@gmail.com"; // --> Cambiar por correo que estas usando
+const password = "Abcde123*"; // --> Cambiar por tu password
 
 //> Starts Component
 
@@ -75,6 +75,7 @@ const Record = props => {
   const drinkStat = useSelector(state => state.record.statusNewDrink);
   const lastIdDrink = useSelector(state => state.record.lastIdDrink);
   const userId = useSelector(state => state.users.currentUser.id);
+  const nameUser = useSelector(state => state.users.currentUser.names);
 
   /******************** Local States Section *********************/
 
@@ -146,8 +147,7 @@ const Record = props => {
     setRecord((record.timeActivity = floorTimeActivity));
     setRecord((record.coffeeCups = floorCoffeeCups));
     setRecord((record.drinks = floorDrinks));
-    /* setRecord((record.userId = userId)); */
-    setRecord((record.userId = ""));
+    setRecord((record.userId = userId));
     dispatch(createNewRecord(record));
     setRecord({
       dateMeal: "",
@@ -178,6 +178,7 @@ const Record = props => {
 
       drinks.current.value = "0";
       typeDrink.current.value = "default"; */
+    message.success(`${nameUser} tu registro se creo correctamente!!`);
   };
 
   const handlerOnClear = e => {
@@ -506,16 +507,18 @@ const Record = props => {
 
   // Mount/Unmount Component
   useEffect(() => {
+    dispatch(logInUser(email, password));
     dispatch(getCoffeeSizes());
     dispatch(getActivities());
     dispatch(getDrinks());
     dispatch(getLastIdActivity());
     dispatch(getLastIdCoffeSize());
     dispatch(getLastIdDrink());
-    dispatch(logInUser(email, password));
     if (recordStatus) {
       message.error(`Error: al intentar crear el registro`, 2500);
-    }
+    } /*  else {
+      message.success(`${nameUser} tu registro se creo correctamente!!`);
+    } */
   }, [newActivity, newCoffeeSize, newDrink, recordStatus]);
 
   const PopupActivity = () => (
@@ -875,239 +878,6 @@ const Record = props => {
                 </div>
               </div>
             </div>
-
-            {/* ====================== ACTIVITY SECTION ======================= */}
-
-            {/* <div className="activity_container">
-              <div className="actity_head_container">
-                <img src={runingShoe} alt="" className="runing_shoe" />
-                <h3>Actividad Fisica</h3>
-                <img
-                  src={check}
-                  alt=""
-                  hidden={activity.length > 0 ? false : true}
-                  className="img_ok"
-                />
-              </div>
-              <div className="activity_section">
-                <label>Tiempo</label>
-                <input
-                  className="input_number"
-                  type="number"
-                  step="1"
-                  min="0"
-                  name="timeActivity"
-                  ref={timeRef}
-                  defaultValue="0"
-                />
-                <span>min.</span>
-                <span className="sync">sincronizar</span>
-              </div>
-              <br />
-              <label>Tipo de Actividad</label>
-              <select ref={activityRef} onChange={handlerSetActivity}>
-                <option value="default">Selecciona...</option>
-                {activitiesRedux.map((e, i) => {
-                  return (
-                    <option
-                      key={i}
-                      value={e.id}
-                      disabled={record.activity.includes(e.id) ? true : false}
-                    >
-                      {e.activity}
-                    </option>
-                  );
-                })}
-                <option value="add_activity">Agregar Actividad</option>
-              </select>
-              <span
-                className="add_button"
-                hidden={activityStatus ? false : true}
-                onClick={handlerActivity}
-              >
-                Agregar
-              </span>
-              <div className="div_map_container">
-                {activity.map((e, i) => {
-                  return (
-                    <div
-                      className="div_map"
-                      key={i}
-                      onClick={eraseActivity}
-                      id={i}
-                    >
-                      {e}
-                    </div>
-                  );
-                })}
-              </div>
-              <br hidden={newActivity ? false : true} />
-              <div className="new_item" hidden={newActivity ? false : true}>
-                <label>Nueva Actividad</label>
-                <input
-                  type="text"
-                  placeholder="Ingresa actividad..."
-                  name="activity"
-                  value={addActivity.activity}
-                  onChange={handlerOnChangeActivity}
-                />
-                <span className="add_button" onClick={handlerAddActivity}>
-                  Agregar
-                </span>
-              </div>
-            </div> */}
-
-            {/* ====================== COOFFE SECTION ======================= */}
-
-            {/* <div className="coffee_container">
-              <div className="coffee_head_container">
-                <img src={coffeeImg} alt="" className="coffee_ico" />
-                <h3>Cafe</h3>
-                <img
-                  src={check}
-                  alt=""
-                  hidden={coffee.length > 0 ? false : true}
-                  className="img_ok"
-                />
-              </div>
-              <label>Cantidad</label>
-              <input
-                className="input_number"
-                type="number"
-                step="1"
-                min="0"
-                name="coffeeCups"
-                ref={cups}
-                defaultValue="0"
-              />
-              <label>Tamaño Taza</label>
-              <select ref={sizeCup} onChange={handlerSetCoffee}>
-                <option value="default">Selecciona...</option>
-                {coffeeSizesRedux.map((e, i) => {
-                  return (
-                    <option
-                      key={i}
-                      value={e.id}
-                      disabled={record.coffee.includes(e.id) ? true : false}
-                    >
-                      {e.size}
-                    </option>
-                  );
-                })}
-                <option value="add_coffee_size">Agregar Tamaño</option>
-              </select>
-              <span
-                className="add_button"
-                hidden={coffeeStatus ? false : true}
-                onClick={handlerCoffee}
-              >
-                Agregar
-              </span>
-              <div className="div_map_container">
-                {coffee.map((e, i) => {
-                  return (
-                    <div
-                      className="div_map"
-                      key={i}
-                      onClick={eraseCoffee}
-                      id={i}
-                    >
-                      {e}
-                    </div>
-                  );
-                })}
-              </div>
-              <br hidden={newCoffeeSize ? false : true} />
-              <div className="new_item" hidden={newCoffeeSize ? false : true}>
-                <label>Nueva medida</label>
-                <input
-                  type="text"
-                  placeholder="Ingresa medida..."
-                  name="size"
-                  value={addCoffeSize.size}
-                  onChange={handlerOnChangeCoffeSize}
-                />
-                <span className="add_button" onClick={handlerAddSizeCoffee}>
-                  Agregar
-                </span>
-              </div>
-            </div> */}
-
-            {/* ====================== DRINK SECTION ======================= */}
-
-            {/*  <div className="drink_container">
-              <div className="drink_head_container">
-                <img src={drinkImg} alt="" className="drink_ico" />
-                <h3>Bebidas</h3>
-                <img
-                  src={check}
-                  alt=""
-                  hidden={drink.length > 0 ? false : true}
-                  className="img_ok"
-                />
-              </div>
-              <label>Cantidad</label>
-              <input
-                className="input_number"
-                type="number"
-                step="1"
-                min="0"
-                name="drinks"
-                ref={drinks}
-                defaultValue="0"
-              />
-              <label>Tipo de bebida</label>
-              <select ref={typeDrink} onChange={handlerSetDrink}>
-                <option value="default">Selecciona...</option>
-                {drinksRedux.map((e, i) => {
-                  return (
-                    <option
-                      key={i}
-                      value={e.id}
-                      disabled={record.drink.includes(e.id) ? true : false}
-                    >
-                      {e.drink}
-                    </option>
-                  );
-                })}
-                <option value="add_drink">Agregar Bebida</option>
-              </select>
-              <span
-                className="add_button"
-                hidden={drinkStatus ? false : true}
-                onClick={handlerDrinks}
-              >
-                Agregar
-              </span>
-              <div className="div_map_container">
-                {drink.map((e, i) => {
-                  return (
-                    <div
-                      className="div_map"
-                      key={i}
-                      onClick={eraseDrink}
-                      id={i}
-                    >
-                      {e}
-                    </div>
-                  );
-                })}
-              </div>
-              <br hidden={newDrink ? false : true} />
-              <div className="new_item" hidden={newDrink ? false : true}>
-                <label>Nueva Actividad</label>
-                <input
-                  type="text"
-                  placeholder="Ingresa actividad..."
-                  name="drink"
-                  value={addNewDrink.drink}
-                  onChange={handlerOnChangeDrink}
-                />
-                <span className="add_button" onClick={handlerAddDrink}>
-                  Agregar
-                </span>
-              </div>
-            </div> */}
 
             {/* ====================== BUTTONS SECTION ======================= */}
 
