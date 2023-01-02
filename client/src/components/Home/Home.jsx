@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Collection from "./resume";
 import Graph from "../Graphs/TestGraph";
 import ResponsiveAppBar from "./Nav";
 // import "./home.css";
 import Calc from "./calc";
 import Swipeable from "./tips";
-import { Card, CardContent, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import Calendario from "../Calendario/Calendario";
 import { makeStyles } from "@mui/styles";
+import Fitbit from "../SignUp/Fitbit";
+import { getSleepByDate } from "../../actions/getSleepData";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const yesterday = new Date(Date.now() - 28800000)
+      .toISOString()
+      .split("T")[0];
+    dispatch(getSleepByDate(yesterday));
+  }, [dispatch]);
+
   let user = {
     name: "Juan",
     sueño: [1, 3, 2, 4, 5, 1, 3, 2, 1, 5, 3, 4],
@@ -50,38 +61,32 @@ const Home = () => {
       container
       justifyContent="center"
       alignItems="center"
-      direction='column'
+      direction="column"
       spacing={1}
       flex={4}
       p={2}
-    // maxWidth='100vw'
+      // maxWidth='100vw'
     >
       <ResponsiveAppBar />
-      <Grid
-        item
-      >
-        <Typography
-          className={classes.saludo}
-          variant='h4'
-        >
+      <Grid item>
+        <Typography className={classes.saludo} variant="h4">
           ¡Hola {user.name} {greet()}
-        </Typography >
-
+        </Typography>
       </Grid>
+      <div>
+        <Fitbit />
+      </div>
 
+      <div>
+        <Calendario />
+      </div>
 
       <Grid>
-        {/* <Calendario /> */}
-        <Typography variant='h6'>{Date()}</Typography>
+        <Typography variant="h6">{Date()}</Typography>
       </Grid>
 
-      <Grid
-        className={classes.Collection}
-        item
-      >
-        <Collection 
-        arg={consumed} 
-        />
+      <Grid className={classes.Collection} item>
+        <Collection arg={consumed} />
       </Grid>
 
       {/* <br /> */}
@@ -89,38 +94,24 @@ const Home = () => {
         className={classes.containerHome}
         item
       > */}
-      <Grid
-        className={classes.graphHome}
-        item
-      >
+      <Grid className={classes.graphHome} item>
         <Graph />
       </Grid>
 
-      <Grid
-        className={classes.calc}
-        item
-      >
+      <Grid className={classes.calc} item>
         <Calc />
       </Grid>
 
-      <Grid
-        className={classes.swipeableHome}
-        item
-      >
-        <Swipeable
-          className={classes.swipeable}
-        />
+      <Grid className={classes.swipeableHome} item>
+        <Swipeable className={classes.swipeable} />
       </Grid>
 
       {/* </Grid>
        */}
     </Grid>
-
   );
 };
 
 export default Home;
 
-const useStyles = makeStyles(() => ({
-
-}));
+const useStyles = makeStyles(() => ({}));

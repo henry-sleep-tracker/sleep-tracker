@@ -1,21 +1,21 @@
 import { CREATE_TOKEN } from "./constants";
-import { GET_CURRENT_USER } from "./constants";
+import { GET_CURRENT_USER, POST_USER_WITH_GOOGLE } from "./constants";
 const nullUser = {
   id: 0,
-  googleId: "",
   isAdmin: false,
-  isSubscribed: false,
+  isActive: false,
   email: "",
   hashedPassword: "",
   names: "",
   lastNames: "",
   nationality: "",
   birthday: "",
+  lastConnection: "",
 };
 
 export const createToken = (code) => async (dispatch) => {
   try {
-    const sendCode = await fetch("http://localhost:3001/sleepbyrange", {
+    const sendCode = await fetch("http://localhost:3001/sleepfitbit", {
       // The default URL for backEnd is written on "app.js", just write "/*yourBackenRoute*"
       method: "POST",
       headers: {
@@ -92,6 +92,33 @@ export function logInUser(email, password) {
           payload: userFound,
         });
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function logInUserWithGoogle(response) {
+  return async function (dispatch) {
+    try {
+      const { email, familyName, givenName } = response.profileObj;
+      const data = await fetch(`http://localhost:3001/user/google`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          lastNames: familyName,
+          names: givenName,
+        }),
+      });
+      const userCreated = await data.json();
+      console.log("google userCreated:", userCreated);
+      return dispatch({
+        type: POST_USER_WITH_GOOGLE,
+        payload: userCreated,
+      });
     } catch (error) {
       console.log(error);
     }

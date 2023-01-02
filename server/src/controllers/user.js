@@ -2,15 +2,15 @@ const axios = require("axios");
 const { User } = require("../db");
 const nullUser = {
   id: 0,
-  googleId: "",
   isAdmin: false,
-  isSubscribed: false,
+  isActive: false,
   email: "",
   hashedPassword: "",
   names: "",
   lastNames: "",
   nationality: "",
   birthday: "",
+  lastConnection: "",
 };
 const repeatedEmail = async (email) => {
   try {
@@ -37,9 +37,11 @@ const postUser = async (bodyInfo) => {
 };
 const getUserByEmail = async (email) => {
   try {
+    console.log("before userFound");
     const userFound = await User.findOne({
       where: { email: email },
     });
+    console.log("userFound", userFound);
     if (userFound !== null) {
       return userFound.dataValues;
     } else {

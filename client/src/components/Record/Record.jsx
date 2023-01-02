@@ -25,6 +25,8 @@ import {
   getLastIdDrink,
 } from "../../actions/newRecord";
 
+import { logInUser } from "../../actions/index";
+
 // Import images
 import check from "../../images/check-mark-button_2705.png";
 import memo from "../../images/memo.png";
@@ -32,7 +34,9 @@ import personBed from "../../images/person-in-bed.png";
 import runingShoe from "../../images/running-shoe.png";
 import coffeeImg from "../../images/coffee.png";
 import drinkImg from "../../images/tropical-drink.png";
-import sync from "../../images/sync.png";
+
+const email = "arzabala12@gmail.com";
+const password = "Abcde123*";
 
 //> Starts Component
 const Record = props => {
@@ -57,6 +61,7 @@ const Record = props => {
   const lastIdCoffee = useSelector(state => state.record.lastIdCoffeeSize);
   const drinkStat = useSelector(state => state.record.statusNewDrink);
   const lastIdDrink = useSelector(state => state.record.lastIdDrink);
+  const userId = useSelector(state => state.users.currentUser.id);
 
   // Local States
   const [activityStatus, setActivityStatus] = useState(false);
@@ -81,6 +86,7 @@ const Record = props => {
     coffee: [],
     drink: [],
     activity: [],
+    userId: "",
   });
 
   const [addActivity, setAddActivity] = useState({
@@ -393,6 +399,8 @@ const Record = props => {
     setRecord((record.timeActivity = floorTimeActivity));
     setRecord((record.coffeeCups = floorCoffeeCups));
     setRecord((record.drinks = floorDrinks));
+    setRecord((record.userId = userId));
+    console.log(record.userId);
 
     dispatch(createNewRecord(record));
     if (recordStatus === null) {
@@ -410,6 +418,7 @@ const Record = props => {
         coffee: [],
         drink: [],
         activity: [],
+        userId: "",
       });
 
       setActivity([]);
@@ -447,6 +456,7 @@ const Record = props => {
       coffee: [],
       drink: [],
       activity: [],
+      userId: "",
     });
 
     setActivity([]);
@@ -474,6 +484,7 @@ const Record = props => {
     dispatch(getLastIdActivity());
     dispatch(getLastIdCoffeSize());
     dispatch(getLastIdDrink());
+    dispatch(logInUser(email, password));
   }, [newActivity, newCoffeeSize, newDrink]);
 
   // Renders Elements

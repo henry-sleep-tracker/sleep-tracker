@@ -60,8 +60,6 @@ export default function Graph() {
     colors: ["#4fc3f7"],
   };
 
-  console.log("graph data", data);
-
   return (
     <>
       <Chart
