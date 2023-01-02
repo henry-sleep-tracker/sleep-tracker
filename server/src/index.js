@@ -9,6 +9,7 @@ const updateUser = require("./routes/updateUser.js");
 const plansRoutes = require("./routes/pagosStripe");
 const getSleepByDate = require("./routes/getSleepByDate");
 const getSleepByRange = require("./routes/getSleepByRange");
+const getUser = require("./routes/getUser.js")
 
 const router = Router();
 
@@ -22,5 +23,6 @@ router.use("/users/update", updateUser);
 router.use("/plans", plansRoutes);
 router.use("/search", getSleepByDate);
 router.use("/daterange", getSleepByRange);
+router.use("/myuser", getUser);
 
 module.exports = router;
