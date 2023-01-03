@@ -15,6 +15,7 @@ import { useState, useRef } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+/* import { useHistory } from "react-router-dom"; */
 
 // Actions Imports
 import {
@@ -51,6 +52,7 @@ const password = "Abcde123*"; // --> Cambiar por tu password */
 
 const Record = props => {
   const dispatch = useDispatch();
+  /* const history = useHistory(); */
 
   // useRef Hook
   const timeRef = useRef();
@@ -83,7 +85,7 @@ const Record = props => {
   const temp = sleepTime.filter(e => e.level !== 1);
 
   const [record, setRecord] = useState({
-    dateMeal: sleepTime[0].date,
+    dateMeal: sleepTime.length > 0 ? sleepTime[0].date : "",
     timeMeal: "",
     description: "",
     sleepTime:
@@ -184,6 +186,7 @@ const Record = props => {
       drinks.current.value = "0";
       typeDrink.current.value = "default"; */
     message.success(`${nameUser} tu registro se creo correctamente!!`);
+    /* history.push("/private"); */
   };
 
   const handlerOnClear = e => {
