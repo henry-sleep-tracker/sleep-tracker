@@ -129,7 +129,7 @@ export const createNewRecord = (obj) => {
     } catch (err) {
       dispatch({
         type: ERROR_TRYING_TO_CREATE_RECORD,
-        payload: err,
+        payload: err.message,
       });
     }
   };

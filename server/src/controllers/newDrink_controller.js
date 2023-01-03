@@ -1,4 +1,4 @@
-const { AlcoholType } = require('../db.js');
+const { AlcoholType } = require("../db.js");
 
 /* ================== Get Drinks List ==================== */
 

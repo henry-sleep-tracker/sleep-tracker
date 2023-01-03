@@ -119,9 +119,7 @@ router.get("/:email", async (req, res) => {
     }
   } catch (error) {
     console.log("El error middleware user get /:email es:", error.message);
-    res
-      .status(401)
-      .send("El error middleware user get /:email es:", error.message);
+    res.status(401).send("El error middleware user get /:email es:", error.message);
   }
 });
 module.exports = router;
