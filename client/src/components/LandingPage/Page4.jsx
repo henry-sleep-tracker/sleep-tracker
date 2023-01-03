@@ -13,23 +13,11 @@ import {
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-<<<<<<< HEAD
-=======
 import { Link } from "react-router-dom";
->>>>>>> c98dff374c6e5e2d997ae405767bacdcacfa6902
 
 const Page4 = () => {
   const classes = useStyles();
   return (
-<<<<<<< HEAD
-    <div>
-
-      <Paper
-        variant="outlined"
-        square
-        elevation={0}
-        className={classes.presentation}
-=======
 
     <Paper
     // variant="outlined"
@@ -62,7 +50,6 @@ const Page4 = () => {
         flex={4}
         p={9}
 
->>>>>>> c98dff374c6e5e2d997ae405767bacdcacfa6902
       >
               <Typography variant="h4">Planes de pago</Typography>
 
@@ -71,19 +58,6 @@ const Page4 = () => {
           xs={12}
           md={3}
         >
-<<<<<<< HEAD
-          <Grid 
-          item
-          xs={12} 
-          md={3}
-          >
-            <Card>
-              <CardContent>
-                <div className={classes.mosaic}>
-                  <ThumbUpIcon />
-                </div>
-                <Typography variant="h5">Prueba por 3 meses.</Typography>
-=======
           <Card
             elevation={20}
           >
@@ -101,7 +75,6 @@ const Page4 = () => {
               <Box
                 sx={{ display: { xs: "none", sm: "none", md: 'block' } }}
               >
->>>>>>> c98dff374c6e5e2d997ae405767bacdcacfa6902
                 <Typography>Registro de actividad física</Typography>
                 <Typography>
                   Registra tus consumos diarios de comida y bebida.
@@ -125,24 +98,6 @@ const Page4 = () => {
                 <Button variant="contained" size="large" >
                   Gratis
                 </Button>
-<<<<<<< HEAD
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid 
-          item 
-          xs={12} 
-          md={3}
-          >
-            <Card>
-              <CardContent>
-                <div className={classes.mosaic}>
-                  <EmojiEmotionsIcon />
-                </div>
-                <Typography variant="h5">
-                  Exporta informacion en formato PDF.
-=======
                 </Link>
               </Box>
             </CardContent>
@@ -170,7 +125,6 @@ const Page4 = () => {
                 </Box>
                 <Typography variant="h4" sx={{ mb: 8 }}>
                   Plan Estandar
->>>>>>> c98dff374c6e5e2d997ae405767bacdcacfa6902
                 </Typography>
                 <Box
                   sx={{ display: { xs: "none", sm: "none", md: 'block' } }}
@@ -233,31 +187,6 @@ const Page4 = () => {
                 <Typography>
                   Información de sueño conseguido diario y semanal.
                 </Typography>
-<<<<<<< HEAD
-                <Button variant="contained" size="large">
-                  $1 USD / Mes
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid 
-          item 
-          xs={12} 
-          md={3}
-          >
-            <Card>
-              <CardContent>
-                <div className={classes.mosaic}>
-                  <AutoAwesomeIcon />
-                </div>
-                <Typography variant="h5">Descuento anual.</Typography>
-                <Typography>Registro de actividad física</Typography>
-                <Typography>
-                  Registra tus consumos diarios de comida y bebida.
-                </Typography>
-=======
->>>>>>> c98dff374c6e5e2d997ae405767bacdcacfa6902
                 <Typography>
                     Descarga tu información completa en formato PDF
                   </Typography>

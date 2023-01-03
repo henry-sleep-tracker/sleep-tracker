@@ -9,11 +9,6 @@ import NotFound from "./components/NotFound/NotFound";
 import Fitbit from "./components/SignUp/Fitbit";
 import Calendar from "./components/Calendario/RangeCalendar";
 import LandingPage from "./components/LandingPage/LandingPage.jsx";
-<<<<<<< HEAD
-import axios from 'axios';
-//The following link must be un-comented on gitHub if you wanna work with your "npm start" running
-axios.defaults.baseURL = 'http://localhost:3001/'
-=======
 import Dashboard from "./components/dashboard/Dashboard.js";
 import Record from "./components/Record/Record.jsx";
 import GraphWM from "./components/Graph-Week/Graph-W-M.jsx";
@@ -26,20 +21,11 @@ import Profile from "./components/Profile/Profile.jsx";
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
 axios.defaults.baseURL = "http://localhost:3001/";
->>>>>>> c98dff374c6e5e2d997ae405767bacdcacfa6902
 //The following link must be un-comented on gitHub if you wanna work with on-line servers
 // axios.defaults.baseURL = 'https://sleep-tracker-production.up.railway.app'
 
 function App() {
   return (
-<<<<<<< HEAD
-    <Routes>
-      <Route exact path="/" element={<LandingPage />} />
-      <Route exact path="/fitBit" element={<Fitbit />} />
-      <Route exact path="/graph" element={<Graph />} />
-      <Route exact path="/inicio" element={<Home />} />
-    </Routes>
-=======
     <AuthContextProvider>
       <Routes>
         <Route path="/" element={<PublicRoute />}>
@@ -67,7 +53,6 @@ function App() {
         </Route>
       </Routes>
     </AuthContextProvider>
->>>>>>> c98dff374c6e5e2d997ae405767bacdcacfa6902
   );
 }
 

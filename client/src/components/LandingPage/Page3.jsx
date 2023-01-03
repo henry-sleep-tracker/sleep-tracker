@@ -8,9 +8,6 @@ import samsungGalaxyFit2 from "./Images/samsungGalaxyFit2.jpg";
 const Page3 = () => {
   const classes = useStyles();
   return (
-<<<<<<< HEAD
-    <div>
-=======
 
     <Paper
       // variant="outlined"
@@ -19,7 +16,6 @@ const Page3 = () => {
       // className={classes.mainPaper}
     >
       <Typography variant="h4">Dispositivos soportados</Typography>
->>>>>>> c98dff374c6e5e2d997ae405767bacdcacfa6902
 
       <Grid
         container
@@ -31,36 +27,12 @@ const Page3 = () => {
         p={9}
 
       >
-<<<<<<< HEAD
-          <Typography variant="h4">Dispositivos soportados</Typography>
-=======
->>>>>>> c98dff374c6e5e2d997ae405767bacdcacfa6902
 
         <Grid
           item
           xs={12}
           md={3}
         >
-<<<<<<< HEAD
-
-          <Grid item xs={12} md={3}>
-
-            <Card>
-              <CardContent>
-                <div className={classes.mosaic}>
-                  <img
-                    src={xiaomiBand5}
-                    alt={"Imagen representativa"}
-                    height={220}
-                  />
-                </div>
-                <Typography variant="h4">Xiaomi Band 5</Typography>
-                <Typography>Dispositivo Android</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-=======
->>>>>>> c98dff374c6e5e2d997ae405767bacdcacfa6902
 
           <Card 
           className={classes.card}
