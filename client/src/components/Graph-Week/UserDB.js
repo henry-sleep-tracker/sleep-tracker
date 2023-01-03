@@ -1,8 +1,4 @@
-import { Chart } from "react-google-charts";
-
-const GraphWM = ()=> {
-
-let User =  [{
+export const User =  [{
     
     "sleep": [
         {
@@ -159,82 +155,22 @@ let User =  [{
 ]
 
 
-let porcentage = [['dia','% porcentaje ']]
-let total = [['dia', 'horas de descanso']]
-let sumary = []
-let sleep = []
-let fechas = []
-let dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
-let semana = []
+export let UserC = {
+    name: "Juan",
+    sueño: [1, 3, 2, 4, 5, 1, 3, 2, 1, 5, 3, 4],
+    consumo: {
+      cafeina: "",
+      alcohol: "2 cervezas, 3 mojitos",
+      comida: "19:45",
+      ejercicio: { tiempo:"30 min",
+      tipo: 'caminata'}
+    },
+  };
+  
+  export let consumed = UserC.consumo;
+  const dream = UserC.sueño;
 
-for (let i = 0; i < User.length; i++) { 
-
-   sleep.push(User[i].sleep) // el array de sueño del objeto usuario 
-    sumary.push(User[i].summary.totalMinutesAsleep)
-   semana.push(User[i].sleep[0].dateOfSleep)
-}
-
-
-for (let a = 0; a < sleep.length; a++) {  
-   fechas.push(new Date(sleep[a][0].dateOfSleep).getDay()) // el objeto dataofsleep del array sueño del objeto usuario, en formato de fecha numero
-};
-
-for (let b = 0; b < fechas.length; b++) {
-
-       fechas[b] = dias[fechas[b]] // el objeto dataofsleep del array sueño del objeto usuario, en formato de fecha dia        
-}
-
-for (let c = 0; c < sleep.length; c++) {
-   porcentage.push( [fechas[c],sleep[c][0].efficiency])  
-   total.push([fechas[c] , sumary[c]/60  ])
-}
-
-
-const options1 = {
-    title: `Porcentaje de porcentaje de sueño semanal ${semana[0]} - ${semana[semana.length-1]}`
-}
-
-const option2 = {
-    title: `Horas de descanso semanal ${semana[0]} - ${semana[semana.length-1]} `
-}
-
-
-return(
-<div>
-
-    <h2>{options1.title}</h2>
-    <hr />
-
-    <div>
-
-        <Chart
-        options={options1}
-        chartType='Bar'
-        data={porcentage}
-        width='100%'
-        />
-    </div>
-
-<hr />
-<h2>{option2.title}</h2>
-    <div>
-<Chart
-data={total}
-chartType='LineChart'
-
-/>
-
-    </div>
-
-
-
-</div>
-
-
-)
-
-
-
-}
-
-export default GraphWM;
+  export let prueba = [["horas de sueño", "profundidad de sueño"]];
+  for (let i = 0; i < dream.length; i++) {
+    prueba.push([i + 1, dream[i]]);
+  }

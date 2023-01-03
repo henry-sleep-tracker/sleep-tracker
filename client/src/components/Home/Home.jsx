@@ -1,19 +1,48 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector} from "react-redux";
 import Collection from "./resume";
+import Graph from "../Graphs/TestGraph";
+import ResponsiveAppBar from "./Nav";
+// import "./home.css";
+import Calc from "./calc";
+import Swipeable from "./tips";
+import { Grid, Typography } from "@mui/material";
+import Calendario from "../Calendario/Calendario";
+import { makeStyles } from "@mui/styles";
+import Fitbit from "../SignUp/Fitbit";
+import { getSleepByDate } from "../../actions/getSleepData";
+import { getUser } from "../../actions/getUser.js";
 
 const Home = () => {
+
+  const currentUser = useSelector((state) => state.users.currentUser);
+  console.log("SOY CURRENTUSER", currentUser);
+  const usuario = useSelector((state) => state.user.user)
+  console.log("SOY USUARIO", usuario);
+    
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if(usuario === null){
+      dispatch(getUser(currentUser));
+    }
+    const yesterday = new Date(Date.now() - 28800000)
+      .toISOString()
+      .split("T")[0];
+    dispatch(getSleepByDate(yesterday));
+  }, [dispatch, currentUser, usuario]);
+
   let user = {
-    name: "Juan",
+    name: usuario ? usuario.names : " Loaging...",
     sueño: [1, 3, 2, 4, 5, 1, 3, 2, 1, 5, 3, 4],
     consumo: {
       cafeina: "",
       alcohol: "2 cervezas, 3 mojitos",
-      comida: "19:00 pm",
-      ejercicio: "30 min de caminata",
+      comida: "19:00",
+      ejercicio: { tiempo: "30 minutos", tipo: "caminata" },
     },
   };
-  const consumed = user.consumo;
+  let consumed = user.consumo;
   const dream = user.sueño;
 
   let prueba = [["horas de sueño", "profundidad de sueño"]];
@@ -26,58 +55,74 @@ const Home = () => {
     var now = new Date();
     var time = now.getHours();
     if (time >= 5 && time < 13) {
-      text = "Buenos días";
+      text = "Buenos días! ☀️ ";
     } else if (time >= 13 && time < 21) {
-      text = "Buenas tardes";
+      text = "Buenas tardes! 🌎";
     } else {
-      text = "Buenas noches";
+      text = "Buenas noches! 🌙 ";
     }
     return text;
   };
 
+  const classes = useStyles();
+
   return (
-    <div>
-      <nav>
-        <ul>
-          <Link to="/perfil">
-            <li>Perfil</li>
-          </Link>
-          <Link to="/desarrolladores">
-            <li>Conoce al equipo</li>
-          </Link>
-          <Link to="/">
-            <li>Salir</li>
-          </Link>
-        </ul>
-      </nav>
+    <Grid
+      className={classes.home}
+      container
+      justifyContent="center"
+      alignItems="center"
+      direction="column"
+      spacing={1}
+      flex={4}
+      p={2}
+      // maxWidth='100vw'
+    >
+      <ResponsiveAppBar />
+      <Grid item>
+        <Typography className={classes.saludo} variant="h4">
+          ¡Hola {user.name} {greet()}
+        </Typography>
+      </Grid>
       <div>
-        <p>
-          ¡Hola {user.name} {greet()}!{" "}
-        </p>
-      </div>
-      <div>
-        GRAFICA:
-        <Link to="/graficas">
-          <p>Ver Más</p>
-        </Link>
+        <Fitbit />
       </div>
 
       <div>
-        <span> Registro del dia: </span>
+        <Calendario />
+      </div>
 
+      <Grid>
+        <Typography variant="h6">{Date()}</Typography>
+      </Grid>
+
+      <Grid className={classes.Collection} item>
         <Collection arg={consumed} />
-      </div>
+      </Grid>
 
-      <Link to="/actividad">
-        <input type="button" value="Nueva Actividad" />
-      </Link>
-      <button>
-        <a href="/pdf" download={"pdf"}>
-          Descargar Historial
-        </a>
-      </button>
-    </div>
+      {/* <br /> */}
+      {/* <Grid
+        className={classes.containerHome}
+        item
+      > */}
+      <Grid className={classes.graphHome} item>
+        <Graph />
+      </Grid>
+
+      <Grid className={classes.calc} item>
+        <Calc />
+      </Grid>
+
+      <Grid className={classes.swipeableHome} item>
+        <Swipeable className={classes.swipeable} />
+      </Grid>
+
+      {/* </Grid>
+       */}
+    </Grid>
   );
 };
 
 export default Home;
+
+const useStyles = makeStyles(() => ({}));

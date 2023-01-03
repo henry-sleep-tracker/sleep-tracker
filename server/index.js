@@ -17,12 +17,18 @@
 //     =====`-.____`.___ \_____/___.-`___.-'=====
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+require("dotenv").config();
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
-const port = process.env.PORT || 3001;
+
 // Syncing all the models at once.
-conn.sync({ force: false }).then(() => {
-  server.listen(port, () => {
-    console.log(`%s listening at ${port}`); // eslint-disable-line no-console
+conn.sync({ force:false }).then(() => {
+  server.listen(process.env.PORT, () => {
+    console.log(
+      "\n" + "%s listening at " + process.env.PORT + "\n" + Date() + "\n"
+    );
   });
 });
+
+//true --> borrar todo
+//false --> mantener datos

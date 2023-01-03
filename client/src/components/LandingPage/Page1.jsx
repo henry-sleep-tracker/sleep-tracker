@@ -16,18 +16,39 @@ const Page1 = (
   return (
 
     <Paper
+<<<<<<< HEAD
       variant="outlined"
       square
       elevation={0}
       className={classes.presentation}
     >
       <ul className={classes.ul}>
+=======
+      // variant="outlined"
+      // square
+      elevation={20}
+      // className={classes.mainPaper}
+    >
+      {/* <ul className={classes.ul}>
+>>>>>>> c98dff374c6e5e2d997ae405767bacdcacfa6902
         <li onClick={() => setCurrentPage(page2)}>Como funciona</li>
         <li onClick={() => setCurrentPage(page3)}>Dispositivos soportados</li>
         <li onClick={() => setCurrentPage(page4)}>Planes de pago</li>
         <li onClick={() => setCurrentPage(page5)}>Conoce al equipo</li>
-      </ul>
+      </ul> */}
+      {/* <div className={classes.mosaic}> */}
 
+        <Grid
+          container
+          // display='flex'
+          // direction="row"
+          justifyContent="center"
+          alignItems="center"
+          className={classes.mainPaper}
+          flex={4}
+          p={2}
+
+<<<<<<< HEAD
       <Grid
         container
         spacing={3}
@@ -73,23 +94,66 @@ const Page1 = (
           {/* </div> */}
         </Grid>
       </Grid>
+=======
+        >
+          <Grid
+            item
+            lg={6}
+            md={6}
+            xs={12}
+          >
+            <Typography
+              variant="h1"
+              display='flex'
+              flexwrap='wrap'
+            >Sleep Tracker
+            </Typography>
+            <Typography
+              variant='h6'
+              display='flex'
+              flexwrap='wrap'
+            >
+              Lleva el control de tu sueño con tu telefono movil y/o reloj
+              inteligente
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            lg={6}
+            md={6}
+            xs={12}
+            >
+
+            <ImageList
+              // cols={2}
+              // rowHeight={'auto'}
+              >
+              <ImageListItem 
+              sx={{ width: '400px', height: 'auto' }}  
+              // overflow='hidden'            
+              >
+                <img
+                  src={page1SleepA}
+                  alt={'imagen'}
+                  loading="lazy"
+                />
+              </ImageListItem>
+            </ImageList>
+
+          </Grid>
+        </Grid>
+      {/* </div> */}
+>>>>>>> c98dff374c6e5e2d997ae405767bacdcacfa6902
     </Paper>
   );
 };
 
 export default Page1;
 
-const useStyles = makeStyles((theme) => ({
-  mosaic: {
-    display: "flex",
-    flexwrap: "wrap",
-    justifyContent: "space-around",
-  },
+const useStyles = makeStyles(() => ({
+  mainPaper:{
+    height:'100vh',
+    width:'97vw'
 
-  ul: {
-    display: "flex",
-    listStyle: "none",
-    flexwrap: "wrap",
-    justifyContent: "space-around",
-  },
+  }
 }));

@@ -12,15 +12,15 @@ const imgHeight = 140;
 const Page2 = () => {
   const classes = useStyles();
   return (
-    <div>
-      <Paper
-        variant="outlined"
-        square
-        elevation={0}
-        className={classes.presentation}
+    <Paper
+      // variant="outlined"
+      // square
+      elevation={20}
+      // className={classes.mainPaper}
       >
-        <Typography variant="h4">Como funciona</Typography>
+      <Typography variant="h4">Como funciona</Typography>
 
+<<<<<<< HEAD
         <Grid 
         container 
         spacing={3}>
@@ -135,9 +135,128 @@ const Page2 = () => {
               />
             </div>
           </Grid>
+=======
+      <Grid
+        container
+        alignItems="center"
+        flex={4}
+        p={9}
+
+      >
+
+        <Grid
+          item
+          xs={12}
+          md={6}>
+          <Typography variant="h6">Paso 1</Typography>
+          <Typography>Registrate usando tu cuenta de Gmail.</Typography>
         </Grid>
-      </Paper>
-    </div>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ display: { xs: "none", md: "block" } }}
+        >
+          <div className={classes.mosaic}>
+            <img
+              src={page2A}
+              alt={"Imagen representativa"}
+              height={imgHeight}
+            />
+          </div>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Typography variant="h6">Paso 2</Typography>
+          <Typography>Inicia sesion.</Typography>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ display: { xs: "none", md: "block" } }}
+        >
+          <div className={classes.mosaic}>
+            <img
+              src={page2B}
+              alt={"Imagen representativa"}
+              height={imgHeight}
+            />
+          </div>
+        </Grid>
+        <Grid
+          item xs={12}
+          md={6}
+        >
+          <Typography variant="h6">Paso 3</Typography>
+          <Typography>
+            Observa los datos de tu smartwatch en la aplicación, previamente
+            conectado con Google Fit.
+          </Typography>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ display: { xs: "none", md: "block" } }}
+        >
+          <div className={classes.mosaic}>
+            <img
+              src={page2C}
+              alt={"Imagen representativa"}
+              height={imgHeight}
+            />
+          </div>
+>>>>>>> c98dff374c6e5e2d997ae405767bacdcacfa6902
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+        >
+          <Typography variant="h6">Paso 4</Typography>
+          <Typography>
+            Lleva regisro de tu actividad física, hora de cena, consumo de
+            alcohol y café.
+          </Typography>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ display: { xs: "none", md: "block" } }}
+        >
+          <div className={classes.mosaic}>
+            <img
+              src={page2D}
+              alt={"Imagen representativa"}
+              height={imgHeight}
+            />
+          </div>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+        >
+          <Typography variant="h6">Paso 5</Typography>
+          <Typography>Observa tus estadisticas del sueno.</Typography>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ display: { xs: "none", md: "block" } }}
+        >
+          <div className={classes.mosaic}>
+            <img
+              src={page2E}
+              alt={"Imagen representativa"}
+              height={imgHeight}
+            />
+          </div>
+        </Grid>
+      </Grid>
+    </Paper>
   );
 };
 
@@ -150,10 +269,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-around",
   },
 
-  ul: {
-    display: "flex",
-    listStyle: "none",
-    flexwrap: "wrap",
-    justifyContent: "space-around",
+  mainPaper:{
+    height:'100vh',
+    width:'97vw'
   },
+
 }));
