@@ -13,8 +13,11 @@ import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import log from "../logi/log-.png";
 import { useAuthContext } from "../../actions/authContext";
+import { logOutUser } from "../../actions";
+import {useDispatch} from "react-redux";
 
 function ResponsiveAppBar() {
+  const dispatch=useDispatch();
   const { logout } = useAuthContext();
   const navigate = useNavigate();
 
@@ -23,6 +26,7 @@ function ResponsiveAppBar() {
 
   async function handleLogOut(event) {
     event.preventDefault();
+    dispatch( logOutUser());
     await logout();
   }
   const handleOpenNavMenu = (event) => {
