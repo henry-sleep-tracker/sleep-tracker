@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { User } = require("../db");
+
 const nullUser = {
   id: 0,
   isAdmin: false,
@@ -35,13 +36,13 @@ const postUser = async (bodyInfo) => {
       .send("El error controllers user postUser es:", error.message);
   }
 };
+
 const getUserByEmail = async (email) => {
+  console.log("el email del back:", email);
   try {
-    console.log("before userFound");
     const userFound = await User.findOne({
       where: { email: email },
     });
-    console.log("userFound", userFound);
     if (userFound !== null) {
       return userFound.dataValues;
     } else {
@@ -55,4 +56,40 @@ const getUserByEmail = async (email) => {
   }
 };
 
-module.exports = { postUser, repeatedEmail, getUserByEmail };
+const getUserById = async (id) => {
+  try {
+    const userFound = await User.findOne({ where: { id: id } });
+    if (userFound !== null) {
+      return userFound.dataValues;
+    } else {
+      return nullUser;
+    }
+  } catch (error) {
+    console.log("El error controllers user getUserById es:", error.message);
+    res
+      .status(401)
+      .send("El error controllers user getUserById es:", error.message);
+  }
+};
+const updatePassword = async (id, hashedPassword) => {
+  try {
+    const userFound = await User.findOne({ where: { id: id } });
+    const userUpdated = await userFound.update({
+      hashedPassword: hashedPassword,
+    });
+    userUpdated.save();
+  } catch (error) {
+    console.log("El error controllers user updatePassword es:", error.message);
+    res
+      .status(401)
+      .send("El error controllers user updatePassword es:", error.message);
+  }
+};
+
+module.exports = {
+  postUser,
+  repeatedEmail,
+  getUserByEmail,
+  getUserById,
+  updatePassword,
+};
