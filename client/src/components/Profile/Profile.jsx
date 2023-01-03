@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 const Profile = () => {
     
-    const user = useSelector((state) => state.user.user);
-    console.log("SOY USER", user);
+    const currentUser = useSelector((state) => state.users.currentUser);
+    console.log("SOY CURRENTUSER PROFILE", currentUser);
    
     return (
        
@@ -16,11 +16,11 @@ const Profile = () => {
 
               <div>
                 <img  src = "" alt="Imagen aqui"/>
-                <h3>{user.names + " " + user.lastNames}</h3>
+                <h3>{currentUser.names + " " + currentUser.lastNames}</h3>
               </div>
 
               <div>
-                <p>{user.email}</p>
+                <p>{currentUser.email}</p>
                 <p>Aqui va el Birthday</p>
                 <p>Aqui va la Nationality</p>
               </div>

@@ -52,6 +52,9 @@ const password = "Abcde123*"; // --> Cambiar por tu password */
 const Record = props => {
   const dispatch = useDispatch();
 
+  const currentUser = useSelector((state) => state.users.currentUser)
+  console.log("SOY CURRENT USER EN RECORD", currentUser);
+
   // useRef Hook
   const timeRef = useRef();
   const activityRef = useRef();
