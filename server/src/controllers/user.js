@@ -1,6 +1,5 @@
 const axios = require("axios");
 const { User } = require("../db");
-
 const nullUser = {
   id: 0,
   isAdmin: false,
@@ -36,9 +35,7 @@ const postUser = async (bodyInfo) => {
       .send("El error controllers user postUser es:", error.message);
   }
 };
-
 const getUserByEmail = async (email) => {
-  console.log("el email del back:", email);
   try {
     const userFound = await User.findOne({
       where: { email: email },
