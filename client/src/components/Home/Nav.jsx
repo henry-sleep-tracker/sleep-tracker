@@ -32,10 +32,10 @@ function ResponsiveAppBar() {
     dispatch( logOutUser());
     await logout();
   }
-  const handleOpenNavMenu = (event) => {
+  const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
+  const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget);
   };
 
@@ -47,15 +47,20 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
-  const handleConoce = (e) => {
+  const handleConoce = e => {
     navigate("/team");
   };
-  const handleGraph = (e) => {
+  const handleGraph = e => {
     navigate("/private/graficas");
   };
-  const handleBack = (e) => {
+  const handleBack = e => {
     e.preventDefault();
     navigate("/private");
+  };
+
+  const handlerRecord = e => {
+    e.preventDefault();
+    navigate("/private/newrecord");
   };
 
   return (
@@ -110,10 +115,8 @@ function ResponsiveAppBar() {
                 </Button>
               </MenuItem>
 
-              <MenuItem key="registro" onClick={handleCloseUserMenu}>
-                <Button alt="Reporte" href="/actividad">
-                  Registrar actividad
-                </Button>
+              <MenuItem key="registro">
+                <Button onClick={handlerRecord}>Registrar actividad</Button>
               </MenuItem>
             </Menu>
           </Box>
@@ -156,7 +159,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               key="actividad"
-              href="/private/newrecord"
+              onClick={handlerRecord}
               sx={{ my: 2, color: "white", display: "block" }}
             >
               Registrar Actividad
@@ -192,15 +195,13 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               <MenuItem key="Perfil" onClick={handleCloseUserMenu}>
-                <Link to = "/private/profile/:id">
+                <Link to="/private/profile/:id">
                   <Button>Perfil</Button>
                 </Link>
               </MenuItem>
 
               <MenuItem key="Log Out" onClick={handleCloseUserMenu}>
-                <Button onClick={(event) => handleLogOut(event)}>
-                  Log Out
-                </Button>
+                <Button onClick={event => handleLogOut(event)}>Log Out</Button>
               </MenuItem>
             </Menu>
           </Box>
