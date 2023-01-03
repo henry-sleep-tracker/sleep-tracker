@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { postUser,getUserByEmail } from "../../actions/index.js";
+import { postUser } from "../../actions/index.js";
 import { useDispatch } from "react-redux";
 import {TextField,Typography} from "@mui/material";
 
@@ -14,7 +13,6 @@ yourDate=yourDate.toISOString().split('T')[0]
 
 export default function Register() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [input, setInput] = useState({
     names: "",
     lastNames: "",
@@ -61,11 +59,7 @@ function validate(input){ //aca entra todo el estado input
 
     try {
       event.preventDefault();
-      const existingEmail= await getUserByEmail(input.email);
-      console.log("existing email:",existingEmail);
-      if(existingEmail.id!==0){
-        alert(`El email ${existingEmail.email} ya se encontraba registrado en nuestra base de datos y no es posible registrarse mas de una vez`)
-      }else if(Object.keys(errorsEmptiness).length!==0 ){
+      if(Object.keys(errorsEmptiness).length!==0 ){
         alert(`Todos los campos obligatorios deben ser llenados para poder registrarse`)
       }else if(input.names.length>50 ){
         alert(`La longitud de los nombres no puede ser mayor a 50 caracteres`)
@@ -78,17 +72,16 @@ function validate(input){ //aca entra todo el estado input
       }
       else{
         dispatch(postUser(input));
-        alert("Usuario registrado correctamente");
-        setInput({
-          names: "",
-          lastNames: "",
-          nationality: "",
-          birthday: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-        });
-        navigate('/private/planes') //cambio ruta login por planes de pago
+        // setInput({
+        //   names: "",
+        //   lastNames: "",
+        //   nationality: "",
+        //   birthday: "",
+        //   email: "",
+        //   password: "",
+        //   confirmPassword: "",
+        // });
+        // navigate('/login')
       }
     } catch (error) {
       console.log("el error es:", error.message);
@@ -193,7 +186,7 @@ function validate(input){ //aca entra todo el estado input
           required
         />
       </div>
-      <button type="submit">Register</button>
+      <button type="submit">Registrarse</button>
     </form>
   );
 }
