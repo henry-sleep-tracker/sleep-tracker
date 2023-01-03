@@ -17,6 +17,8 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import { AuthContextProvider } from "./actions/authContext";
 import Pricing from "./components/PlanesPago/PlanesPago.jsx";
 import ConoceAlEquipo from "./components/Home/ConoceAlEquipo";
+import ForgotPassword from "./components/ForgotPassword/ForgotPassword.jsx";
+import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
 axios.defaults.baseURL = "http://localhost:3001/";
@@ -35,6 +37,11 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/logout" element={<LogOut />} />
           <Route path="/registro" element={<Register />} />
+          <Route path="/contrasena_olvidada" element={<ForgotPassword />} />
+          <Route
+            path="/reiniciar_contrasena/:id/:token"
+            element={<ResetPassword />}
+          />
           <Route path="*" element={<NotFound />} />
           <Route exact path="/team" element={<ConoceAlEquipo />} />
           {/*deberia ser privada, pero solo es para probar*/}
