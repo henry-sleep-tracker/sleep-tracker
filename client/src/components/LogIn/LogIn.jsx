@@ -7,7 +7,6 @@ import LogInGoogleButton from "../LogInGoogleButton/LogInGoogleButton";
 import {gapi} from "gapi-script"
 
 export default function LogIn() {
-
   const clientId="335316690432-trah7lbld3ptrek9o23jo6n0t7g30foe.apps.googleusercontent.com"
   const {login} = useAuthContext();
   const loggedUser =  useSelector((state)=>state?.users.currentUser)
@@ -16,6 +15,14 @@ export default function LogIn() {
     email: "",
     password: "",
   });
+  function start(){
+    gapi.client.init({
+      clientId:clientId,
+      scope:""
+    })
+  }
+  gapi.load("client:auth2",start)
+
   useEffect(()=>{
     if (loggedUser.hasOwnProperty('id')&&loggedUser.id!==0) {
       alert("Usuario validado");
@@ -23,13 +30,6 @@ export default function LogIn() {
     } else if(loggedUser.id===0){
       alert("El usuario o la contraseña no son correctos");
     }
-    function start(){
-      gapi.client.init({
-        clientId:clientId,
-        scope:""
-      })
-    }
-    gapi.load("client:auth2",start)
   },[loggedUser,login])
   function handleChange(event) {
     setInput({
@@ -77,7 +77,10 @@ export default function LogIn() {
       </div>
       <button type="submit">Iniciar Sesion</button>
       <p>
-        No tienes cuenta? <a href="/registro">registrate</a>
+        No tienes cuenta? <a href="/registro"> Registrate</a>
+      </p>
+      <p>
+        Olvidaste tu contraseña? <a href="/contrasena_olvidada"> Recuperala</a>
       </p>
       <LogInGoogleButton/>
     </form>
