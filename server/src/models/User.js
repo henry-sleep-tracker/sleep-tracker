@@ -58,6 +58,10 @@ module.exports = (sequelize) => {
         allowNull: true,
         defaultValue: yourDate,
       },
+      stripeCustomerId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       createdAt: false,
