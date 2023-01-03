@@ -54,6 +54,9 @@ const Record = props => {
   const dispatch = useDispatch();
   /* const history = useHistory(); */
 
+  const currentUser = useSelector((state) => state.users.currentUser)
+  console.log("SOY CURRENT USER EN RECORD", currentUser);
+
   // useRef Hook
   const timeRef = useRef();
   const activityRef = useRef();

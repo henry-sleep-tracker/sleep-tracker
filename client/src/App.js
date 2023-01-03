@@ -55,7 +55,7 @@ function App() {
           <Route path="/private/planes" element={<Pricing />} />
           <Route path="/private/newrecord" element={<Record />} />
           <Route path="/private/dashboard/*" element={<Dashboard />} />
-          <Route path="/private/profile/:id" element={<Profile />} />
+          <Route path="/private/profile" element={<Profile />} />
         </Route>
       </Routes>
     </AuthContextProvider>
