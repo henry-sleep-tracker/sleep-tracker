@@ -8,31 +8,41 @@ const {
   updatePassword,
 } = require("../controllers/user");
 const bcrypt = require("bcrypt");
+const { STRIPE_SECRET_KEY } = process.env;
+const Stripe = require("stripe");
 const JWT_SECRET = "CVDF61651BV231TR894VBCX51LIK5LÑK84";
 const basicURL = "http://localhost:3000";
 const jwt = require("jsonwebtoken");
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2020-08-27",
+});
 
 router.post("/", async (req, res) => {
   try {
-    const {
-      googleId,
-      email,
-      password,
-      names,
-      lastNames,
-      nationality,
-      birthday,
-    } = req.body.user;
+    const { email, password, names, lastNames, nationality, birthday } =
+      req.body.user;
     const hashedPassword = await bcrypt.hash(password, 10); //la segunda variable es el numero de rondas que se encriptara
+
+    const customer = await stripe.customers.create(
+      {
+        email,
+      },
+      {
+        apiKey: process.env.STRIPE_SECRET_KEY,
+      }
+    );
+
     const bodyInfo = {
-      googleId,
       email,
       hashedPassword,
       names,
       lastNames,
       nationality,
       birthday,
+      stripeCustomerId: customer.id,
     };
+    console.log(bodyInfo);
+
     if (!email || !names || !lastNames) {
       return res.status(404).send("Falta enviar datos obligatorios");
     }
@@ -119,7 +129,9 @@ router.get("/:email", async (req, res) => {
     }
   } catch (error) {
     console.log("El error middleware user get /:email es:", error.message);
-    res.status(401).send("El error middleware user get /:email es:", error.message);
+    res
+      .status(401)
+      .send("El error middleware user get /:email es:", error.message);
   }
 });
 module.exports = router;
