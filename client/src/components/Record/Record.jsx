@@ -30,8 +30,6 @@ import {
   getLastIdDrink,
 } from "../../actions/newRecord";
 
-import { logInUser } from "../../actions/index";
-
 // Import images
 import check from "../../images/check-mark-button_2705.png";
 import memo from "../../images/memo2.png";
@@ -46,8 +44,8 @@ import calendar from "../../images/calendar.png";
 import time from "../../images/time.png";
 
 // Temporal Constants
-const email = "usertester@gmail.com"; // --> Cambiar por correo que estas usando
-const password = "Abcde123*"; // --> Cambiar por tu password
+/* const email = "karsoreef@gmail.com"; // --> Cambiar por correo que estas usando
+const password = "Abcde123*"; // --> Cambiar por tu password */
 
 //> Starts Component
 
@@ -76,16 +74,24 @@ const Record = props => {
   const lastIdDrink = useSelector(state => state.record.lastIdDrink);
   const userId = useSelector(state => state.users.currentUser.id);
   const nameUser = useSelector(state => state.users.currentUser.names);
+  const sleepTime = useSelector(state => state.date);
 
   /******************** Local States Section *********************/
 
   //! ================== Main Local States ================= !//
 
+  const temp = sleepTime.filter(e => e.level !== 1);
+
   const [record, setRecord] = useState({
-    dateMeal: "",
+    dateMeal: sleepTime[0].date,
     timeMeal: "",
     description: "",
-    sleepTime: "",
+    sleepTime:
+      temp.length > 0
+        ? Math.floor(
+            temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
+          )
+        : "",
     napTime: [],
     timeActivity: [],
     coffeeCups: [],
@@ -93,7 +99,7 @@ const Record = props => {
     coffee: [],
     drink: [],
     activity: [],
-    userId: "",
+    userId: userId,
   });
 
   //! ================== Activity States ================= !//
@@ -147,7 +153,6 @@ const Record = props => {
     setRecord((record.timeActivity = floorTimeActivity));
     setRecord((record.coffeeCups = floorCoffeeCups));
     setRecord((record.drinks = floorDrinks));
-    setRecord((record.userId = userId));
     dispatch(createNewRecord(record));
     setRecord({
       dateMeal: "",
@@ -161,7 +166,7 @@ const Record = props => {
       coffee: [],
       drink: [],
       activity: [],
-      userId: "",
+      userId: userId,
     });
     setActivity([]);
     setCoffee([]);
@@ -184,10 +189,15 @@ const Record = props => {
   const handlerOnClear = e => {
     e.preventDefault();
     setRecord({
-      dateMeal: "",
+      dateMeal: sleepTime.length > 0 ? sleepTime[0].date : "",
       timeMeal: "",
       description: "",
-      sleepTime: "",
+      sleepTime:
+        temp.length > 0
+          ? Math.floor(
+              temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
+            )
+          : "",
       napTime: [],
       timeActivity: [],
       coffeeCups: [],
@@ -195,7 +205,7 @@ const Record = props => {
       coffee: [],
       drink: [],
       activity: [],
-      userId: "",
+      userId: userId,
     });
 
     setActivity([]);
@@ -507,13 +517,13 @@ const Record = props => {
 
   // Mount/Unmount Component
   useEffect(() => {
-    dispatch(logInUser(email, password));
     dispatch(getCoffeeSizes());
     dispatch(getActivities());
     dispatch(getDrinks());
     dispatch(getLastIdActivity());
     dispatch(getLastIdCoffeSize());
     dispatch(getLastIdDrink());
+
     if (recordStatus) {
       message.error(`Error: al intentar crear el registro`, 2500);
     } /*  else {
@@ -749,15 +759,15 @@ const Record = props => {
         <form onSubmit={handlerOnSubmit}>
           <div className="main_container">
             <div className="x_container">
-              <Link to="/inicio" className="link">
+              <Link to="/private" className="link">
                 <div className="x">X</div>
               </Link>
             </div>
             <div className="div_head">
-              <h1>
-                Nuevo Registro
+              <h2>
+                Nuevo Registro de {nameUser}
                 <img src={memo} alt="" className="memo" />
-              </h1>
+              </h2>
               <h5>
                 Campo Requerido ( <span className="asterisk">*</span> )
               </h5>
@@ -773,6 +783,7 @@ const Record = props => {
                 name="dateMeal"
                 value={record.dateMeal}
                 onChange={handlerOnChange}
+                disabled={sleepTime.length > 0 ? true : false}
               />
               <label>
                 <span className="asterisk">* </span>
@@ -808,17 +819,18 @@ const Record = props => {
             </div>
 
             <div className="sleep_container">
-              <img src={personBed} alt="" className="person_bed" />
-              <h2>
-                Tiempo de Sueño
-                <img
-                  src={check}
-                  alt=""
-                  hidden={record.sleepTime > 0 ? false : true}
-                  className="img_ok"
-                />
-              </h2>
-              {/* <img src={sync} alt="" /> */}
+              <div>
+                <h2>
+                  <img src={personBed} alt="" className="person_bed" />
+                  Tiempo de Sueño
+                  <img
+                    src={check}
+                    alt=""
+                    hidden={record.sleepTime > 0 ? false : true}
+                    className="img_ok"
+                  />
+                </h2>
+              </div>
               <div className="sleep_section">
                 <label>
                   <span className="asterisk">* </span>Tiempo
@@ -833,9 +845,15 @@ const Record = props => {
                   value={record.sleepTime}
                   onChange={handlerOnChange}
                   placeholder="0"
+                  disabled={sleepTime.length > 0 ? true : false}
                 />
                 <span>min.</span>
-                <span className="sync">sincronizar</span>
+                <span
+                  className="sync"
+                  hidden={sleepTime.length > 0 ? true : false}
+                >
+                  sincronizar
+                </span>
               </div>
               {/* <label>Siesta</label>
               <input className="input_number" type="number" step="1" min="0" />
