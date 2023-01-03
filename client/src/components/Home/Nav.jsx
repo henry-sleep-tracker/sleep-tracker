@@ -17,13 +17,11 @@ import { useAuthContext } from "../../actions/authContext";
 import { clearUser } from "../../actions/getUser.js";
 import { useDispatch } from "react-redux";
 import { logOutUser } from "../../actions";
-import {useDispatch} from "react-redux";
 
 function ResponsiveAppBar() {
   const dispatch=useDispatch();
   const { logout } = useAuthContext();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
