@@ -23,30 +23,6 @@ router.post("/", async (req, res) => {
 
     const token = await getToken.access_token;
 
-    ///////////PRUEEEEEBAAASSSSSSS//////////
-
-    // const data = await fetch(
-    //   `https://api.fitbit.com/1.2/user/-/sleep/date/2022-12-26/2022-12-30.json`,
-    //   {
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //       Accept: "application/json",
-    //     },
-    //   }
-    // );
-    // const getData = await data.json();
-
-    // console.log("DATAAA", getData);
-    // console.log(
-    //   "levels",
-    //   getData.sleep.map((d) => d.levels)
-    // );
-    // console.log(
-    //   "summary",
-    //   getData.sleep.map((d) => d.levels.summary)
-    // );
-    /////////////////////////////////////////
     // searches for most recent timestamp
 
     const mostRecent = await Session.findOne({
