@@ -5,6 +5,7 @@ import { porcentage, semana, total } from "./GraphW";
 import Graph from "../Graphs/TestGraph";
 import ResponsiveAppBar from "../Home/Nav";
 import RangeCalendar from "../Calendario/RangeCalendar";
+import DualGraph from "./DualGraph";
 import CustomizedAccordions, {
   CustomizedAccordions2,
   CustomizedAccordions3,
@@ -47,6 +48,9 @@ const GraphWM = () => {
         <br />
         <div>
           <RangeCalendar />
+        </div>
+        <div>
+          <DualGraph />
         </div>
         {/* <div className="gafica1">
           <Graph />
