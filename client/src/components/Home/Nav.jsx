@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,9 +14,13 @@ import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import log from "../logi/log-.png";
 import { useAuthContext } from "../../actions/authContext";
+import { clearUser } from "../../actions/getUser.js";
+import { useDispatch } from "react-redux";
+import { logOutUser } from "../../actions";
 
 function ResponsiveAppBar() {
-  const {logout} = useAuthContext();
+  const dispatch=useDispatch();
+  const { logout } = useAuthContext();
   const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -23,12 +28,14 @@ function ResponsiveAppBar() {
 
   async function handleLogOut(event) {
     event.preventDefault();
+    dispatch(clearUser());
+    dispatch( logOutUser());
     await logout();
   }
-  const handleOpenNavMenu = (event) => {
+  const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
+  const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget);
   };
 
@@ -40,15 +47,20 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
-  const handleConoce = (e) => {
+  const handleConoce = e => {
     navigate("/team");
   };
-  const handleGraph = (e) => {
-    navigate("/graficas");
+  const handleGraph = e => {
+    navigate("/private/graficas");
   };
-  const handleBack = (e) => {
+  const handleBack = e => {
     e.preventDefault();
-    navigate("/inicio");
+    navigate("/private");
+  };
+
+  const handlerRecord = e => {
+    e.preventDefault();
+    navigate("/private/newrecord");
   };
 
   return (
@@ -103,10 +115,8 @@ function ResponsiveAppBar() {
                 </Button>
               </MenuItem>
 
-              <MenuItem key="registro" onClick={handleCloseUserMenu}>
-                <Button alt="Reporte" href="/actividad">
-                  Registrar actividad
-                </Button>
+              <MenuItem key="registro">
+                <Button onClick={handlerRecord}>Registrar actividad</Button>
               </MenuItem>
             </Menu>
           </Box>
@@ -149,7 +159,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               key="actividad"
-              href="/newrecord"
+              onClick={handlerRecord}
               sx={{ my: 2, color: "white", display: "block" }}
             >
               Registrar Actividad
@@ -185,11 +195,13 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               <MenuItem key="Perfil" onClick={handleCloseUserMenu}>
-                <Button>Perfil</Button>
+                <Link to="/private/profile/:id">
+                  <Button>Perfil</Button>
+                </Link>
               </MenuItem>
 
               <MenuItem key="Log Out" onClick={handleCloseUserMenu}>
-                <Button onClick={(event) => handleLogOut(event)}>Log Out</Button>
+                <Button onClick={event => handleLogOut(event)}>Log Out</Button>
               </MenuItem>
             </Menu>
           </Box>

@@ -2,15 +2,15 @@ const axios = require("axios");
 const { User } = require("../db");
 const nullUser = {
   id: 0,
-  googleId: "",
   isAdmin: false,
-  isSubscribed: false,
+  isActive: false,
   email: "",
   hashedPassword: "",
   names: "",
   lastNames: "",
   nationality: "",
   birthday: "",
+  lastConnection: "",
 };
 const repeatedEmail = async (email) => {
   try {
@@ -53,4 +53,40 @@ const getUserByEmail = async (email) => {
   }
 };
 
-module.exports = { postUser, repeatedEmail, getUserByEmail };
+const getUserById = async (id) => {
+  try {
+    const userFound = await User.findOne({ where: { id: id } });
+    if (userFound !== null) {
+      return userFound.dataValues;
+    } else {
+      return nullUser;
+    }
+  } catch (error) {
+    console.log("El error controllers user getUserById es:", error.message);
+    res
+      .status(401)
+      .send("El error controllers user getUserById es:", error.message);
+  }
+};
+const updatePassword = async (id, hashedPassword) => {
+  try {
+    const userFound = await User.findOne({ where: { id: id } });
+    const userUpdated = await userFound.update({
+      hashedPassword: hashedPassword,
+    });
+    userUpdated.save();
+  } catch (error) {
+    console.log("El error controllers user updatePassword es:", error.message);
+    res
+      .status(401)
+      .send("El error controllers user updatePassword es:", error.message);
+  }
+};
+
+module.exports = {
+  postUser,
+  repeatedEmail,
+  getUserByEmail,
+  getUserById,
+  updatePassword,
+};

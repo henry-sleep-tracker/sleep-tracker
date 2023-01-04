@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import TextField from "@mui/material/TextField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { getByDate } from "../../actions/getByDate";
+import { getSleepByDate } from "../../actions/getSleepData";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 export default function Calendario() {
@@ -14,7 +14,7 @@ export default function Calendario() {
     const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
     const localISOTime = new Date(event - tzoffset).toISOString().split("T")[0];
     setValue(localISOTime);
-    dispatch(getByDate(localISOTime));
+    dispatch(getSleepByDate(localISOTime));
   };
 
   return (

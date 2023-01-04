@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { postUser,getUserByEmail } from "../../actions/index.js";
+import { postUser } from "../../actions/index.js";
 import { useDispatch } from "react-redux";
 import {TextField,Typography} from "@mui/material";
 
@@ -14,13 +13,11 @@ yourDate=yourDate.toISOString().split('T')[0]
 
 export default function Register() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [input, setInput] = useState({
     names: "",
     lastNames: "",
     nationality: "",
     birthday: "",
-    googleId: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -30,7 +27,6 @@ export default function Register() {
     lastNames: "",
     nationality: "",
     birthday: "",
-    googleId: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -63,11 +59,7 @@ function validate(input){ //aca entra todo el estado input
 
     try {
       event.preventDefault();
-      const existingEmail= await getUserByEmail(input.email);
-      console.log("existing email:",existingEmail);
-      if(existingEmail.userId!==0){
-        alert(`El email ${existingEmail.email} ya se encontraba registrado en nuestra base de datos y no es posible registrarse mas de una vez`)
-      }else if(Object.keys(errorsEmptiness).length!==0 ){
+      if(Object.keys(errorsEmptiness).length!==0 ){
         alert(`Todos los campos obligatorios deben ser llenados para poder registrarse`)
       }else if(input.names.length>50 ){
         alert(`La longitud de los nombres no puede ser mayor a 50 caracteres`)
@@ -78,23 +70,18 @@ function validate(input){ //aca entra todo el estado input
       }else if(input.password!==input.confirmPassword){
         alert(`La contraseña no se confirmo correctamente`)
       }
-      // else if(input.birthday<1900-01-01||input.birthday>yourDate){
-      //   alert(`La fecha minima debe ser 1900-01-01 y la maxima la del dia de hoy`)
-      // }
       else{
         dispatch(postUser(input));
-        alert("Usuario registrado correctamente");
-        setInput({
-          names: "",
-          lastNames: "",
-          nationality: "",
-          birthday: "",
-          googleId: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-        });
-        navigate('/private/planes') //cambio ruta login por planes de pago
+        // setInput({
+        //   names: "",
+        //   lastNames: "",
+        //   nationality: "",
+        //   birthday: "",
+        //   email: "",
+        //   password: "",
+        //   confirmPassword: "",
+        // });
+        // navigate('/login')
       }
     } catch (error) {
       console.log("el error es:", error.message);
@@ -107,6 +94,12 @@ function validate(input){ //aca entra todo el estado input
           ...input,
           nationality:event.target.value
       })
+      setErrorsEmptiness(
+        validate({
+        ...input,
+        nationality: event.target.value
+        })
+      )
     }
 
   return (
@@ -164,18 +157,6 @@ function validate(input){ //aca entra todo el estado input
       </div>
 
       <div>
-        <label htmlFor="googleId">{`GoogleId:`} </label>
-        <input
-          type="text"
-          name="googleId"
-          placeholder="GoogleId"
-          maxLength="50"
-          onChange={(event) => handleChange(event)}
-          required
-        />
-      </div>
-
-      <div>
         <label htmlFor="email">{`Correo electronico*:`} </label>
         <input
           type="email"
@@ -211,7 +192,7 @@ function validate(input){ //aca entra todo el estado input
           required
         />
       </div>
-      <button type="submit">Register</button>
+      <button type="submit">Registrarse</button>
     </form>
   );
 }
