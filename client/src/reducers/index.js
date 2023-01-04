@@ -20,8 +20,7 @@ const reducers = combineReducers({
 
 const store = createStore(
   reducers,
-  composeWithDevTools(applyMiddleware(thunkMiddleware), persistState('user')),
-
+  composeWithDevTools(applyMiddleware(thunkMiddleware), persistState("user"))
 );
 
 export default store;
