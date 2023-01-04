@@ -19,7 +19,9 @@ export function AuthContextProvider({ children }) {
     //esto lo usa el componente log in cuando se valide la contraseña y el email
     window.localStorage.setItem(MY_AUTH_APP, true); //cuando se invoque establecera en el localstorage que establece el valor true para la clave my_auth_app
     setIsAuthenticated(true); //actualiza el estado
-    setUserId(id); //actualiza el estado
+    setUserId(id);
+    console.log("userId:", userId);
+    debugger;
   }, []);
   const logout = useCallback(function () {
     //esto lo usa el componente log in cuando se valide la contraseña y el email
