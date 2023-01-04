@@ -1,7 +1,4 @@
 const { DataTypes } = require("sequelize");
-const db = require("../db");
-let yourDate = new Date();
-yourDate = yourDate.toISOString().split("T")[0];
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
@@ -15,13 +12,17 @@ module.exports = (sequelize) => {
         primaryKey: true,
         allowNull: false,
       },
+      googleId: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       isAdmin: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
-      isActive: {
+      isSubscribed: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
       email: {
         type: DataTypes.STRING,
@@ -35,7 +36,7 @@ module.exports = (sequelize) => {
       },
       hashedPassword: {
         type: DataTypes.STRING(64),
-        allowNull: true,
+        allowNull: false,
       },
       names: {
         type: DataTypes.STRING(50),
@@ -47,19 +48,10 @@ module.exports = (sequelize) => {
       },
       nationality: {
         type: DataTypes.STRING(50),
-        allowNull: true,
+        allowNull: false,
       },
       birthday: {
         type: DataTypes.DATEONLY,
-        allowNull: true,
-      },
-      lastConnection: {
-        type: DataTypes.DATEONLY,
-        allowNull: true,
-        defaultValue: yourDate,
-      },
-      stripeCustomerId: {
-        type: DataTypes.STRING,
         allowNull: false,
       },
     },

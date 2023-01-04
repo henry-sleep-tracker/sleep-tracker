@@ -1,12 +1,6 @@
-const {
-  NewRecord,
-  CoffeeSize,
-  AlcoholType,
-  Activity,
-  User,
-} = require("../db.js");
-const { time_convert } = require("../helpers/time_convert.js");
-const { tConvert } = require("../helpers/convert_24_to_12hrs.js");
+const { NewRecord, CoffeeSize, AlcoholType, Activity } = require('../db.js');
+const { time_convert } = require('../helpers/time_convert.js');
+const { tConvert } = require('../helpers/convert_24_to_12hrs.js');
 
 /* ================== Get List All Records =================== */
 
@@ -18,31 +12,21 @@ const getRecords = async (req, res) => {
       include: [
         {
           model: CoffeeSize,
-          attributes: ["size"],
+          attributes: ['size'],
           through: { attributes: [] },
         },
         {
           model: AlcoholType,
-          attributes: ["drink"],
+          attributes: ['drink'],
           through: { attributes: [] },
         },
         {
           model: Activity,
-          attributes: ["activity"],
+          attributes: ['activity'],
           through: { attributes: [] },
         },
-        {
-          model: User,
-        },
       ],
-      /* include: [
-        {
-          all: true,
-        },
-      ], */
     });
-
-    console.log(recordsRes);
 
     if (recordsRes.length < 1) {
       return res.status(200).json({ message: `No existen registros` });
@@ -50,14 +34,14 @@ const getRecords = async (req, res) => {
 
     for (let i = 0; i < recordsRes.length; i++) {
       let joinActivity = [];
-      let timeActivity = "";
-      let typeActivity = "";
+      let timeActivity = '';
+      let typeActivity = '';
       let joinCoffee = [];
-      let coffeeCups = "";
-      let coffeeSizes = "";
+      let coffeeCups = '';
+      let coffeeSizes = '';
       let joinDrinks = [];
-      let quantityDrinks = "";
-      let typeDrinks = "";
+      let quantityDrinks = '';
+      let typeDrinks = '';
 
       if (recordsRes[i].timeActivity.length >= 1) {
         timeActivity = recordsRes[i].timeActivity.flat();
@@ -92,21 +76,20 @@ const getRecords = async (req, res) => {
 
       let obj = {
         id: recordsRes[i].id,
-        userId: recordsRes[i].userId,
         dateMeal: recordsRes[i].dateMeal,
         timeMeal: tConvert(recordsRes[i].timeMeal),
         description:
-          recordsRes[i].description === ""
-            ? "sin registro"
+          recordsRes[i].description === ''
+            ? 'sin registro'
             : recordsRes[i].description,
         sleepTime: `${time_convert(recordsRes[i].sleepTime)}`,
         napTime:
           recordsRes[i].napTime.length < 1
-            ? "sin registro"
+            ? 'sin registro'
             : recordsRes[i].napTime.map(e => `${e} min. de siesta`),
-        activities: joinActivity.length < 1 ? "sin registro" : joinActivity,
-        coffees: joinCoffee.length < 1 ? "sin registro" : joinCoffee,
-        drinks: joinDrinks.length < 1 ? "sin registro" : joinDrinks,
+        activities: joinActivity.length < 1 ? 'sin registro' : joinActivity,
+        coffees: joinCoffee.length < 1 ? 'sin registro' : joinCoffee,
+        drinks: joinDrinks.length < 1 ? 'sin registro' : joinDrinks,
       };
       finalResult.push(obj);
     }
@@ -131,7 +114,6 @@ const post_new_record = async (req, res) => {
     coffee,
     drink,
     activity,
-    userId,
   } = req.body;
 
   try {
@@ -144,7 +126,6 @@ const post_new_record = async (req, res) => {
       timeActivity,
       coffeeCups,
       drinks,
-      userId,
     });
 
     await newRecord.addCoffeeSize(coffee);

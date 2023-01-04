@@ -7,6 +7,8 @@ router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const updatedFields = req.body;
 
+  console.log(id, updatedFields);
+
   try {
     const result = await User.update(updatedFields, {
       where: {

@@ -11,6 +11,7 @@ router.get("/", async (req, res) => {
         where: { date: date },
         order: [["time", "ASC"]],
       });
+      console.log("searchByDate", searchByDate);
       res.status(200).json(searchByDate);
     } else {
       res.status(400).json({ error: "date not found" });
@@ -19,22 +20,4 @@ router.get("/", async (req, res) => {
     console.error(error);
   }
 });
-
-// router.get("/", async (req, res) => {
-//   try {
-//     const { date } = req.query;
-
-//     if (date) {
-//       const searchByDate = await Session.findAll({
-//         where: { date: date },
-//         order: [["time", "ASC"]],
-//       });
-//       res.status(200).json(searchByDate);
-//     } else {
-//       res.status(400).json({ error: "date not found" });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-// });
 module.exports = router;

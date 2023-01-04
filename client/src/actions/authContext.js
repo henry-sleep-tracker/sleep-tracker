@@ -10,16 +10,10 @@ export function AuthContextProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(
     window.localStorage.getItem(MY_AUTH_APP) ?? false
   ); //el localstorage permite guardar valores para que asi se cierre la pestaña guarde valores, entonces cada vez que abra la app se sabra si esta conectado o no
-  const [userId, setUserId] = useState(
-    window.localStorage.getItem("USER_ID") ?? null
-  );
-  const login = useCallback(function (id) {
-    console.log("me llego el userId:", id);
-    debugger;
+  const login = useCallback(function () {
     //esto lo usa el componente log in cuando se valide la contraseña y el email
     window.localStorage.setItem(MY_AUTH_APP, true); //cuando se invoque establecera en el localstorage que establece el valor true para la clave my_auth_app
     setIsAuthenticated(true); //actualiza el estado
-    setUserId(id); //actualiza el estado
   }, []);
   const logout = useCallback(function () {
     //esto lo usa el componente log in cuando se valide la contraseña y el email

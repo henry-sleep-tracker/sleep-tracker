@@ -29,7 +29,7 @@ function UsersContent() {
   }, []);
 
   function getFullName(params) {
-    return `${params.row.lastNames}, ${params.row.names}`;
+    return `${params.row.lastnames}, ${params.row.names}`;
   }
 
   const columns = useMemo(
@@ -37,11 +37,11 @@ function UsersContent() {
       {
         field: "fullName",
         headerName: "Nombre Completo",
-        width: 200,
+        width: 225,
         valueGetter: getFullName,
       },
       {
-        field: "lastNames",
+        field: "lastnames",
         headerName: "Apellidos",
         width: 170,
         editable: true,
@@ -54,19 +54,18 @@ function UsersContent() {
         valueOptions: ["true", "false"],
         editable: true,
       },
-      { field: "email", headerName: "Email", width: 170 },
-      {
-        field: "isAdmin",
-        headerName: "Admin",
-        width: 85,
-        type: "singleSelect",
-        valueOptions: ["true", "false"],
-        editable: true,
-      },
       {
         field: "birthday",
         headerName: "Nacimiento",
         type: "date",
+        editable: true,
+      },
+      {
+        field: "isAdmin",
+        headerName: "Rol",
+        width: 85,
+        type: "singleSelect",
+        valueOptions: ["true", "false"],
         editable: true,
       },
       {
@@ -75,21 +74,9 @@ function UsersContent() {
         width: 125,
         editable: true,
       },
-      {
-        field: "lastConnection",
-        headerName: "Última Conexión",
-        type: "date",
-        width: 125,
-      },
-      {
-        field: "isActive",
-        headerName: "Estado",
-        width: 85,
-        type: "singleSelect",
-        valueOptions: [{ value: true , label : 'Activo' }, { value: false , label : 'Borrado' }],
-        editable: true,
-        valueFormatter: (params) => { return params.value === true? 'Activo' : 'Borrado' }
-      },
+      { field: "email", headerName: "Email", width: 170, editable: true },
+      { field: "created_at", headerName: "Registrado", width: 200 },
+
       {
         field: "actions",
         headerName: "Acciones",
@@ -118,7 +105,7 @@ function UsersContent() {
           initialState={{
             columns: {
               columnVisibilityModel: {
-                lastNames: false,
+                lastnames: false,
                 names: false,
                 created_at: false,
               },
@@ -129,6 +116,7 @@ function UsersContent() {
           rowsPerPageOptions={[5, 10, 20]}
           pageSize={pageSize}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          getRowId={(row) => row.usedId}
           getRowSpacing={(params) => ({
             top: params.isFirstVisible ? 0 : 3,
             bottom: params.isLastVisible ? 0 : 3,

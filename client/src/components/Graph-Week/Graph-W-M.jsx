@@ -1,9 +1,10 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React from "react"
 import { Chart } from "react-google-charts";
 import { porcentage, semana, total } from "./GraphW";
 import Graph from "../Graphs/TestGraph";
 import ResponsiveAppBar from "../Home/Nav";
+import './graficas.css'
+import CustomizedAccordions, { CustomizedAccordions2, CustomizedAccordions3 } from "./detailsGraphs";
 import RangeCalendar from "../Calendario/RangeCalendar";
 import DualGraph from "./DualGraph";
 import CustomizedAccordions, {
@@ -15,18 +16,16 @@ const GraphWM = () => {
   const daterange = useSelector((state) => state.range);
   console.log("range", daterange);
 
-  const options1 = {
-    title: `Porcentaje de eficiencia de descanso semanal ${semana[0]} - ${
-      semana[semana.length - 1]
-    }`,
-    colors: ["#2196f3"],
-  };
+const options1 = {
+    title: `Porcentaje de eficiencia de descanso semanal ${semana[0]} - ${semana[semana.length-1]}`,
+    colors: ['#2196f3' ]
 
-  const option2 = {
-    title: `Horas de descanso semanal ${semana[0]} - ${
-      semana[semana.length - 1]
-    } `,
+}
 
+const option2 = {
+    title: `Horas de descanso semanal ${semana[0]} - ${semana[semana.length-1]} `,
+
+   
     vAxis: {
       ticks: [
         { v: 12, f: "12 hrs" },
@@ -74,20 +73,52 @@ const GraphWM = () => {
         </div>
         <hr />
 
-        <div className="gafica3">
-          <Chart
-            data={total}
-            chartType="BarChart"
-            options={option2}
-            height="400px"
-          />
-          <div className="descgraph">
-            <CustomizedAccordions3 />
-          </div>
-        </div>
-      </div>
+
+
+
+
+    <div className="grafica2"> 
+        <h4>{options1.title}</h4>
+
+        <Chart
+        options={options1}
+        chartType='Bar'
+        data={porcentage}
+        height='400px'
+   
+        
+        />  <div className="descgraph">
+    <CustomizedAccordions2/>
+</div>
     </div>
-  );
-};
+    <hr />
+  
+
+    <div className="gafica3" >
+<Chart
+data={total}
+chartType='BarChart'
+options={option2}
+height='400px'
+
+
+/>
+ <div className="descgraph">
+   <CustomizedAccordions3/>
+</div>
+    </div>
+   
+
+
+
+</div>
+</div>
+
+
+)
+
+
+
+}
 
 export default GraphWM;
