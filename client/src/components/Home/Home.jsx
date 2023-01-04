@@ -15,7 +15,7 @@ import { getUser } from "../../actions/getUser.js";
 
 const Home = () => {
 
-  const currentUser = useSelector((state) => state.users.currentUser);
+  const currentUser = useSelector((state) => state?.users.currentUser);
   console.log("SOY CURRENTUSER", currentUser);
   const usuario = useSelector((state) => state.user.user)
   console.log("SOY USUARIO", usuario);
