@@ -97,8 +97,11 @@ Plans.belongsTo(User, {
   timestamps: false,
 });
 
-User.hasMany(Session);
-Session.belongsTo(User);
+// User.hasMany(Session);
+// Session.belongsTo(User);
+
+Session.hasMany(Stage);
+Stage.belongsTo(Session);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
