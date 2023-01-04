@@ -44,13 +44,13 @@ function App() {
             element={<ResetPassword />}
           />
           <Route path="*" element={<NotFound />} />
-          <Route exact path="/team" element={<ConoceAlEquipo />} />
           {/*deberia ser privada, pero solo es para probar*/}
         </Route>
         <Route path="/private" element={<PrivateRoute />}>
           {/* rutas privadas */}
           <Route index element={<Home />} />
 
+          <Route path="/private/team" element={<ConoceAlEquipo />} />
           <Route path="/private/fitbit" element={<Fitbit />} />
           <Route path="/private/planes" element={<Pricing />} />
           <Route path="/private/newrecord" element={<Record />} />
