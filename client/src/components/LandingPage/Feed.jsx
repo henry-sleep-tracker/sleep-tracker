@@ -5,6 +5,7 @@ import Page2 from "./Page2";
 import Page3 from "./Page3";
 import Page4 from "./Page4";
 import Page5 from "./Page5";
+import Page6 from "./Page6";
 
 const Feed = ({
     currentPage,
@@ -13,7 +14,8 @@ const Feed = ({
     page2,
     page3,
     page4,
-    page5
+    page5,
+    page6
 }) => {
 
     // const [windowwidth, setwindowWidth] = useState(window.innerWidth)
@@ -60,12 +62,14 @@ const Feed = ({
                     page5={page5}
                 />
             </Grid>
+
             <Grid
                 item
                 ref={page2}
             >
                 <Page2 />
             </Grid>
+
             <Grid
                 item
                 ref={page3}
@@ -73,19 +77,30 @@ const Feed = ({
 
                 <Page3 />
             </Grid>
+
             <Grid
                 item
                 ref={page4}
             >
                 <Page4 />
             </Grid>
+
             <Grid
                 item
                 ref={page5}
             >
                 <Page5 />
             </Grid>
+
+            <Grid
+                item
+                ref={page6}
+            >
+                <Page6 />
+            </Grid>
+
         </Grid>
+
     )
 }
 
