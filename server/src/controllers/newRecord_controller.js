@@ -42,8 +42,6 @@ const getRecords = async (req, res) => {
       ], */
     });
 
-    console.log(recordsRes);
-
     if (recordsRes.length < 1) {
       return res.status(200).json({ message: `No existen registros` });
     }
