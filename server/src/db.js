@@ -92,9 +92,7 @@ Plans.belongsTo(User, {
 // Session.belongsTo(User);
 
 Session.hasMany(Stage);
-Stage.belongsTo(Session, {
-  through: "sessionId",
-});
+Stage.belongsTo(Session);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
