@@ -59,18 +59,33 @@ router.post("/", async (req, res) => {
       console.log("dataNORECENT", getData);
 
       getData.sleep?.map((d) => {
-        Session.bulkCreate([
-          {
-            logId: d.logId,
-            startTime: d.startTime,
-            endTime: d.endTime,
-            duration: d.duration,
-            efficiency: d.efficiency,
-            minutesAsleep: d.minutesAsleep,
-            minutesAwake: d.minutesAwake,
-            minutesToFallAsleep: d.minutesToFallAsleep,
-          },
-        ]);
+        if (!d.levels.summary.hasOwnProperty("deep")) {
+          Session.bulkCreate([
+            {
+              log_id: d.logId,
+              date: d.dateOfSleep,
+              start_time: d.startTime,
+              end_time: d.endTime,
+              duration: d.duration,
+              efficiency: d.efficiency,
+            },
+          ]);
+        } else {
+          Session.bulkCreate([
+            {
+              log_id: d.logId,
+              date: d.dateOfSleep,
+              start_time: d.startTime,
+              end_time: d.endTime,
+              duration: d.duration,
+              efficiency: d.efficiency,
+              summary_deep_min: d.levels.summary.deep.minutes,
+              summary_light_min: d.levels.summary.light.minutes,
+              summary_rem_min: d.levels.summary.rem.minutes,
+              summary_awake_min: d.levels.summary.wake.minutes,
+            },
+          ]);
+        }
         d.levels?.data?.map((s) => {
           Stage.bulkCreate([
             {
@@ -107,18 +122,33 @@ router.post("/", async (req, res) => {
       console.log("recentDATA", getData);
 
       getData.sleep?.map((d) => {
-        Session.bulkCreate([
-          {
-            logId: d.logId,
-            startTime: d.startTime,
-            endTime: d.endTime,
-            duration: d.duration,
-            efficiency: d.efficiency,
-            minutesAsleep: d.minutesAsleep,
-            minutesAwake: d.minutesAwake,
-            minutesToFallAsleep: d.minutesToFallAsleep,
-          },
-        ]);
+        if (!d.levels.summary.hasOwnProperty("deep")) {
+          Session.bulkCreate([
+            {
+              log_id: d.logId,
+              date: d.dateOfSleep,
+              start_time: d.startTime,
+              end_time: d.endTime,
+              duration: d.duration,
+              efficiency: d.efficiency,
+            },
+          ]);
+        } else {
+          Session.bulkCreate([
+            {
+              log_id: d.logId,
+              date: d.dateOfSleep,
+              start_time: d.startTime,
+              end_time: d.endTime,
+              duration: d.duration,
+              efficiency: d.efficiency,
+              summary_deep_min: d.levels.summary.deep.minutes,
+              summary_light_min: d.levels.summary.light.minutes,
+              summary_rem_min: d.levels.summary.rem.minutes,
+              summary_awake_min: d.levels.summary.wake.minutes,
+            },
+          ]);
+        }
         d.levels?.data?.map((s) => {
           Stage.bulkCreate([
             {

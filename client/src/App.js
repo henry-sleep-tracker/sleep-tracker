@@ -7,7 +7,6 @@ import LogOut from "./components/LogOut/LogOut.jsx";
 import Register from "./components/Register/Register";
 import NotFound from "./components/NotFound/NotFound";
 import Fitbit from "./components/SignUp/Fitbit";
-import Calendar from "./components/Calendario/RangeCalendar";
 import LandingPage from "./components/LandingPage/LandingPage.jsx";
 import Dashboard from "./components/dashboard/Dashboard.js";
 import Record from "./components/Record/Record.jsx";
@@ -33,8 +32,6 @@ function App() {
         <Route path="/" element={<PublicRoute />}>
           <Route index element={<LandingPage />} />{" "}
           {/* rutas publicas- lo de indez quiere decir / */}
-          <Route path="/graficas" element={<GraphWM />} />
-          <Route path="/calendar" element={<Calendar />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/logout" element={<LogOut />} />
           <Route path="/registro" element={<Register />} />
@@ -52,6 +49,7 @@ function App() {
           <Route index element={<Home />} />
 
           <Route path="/private/fitbit" element={<Fitbit />} />
+          <Route path="/private/graficas" element={<GraphWM />} />
           <Route path="/private/planes" element={<Pricing />} />
           <Route path="/private/newrecord" element={<Record />} />
           <Route path="/private/dashboard/*" element={<Dashboard />} />
