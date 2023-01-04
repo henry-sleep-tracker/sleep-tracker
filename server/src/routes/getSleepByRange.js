@@ -1,19 +1,20 @@
 const { Router } = require("express");
 const { Op } = require("sequelize");
 const router = Router();
-const { Stage } = require("../db");
+const { Session } = require("../db");
 
 router.get("/", async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
 
     if (startDate) {
-      const searchByRange = await Stage.findAll({
+      const searchByRange = await Session.findAll({
         where: {
           date: {
             [Op.between]: [startDate, endDate],
           },
         },
+        order: [["date", "ASC"]],
       });
       res.status(200).json(searchByRange);
     } else {
