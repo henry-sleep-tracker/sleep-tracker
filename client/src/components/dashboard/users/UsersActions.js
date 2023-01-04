@@ -18,17 +18,12 @@ const UsersActions = ({ params, rowId, setRowId }) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const { isAdmin, isActive, names, lastNames, nationality, birthday, id } = params.row;
-    //Verificar names y lastNames no estan vacios. Falta Validar
-    if( names && lastNames){
-      const result = await updateUsers( { isAdmin, isActive, names, lastNames, nationality, birthday }, id);
-      if (result) {
-        setSuccess(true);
-        setRowId(null);
-        dispatch(getUsers());
-      }
-    } else {
-      alert('Nombre y Apellidos son requeridos');
+    const { apellidos, nombres, sexo, dni, nacimiento, tipo, localidad, celular, estado_civil, domicilio, id } = params.row;
+    const result = await updateUsers( { apellidos, nombres, sexo, dni, nacimiento, tipo, localidad, celular, estado_civil, domicilio }, id);
+    if (result) {
+      setSuccess(true);
+      setRowId(null);
+      dispatch(getUsers());
     }
     setLoading(false);
   };

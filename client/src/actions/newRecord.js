@@ -117,7 +117,7 @@ export const getLastIdDrink = () => {
 
 /* ====================== POST SECTION ======================= */
 
-export const createNewRecord = (obj) => {
+export const createNewRecord = obj => {
   return async function (dispatch) {
     try {
       let newRecord = null;
@@ -129,13 +129,13 @@ export const createNewRecord = (obj) => {
     } catch (err) {
       dispatch({
         type: ERROR_TRYING_TO_CREATE_RECORD,
-        payload: err.message,
+        payload: err,
       });
     }
   };
 };
 
-export const createNewActivity = (obj) => {
+export const createNewActivity = obj => {
   return async function (dispatch) {
     try {
       let newActivity = null;
@@ -156,7 +156,7 @@ export const createNewActivity = (obj) => {
   };
 };
 
-export const createNewCoffeeSize = (obj) => {
+export const createNewCoffeeSize = obj => {
   return async function (dispatch) {
     try {
       let newCoffeeSize = null;
@@ -177,7 +177,7 @@ export const createNewCoffeeSize = (obj) => {
   };
 };
 
-export const createNewDrink = (obj) => {
+export const createNewDrink = obj => {
   return async function (dispatch) {
     try {
       let newDrink = null;

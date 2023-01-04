@@ -62,7 +62,9 @@ router.post("/manual", async (req, res) => {
     }
   } catch (error) {
     console.log("El error middleware login post /manual es:", error.message);
-    res.status(401).send("El error middleware login post /manual es");
+    res
+      .status(401)
+      .send("El error middleware login post /manual es");
   }
 });
 module.exports = router;

@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const router = Router();
 
-const { GOOGLE_CLIENT_ID } = process.env;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 let DB = [];
