@@ -10,8 +10,6 @@ import { useEffect, useRef, useState } from "react";
 function LandingPage() {
   const [mode, setMode] = useState("light");
 
-  
-
   // const [pageScroll, setPageScroll] = useState('page1')
 
   const page1 = useRef(null);

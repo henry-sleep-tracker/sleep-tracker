@@ -8,14 +8,17 @@ module.exports = (sequelize) => {
       primaryKey: true,
       allowNull: false,
     },
-    logId: {
+    log_id: {
       type: DataTypes.BIGINT,
       unique: true,
     },
-    startTime: {
+    date: {
       type: DataTypes.STRING,
     },
-    endTime: {
+    star_time: {
+      type: DataTypes.STRING,
+    },
+    end_time: {
       type: DataTypes.STRING,
     },
     duration: {
@@ -24,13 +27,16 @@ module.exports = (sequelize) => {
     efficiency: {
       type: DataTypes.INTEGER,
     },
-    minutesAsleep: {
+    summary_deep_min: {
       type: DataTypes.INTEGER,
     },
-    minutesAwake: {
+    summary_light_min: {
       type: DataTypes.INTEGER,
     },
-    minutesToFallAsleep: {
+    summary_rem_min: {
+      type: DataTypes.INTEGER,
+    },
+    summary_awake_min: {
       type: DataTypes.INTEGER,
     },
   });
