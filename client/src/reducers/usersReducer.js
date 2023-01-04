@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   users: [],
-  currentUser: '',
+  currentUser: {},
 };
 
 const usersReducer = function (state = initialState, action) {
