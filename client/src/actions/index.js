@@ -97,3 +97,42 @@ export function logInUser(email, password) {
     }
   };
 }
+
+export function logOutUser() {
+  return async function (dispatch) {
+    try {
+      return dispatch({
+        type: GET_CURRENT_USER,
+        payload: nullUser,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function logInUserWithGoogle(response) {
+  return async function (dispatch) {
+    try {
+      const { email, familyName, givenName } = response.profileObj;
+      const data = await fetch(`http://localhost:3001/user/google`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          lastNames: familyName,
+          names: givenName,
+        }),
+      });
+      const userCreated = await data.json();
+      return dispatch({
+        type: POST_USER_WITH_GOOGLE,
+        payload: userCreated[0],
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}

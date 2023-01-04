@@ -1,21 +1,44 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import ReducerLogin from "./loginReducer";
 import usersReducer from "./usersReducer";
 import recordReducer from "./recordReducer";
-import dateReducer from "./dateReducer";
+import dateSleepReducer from "./dateSleepReducer";
+import rangeSleepReducer from "./rangeSleepReducer";
+
+const persistConfig = {
+  key: 'root',
+  storage: storage,
+  whitelist: ['users']
+}
+
+const userPersistConfig = {
+  key: 'user',
+  storage: storage,
+  whitelist: ['currentUser']
+}
+ 
 
 const reducers = combineReducers({
   logingReducer: ReducerLogin,
-  users: usersReducer,
+  users: persistReducer (userPersistConfig, usersReducer),
   record: recordReducer,
-  date: dateReducer,
+  date: dateSleepReducer,
+  range: rangeSleepReducer,
 });
 
+const persistedReducer = persistReducer(persistConfig, reducers)
+
 const store = createStore(
-  reducers,
-  composeWithDevTools(applyMiddleware(thunkMiddleware))
+  persistedReducer,
+  composeWithDevTools(applyMiddleware(thunkMiddleware)),
 );
+
+const persistor = persistStore(store);
+
+export { persistor}
 
 export default store;

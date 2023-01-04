@@ -41,6 +41,7 @@ function App() {
         <Route path="/" element={<PublicRoute />}>
           <Route index element={<LandingPage />} />{" "}
           {/* rutas publicas- lo de indez quiere decir / */}
+          <Route path="/calendar" element={<Calendar />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/logout" element={<LogOut />} />
           <Route path="/registro" element={<Register />} />
@@ -51,11 +52,16 @@ function App() {
         <Route path="/private" element={<PrivateRoute />}>
           {/* rutas privadas */}
           <Route index element={<Home />} />
+
+          <Route path="/private/fitbit" element={<Fitbit />} />
+          <Route path="/private/planes" element={<Pricing />} />
+          <Route path="/private/graficas" element={<GraphWM />} />
           <Route path="/private/newrecord" element={<Record />} />
           <Route path="/private/fitBit" element={<Fitbit />} />
           <Route path="/private/graficas" element={<GraphWM />} />
           <Route path="/private/planes" element={<Pricing />} />
           <Route path="/private/dashboard/*" element={<Dashboard />} />
+          <Route path="/private/profile" element={<Profile />} />
         </Route>
       </Routes>
     </AuthContextProvider>
