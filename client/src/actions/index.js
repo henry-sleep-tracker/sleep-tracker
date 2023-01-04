@@ -175,7 +175,7 @@ export function logOutUser() {
     try {
       return dispatch({
         type: GET_CURRENT_USER,
-        payload: nullUser,
+        payload: "",
       });
     } catch (error) {
       console.log(error);
