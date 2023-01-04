@@ -23,7 +23,31 @@ router.post("/", async (req, res) => {
 
     const token = await getToken.access_token;
 
-    //searches for most recent timestamp
+    ///////////PRUEEEEEBAAASSSSSSS//////////
+
+    // const data = await fetch(
+    //   `https://api.fitbit.com/1.2/user/-/sleep/date/2022-12-26/2022-12-30.json`,
+    //   {
+    //     method: "GET",
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //       Accept: "application/json",
+    //     },
+    //   }
+    // );
+    // const getData = await data.json();
+
+    // console.log("DATAAA", getData);
+    // console.log(
+    //   "levels",
+    //   getData.sleep.map((d) => d.levels)
+    // );
+    // console.log(
+    //   "summary",
+    //   getData.sleep.map((d) => d.levels.summary)
+    // );
+    /////////////////////////////////////////
+    // searches for most recent timestamp
 
     const mostRecent = await Session.findOne({
       where: {
@@ -38,6 +62,7 @@ router.post("/", async (req, res) => {
       const endDate = new Date(Date.now() - 129600000)
         .toISOString()
         .split("T")[0];
+      console.log("endDate", endDate);
 
       const startDate = new Date(Date.now() - 8640000000)
         .toISOString()
@@ -59,18 +84,33 @@ router.post("/", async (req, res) => {
       console.log("dataNORECENT", getData);
 
       getData.sleep?.map((d) => {
-        Session.bulkCreate([
-          {
-            logId: d.logId,
-            startTime: d.startTime,
-            endTime: d.endTime,
-            duration: d.duration,
-            efficiency: d.efficiency,
-            minutesAsleep: d.minutesAsleep,
-            minutesAwake: d.minutesAwake,
-            minutesToFallAsleep: d.minutesToFallAsleep,
-          },
-        ]);
+        if (!d.levels.summary.hasOwnProperty("deep")) {
+          Session.bulkCreate([
+            {
+              log_id: d.logId,
+              date: d.dateOfSleep,
+              start_time: d.startTime,
+              end_time: d.endTime,
+              duration: d.duration,
+              efficiency: d.efficiency,
+            },
+          ]);
+        } else {
+          Session.bulkCreate([
+            {
+              log_id: d.logId,
+              date: d.dateOfSleep,
+              start_time: d.startTime,
+              end_time: d.endTime,
+              duration: d.duration,
+              efficiency: d.efficiency,
+              summary_deep_min: d.levels.summary.deep.minutes,
+              summary_light_min: d.levels.summary.light.minutes,
+              summary_rem_min: d.levels.summary.rem.minutes,
+              summary_awake_min: d.levels.summary.wake.minutes,
+            },
+          ]);
+        }
         d.levels?.data?.map((s) => {
           Stage.bulkCreate([
             {
@@ -87,10 +127,12 @@ router.post("/", async (req, res) => {
       const today = mostRecent?.dataValues?.createdAt
         .toISOString()
         .split("T")[0];
+      console.log("today", today);
 
       const startDate = new Date(Date.now() - 43200000)
         .toISOString()
         .split("T")[0];
+      console.log("startDate", startDate);
 
       const data = await fetch(
         `https://api.fitbit.com/1.2/user/-/sleep/date/${startDate}/${today}.json`,
@@ -107,18 +149,33 @@ router.post("/", async (req, res) => {
       console.log("recentDATA", getData);
 
       getData.sleep?.map((d) => {
-        Session.bulkCreate([
-          {
-            logId: d.logId,
-            startTime: d.startTime,
-            endTime: d.endTime,
-            duration: d.duration,
-            efficiency: d.efficiency,
-            minutesAsleep: d.minutesAsleep,
-            minutesAwake: d.minutesAwake,
-            minutesToFallAsleep: d.minutesToFallAsleep,
-          },
-        ]);
+        if (!d.levels.summary.hasOwnProperty("deep")) {
+          Session.bulkCreate([
+            {
+              log_id: d.logId,
+              date: d.dateOfSleep,
+              start_time: d.startTime,
+              end_time: d.endTime,
+              duration: d.duration,
+              efficiency: d.efficiency,
+            },
+          ]);
+        } else {
+          Session.bulkCreate([
+            {
+              log_id: d.logId,
+              date: d.dateOfSleep,
+              start_time: d.startTime,
+              end_time: d.endTime,
+              duration: d.duration,
+              efficiency: d.efficiency,
+              summary_deep_min: d.levels.summary.deep.minutes,
+              summary_light_min: d.levels.summary.light.minutes,
+              summary_rem_min: d.levels.summary.rem.minutes,
+              summary_awake_min: d.levels.summary.wake.minutes,
+            },
+          ]);
+        }
         d.levels?.data?.map((s) => {
           Stage.bulkCreate([
             {
