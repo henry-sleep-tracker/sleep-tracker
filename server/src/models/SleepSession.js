@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
     date: {
       type: DataTypes.STRING,
     },
-    star_time: {
+    start_time: {
       type: DataTypes.STRING,
     },
     end_time: {

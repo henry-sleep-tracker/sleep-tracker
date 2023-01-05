@@ -7,16 +7,40 @@ import {
   CartesianGrid,
   Tooltip,
   LineChart,
+  ResponsiveContainer,
 } from "recharts";
 
 export default function DualGraph() {
   const ranges = useSelector((state) => state.range);
   console.log("ranges", ranges);
 
-  const getRandomColor = () => {
-    return (
-      "#" + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0")
-    );
+  // const getRandomColor = () => {
+  //   return (
+  //     "#" + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0")
+  //   );
+  // };
+
+  const getColor = (k) => {
+    const green = "#58C0A1";
+    const teal = "#53C2E2";
+    const blue = "#5597DE";
+    const orange = "#F2B35B";
+    const red = "#F16D64";
+    if (k === "efficiency") {
+      return green;
+    }
+    if (k === "summary_deep_min") {
+      return teal;
+    }
+    if (k === "summary_light_min") {
+      return blue;
+    }
+    if (k === "summary_rem_min") {
+      return orange;
+    }
+    if (k === "summary_awake_min") {
+      return red;
+    }
   };
 
   const lines = () => {
@@ -29,14 +53,23 @@ export default function DualGraph() {
         "summary_awake_min",
       ].includes(item)
     );
-    console.log("uniqueKeys", uniqueKeys);
+
     return uniqueKeys.map((k) => {
-      return <Line type="monotone" stroke={getRandomColor()} dataKey={k} />;
+      return (
+        <Line
+          connectNulls
+          type="monotone"
+          stroke={getColor(k)}
+          strokeWidth={1.5}
+          dataKey={k}
+          activeDot={{ r: 5 }}
+        />
+      );
     });
   };
 
   return (
-    <div>
+    <ResponsiveContainer width="95%" height={500}>
       <LineChart
         width={500}
         height={400}
@@ -54,6 +87,6 @@ export default function DualGraph() {
         <Tooltip />
         {ranges?.length && lines()}
       </LineChart>
-    </div>
+    </ResponsiveContainer>
   );
 }

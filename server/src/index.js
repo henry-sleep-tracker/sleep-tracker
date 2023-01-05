@@ -9,7 +9,7 @@ const updateUser = require("./routes/updateUser.js");
 const plansRoutes = require("./routes/pagosStripe");
 const getSleepByDate = require("./routes/getSleepByDate");
 const getSleepByRange = require("./routes/getSleepByRange");
-const getUser = require("./routes/getUser.js")
+const getUser = require("./routes/getUser.js");
 
 const router = Router();
 
