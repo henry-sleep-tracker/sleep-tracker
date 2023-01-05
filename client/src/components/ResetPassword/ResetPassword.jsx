@@ -12,21 +12,46 @@ export default function ResetPassword() {
         password: "",
         confirmPassword: "",
       });
+      const [errorsEmptiness,setErrorsEmptiness]=useState({
+        password: "",
+        confirmPassword: "",
+    }) 
+    function validate(input){ //aca entra todo el estado input
+      let errors={}
+      for(let propiedad in input){
+          if (!input[propiedad]){
+              errors[propiedad]=`${propiedad.charAt(0).toUpperCase() + propiedad.slice(1)} es requerido`
+          }
+      }
+      return errors
+    }
       function handleChange(event) {
         setInput({
           ...input,
           [event.target.name]: event.target.value,
         });
+        setErrorsEmptiness(
+          validate({
+          ...input,
+          [event.target.name]: event.target.value
+          })
+        )
       }
       async function handleSubmit(event) {
         event.preventDefault();
         try {
-          dispatch( resetPassword(input.password, id, token));
-          setInput({
-            password: "",
-            confirmPassword: "",
-          });
-          navigate("/login");
+          if(Object.keys(errorsEmptiness).length!==0 ){
+            alert(`Todos los campos obligatorios deben ser llenados para poder registrarse`)
+          }else if(input.password!==input.confirmPassword){
+            alert(`La contraseña no se confirmo correctamente`)
+          }else{
+            dispatch( resetPassword(input.password, id, token));
+            setInput({
+              password: "",
+              confirmPassword: "",
+            });
+            navigate("/login");
+          }
         } catch (error) {
           console.log("el error es:", error);
         }
@@ -53,6 +78,7 @@ export default function ResetPassword() {
           name="confirmPassword"
           placeholder="Contraseña"
           maxLength="32"
+          pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
           onChange={(event) => handleChange(event)}
           required
         />
