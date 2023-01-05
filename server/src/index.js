@@ -11,6 +11,7 @@ const getSleepByDate = require("./routes/getSleepByDate");
 const getSleepByRange = require("./routes/getSleepByRange");
 const getUser = require("./routes/getUser.js")
 const getComments = require("./routes/getComments.js")
+const postComment = require("./routes/postComment.js")
 
 const router = Router();
 
@@ -26,5 +27,6 @@ router.use("/search", getSleepByDate);
 router.use("/daterange", getSleepByRange);
 router.use("/myuser", getUser);
 router.use("/getcomments", getComments);
+router.use("/postcomment", postComment);
 
 module.exports = router;

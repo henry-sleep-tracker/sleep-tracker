@@ -1,43 +1,36 @@
 const { Router } = require("express");
 const router = Router();
-const { getClinicHistory } = require("../controllers/getClinicHistory");
-const { ClinicHistory } = require("../db");
+const { getComments } = require("../controllers/getComments");
+const { Comment, User } = require("../db");
 
 router.post("/", async (req, res) => {
-  const {
-    dni,
-    objetivos,
-    objetivosGenerales,
-    objetivosInmediatos,
-    usoDeApoyos,
-  } = req.body;
+  const { name, rate, comment, id } = req.body;
 
   try {
-    if (dni) {
-      const allClinicHistories = await getClinicHistory();
-      const clinicHistoryExists = allClinicHistories.find(
-        (element) => element.dni === dni
-      );
+    if (name && rate) {
+      const allComments = await getComments();
+      const commentDb = Comment;
 
-      if (!clinicHistoryExists) {
+      const userId = (await commentDb.getUser()).id
 
-        const clinicHistoryCreated = await ClinicHistory.create({
-          dni,
-          objetivos,
-          objetivosGenerales,
-          objetivosInmediatos,
-          usoDeApoyos,
+      const commentExist = allComments.find((element) => element.id === id);
+      if (!commentExist) {
+        const commentCreated = await Comment.create({
+          name,
+          rate,
+          comment,
         });
 
-        return res.status(201).send(clinicHistoryCreated);
+        console.log(userId);
+        return res.status(201).send(commentCreated);
       }
       return res
         .status(404)
-        .send(console.log("ERROR: No es posible crear la historia clinica"));
+        .send(console.log("ERROR: No es posible crear el comentario."));
     }
   } catch (error) {
-    !dni
-      ? res.status(404).send(console.log("DNI no fue ingresado"))
+    !name || !rate
+      ? res.status(404).send(console.log("Nombre y/o puntuacion no fue ingresado"))
       : res.status(404).send(console.log("Error de conexion"));
     console.log(error);
   }
