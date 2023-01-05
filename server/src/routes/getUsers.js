@@ -1,11 +1,15 @@
 const { Router } = require('express');
 const router = Router();
-const { User } = require('../db.js');
+const { User, Plans } = require('../db.js');
 
 router.get('/', async (req, res)=>{
 
   try {
     const users = await User.findAll({
+      include: {
+        model: Plans,
+        attributes: ['name', 'endTime']
+      },
       order: [['lastNames', 'ASC']]
     });
     res.status(200).send(users);

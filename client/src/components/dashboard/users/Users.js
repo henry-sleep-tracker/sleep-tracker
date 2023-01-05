@@ -28,6 +28,10 @@ function UsersContent() {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    console.log(users);
+  });
+
   function getFullName(params) {
     return `${params.row.lastNames}, ${params.row.names}`;
   }
@@ -47,14 +51,8 @@ function UsersContent() {
         editable: true,
       },
       { field: "names", headerName: "Nombres", width: 170, editable: true },
-      {
-        field: "isSubscribed",
-        headerName: "Suscripción",
-        type: "singleSelect",
-        valueOptions: ["true", "false"],
-        editable: true,
-      },
       { field: "email", headerName: "Email", width: 170 },
+      { field: "plans", headerName: "Suscripcion", width: 170, editable: true },
       {
         field: "isAdmin",
         headerName: "Admin",
@@ -80,15 +78,6 @@ function UsersContent() {
         headerName: "Última Conexión",
         type: "date",
         width: 125,
-      },
-      {
-        field: "isActive",
-        headerName: "Estado",
-        width: 85,
-        type: "singleSelect",
-        valueOptions: [{ value: true , label : 'Activo' }, { value: false , label : 'Borrado' }],
-        editable: true,
-        valueFormatter: (params) => { return params.value === true? 'Activo' : 'Borrado' }
       },
       {
         field: "actions",
