@@ -47,12 +47,12 @@ const {
   Session,
   Stage,
   Plans,
-  Comment
+  Comment,
 } = sequelize.models;
 
 // Aca vendrian las relaciones
 
-User.hasOne(Comment)
+User.hasOne(Comment);
 Comment.belongsTo(User);
 
 User.hasMany(NewRecord);
