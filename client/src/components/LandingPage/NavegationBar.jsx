@@ -1,6 +1,5 @@
-import { AppBar, styled, Typography, /*Badge, Avatar, InputBase,*/ Menu, MenuItem, IconButton, Box, Drawer, ListItem, ListItemButton, ListItemIcon, Switch, ListItemText, Divider, Button } from "@mui/material";
-import React, { useState } from "react";
-import { Link } from 'react-router-dom'
+import { AppBar, styled, Typography, IconButton, Box, Drawer, ListItem, ListItemButton, ListItemIcon, Switch, ListItemText, Divider, Button } from "@mui/material";
+import React from "react";
 import NightShelterIcon from '@mui/icons-material/NightShelter';
 import { AccountBalanceWalletSharp, AppRegistration, DarkMode, DevicesOther, Groups2, Home, Login, /*Mail, Notifications,*/ QuestionMark } from "@mui/icons-material";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -11,7 +10,7 @@ import { theme } from "../../theme";
 import { ThemeProvider } from "@emotion/react";
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import { makeStyles } from "@mui/styles";
+// import { makeStyles } from "@mui/styles";
 
 
 const StyledToolbar = styled(Toolbar)({
@@ -66,7 +65,7 @@ const NavegationBar = ({
         setMobileOpen(!mobileOpen);
     };
 
-    const classes = useStyles();
+    // const classes = useStyles();
 
     return (
         <ThemeProvider theme={theme}>
@@ -286,7 +285,7 @@ const NavegationBar = ({
 
 export default NavegationBar;
 
-const useStyles = makeStyles(() => ({
+// const useStyles = makeStyles(() => ({
   
-  }));
+//   }));
   

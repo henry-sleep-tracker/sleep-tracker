@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Collection from "./resume";
 import Graph from "../Graphs/TestGraph";
 import ResponsiveAppBar from "./Nav";
@@ -68,10 +68,10 @@ const Home = () => {
       justifyContent="center"
       alignItems="center"
       direction="column"
-      spacing={1}
+      spacing={3}
       flex={4}
       p={2}
-      // maxWidth='100vw'
+    // maxWidth='100vw'
     >
       <ResponsiveAppBar />
       <Grid item>
@@ -79,27 +79,32 @@ const Home = () => {
           ¡Hola {user.name} {greet()}
         </Typography>
       </Grid>
-      <div>
+
+      <Grid
+        item
+      >
         <Fitbit />
-      </div>
-
-      <div>
-        <Calendario />
-      </div>
-
-      <Grid>
-        <Typography variant="h6">{Date()}</Typography>
       </Grid>
 
-      <Grid className={classes.Collection} item>
+      {/* <Grid
+        item
+      >
+        <Typography variant="h6">{Date()}</Typography>
+      </Grid> */}
+
+      <Grid
+        className={classes.Collection}
+        item
+      >
         <Collection arg={consumed} />
       </Grid>
 
-      {/* <br /> */}
-      {/* <Grid
-        className={classes.containerHome}
+      <Grid
         item
-      > */}
+      >
+        <Calendario />
+      </Grid>
+
       <Grid className={classes.graphHome} item>
         <Graph />
       </Grid>
@@ -112,8 +117,6 @@ const Home = () => {
         <Swipeable className={classes.swipeable} />
       </Grid>
 
-      {/* </Grid>
-       */}
     </Grid>
   );
 };
