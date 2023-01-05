@@ -37,7 +37,7 @@ const Home = () => {
   }, [dispatch, currentUser, usuario]);
 
   let user = {
-    name: usuario ? usuario.names : " Loaging...",
+    name: usuario ? usuario.names : currentUser.names,
     sueño: [1, 3, 2, 4, 5, 1, 3, 2, 1, 5, 3, 4],
     consumo: {
       cafeina: "",
