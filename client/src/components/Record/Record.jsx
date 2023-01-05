@@ -15,7 +15,6 @@ import { useState, useRef } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-/* import { useHistory } from "react-router-dom"; */
 
 // Actions Imports
 import {
@@ -54,7 +53,7 @@ const Record = props => {
   const dispatch = useDispatch();
   /* const history = useHistory(); */
 
-  const currentUser = useSelector((state) => state.users.currentUser)
+  const currentUser = useSelector(state => state.users.currentUser);
   console.log("SOY CURRENT USER EN RECORD", currentUser);
 
   // useRef Hook
@@ -88,7 +87,7 @@ const Record = props => {
   const temp = sleepTime.filter(e => e.level !== 1);
 
   const [record, setRecord] = useState({
-    dateMeal: sleepTime.length > 0 ? sleepTime[0].date : "",
+    dateMeal: sleepTime[0].date,
     timeMeal: "",
     description: "",
     sleepTime:
@@ -107,6 +106,12 @@ const Record = props => {
     userId: userId,
   });
 
+  const [value, setValue] = useState();
+
+  const refresh = () => {
+    setValue({});
+  };
+
   //! ================== Activity States ================= !//
 
   const [activityStatus, setActivityStatus] = useState(false);
@@ -115,6 +120,7 @@ const Record = props => {
   const [addActivity, setAddActivity] = useState({
     id: 0,
     activity: "",
+    userId: userId,
   });
 
   //! ================== Coffee States ================= !//
@@ -125,6 +131,7 @@ const Record = props => {
   const [addCoffeSize, setAddCoffeSize] = useState({
     id: 0,
     size: "",
+    userId: userId,
   });
 
   //! ================== Drinks States ================= !//
@@ -135,6 +142,7 @@ const Record = props => {
   const [addNewDrink, setAddNewDrink] = useState({
     id: 0,
     drink: "",
+    userId: userId,
   });
 
   /******************** Handlers Section *********************/
@@ -189,7 +197,6 @@ const Record = props => {
       drinks.current.value = "0";
       typeDrink.current.value = "default"; */
     message.success(`${nameUser} tu registro se creo correctamente!!`);
-    /* history.push("/private"); */
   };
 
   const handlerOnClear = e => {
@@ -232,56 +239,6 @@ const Record = props => {
   };
 
   //! ================== Activity Handlers ================= !//
-  const handlerAddActivity = e => {
-    e.preventDefault();
-
-    const duplicated = activitiesRedux.filter(
-      e => e.activity === addActivity.activity
-    );
-
-    if (duplicated.length > 0) {
-      return message.error(
-        `La actividad ${addActivity.activity} no puede duplicarse`,
-        2500
-      );
-    }
-
-    setAddActivity((addActivity.id = lastIdActivity));
-
-    dispatch(createNewActivity(addActivity));
-
-    if (activityStat === null) {
-      message.success("Actividad creada exitosamente", 2500);
-      setAddActivity({
-        id: 0,
-        activity: "",
-      });
-
-      setNewActivity(false);
-      setActivityStatus(false);
-      activityRef.current.value = "default";
-    }
-  };
-
-  const handlerOnChangeActivity = e => {
-    e.preventDefault();
-    setAddActivity({
-      ...addActivity,
-      [e.target.name]: e.target.value.toLowerCase(),
-    });
-  };
-
-  const handlerSetActivity = e => {
-    e.preventDefault();
-    if (e.target.value !== "default") setActivityStatus(true);
-    if (e.target.value === "default") setActivityStatus(false);
-    if (e.target.value === "add_activity") {
-      timeRef.current.value = "0";
-      setNewActivity(true);
-    } else {
-      setNewActivity(false);
-    }
-  };
 
   const handlerActivity = e => {
     e.preventDefault();
@@ -304,6 +261,67 @@ const Record = props => {
     setActivity([...activity, `${timeSelectedText} min. de ${nameActivity}`]);
     activityRef.current.value = "default";
     timeRef.current.value = "0";
+  };
+
+  const handlerOnChangeActivity = e => {
+    e.preventDefault();
+    setAddActivity({
+      ...addActivity,
+      [e.target.name]: e.target.value.toLowerCase(),
+    });
+  };
+
+  const handlerAddActivity = e => {
+    e.preventDefault();
+    let duplicated = "";
+
+    if (activitiesRedux.length > 0) {
+      duplicated = activitiesRedux.filter(
+        e => e.activity === addActivity.activity
+      );
+    }
+
+    if (duplicated.length > 0) {
+      return message.error(
+        `La actividad ${addActivity.activity} no puede duplicarse`,
+        2500
+      );
+    }
+
+    if (lastIdActivity === null) {
+      setAddActivity((addActivity.id = 1));
+    } else {
+      setAddActivity((addActivity.id = lastIdActivity));
+    }
+
+    dispatch(createNewActivity(addActivity));
+
+    if (activityStat === null) {
+      message.success("Actividad creada exitosamente", 2500);
+      setAddActivity({
+        id: 0,
+        activity: "",
+        userId: userId,
+      });
+
+      setNewActivity(false);
+      setActivityStatus(false);
+      activityRef.current.value = "default";
+    }
+  };
+
+  const handlerSetActivity = e => {
+    e.preventDefault();
+    if (e.target.value !== "default" && e.target.value !== "add_activity")
+      setActivityStatus(true);
+    if (e.target.value === "default") setActivityStatus(false);
+    if (activityRef.current.value === "add_activity") {
+      timeRef.current.value = "0";
+      setActivityStatus(false);
+      setNewActivity(true);
+    } else {
+      setNewActivity(false);
+    }
   };
 
   const eraseActivity = e => {
@@ -331,56 +349,6 @@ const Record = props => {
 
   //! ================== Coffee Handlers ================= !//
 
-  const handlerAddSizeCoffee = e => {
-    e.preventDefault();
-
-    const duplicated = coffeeSizesRedux.filter(
-      e => e.size === addCoffeSize.size
-    );
-
-    if (duplicated.length > 0) {
-      return message.error(
-        `La medida ${addCoffeSize.size} no puede duplicarse`,
-        2500
-      );
-    }
-
-    setAddCoffeSize((addCoffeSize.id = lastIdCoffee));
-    dispatch(createNewCoffeeSize(addCoffeSize));
-
-    if (coffeeStat === null) {
-      message.success("Nueva porcion creada exitosamente", 2500);
-      setAddCoffeSize({
-        id: 0,
-        size: "",
-      });
-
-      setNewCoffeeSize(false);
-      setCoffeeStatus(false);
-      sizeCup.current.value = "default";
-    }
-  };
-
-  const handlerOnChangeCoffeSize = e => {
-    e.preventDefault();
-    setAddCoffeSize({
-      ...addCoffeSize,
-      [e.target.name]: e.target.value.toLowerCase(),
-    });
-  };
-
-  const handlerSetCoffee = e => {
-    e.preventDefault();
-    if (e.target.value !== "default") setCoffeeStatus(true);
-    if (e.target.value === "default") setCoffeeStatus(false);
-    if (e.target.value === "add_coffee_size") {
-      cups.current.value = "0";
-      setNewCoffeeSize(true);
-    } else {
-      setNewCoffeeSize(false);
-    }
-  };
-
   const handlerCoffee = e => {
     e.preventDefault();
     const quantityCoffee = parseInt(cups.current.value) + Math.random();
@@ -401,6 +369,60 @@ const Record = props => {
     setCoffee([...coffee, `${coffees} tazas de ${sizeCoffee}`]);
     sizeCup.current.value = "default";
     cups.current.value = "0";
+  };
+
+  const handlerOnChangeCoffeSize = e => {
+    e.preventDefault();
+    setAddCoffeSize({
+      ...addCoffeSize,
+      [e.target.name]: e.target.value.toLowerCase(),
+    });
+  };
+
+  const handlerAddSizeCoffee = e => {
+    e.preventDefault();
+    let duplicated = "";
+
+    if (coffeeSizesRedux.length > 0) {
+      duplicated = coffeeSizesRedux.filter(e => e.size === addCoffeSize.size);
+    }
+
+    if (duplicated.length > 0) {
+      return message.error(
+        `La medida ${addCoffeSize.size} no puede duplicarse`,
+        2500
+      );
+    }
+
+    setAddCoffeSize((addCoffeSize.id = lastIdCoffee));
+    dispatch(createNewCoffeeSize(addCoffeSize));
+
+    if (coffeeStat === null) {
+      message.success("Nueva porcion creada exitosamente", 2500);
+      setAddCoffeSize({
+        id: 0,
+        size: "",
+        userId: userId,
+      });
+
+      setNewCoffeeSize(false);
+      setCoffeeStatus(false);
+      sizeCup.current.value = "default";
+    }
+  };
+
+  const handlerSetCoffee = e => {
+    e.preventDefault();
+    if (e.target.value !== "default" && e.target.value !== "add_coffee_size")
+      setCoffeeStatus(true);
+    if (e.target.value === "default") setCoffeeStatus(false);
+    if (sizeCup.current.value === "add_coffee_size") {
+      cups.current.value = "0";
+      setCoffeeStatus(false);
+      setNewCoffeeSize(true);
+    } else {
+      setNewCoffeeSize(false);
+    }
   };
 
   const eraseCoffee = e => {
@@ -428,54 +450,6 @@ const Record = props => {
 
   //! ================== Drinks Handlers ================= !//
 
-  const handlerAddDrink = e => {
-    e.preventDefault();
-
-    const duplicated = drinksRedux.filter(e => e.drink === addNewDrink.drink);
-
-    if (duplicated.length > 0) {
-      return message.error(
-        `La bebida ${addNewDrink.drink} no puede duplicarse`,
-        2500
-      );
-    }
-
-    setAddNewDrink((addNewDrink.id = lastIdDrink));
-    dispatch(createNewDrink(addNewDrink));
-
-    if (drinkStat === null) {
-      message.success("Nueva bebida creada exitosamente", 2500);
-      setAddNewDrink({
-        id: 0,
-        drink: "",
-      });
-
-      setNewDrink(false);
-      setDrinkStatus(false);
-      typeDrink.current.value = "default";
-    }
-  };
-
-  const handlerOnChangeDrink = e => {
-    e.preventDefault();
-    setAddNewDrink({
-      ...addNewDrink,
-      [e.target.name]: e.target.value.toLowerCase(),
-    });
-  };
-
-  const handlerSetDrink = e => {
-    e.preventDefault();
-    if (e.target.value !== "default") setDrinkStatus(true);
-    if (e.target.value === "default") setDrinkStatus(false);
-    if (e.target.value === "add_drink") {
-      drinks.current.value = "0";
-      setNewDrink(true);
-    } else {
-      setNewDrink(false);
-    }
-  };
-
   const handlerDrinks = e => {
     e.preventDefault();
     const quantityDrinks = parseInt(drinks.current.value) + Math.random();
@@ -496,6 +470,60 @@ const Record = props => {
     setDrink([...drink, `${drinkss} bebidas de ${typeDrinkss}`]);
     typeDrink.current.value = "default";
     drinks.current.value = "0";
+  };
+
+  const handlerOnChangeDrink = e => {
+    e.preventDefault();
+    setAddNewDrink({
+      ...addNewDrink,
+      [e.target.name]: e.target.value.toLowerCase(),
+    });
+  };
+
+  const handlerAddDrink = e => {
+    e.preventDefault();
+    let duplicated = "";
+
+    if (drinksRedux.length > 0) {
+      duplicated = drinksRedux.filter(e => e.drink === addNewDrink.drink);
+    }
+
+    if (duplicated.length > 0) {
+      return message.error(
+        `La bebida ${addNewDrink.drink} no puede duplicarse`,
+        2500
+      );
+    }
+
+    setAddNewDrink((addNewDrink.id = lastIdDrink));
+    dispatch(createNewDrink(addNewDrink));
+
+    if (drinkStat === null) {
+      message.success("Nueva bebida creada exitosamente", 2500);
+      setAddNewDrink({
+        id: 0,
+        drink: "",
+        userId: userId,
+      });
+
+      setNewDrink(false);
+      setDrinkStatus(false);
+      typeDrink.current.value = "default";
+    }
+  };
+
+  const handlerSetDrink = e => {
+    e.preventDefault();
+    if (e.target.value !== "default" && e.target.value !== "add_drink")
+      setDrinkStatus(true);
+    if (e.target.value === "default") setDrinkStatus(false);
+    if (typeDrink.current.value === "add_drink") {
+      drinks.current.value = "0";
+      setDrinkStatus(false);
+      setNewDrink(true);
+    } else {
+      setNewDrink(false);
+    }
   };
 
   const eraseDrink = e => {
@@ -541,6 +569,7 @@ const Record = props => {
     <Popup
       trigger={<img src={menRuning} alt="" className="popup_ico" />}
       contentStyle={{ width: "40%" }}
+      onClose={() => setNewActivity(false)}
     >
       <div className="activity_container">
         <div className="actity_head_container">
@@ -562,17 +591,19 @@ const Record = props => {
           <label>Actividad</label>
           <select ref={activityRef} onChange={handlerSetActivity}>
             <option value="default">Selecciona...</option>
-            {activitiesRedux.map((e, i) => {
-              return (
-                <option
-                  key={i}
-                  value={e.id}
-                  disabled={record.activity.includes(e.id) ? true : false}
-                >
-                  {e.activity}
-                </option>
-              );
-            })}
+            {activitiesRedux.length > 0
+              ? activitiesRedux.map((e, i) => {
+                  return (
+                    <option
+                      key={i}
+                      value={e.id}
+                      disabled={record.activity.includes(e.id) ? true : false}
+                    >
+                      {e.activity}
+                    </option>
+                  );
+                })
+              : ""}
             <option value="add_activity">Agregar Actividad</option>
           </select>
           <span
@@ -614,6 +645,7 @@ const Record = props => {
     <Popup
       trigger={<img src={coffeeMain} alt="" className="popup_ico" />}
       contentStyle={{ width: "35%" }}
+      onClose={() => setNewCoffeeSize(false)}
     >
       <div className="coffee_container">
         <div className="coffee_head_container">
@@ -634,17 +666,19 @@ const Record = props => {
           <label>Tamaño Taza</label>
           <select ref={sizeCup} onChange={handlerSetCoffee}>
             <option value="default">Selecciona...</option>
-            {coffeeSizesRedux.map((e, i) => {
-              return (
-                <option
-                  key={i}
-                  value={e.id}
-                  disabled={record.coffee.includes(e.id) ? true : false}
-                >
-                  {e.size}
-                </option>
-              );
-            })}
+            {coffeeSizesRedux.length > 0
+              ? coffeeSizesRedux.map((e, i) => {
+                  return (
+                    <option
+                      key={i}
+                      value={e.id}
+                      disabled={record.coffee.includes(e.id) ? true : false}
+                    >
+                      {e.size}
+                    </option>
+                  );
+                })
+              : ""}
             <option value="add_coffee_size">Agregar Tamaño</option>
           </select>
           <span
@@ -686,6 +720,7 @@ const Record = props => {
     <Popup
       trigger={<img src={drinkMain} alt="" className="popup_ico" />}
       contentStyle={{ width: "35%" }}
+      onClose={() => setNewDrink(false)}
     >
       <div className="drink_container">
         <div className="drink_head_container">
@@ -706,17 +741,19 @@ const Record = props => {
           <label>Tipo de bebida</label>
           <select ref={typeDrink} onChange={handlerSetDrink}>
             <option value="default">Selecciona...</option>
-            {drinksRedux.map((e, i) => {
-              return (
-                <option
-                  key={i}
-                  value={e.id}
-                  disabled={record.drink.includes(e.id) ? true : false}
-                >
-                  {e.drink}
-                </option>
-              );
-            })}
+            {drinksRedux.length > 0
+              ? drinksRedux.map((e, i) => {
+                  return (
+                    <option
+                      key={i}
+                      value={e.id}
+                      disabled={record.drink.includes(e.id) ? true : false}
+                    >
+                      {e.drink}
+                    </option>
+                  );
+                })
+              : ""}
             <option value="add_drink">Agregar Bebida</option>
           </select>
           <span
@@ -774,44 +811,48 @@ const Record = props => {
                 Nuevo Registro de {nameUser}
                 <img src={memo} alt="" className="memo" />
               </h2>
-              <h5>
+              {/* <h5>
                 Campo Requerido ( <span className="asterisk">*</span> )
-              </h5>
+              </h5> */}
             </div>
             <div className="general_info_container">
-              <label>
-                <span className="asterisk">* </span>
-                <img src={calendar} alt="" className="main_ico" />
-              </label>
-              <input
-                type="date"
-                required={true}
-                name="dateMeal"
-                value={record.dateMeal}
-                onChange={handlerOnChange}
-                disabled={sleepTime.length > 0 ? true : false}
-              />
-              <label>
-                <span className="asterisk">* </span>
-                <img src={time} alt="" className="main_ico" />
-              </label>
-              <input
-                type="time"
-                required={true}
-                name="timeMeal"
-                value={record.timeMeal}
-                onChange={handlerOnChange}
-              />
-              <img
-                src={check}
-                alt=""
-                hidden={
-                  record.dateMeal !== "" && record.timeMeal !== ""
-                    ? false
-                    : true
-                }
-                className="img_ok"
-              />
+              <div className="date_record_container">
+                <h5 className="h5_head">Fecha</h5>
+                <div>
+                  <img src={calendar} alt="" className="main_ico" />
+                  <input
+                    type="date"
+                    /* required={true} */
+                    name="dateMeal"
+                    value={record.dateMeal}
+                    onChange={handlerOnChange}
+                    disabled={sleepTime.length > 0 ? true : false}
+                  />
+                </div>
+              </div>
+              <div className="time_meal_container">
+                <h5 className="h5_head">Hora de tu cena</h5>
+                <div>
+                  <img src={time} alt="" className="main_ico" />
+                  <input
+                    type="time"
+                    /* required={true} */
+                    name="timeMeal"
+                    value={record.timeMeal}
+                    onChange={handlerOnChange}
+                  />
+                  <img
+                    src={check}
+                    alt=""
+                    hidden={
+                      record.dateMeal !== "" && record.timeMeal !== ""
+                        ? false
+                        : true
+                    }
+                    className="img_ok"
+                  />
+                </div>
+              </div>
               <h4>Descripcion alimento</h4>
               <textarea
                 name="description"
@@ -838,15 +879,15 @@ const Record = props => {
                 </h2>
               </div>
               <div className="sleep_section">
-                <label>
+                {/* <label>
                   <span className="asterisk">* </span>Tiempo
-                </label>
+                </label> */}
                 <input
                   className="input_number"
                   type="number"
                   step="1"
                   min="0"
-                  required={true}
+                  /* required={true} */
                   name="sleepTime"
                   value={record.sleepTime}
                   onChange={handlerOnChange}

@@ -11,23 +11,29 @@ import Calendario from "../Calendario/Calendario";
 import { makeStyles } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
 import { getSleepByDate } from "../../actions/getSleepData";
-
+import { getUser } from "../../actions/getUser.js";
 
 const Home = () => {
 
-  const currentUser = useSelector((state) => state.users.currentUser);
+  const currentUser = useSelector((state) => state?.users.currentUser);
   console.log("SOY CURRENTUSER", currentUser);
+  const usuario = useSelector((state) => state.user.user)
+  console.log("SOY USUARIO", usuario);
+    
 
   const dispatch = useDispatch();
   useEffect(() => {
+    if(usuario === null){
+      dispatch(getUser(currentUser));
+    }
     const yesterday = new Date(Date.now() - 28800000)
       .toISOString()
       .split("T")[0];
     dispatch(getSleepByDate(yesterday));
-  }, [dispatch, currentUser]);
+  }, [dispatch, currentUser, usuario]);
 
   let user = {
-    name: currentUser.names,
+    name: usuario ? usuario.names : " Loaging...",
     sueño: [1, 3, 2, 4, 5, 1, 3, 2, 1, 5, 3, 4],
     consumo: {
       cafeina: "",

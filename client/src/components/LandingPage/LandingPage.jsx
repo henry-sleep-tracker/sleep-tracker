@@ -3,14 +3,12 @@ import React from "react";
 // import RightBar from "./RightBar";
 // import SideBar from "./SideBar";
 import NavegationBar from "./NavegationBar";
-import ScrollButton from "./ScrollButton";
-import { Stack, createTheme, ThemeProvider, Box } from "@mui/material";
+// import ScrollButton from "./ScrollButton";
+import { createTheme, ThemeProvider, Box } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 
 function LandingPage() {
   const [mode, setMode] = useState("light");
-
-  
 
   // const [pageScroll, setPageScroll] = useState('page1')
 

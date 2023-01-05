@@ -58,6 +58,15 @@ Comment.belongsTo(User);
 User.hasMany(NewRecord);
 NewRecord.belongsTo(User);
 
+User.hasMany(Activity);
+Activity.belongsTo(User);
+
+User.hasMany(CoffeeSize);
+CoffeeSize.belongsTo(User);
+
+User.hasMany(AlcoholType);
+AlcoholType.belongsTo(User);
+
 NewRecord.belongsToMany(CoffeeSize, {
   through: "record_coffee",
   timestamps: false,
@@ -96,9 +105,7 @@ Plans.belongsTo(User, {
 // Session.belongsTo(User);
 
 Session.hasMany(Stage);
-Stage.belongsTo(Session, {
-  through: "sessionId",
-});
+Stage.belongsTo(Session);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

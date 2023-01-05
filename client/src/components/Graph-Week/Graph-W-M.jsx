@@ -2,13 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Chart } from "react-google-charts";
 import { porcentage, semana, total } from "./GraphW";
-import Graph from "../Graphs/TestGraph";
 import ResponsiveAppBar from "../Home/Nav";
 import RangeCalendar from "../Calendario/RangeCalendar";
-import CustomizedAccordions, {
-  CustomizedAccordions2,
-  CustomizedAccordions3,
-} from "./detailsGraphs";
+import { CustomizedAccordions2, CustomizedAccordions3 } from "./detailsGraphs";
+import DualGraph from "./DualGraph";
 import "./graficas.css";
 const GraphWM = () => {
   const daterange = useSelector((state) => state.range);
@@ -48,13 +45,9 @@ const GraphWM = () => {
         <div>
           <RangeCalendar />
         </div>
-        {/* <div className="gafica1">
-          <Graph />
-          <div className="descgraph">
-            <CustomizedAccordions />
-          </div>
+        <div>
+          <DualGraph />
         </div>
-        <hr /> */}
 
         <div className="grafica2">
           <h4>{options1.title}</h4>

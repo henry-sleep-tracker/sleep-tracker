@@ -175,7 +175,7 @@ export function logOutUser() {
     try {
       return dispatch({
         type: GET_CURRENT_USER,
-        payload: nullUser,
+        payload: "",
       });
     } catch (error) {
       console.log(error);
@@ -201,7 +201,7 @@ export function logInUserWithGoogle(response) {
       const userCreated = await data.json();
       return dispatch({
         type: POST_USER_WITH_GOOGLE,
-        payload: userCreated[0],
+        payload: userCreated,
       });
     } catch (error) {
       console.log(error);

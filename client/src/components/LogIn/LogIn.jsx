@@ -27,8 +27,8 @@ export default function LogIn() {
   useEffect(() => {
     if (loggedUser.hasOwnProperty('id') && loggedUser.id !== 0) {
       alert("Usuario validado");
-      login();
-    } else if (loggedUser.id === 0) {
+      login(loggedUser.id);
+    } else if(loggedUser.id===0){
       alert("El usuario o la contraseña no son correctos");
     }
   }, [loggedUser, login])

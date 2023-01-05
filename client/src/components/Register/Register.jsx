@@ -94,6 +94,12 @@ function validate(input){ //aca entra todo el estado input
           ...input,
           nationality:event.target.value
       })
+      setErrorsEmptiness(
+        validate({
+        ...input,
+        nationality: event.target.value
+        })
+      )
     }
 
   return (
