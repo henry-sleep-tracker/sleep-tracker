@@ -7,12 +7,12 @@ const { Comment, User } = require("../../db");
 router.post("/", async (req, res) => {
   const { name, rate, comment } = req.body;
   let userDb, commentDb;
-
+  const providedId = 'ac02ffd6-5ff4-4c16-a3af-de084a3fff28'
   try {
 
-    const currentUser = await getUserById('a8f34d51-df74-4051-aa59-63aeb928c5a9')
-    console.log(currentUser)
-    if (!name) {
+    // const currentUser = await getUserById(providedId)
+    // console.log(currentUser.id)
+    if (name && rate) {
       const allComments = await getComments();
       const commentExist = allComments.find((element) => element.name === name);
       if (!commentExist) {
@@ -21,6 +21,9 @@ router.post("/", async (req, res) => {
           rate,
           comment,
         });
+
+        userDb = await User.findOne ({ where: { id: providedId }});
+        console.log(userDb)
 
         return res.status(201).send(commentCreated);
       }
