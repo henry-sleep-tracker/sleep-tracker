@@ -78,6 +78,17 @@ function UsersContent() {
         headerName: "Última Conexión",
         type: "date",
         width: 125,
+      },      {
+        field: "createdAt",
+        headerName: "Creado",
+        type: "date",
+        width: 175,
+      },
+      {
+        field: "deletedAt",
+        headerName: "Eliminado",
+        type: "date",
+        width: 175,
       },
       {
         field: "actions",
@@ -109,7 +120,8 @@ function UsersContent() {
               columnVisibilityModel: {
                 lastNames: false,
                 names: false,
-                created_at: false,
+                createdAt: false,
+                deletedAt: false,
               },
             },
           }}
