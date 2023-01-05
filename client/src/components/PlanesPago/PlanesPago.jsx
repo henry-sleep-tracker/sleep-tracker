@@ -1,21 +1,21 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector} from "react-redux";
+import { getUser } from "../../actions/getUser";
 
 const Pricing = () => {
-  const loggedUser =  useSelector((state)=>state?.users.currentUser)
-  console.log("SOY CURRENT USER:", loggedUser, "despues");
+  const USER_ID = "USER_ID";
+  const userId= window.localStorage.getItem(USER_ID)
+  const currentUser = useSelector((state) => state?.users.currentUser);
+  const dispatch = useDispatch();
   const [prices, setPrices] = useState([]);
 
   useEffect(() => {
     fetchPrices();
-    // if(usuario === null){
-    //   dispatch(getUser(currentUser));
-    // }
-  }, []);
-  const dispatch = useDispatch();
-
-
+    if(currentUser ===""){
+    dispatch(getUser(userId));
+    }
+  }, [dispatch, currentUser, userId]);
 
 
   const fetchPrices = async () => {
