@@ -1,7 +1,10 @@
 import {
-  GET_COFFEE_SIZES,
-  GET_ACTIVITIES,
-  GET_DRINKS,
+  //GET_COFFEE_SIZES,
+  //GET_ACTIVITIES,
+  //GET_DRINKS,
+  GET_ACTIVITIES_BY_USER,
+  GET_COFFEE_SIZE_BY_USER,
+  GET_DRINKS_BY_USER,
   NEW_RECORD,
   ERROR_TRYING_TO_CREATE_RECORD,
   NEW_ACTIVITY,
@@ -13,6 +16,7 @@ import {
   NEW_DRINK,
   ERROR_TRYING_TO_CREATE_DRINK,
   GET_LAST_ID_DRINK,
+  SET_STATUS_NEW_RECORD,
 } from "../actions/newRecord";
 
 import { CREATE_TOKEN } from "../actions/constants";
@@ -33,11 +37,17 @@ const initialState = {
 
 const recordReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_ACTIVITIES:
+    /* case GET_ACTIVITIES:
+      return { ...state, activities: action.payload }; */
+    /* case GET_COFFEE_SIZES:
+      return { ...state, coffeeSizes: action.payload }; */
+    /* case GET_DRINKS:
+      return { ...state, drinks: action.payload }; */
+    case GET_ACTIVITIES_BY_USER:
       return { ...state, activities: action.payload };
-    case GET_COFFEE_SIZES:
+    case GET_COFFEE_SIZE_BY_USER:
       return { ...state, coffeeSizes: action.payload };
-    case GET_DRINKS:
+    case GET_DRINKS_BY_USER:
       return { ...state, drinks: action.payload };
     case NEW_RECORD:
       return { ...state };
@@ -63,6 +73,8 @@ const recordReducer = (state = initialState, action) => {
       return { ...state, lastIdDrink: action.payload };
     case CREATE_TOKEN:
       return { ...state, toke: action.payload };
+    case SET_STATUS_NEW_RECORD:
+      return { ...state, statusNewRecord: action.payload };
     default:
       return { ...state };
   }

@@ -1,19 +1,19 @@
-const { DataTypes, INTEGER } = require('sequelize');
+const { DataTypes, INTEGER } = require("sequelize");
 
 module.exports = sequelize => {
   sequelize.define(
-    'coffeeSize',
+    "coffeeSize",
     {
       id: {
         primaryKey: true,
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
-        unique: true,
+        defaultValue: DataTypes.UUIDV4,
       },
       size: {
         type: DataTypes.STRING(10),
         allowNull: true,
-        unique: true,
+        unique: false,
       },
     },
     { timestamps: false }
