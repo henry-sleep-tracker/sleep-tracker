@@ -10,7 +10,8 @@ router.get('/', async (req, res)=>{
         model: Plans,
         attributes: ['name', 'endTime']
       },
-      order: [['lastNames', 'ASC']]
+      order: [['lastNames', 'ASC']],
+      paranoid: false
     });
     res.status(200).send(users);
   } catch (error) {
