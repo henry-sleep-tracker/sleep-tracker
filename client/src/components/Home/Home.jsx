@@ -11,7 +11,6 @@ import Calendario from "../Calendario/Calendario";
 import { makeStyles } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
 import { getSleepByDate } from "../../actions/getSleepData";
-import { getUser } from "../../actions/getUser.js";
 const MY_AUTH_APP = "MY_AUTH_APP_1";
 const USER_ID = "USER_ID";
 
@@ -19,25 +18,17 @@ const Home = () => {
   const userId= window.localStorage.getItem(USER_ID)
   const currentUser = useSelector((state) => state?.users.currentUser);
   console.log("SOY CURRENTUSER", currentUser);
-  const usuario = useSelector((state) => state.user.user)
-  console.log("SOY USUARIO", usuario);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("!!!!!!!!!!!!!!!");
-
-    console.log("userId:",userId);
-    if(usuario === null){
-      dispatch(getUser(currentUser));
-    }
     const yesterday = new Date(Date.now() - 28800000)
       .toISOString()
       .split("T")[0];
     dispatch(getSleepByDate(yesterday));
-  }, [dispatch, currentUser, usuario]);
+  }, [dispatch, currentUser]);
 
   let user = {
-    name: usuario ? usuario.names : currentUser.names,
+    name: currentUser.names,
     sueño: [1, 3, 2, 4, 5, 1, 3, 2, 1, 5, 3, 4],
     consumo: {
       cafeina: "",
