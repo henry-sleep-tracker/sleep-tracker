@@ -15,28 +15,28 @@ router.get("/prices", async (req, res) => {
 });
 
 router.post("/session", async (req, res) => {
-  console.log("req.user:", req.user);
-  const user = await User.findOne({ email: req.user });
-  console.log("user:", user);
+  const { priceId, email } = req.body;
+  const user = await User.findOne({ where: { email: email } });
   const session = await stripe.checkout.sessions.create(
     {
       mode: "subscription",
       payment_method_types: ["card"],
       line_items: [
         {
-          price: req.body.priceId,
+          price: priceId,
           quantity: 1,
         },
       ],
-      success_url: "http://localhost:3000/private/dashboard/", //si todo sale bien redirigira la sgt pag
-      cancel_url: "http://localhost:3000//private/planes", //si todo sale mal, redirigir a otra pag
+      success_url: "http://localhost:3000/private/planes", //si todo sale bien redirigira la sgt pag
+      cancel_url: "http://localhost:3000//private/", //si todo sale mal, redirigir a otra pag
       customer: user.stripeCustomerId,
     },
     {
       apiKey: process.env.STRIPE_SECRET_KEY,
     }
   );
-
+  console.log("res.json(session):", session);
+  // console.log("res:", res);
   return res.json(session);
 });
 
