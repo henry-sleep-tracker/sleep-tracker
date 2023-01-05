@@ -14,7 +14,6 @@ import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import log from "../logi/log-.png";
 import { useAuthContext } from "../../actions/authContext";
-import { clearUser } from "../../actions/getUser.js";
 import { useDispatch } from "react-redux";
 import { logOutUser } from "../../actions";
 
@@ -28,7 +27,6 @@ function ResponsiveAppBar() {
 
   async function handleLogOut(event) {
     event.preventDefault();
-    dispatch(clearUser());
     dispatch( logOutUser());
     await logout();
   }
@@ -195,7 +193,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               <MenuItem key="Perfil" onClick={handleCloseUserMenu}>
-                <Link to="/private/profile/:id">
+                <Link to="/private/profile">
                   <Button>Perfil</Button>
                 </Link>
               </MenuItem>
