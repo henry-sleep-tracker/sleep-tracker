@@ -14,12 +14,6 @@ export default function DualGraph() {
   const ranges = useSelector((state) => state.range);
   console.log("ranges", ranges);
 
-  // const getRandomColor = () => {
-  //   return (
-  //     "#" + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0")
-  //   );
-  // };
-
   const getColor = (k) => {
     const green = "#58C0A1";
     const teal = "#53C2E2";
@@ -43,14 +37,26 @@ export default function DualGraph() {
     }
   };
 
+  // function CustomTooltip({ payload, label, active }) {
+  //   console.log("payload",payload, label )
+  //   if (active) {
+  //     return (
+  //       <div className="custom-tooltip">
+  //         <p className="label">{`${label} : ${payload[0].value}`}</p>
+  //         <p className="intro">{getIntroOfPage(label)}</p>
+  //         <p className="desc">Anything you want can be displayed here.</p>
+  //       </div>
+  //     );
+  //   }
+
   const lines = () => {
     const uniqueKeys = Object.keys(ranges[0]).filter((item) =>
       [
-        "efficiency",
-        "summary_deep_min",
         "summary_light_min",
+        "summary_deep_min",
         "summary_rem_min",
         "summary_awake_min",
+        "efficiency",
       ].includes(item)
     );
 
@@ -61,6 +67,7 @@ export default function DualGraph() {
           type="monotone"
           stroke={getColor(k)}
           strokeWidth={1.5}
+          name={k.replace(/_/g, " ")}
           dataKey={k}
           activeDot={{ r: 5 }}
         />
@@ -84,7 +91,10 @@ export default function DualGraph() {
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis dataKey="date" />
         <YAxis />
-        <Tooltip />
+        <Tooltip
+          itemStyle={{ textTransform: "capitalize", textAlign: "left" }}
+          content={"efficiency"}
+        />
         {ranges?.length && lines()}
       </LineChart>
     </ResponsiveContainer>
