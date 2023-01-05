@@ -19,10 +19,6 @@ module.exports = (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
-      isActive: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true,
-      },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -64,8 +60,7 @@ module.exports = (sequelize) => {
       },
     },
     {
-      createdAt: false,
-      updatedAt: false,
+      paranoid: true
     }
   );
 };
