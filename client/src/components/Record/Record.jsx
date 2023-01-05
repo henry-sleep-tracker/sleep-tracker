@@ -15,19 +15,24 @@ import { useState, useRef } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Actions Imports
 import {
-  getCoffeeSizes,
-  getActivities,
-  getDrinks,
+  //getCoffeeSizes,
+  //getActivities,
+  //getDrinks,
+  //getLastIdActivity,
+  //getLastIdCoffeSize,
+  //getLastIdDrink,
+  getActivitiesByUser,
+  getCoffeeSizesByUser,
+  getDrinksByUser,
   createNewRecord,
   createNewActivity,
-  getLastIdActivity,
   createNewCoffeeSize,
-  getLastIdCoffeSize,
   createNewDrink,
-  getLastIdDrink,
+  setStatusNewRecord,
 } from "../../actions/newRecord";
 
 // Import images
@@ -43,6 +48,10 @@ import drinkImg from "../../images/tropical-drink.png";
 import calendar from "../../images/calendar.png";
 import time from "../../images/time.png";
 
+// Import helpers
+import { date_maker } from "../../helpers/date_maker";
+import { time_maker } from "../../helpers/time_maker";
+
 // Temporal Constants
 /* const email = "karsoreef@gmail.com"; // --> Cambiar por correo que estas usando
 const password = "Abcde123*"; // --> Cambiar por tu password */
@@ -51,7 +60,7 @@ const password = "Abcde123*"; // --> Cambiar por tu password */
 
 const Record = props => {
   const dispatch = useDispatch();
-  /* const history = useHistory(); */
+  const navigate = useNavigate();
 
   const currentUser = useSelector(state => state.users.currentUser);
   console.log("SOY CURRENT USER EN RECORD", currentUser);
@@ -71,11 +80,8 @@ const Record = props => {
   const drinksRedux = useSelector(state => state.record.drinks);
   const recordStatus = useSelector(state => state.record.statusNewRecord);
   const activityStat = useSelector(state => state.record.statusNewActivity);
-  const lastIdActivity = useSelector(state => state.record.lastIdActivity);
   const coffeeStat = useSelector(state => state.record.statusNewCoffeeSize);
-  const lastIdCoffee = useSelector(state => state.record.lastIdCoffeeSize);
   const drinkStat = useSelector(state => state.record.statusNewDrink);
-  const lastIdDrink = useSelector(state => state.record.lastIdDrink);
   const userId = useSelector(state => state.users.currentUser.id);
   const nameUser = useSelector(state => state.users.currentUser.names);
   const sleepTime = useSelector(state => state.date);
@@ -87,7 +93,7 @@ const Record = props => {
   const temp = sleepTime.filter(e => e.level !== 1);
 
   const [record, setRecord] = useState({
-    dateMeal: sleepTime[0].date,
+    dateMeal: sleepTime.length > 0 ? sleepTime[0].date : "",
     timeMeal: "",
     description: "",
     sleepTime:
@@ -95,7 +101,7 @@ const Record = props => {
         ? Math.floor(
             temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
           )
-        : "",
+        : "0",
     napTime: [],
     timeActivity: [],
     coffeeCups: [],
@@ -106,11 +112,11 @@ const Record = props => {
     userId: userId,
   });
 
-  const [value, setValue] = useState();
+  //const [value, setValue] = useState();
 
-  const refresh = () => {
+  /* const refresh = () => {
     setValue({});
-  };
+  }; */
 
   //! ================== Activity States ================= !//
 
@@ -118,7 +124,6 @@ const Record = props => {
   const [newActivity, setNewActivity] = useState(false);
   const [activity, setActivity] = useState([]);
   const [addActivity, setAddActivity] = useState({
-    id: 0,
     activity: "",
     userId: userId,
   });
@@ -129,7 +134,6 @@ const Record = props => {
   const [newCoffeeSize, setNewCoffeeSize] = useState(false);
   const [coffee, setCoffee] = useState([]);
   const [addCoffeSize, setAddCoffeSize] = useState({
-    id: 0,
     size: "",
     userId: userId,
   });
@@ -140,7 +144,6 @@ const Record = props => {
   const [newDrink, setNewDrink] = useState(false);
   const [drink, setDrink] = useState([]);
   const [addNewDrink, setAddNewDrink] = useState({
-    id: 0,
     drink: "",
     userId: userId,
   });
@@ -155,9 +158,17 @@ const Record = props => {
 
   const handlerOnSubmit = e => {
     e.preventDefault();
+    let date = "";
+    let time = "";
 
-    if (record.sleepTime === "0") {
-      return message.warning("Ingresa tiempo de sueño", 2500);
+    if (record.dateMeal === "") {
+      date = date_maker();
+      setRecord((record.dateMeal = date));
+    }
+
+    if (record.timeMeal === "") {
+      time = time_maker();
+      setRecord((record.timeMeal = time));
     }
 
     const floorTimeActivity = record.timeActivity.map(e => Math.floor(e));
@@ -197,6 +208,7 @@ const Record = props => {
       drinks.current.value = "0";
       typeDrink.current.value = "default"; */
     message.success(`${nameUser} tu registro se creo correctamente!!`);
+    navigate("/private");
   };
 
   const handlerOnClear = e => {
@@ -243,10 +255,10 @@ const Record = props => {
   const handlerActivity = e => {
     e.preventDefault();
     const timeSelected = parseInt(timeRef.current.value) + Math.random();
-    const activitySelected = parseInt(activityRef.current.value);
+    const activitySelected = activityRef.current.value;
     const timeSelectedText = timeRef.current.value;
-    const nameActivity =
-      activityRef.current[activityRef.current.value].innerText;
+    const filter = activitiesRedux.filter(e => e.id === activitySelected);
+    const nameActivity = filter[0].activity;
 
     if (!timeSelected || !activitySelected || timeSelected < 1) {
       return message.warning("Ingresa los minutos", 2500);
@@ -288,18 +300,11 @@ const Record = props => {
       );
     }
 
-    if (lastIdActivity === null) {
-      setAddActivity((addActivity.id = 1));
-    } else {
-      setAddActivity((addActivity.id = lastIdActivity));
-    }
-
     dispatch(createNewActivity(addActivity));
 
     if (activityStat === null) {
       message.success("Actividad creada exitosamente", 2500);
       setAddActivity({
-        id: 0,
         activity: "",
         userId: userId,
       });
@@ -352,9 +357,10 @@ const Record = props => {
   const handlerCoffee = e => {
     e.preventDefault();
     const quantityCoffee = parseInt(cups.current.value) + Math.random();
-    const cup = parseInt(sizeCup.current.value);
+    const cup = sizeCup.current.value;
     const coffees = cups.current.value;
-    const sizeCoffee = sizeCup.current[sizeCup.current.value].innerText;
+    const filter = coffeeSizesRedux.filter(e => e.id === cup);
+    const size = filter[0].size;
 
     if (!quantityCoffee || !cup || quantityCoffee < 1) {
       return message.warning("Ingresa el numero de tazas", 2500);
@@ -366,7 +372,7 @@ const Record = props => {
       coffee: [...record.coffee, cup],
     });
 
-    setCoffee([...coffee, `${coffees} tazas de ${sizeCoffee}`]);
+    setCoffee([...coffee, `${coffees} tazas de ${size}`]);
     sizeCup.current.value = "default";
     cups.current.value = "0";
   };
@@ -394,13 +400,11 @@ const Record = props => {
       );
     }
 
-    setAddCoffeSize((addCoffeSize.id = lastIdCoffee));
     dispatch(createNewCoffeeSize(addCoffeSize));
 
     if (coffeeStat === null) {
       message.success("Nueva porcion creada exitosamente", 2500);
       setAddCoffeSize({
-        id: 0,
         size: "",
         userId: userId,
       });
@@ -453,9 +457,10 @@ const Record = props => {
   const handlerDrinks = e => {
     e.preventDefault();
     const quantityDrinks = parseInt(drinks.current.value) + Math.random();
-    const typeDrinks = parseInt(typeDrink.current.value);
+    const typeDrinks = typeDrink.current.value;
     const drinkss = drinks.current.value;
-    const typeDrinkss = typeDrink.current[typeDrink.current.value].innerText;
+    const filter = drinksRedux.filter(e => e.id === typeDrinks);
+    const typeDrinkss = filter[0].drink;
 
     if (!quantityDrinks || !typeDrinks || quantityDrinks < 1) {
       return message.warning("Ingresa el numero de bebidas", 2500);
@@ -495,13 +500,11 @@ const Record = props => {
       );
     }
 
-    setAddNewDrink((addNewDrink.id = lastIdDrink));
     dispatch(createNewDrink(addNewDrink));
 
     if (drinkStat === null) {
       message.success("Nueva bebida creada exitosamente", 2500);
       setAddNewDrink({
-        id: 0,
         drink: "",
         userId: userId,
       });
@@ -551,16 +554,20 @@ const Record = props => {
 
   // Mount/Unmount Component
   useEffect(() => {
-    dispatch(getCoffeeSizes());
-    dispatch(getActivities());
-    dispatch(getDrinks());
-    dispatch(getLastIdActivity());
-    dispatch(getLastIdCoffeSize());
-    dispatch(getLastIdDrink());
+    //dispatch(getActivities());
+    //dispatch(getCoffeeSizes());
+    //dispatch(getDrinks());
+    //dispatch(getLastIdActivity());
+    //dispatch(getLastIdCoffeSize());
+    //dispatch(getLastIdDrink());
+    dispatch(getActivitiesByUser(userId));
+    dispatch(getCoffeeSizesByUser(userId));
+    dispatch(getDrinksByUser(userId));
+    dispatch(setStatusNewRecord());
 
-    if (recordStatus) {
+    /* if (recordStatus) {
       message.error(`Error: al intentar crear el registro`, 2500);
-    } /*  else {
+    }  else {
       message.success(`${nameUser} tu registro se creo correctamente!!`);
     } */
   }, [newActivity, newCoffeeSize, newDrink, recordStatus]);
@@ -826,7 +833,7 @@ const Record = props => {
                     name="dateMeal"
                     value={record.dateMeal}
                     onChange={handlerOnChange}
-                    disabled={sleepTime.length > 0 ? true : false}
+                    /* disabled={sleepTime.length > 0 ? true : false} */
                   />
                 </div>
               </div>
@@ -892,7 +899,7 @@ const Record = props => {
                   value={record.sleepTime}
                   onChange={handlerOnChange}
                   placeholder="0"
-                  disabled={sleepTime.length > 0 ? true : false}
+                  /* disabled={sleepTime.length > 0 ? true : false} */
                 />
                 <span>min.</span>
                 <span

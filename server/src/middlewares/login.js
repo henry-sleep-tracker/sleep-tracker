@@ -45,16 +45,19 @@ router.post("/", async (req, res) => {
 });
 router.post("/manual", async (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(428).send("falta email o contraseña");
+  }
   try {
     const user = await getUserByEmail(email);
     if (user.id === 0) {
-      return res.status(204).send(user);
+      return res.status(204).send("contraseña o usuario incorrecto");
     } else {
       function copareHash(password, hashed) {
         return bcrypt.compareSync(password, hashed);
       }
       if (copareHash(password, user.hashedPassword)) {
-        console.log("usuario correcto y contrasñea correcta");
+        console.log("usuario correcto y contraseña correcta");
         return res.status(200).send(user);
       } else {
         return res.status(204).send("contraseña o usuario incorrecto");

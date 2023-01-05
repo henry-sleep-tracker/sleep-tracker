@@ -14,6 +14,9 @@ const nullUser = {
 };
 const repeatedEmail = async (email) => {
   try {
+    if (!email) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
     let foundEmail = await User.findAll({ where: { email: email } }); //busca los paises
     return foundEmail;
   } catch (error) {
@@ -26,6 +29,9 @@ const repeatedEmail = async (email) => {
 
 const postUser = async (bodyInfo) => {
   try {
+    if (!bodyInfo) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
     const createdUser = await User.create(bodyInfo);
     return createdUser.dataValues;
   } catch (error) {
@@ -37,6 +43,9 @@ const postUser = async (bodyInfo) => {
 };
 const getUserByEmail = async (email) => {
   try {
+    if (!email) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
     const userFound = await User.findOne({
       where: { email: email },
     });
@@ -55,6 +64,9 @@ const getUserByEmail = async (email) => {
 
 const getUserById = async (id) => {
   try {
+    if (!id) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
     const userFound = await User.findOne({ where: { id: id } });
     if (userFound !== null) {
       return userFound.dataValues;
@@ -70,6 +82,9 @@ const getUserById = async (id) => {
 };
 const updatePassword = async (id, hashedPassword) => {
   try {
+    if (!id || !hashedPassword) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
     const userFound = await User.findOne({ where: { id: id } });
     const userUpdated = await userFound.update({
       hashedPassword: hashedPassword,

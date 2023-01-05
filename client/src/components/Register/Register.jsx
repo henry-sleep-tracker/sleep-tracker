@@ -81,7 +81,6 @@ function validate(input){ //aca entra todo el estado input
         //   password: "",
         //   confirmPassword: "",
         // });
-        // navigate('/login')
       }
     } catch (error) {
       console.log("el error es:", error.message);
@@ -188,6 +187,7 @@ function validate(input){ //aca entra todo el estado input
           name="confirmPassword"
           placeholder="Contraseña"
           maxLength="32"
+          pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
           onChange={(event) => handleChange(event)}
           required
         />

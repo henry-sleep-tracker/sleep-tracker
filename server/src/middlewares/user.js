@@ -22,7 +22,6 @@ router.post("/", async (req, res) => {
     const { email, password, names, lastNames, nationality, birthday } =
       req.body.user;
     const hashedPassword = await bcrypt.hash(password, 10); //la segunda variable es el numero de rondas que se encriptara
-
     const customer = await stripe.customers.create(
       {
         email,
@@ -31,7 +30,6 @@ router.post("/", async (req, res) => {
         apiKey: process.env.STRIPE_SECRET_KEY,
       }
     );
-
     const bodyInfo = {
       email,
       hashedPassword,
@@ -41,10 +39,8 @@ router.post("/", async (req, res) => {
       birthday,
       stripeCustomerId: customer.id,
     };
-    console.log(bodyInfo);
-
     if (!email || !names || !lastNames) {
-      return res.status(404).send("Falta enviar datos obligatorios");
+      return res.status(428).send("Falta enviar datos obligatorios");
     }
     const oldUser = await repeatedEmail(email);
     if (oldUser.length > 0) {
@@ -59,9 +55,12 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/google", async (req, res) => {
-  const { email, names, lastNames } = req.body;
-  const bodyInfo = { email, names, lastNames };
   try {
+    const { email, names, lastNames } = req.body;
+    if (!email || !names || !lastNames) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
+    const bodyInfo = { email, names, lastNames };
     const oldUser = await repeatedEmail(email);
     if (oldUser.length > 0) {
       return res.status(202).send(oldUser);
@@ -69,15 +68,17 @@ router.post("/google", async (req, res) => {
     let createdUser = await postUser(bodyInfo);
     res.status(201).json(createdUser); //201 es que fue creado
   } catch (error) {
-    console.log("El error middleware login post /manual es:", error.message);
-    res.status(401).send("El error middleware login post /manual es");
+    console.log("El error middleware user post /google es:", error.message);
+    res.status(401).send("El error middleware user post /google es");
   }
 });
 
 router.post("/forgot-password", async (req, res) => {
-  const { email } = req.body;
-  console.log("recibi el email:", email);
   try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
     const oldUser = await getUserByEmail(email);
     if (oldUser.id === 0) {
       return res.status(202).send({ status: "el usuario no existe" });
@@ -99,17 +100,18 @@ router.post("/forgot-password", async (req, res) => {
 });
 
 router.post("/reset-password/:id/:token", async (req, res) => {
-  const { id, token } = req.params;
-  const { password } = req.body;
-
-  const oldUser = await getUserById(id);
-  if (!oldUser) {
-    return res.status(202).send("el usuario no existe");
-  }
-  const secret = JWT_SECRET + oldUser.hashedPassword;
   try {
+    const { id, token } = req.params;
+    const { password } = req.body;
+    if (!id || !token || !password) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
+    const oldUser = await getUserById(id);
+    if (!oldUser) {
+      return res.status(202).send("el usuario no existe");
+    }
+    const secret = JWT_SECRET + oldUser.hashedPassword;
     const verify = jwt.verify(token, secret);
-    console.log("verify:", verify);
     const hashedPassword = await bcrypt.hash(password, 10);
     updatePassword(id, hashedPassword);
     res.status(200).send("Verificado");
@@ -119,11 +121,14 @@ router.post("/reset-password/:id/:token", async (req, res) => {
 });
 
 router.get("/:email", async (req, res) => {
-  const { email } = req.params;
   try {
-    const user = await getUserByEmail(email);
+    const { email } = req.params;
     if (!email) {
-      return res.status(204).send("that id does not exist in the database");
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
+    const user = await getUserByEmail(email);
+    if (!user) {
+      return res.status(204).send("El id no existe en la base de datos");
     } else {
       return res.status(200).send(user);
     }

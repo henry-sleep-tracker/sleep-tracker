@@ -9,9 +9,13 @@ const updateUser = require("./routes/updateUser.js");
 const plansRoutes = require("./routes/pagosStripe");
 const getSleepByDate = require("./routes/getSleepByDate");
 const getSleepByRange = require("./routes/getSleepByRange");
+<<<<<<< HEAD
 const getUser = require("./routes/getUser.js")
 const getComments = require("./routes/Comments/getComments.js")
 const postComment = require("./routes/Comments/postComment.js")
+=======
+const getUser = require("./routes/getUser.js");
+>>>>>>> 08a93c1ed40d2608445290d18d921b9e06e8bab1
 
 const router = Router();
 

@@ -17,7 +17,7 @@ export const getSleepByRange = (startDate, endDate) => async (dispatch) => {
       `http://localhost:3001/daterange?startDate=${startDate}&endDate=${endDate}`
     );
     const response = await getRange.json();
-    console.log("response", response);
+
     dispatch({ type: GET_SLEEP_BY_RANGE, payload: response });
   } catch (error) {
     console.error(error);

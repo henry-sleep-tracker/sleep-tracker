@@ -11,16 +11,19 @@ const {
 const {
   newCoffeeSize,
   getCoffeeSizeList,
+  coffee_size_by_id,
 } = require("../controllers/coffeeSize_controller.js");
 
 const {
   getDrinks,
   newDrink,
+  drink_type_by_id,
 } = require("../controllers/newDrink_controller.js");
 
 const {
   getAcitivities,
   newActivity,
+  activities_by_id,
 } = require("../controllers/activity_controller");
 
 /* ==================== Import Validators ======================== */
@@ -49,17 +52,23 @@ router.post("/", new_record_validator, post_new_record);
 
 router.get("/coffeesize", getCoffeeSizeList);
 
+router.get("/coffeesize/:id", coffee_size_by_id);
+
 router.post("/coffeesize", coffeeSizeValidator, newCoffeeSize);
 
 /* ==================== Drinks ======================== */
 
 router.get("/drink", getDrinks);
 
+router.get("/drink/:id", drink_type_by_id);
+
 router.post("/drink", drinkValidator, newDrink);
 
 /* ==================== Activity ======================== */
 
 router.get("/activity", getAcitivities);
+
+router.get("/activity/:id", activities_by_id);
 
 router.post("/activity", activityValidator, newActivity);
 
