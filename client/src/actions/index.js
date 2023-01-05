@@ -161,7 +161,7 @@ export function logInUser(email, password) {
         const userFound = await response.json();
         return dispatch({
           type: GET_CURRENT_USER,
-          payload: userFound[0],
+          payload: userFound,
         });
       }
     } catch (error) {
