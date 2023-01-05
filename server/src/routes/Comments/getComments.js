@@ -1,12 +1,13 @@
 const { Router } = require('express');
 const router = Router();
-const {getComments} = require('../controllers/getComments')
+const {getComments} = require('../../controllers/getComments')
+const {getUserById} = require('../../controllers/user')
 
 router.get('/', async(req,res)=>{
             try{
-            const allComnets = await getComments();
-            if(allComnets.length){
-                return res.status(200).send(allComnets)
+            const allComments = await getComments();
+            if(allComments.length){
+                return res.status(200).send(allComments)
                 
             }
         }catch(error){
