@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const router = Router();
 const {getComments} = require('../../controllers/getComments')
-const {getUserById} = require('../../controllers/user')
 
 router.get('/', async(req,res)=>{
             try{
