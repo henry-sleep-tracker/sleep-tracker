@@ -16,6 +16,10 @@ export const GET_LAST_ID_COFFEE_SIZE = "GET_LAST_ID_COFFEE_SIZE";
 export const NEW_DRINK = "NEW_DRINK";
 export const ERROR_TRYING_TO_CREATE_DRINK = "ERROR_TRYING_TO_CREATE_DRINK";
 export const GET_LAST_ID_DRINK = "GET_LAST_ID_DRINK";
+export const SET_STATUS_NEW_RECORD = "SET_STATUS_NEW_RECORD";
+export const GET_ACTIVITIES_BY_USER = "GET_ACTIVITIES_BY_USER";
+export const GET_COFFEE_SIZE_BY_USER = "GET_COFFEE_SIZE_BY_USER";
+export const GET_DRINKS_BY_USER = "GET_DRINKS_BY_USER";
 
 /* ====================== GET'S SECTION ======================= */
 
@@ -27,6 +31,22 @@ export const getActivities = () => {
       );
       dispatch({
         type: GET_ACTIVITIES,
+        payload: resActivities.data,
+      });
+    } catch (err) {
+      alert(`${err.response.data} try again`);
+    }
+  };
+};
+
+export const getActivitiesByUser = userId => {
+  return async function (dispatch) {
+    try {
+      const resActivities = await axios.get(
+        `http://localhost:3001/newrecord/activity/${userId}`
+      );
+      dispatch({
+        type: GET_ACTIVITIES_BY_USER,
         payload: resActivities.data,
       });
     } catch (err) {
@@ -67,6 +87,22 @@ export const getCoffeeSizes = () => {
   };
 };
 
+export const getCoffeeSizesByUser = userId => {
+  return async function (dispatch) {
+    try {
+      const resCoffeeSizes = await axios.get(
+        `http://localhost:3001/newrecord/coffeesize/${userId}`
+      );
+      dispatch({
+        type: GET_COFFEE_SIZE_BY_USER,
+        payload: resCoffeeSizes.data,
+      });
+    } catch (err) {
+      alert(`${err.response.data} try again`);
+    }
+  };
+};
+
 export const getLastIdCoffeSize = () => {
   return async function (dispatch) {
     try {
@@ -99,6 +135,22 @@ export const getDrinks = () => {
   };
 };
 
+export const getDrinksByUser = userId => {
+  return async function (dispatch) {
+    try {
+      const resDrinks = await axios.get(
+        `http://localhost:3001/newrecord/drink/${userId}`
+      );
+      dispatch({
+        type: GET_DRINKS_BY_USER,
+        payload: resDrinks.data,
+      });
+    } catch (err) {
+      alert(`${err.response.data} try again`);
+    }
+  };
+};
+
 export const getLastIdDrink = () => {
   return async function (dispatch) {
     try {
@@ -117,7 +169,7 @@ export const getLastIdDrink = () => {
 
 /* ====================== POST SECTION ======================= */
 
-export const createNewRecord = (obj) => {
+export const createNewRecord = obj => {
   return async function (dispatch) {
     try {
       let newRecord = null;
@@ -129,13 +181,14 @@ export const createNewRecord = (obj) => {
     } catch (err) {
       dispatch({
         type: ERROR_TRYING_TO_CREATE_RECORD,
-        payload: err.message,
+        /* payload: err.message, */
+        payload: err,
       });
     }
   };
 };
 
-export const createNewActivity = (obj) => {
+export const createNewActivity = obj => {
   return async function (dispatch) {
     try {
       let newActivity = null;
@@ -156,7 +209,7 @@ export const createNewActivity = (obj) => {
   };
 };
 
-export const createNewCoffeeSize = (obj) => {
+export const createNewCoffeeSize = obj => {
   return async function (dispatch) {
     try {
       let newCoffeeSize = null;
@@ -177,7 +230,7 @@ export const createNewCoffeeSize = (obj) => {
   };
 };
 
-export const createNewDrink = (obj) => {
+export const createNewDrink = obj => {
   return async function (dispatch) {
     try {
       let newDrink = null;
@@ -192,5 +245,14 @@ export const createNewDrink = (obj) => {
         payload: err.response.data.error,
       });
     }
+  };
+};
+
+/* ====================== SET REDUX STATUS ======================= */
+
+export const setStatusNewRecord = () => {
+  return {
+    type: SET_STATUS_NEW_RECORD,
+    payload: null,
   };
 };
