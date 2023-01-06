@@ -13,6 +13,9 @@ const getUser = require("./routes/getUser.js")
 const getComments = require("./routes/Comments/getComments.js")
 const postComment = require("./routes/Comments/postComment.js")
 const deleteComment = require("./routes/Comments/deleteComment.js")
+const updateProfile = require("./routes/updateProfile.js");
+const changePassword = require("./routes/changePassword.js");
+const deleteUser = require("./routes/deleteUser.js")
 
 const router = Router();
 
@@ -27,6 +30,9 @@ router.use("/plans", plansRoutes);
 router.use("/search", getSleepByDate);
 router.use("/daterange", getSleepByRange);
 router.use("/myuser", getUser);
+router.use("/changeprofile", updateProfile);
+router.use("/changepassword", changePassword);
+router.use("/deleteuser", deleteUser)
 router.use("/getcomments", getComments);
 router.use("/postcomment", postComment);
 router.use("/deletecomment", deleteComment);
