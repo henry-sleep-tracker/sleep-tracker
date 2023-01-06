@@ -6,7 +6,7 @@ const { sortByName } = require("../helpers/sort_by_name_activity.js");
 const getAcitivities = async (req, res) => {
   try {
     const activityRes = await Activity.findAll({
-      /* include: [
+      /*  include: [
         {
           model: User,
         },

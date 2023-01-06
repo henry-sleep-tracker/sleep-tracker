@@ -9,7 +9,7 @@ const {
 const { time_convert } = require("../helpers/time_convert.js");
 const { tConvert } = require("../helpers/convert_24_to_12hrs.js");
 
-/* ================== Get List All Records =================== */
+/* ================== Get List All Records =================== */ 
 
 const getRecords = async (req, res) => {
   const finalResult = [];
@@ -150,47 +150,62 @@ const getRecords = async (req, res) => {
           timeActivity = resDb[i].timeActivity.flat();
           typeActivity = resDb[i].activities.map(e => e.activity).flat();
 
-          /* for (let i = 0; i < timeActivity.length; i++) {
+           for (let i = 0; i < timeActivity.length; i++) {
           joinActivity.push(`${timeActivity[i]} min de ${typeActivity[i]}`);
-        } */
+        } 
         }
 
         if (resDb[i].coffeeCups.length >= 1) {
           coffeeCups = resDb[i].coffeeCups.flat();
           coffeeSizes = resDb[i].coffeeSizes.map(e => e.size).flat();
 
-          /* for (let i = 0; i < coffeeCups.length; i++) {
+           for (let i = 0; i < coffeeCups.length; i++) {
           coffeeCups[i] > 1
             ? joinCoffee.push(`${coffeeCups[i]} tazas de ${coffeeSizes[i]}`)
             : joinCoffee.push(`${coffeeCups[i]} taza de ${coffeeSizes[i]}`);
-        } */
+        } 
         }
 
         if (resDb[i].drinks.length >= 1) {
           quantityDrinks = resDb[i].drinks.flat();
           typeDrinks = resDb[i].alcoholTypes.map(e => e.drink).flat();
 
-          /*  for (let i = 0; i < quantityDrinks.length; i++) {
+           for (let i = 0; i < quantityDrinks.length; i++) {
           quantityDrinks[i] > 1
             ? joinDrinks.push(`${quantityDrinks[i]} ${typeDrinks[i]}s`)
             : joinDrinks.push(`${quantityDrinks[i]} ${typeDrinks[i]}`);
-        } */
+        } 
         }
 
         let obj = {
           id: resDb[i].id,
           userId: resDb[i].userId,
+          // dateMeal: resDb[i].dateMeal,
+          // timeMeal: resDb[i].timeMeal,
+          // description: resDb[i].description,
+          // sleepTime: resDb[i].sleepTime,
+          // napTime: resDb[i].napTime.map(e => e),
+          // timeActivity: timeActivity,
+          // nameActivity: typeActivity,
+          // coffeeConsumption: coffeeCups,
+          // coffeSize: coffeeSizes,
+          // drinkConsumption: quantityDrinks,
+          // typeDrink: typeDrinks,
+
           dateMeal: resDb[i].dateMeal,
-          timeMeal: resDb[i].timeMeal,
-          description: resDb[i].description,
-          sleepTime: resDb[i].sleepTime,
-          napTime: resDb[i].napTime.map(e => e),
-          timeActivity: timeActivity,
-          nameActivity: typeActivity,
-          coffeeConsumption: coffeeCups,
-          coffeSize: coffeeSizes,
-          drinkConsumption: quantityDrinks,
-          typeDrink: typeDrinks,
+          timeMeal: tConvert(resDb[i].timeMeal),
+          description:
+            resDb[i].description === ""
+              ? "sin registro"
+              : resDb[i].description,
+          sleepTime: `${time_convert(resDb[i].sleepTime)}`,
+          napTime:
+            resDb[i].napTime.length < 1
+              ? "sin registro"
+              : resDb[i].napTime.map(e => `${e} min. de siesta`),
+          activities: joinActivity.length < 1 ? "sin registro" : joinActivity,
+          coffees: joinCoffee.length < 1 ? "sin registro" : joinCoffee,
+          drinks: joinDrinks.length < 1 ? "sin registro" : joinDrinks,
         };
         finalResultId.push(obj);
       }
