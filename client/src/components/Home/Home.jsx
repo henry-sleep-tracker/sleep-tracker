@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Collection from "./resume";
-import Graph from "../Graphs/TestGraph";
 import ResponsiveAppBar from "./Nav";
-// import "./home.css";
 import Calc from "./calc";
 import Swipeable from "./tips";
 import { Grid, Typography } from "@mui/material";
@@ -12,11 +10,14 @@ import { makeStyles } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
 import { getSleepByDate } from "../../actions/getSleepData";
 import { getRecordsQuery } from "../../actions/newRecord";
-const MY_AUTH_APP = "MY_AUTH_APP_1";
-const USER_ID = "USER_ID";
+// const MY_AUTH_APP = "MY_AUTH_APP_1";
+// const USER_ID = "USER_ID";
+import GraphHome from "../Graphs/Graph-home";
+import CustomizedAccordions from "../Graph-Week/detailsGraphs";
+
 
 const Home = () => {
-  const userId= window.localStorage.getItem(USER_ID)
+  //const userId= window.localStorage.getItem(USER_ID)
   const currentUser = useSelector((state) => state?.users.currentUser);
   console.log("SOY CURRENTUSER", currentUser);
 
@@ -86,7 +87,16 @@ const Home = () => {
       >
         <Typography variant="h6">{Date()}</Typography>
       </Grid> */}
+<Grid
+        item
+      >
+        <Calendario />
+      </Grid>
 
+      <Grid>
+        <GraphHome/>
+      </Grid>
+      <CustomizedAccordions/>
       <Grid
         className={classes.Collection}
         item
@@ -94,15 +104,7 @@ const Home = () => {
         <Collection/>
       </Grid>
 
-      <Grid
-        item
-      >
-        <Calendario />
-      </Grid>
-
-      <Grid className={classes.graphHome} item>
-        <Graph />
-      </Grid>
+    
 
       <Grid className={classes.calc} item>
         <Calc />
