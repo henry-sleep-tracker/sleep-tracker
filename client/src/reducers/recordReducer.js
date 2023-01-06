@@ -24,19 +24,16 @@ const initialState = {
   //lastIdActivity: null,
   //lastIdCoffeeSize: null,
   //lastIdDrink: null,
+  //lastIdDrink: null,
+  //token: null,
   statusNewRecord: null,
   statusNewActivity: null,
   statusNewCoffeeSize: null,
   statusNewDrink: null,
-
-  lastIdDrink: null,
-  token: null,
-  recordsUser: []
-
   activities: [],
   coffeeSizes: [],
   drinks: [],
-
+  recordsUser: [],
 };
 
 const recordReducer = (state = initialState, action) => {
@@ -78,7 +75,7 @@ const recordReducer = (state = initialState, action) => {
     case SET_STATUS_NEW_RECORD:
       return { ...state, statusNewRecord: action.payload };
     case GET_RECORDS_USER_DATE:
-        return { ...state, recordsUser: action.payload };
+      return { ...state, recordsUser: action.payload };
     default:
       return { ...state };
   }
