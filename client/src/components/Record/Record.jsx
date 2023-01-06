@@ -96,12 +96,12 @@ const Record = props => {
     dateMeal: sleepTime.length > 0 ? sleepTime[0].date : "",
     timeMeal: "",
     description: "",
-    sleepTime:
-      temp.length > 0
+    sleepTime: "",
+    /* temp.length > 0
         ? Math.floor(
             temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
           )
-        : "0",
+        : "0", */
     napTime: [],
     timeActivity: [],
     coffeeCups: [],
@@ -171,6 +171,10 @@ const Record = props => {
       setRecord((record.timeMeal = time));
     }
 
+    if (!record.sleepTime) {
+      setRecord((record.sleepTime = "0"));
+    }
+
     const floorTimeActivity = record.timeActivity.map(e => Math.floor(e));
     const floorCoffeeCups = record.coffeeCups.map(e => Math.floor(e));
     const floorDrinks = record.drinks.map(e => Math.floor(e));
@@ -217,12 +221,12 @@ const Record = props => {
       dateMeal: sleepTime.length > 0 ? sleepTime[0].date : "",
       timeMeal: "",
       description: "",
-      sleepTime:
-        temp.length > 0
+      sleepTime: "",
+      /* temp.length > 0
           ? Math.floor(
               temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
             )
-          : "",
+          : "", */
       napTime: [],
       timeActivity: [],
       coffeeCups: [],
