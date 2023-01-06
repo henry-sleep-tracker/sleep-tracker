@@ -25,9 +25,7 @@ export default function DualGraph() {
   const handleClick = useCallback(
     (event) => {
       const { dataKey } = event;
-
       const updated = opacity[dataKey] === 0 ? 1 : 0;
-
       setOpacity({ ...opacity, [dataKey]: updated });
     },
     [opacity, setOpacity]
