@@ -16,6 +16,8 @@ const deleteComment = require("./routes/Comments/deleteComment.js")
 const updateProfile = require("./routes/updateProfile.js");
 const changePassword = require("./routes/changePassword.js");
 const deleteUser = require("./routes/deleteUser.js")
+const getAverage = require("./routes/getAverage");
+
 
 const router = Router();
 
@@ -36,5 +38,6 @@ router.use("/deleteuser", deleteUser)
 router.use("/getcomments", getComments);
 router.use("/postcomment", postComment);
 router.use("/deletecomment", deleteComment);
+router.use("/average", getAverage);
 
 module.exports = router;
