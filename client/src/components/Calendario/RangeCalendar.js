@@ -33,8 +33,18 @@ export default function Calendario() {
     }
   };
 
+  const toggleCalendar = () => {
+    const cal = document.getElementsByClassName("rdrMonth");
+    const upperCal = document.getElementsByClassName("rdrMonthAndYearWrapper");
+    const visibility =
+      cal[0].style.visibility === "hidden" ? "visible" : "hidden";
+    cal[0].style.visibility = visibility;
+    upperCal[0].style.visibility = visibility;
+  };
+
   return (
     <div>
+      <button onClick={toggleCalendar}>hide</button>
       <DateRange
         editableDateInputs={true}
         onChange={handleChange}
