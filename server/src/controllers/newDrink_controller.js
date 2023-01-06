@@ -1,4 +1,5 @@
 const { AlcoholType, User } = require("../db.js");
+const { sortByName } = require("../helpers/sort_by_name_drink.js");
 
 /* ================== Get Drinks List ==================== */
 
@@ -36,7 +37,7 @@ const drink_type_by_id = async (req, res) => {
         .json({ message: `No existen tipos de bebidas para el userId: ${id}` });
     }
 
-    return res.status(200).json(resDb);
+    return res.status(200).json(sortByName(resDb));
   } catch (err) {
     return res.status(400).json(err);
   }
