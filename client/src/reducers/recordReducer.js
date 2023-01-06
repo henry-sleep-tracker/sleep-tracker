@@ -17,6 +17,7 @@ import {
   ERROR_TRYING_TO_CREATE_DRINK,
   GET_LAST_ID_DRINK,
   SET_STATUS_NEW_RECORD,
+  GET_RECORDS_USER_DATE,
 } from "../actions/newRecord";
 
 import { CREATE_TOKEN } from "../actions/constants";
@@ -33,6 +34,7 @@ const initialState = {
   statusNewDrink: null,
   lastIdDrink: null,
   token: null,
+  recordsUser: []
 };
 
 const recordReducer = (state = initialState, action) => {
@@ -75,6 +77,8 @@ const recordReducer = (state = initialState, action) => {
       return { ...state, toke: action.payload };
     case SET_STATUS_NEW_RECORD:
       return { ...state, statusNewRecord: action.payload };
+    case GET_RECORDS_USER_DATE:
+        return { ...state, recordsUser: action.payload };
     default:
       return { ...state };
   }
