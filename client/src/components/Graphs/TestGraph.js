@@ -32,13 +32,14 @@ export default function Graph() {
     }),
   ];
 
+
   const options = {
     title: `Esta es tu grafica de sueño de la noche ${stages[0]?.date}`,
 
     hAxis: {
       title: "Hour",
       gridlines: {
-        count: 5,
+        count: 12,
         units: {
           hours: { format: ["HH:00"] },
         },

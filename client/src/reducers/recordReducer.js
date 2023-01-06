@@ -17,6 +17,7 @@ import {
   NEW_DRINK,
   ERROR_TRYING_TO_CREATE_DRINK,
   SET_STATUS_NEW_RECORD,
+  GET_RECORDS_USER_DATE,
 } from "../actions/newRecord";
 
 const initialState = {
@@ -27,9 +28,15 @@ const initialState = {
   statusNewActivity: null,
   statusNewCoffeeSize: null,
   statusNewDrink: null,
+
+  lastIdDrink: null,
+  token: null,
+  recordsUser: []
+
   activities: [],
   coffeeSizes: [],
   drinks: [],
+
 };
 
 const recordReducer = (state = initialState, action) => {
@@ -70,6 +77,8 @@ const recordReducer = (state = initialState, action) => {
       return { ...state, statusNewDrink: action.payload };
     case SET_STATUS_NEW_RECORD:
       return { ...state, statusNewRecord: action.payload };
+    case GET_RECORDS_USER_DATE:
+        return { ...state, recordsUser: action.payload };
     default:
       return { ...state };
   }

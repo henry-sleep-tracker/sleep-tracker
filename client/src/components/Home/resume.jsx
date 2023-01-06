@@ -1,26 +1,65 @@
 import { Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
 import { Chart } from "react-google-charts";
-const Collection = (consumed) => {
-  let { cafeina, alcohol, ejercicio, comida } = consumed.arg;
-  let { tipo, tiempo } = ejercicio
+import { useSelector } from "react-redux";
+const Collection = () => {
+ 
+  const record = useSelector((state) => state?.record.recordsUser)
+  
+  let caffeine = []
+  let drink = []
+  let activity = []
+  let mealtime = []
+  let cafe 
+  let drinks
+  let meal
+  let activities 
+  let title 
 
+  if(record.length)
+  
+  {
+    title = record[0].dateMeal
+    for (let i = 0; i < record.length; i++) {
+   if(record[i].coffees !== "sin registro") caffeine.push(record[i].coffees + ' ');
+   if(record[i].drinks !== "sin registro") drink.push(record[i].drinks + ' ');
+   if(record[i].activities !== "sin registro") activity.push(record[i].activities + ' ')
+  }
+  mealtime.push(record[record.length -1].timeMeal)
+  
+  if (!caffeine) {
+    cafe = "no hay registro";
+  } else{
+   cafe = caffeine.flat() 
+  }
 
-  if (!cafeina) {
-    cafeina = "no hay registro";
-  }
-  if (!alcohol) {
-    alcohol = "no hay registro";
-  }
-  if (!comida) {
-    comida = "no hay registro";
-  }
-  if (!ejercicio) {
-    ejercicio = "no hay registro";
+  if (!drink) {
+    drinks = "no hay registro";
+  } else {
+    drinks = drink.flat()
   }
 
-  const dataTable = [['Registro', 'Cantidad / Hora / Tiempo', 'Medidas'],
-  ['Consumo de cafe', `${cafeina}`, 'Tazas'], ['Consumo de Alcohol', `${alcohol}`, 'Copas'], ['Horario de merienda', `${comida}`, 'Horas'], ['Ejercicio', `${tiempo}`, `${tipo}`]]
+  if (!mealtime) {
+    meal = "no hay registro";
+  } else {
+    meal = mealtime[0]
+  }
+  if (!activity) {
+    activities = "no hay registro";
+  } else {
+    activities = activity.flat()
+  }
+} else {
+
+   cafe = 'No hay registros'
+  drinks = 'No hay registros'
+   meal = 'No hay registros'
+  activities  = 'No hay registros'
+  title = ' No hay registros del dia seleccionado'
+}
+
+  const dataTable = [['Registro de consumo', 'Especificaciones del respectivo consumo', ],
+  ['Cafe', `${cafe.length?cafe: 'No hay registro'}`, ], ['Bebidas Alcoholicas', `${drinks.length? drinks : 'No hay registro'}`, ], ['Horario de merienda', `${meal.length?meal: 'No hay registro'}`, ], ['Ejercicio', `${activities.length? activities: 'No hay registro'}`]]
 
 
   const optionT = {
@@ -45,13 +84,7 @@ const Collection = (consumed) => {
         [null, null, "black", 'rgba(0, 122, 244, 0.533)'],
       ],
     },
-    {
-      type: "ColorFormat",
-      column: 2,
-      ranges: [
-        [null, null, "black", 'rgba(0, 122, 244, 0.533)'],
-      ],
-    },
+
   ];
 
   return (
@@ -76,7 +109,8 @@ const Collection = (consumed) => {
             <Typography
               variant='h4'
             >
-              Registro del dia:
+              Registro de consumo del: 
+             <p>{ title}</p> 
             </Typography>
           </Grid>
           
