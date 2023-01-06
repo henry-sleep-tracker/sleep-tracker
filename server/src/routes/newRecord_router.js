@@ -7,7 +7,6 @@ const {
   getRecords,
   getRecords_by_id,
   getRecords_by_id_unformat,
-  getRecords_by_id_and_date_unformat,
   post_new_record,
 } = require("../controllers/newRecord_controller.js");
 
@@ -52,8 +51,6 @@ router.get("/", getRecords);
 router.get("/:id", getRecords_by_id);
 
 router.get("/unformat/:id", getRecords_by_id_unformat);
-
-router.get("/", getRecords_by_id_and_date_unformat);
 
 router.post("/", new_record_validator, post_new_record);
 
