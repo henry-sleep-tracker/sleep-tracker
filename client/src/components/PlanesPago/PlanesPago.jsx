@@ -25,12 +25,13 @@ const Pricing = () => {
     setPrices(response.data);
   };
 
-  const createSession = async (priceId) => {
+  const createSession = async (currentUser,priceId) => {
+    const email=currentUser.email
+
     const { data: response } = await axios.post(
       "http://localhost:3001/plans/session",
-      {
-        priceId,
-      }
+        {priceId,
+          email}
     );
 
     window.location.href = response.url; // obtener la url y redirigil al usuario a la url
@@ -70,7 +71,7 @@ const Pricing = () => {
                   <button
                     className="btn btn-lg text-white btn-success w-100"
                     variant="outline-success"
-                    onClick={() => createSession(price.id)}
+                    onClick={() => createSession(currentUser,price.id)}
                   >
                     Comprar
                   </button>

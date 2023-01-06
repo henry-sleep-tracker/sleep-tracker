@@ -17,8 +17,11 @@ import { AuthContextProvider } from "./actions/authContext";
 import Pricing from "./components/PlanesPago/PlanesPago.jsx";
 import ConoceAlEquipo from "./components/Home/ConoceAlEquipo";
 import Profile from "./components/Profile/Profile.jsx";
+import ChangePassword from "./components/Profile/ChangePassword.jsx";
+import DeleteUser from "./components/Profile/DeleteProfile.jsx";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword.jsx";
 import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
+import CommentCreate from "./components/Comments/CommentCreate";
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
 axios.defaults.baseURL = "http://localhost:3001/";
@@ -54,6 +57,10 @@ function App() {
           <Route path="/private/newrecord" element={<Record />} />
           <Route path="/private/dashboard/*" element={<Dashboard />} />
           <Route path="/private/profile" element={<Profile />} />
+          <Route path="/private/change-password/:id" element={<ChangePassword />} />
+          <Route path="/private/delete-user/:id" element={<DeleteUser />} />
+          <Route path="/private/commentcreate" element={<CommentCreate />} />
+
         </Route>
       </Routes>
     </AuthContextProvider>

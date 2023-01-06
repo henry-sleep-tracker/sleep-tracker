@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@mui/styles";
 import { Grid, Paper, Typography } from "@mui/material";
 import { useEffect } from "react";
-import getComments from "../../actions";
+import getComments from "../../actions/Comments/getComments";
 
 const Page1 = () => {
   const classes = useStyles();

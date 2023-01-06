@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import {
   Line,
@@ -6,6 +6,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  Legend,
   LineChart,
   ResponsiveContainer,
 } from "recharts";
@@ -13,6 +14,32 @@ import {
 export default function DualGraph() {
   const ranges = useSelector((state) => state.range);
   console.log("ranges", ranges);
+  const [opacity, setOpacity] = useState({
+    summary_light_min: 1,
+    summary_deep_min: 1,
+    summary_rem_min: 1,
+    summary_awake_min: 1,
+    efficiency: 1,
+  });
+
+  const handleClick = useCallback(
+    (event) => {
+      const { dataKey } = event;
+      const updated = opacity[dataKey] === 0 ? 1 : 0;
+      setOpacity({ ...opacity, [dataKey]: updated });
+    },
+    [opacity, setOpacity]
+  );
+
+  const handleReset = useCallback(() => {
+    setOpacity((opacity) => {
+      let updated = {};
+      Object.keys(opacity).forEach((o) => {
+        updated[o] = 1;
+      });
+      return { ...opacity, ...updated };
+    });
+  }, [setOpacity]);
 
   const getColor = (k) => {
     const green = "#58C0A1";
@@ -37,18 +64,6 @@ export default function DualGraph() {
     }
   };
 
-  // function CustomTooltip({ payload, label, active }) {
-  //   console.log("payload",payload, label )
-  //   if (active) {
-  //     return (
-  //       <div className="custom-tooltip">
-  //         <p className="label">{`${label} : ${payload[0].value}`}</p>
-  //         <p className="intro">{getIntroOfPage(label)}</p>
-  //         <p className="desc">Anything you want can be displayed here.</p>
-  //       </div>
-  //     );
-  //   }
-
   const lines = () => {
     const uniqueKeys = Object.keys(ranges[0]).filter((item) =>
       [
@@ -67,6 +82,7 @@ export default function DualGraph() {
           type="monotone"
           stroke={getColor(k)}
           strokeWidth={1.5}
+          strokeOpacity={opacity[k]}
           name={k.replace(/_/g, " ")}
           dataKey={k}
           activeDot={{ r: 5 }}
@@ -76,27 +92,31 @@ export default function DualGraph() {
   };
 
   return (
-    <ResponsiveContainer width="95%" height={500}>
-      <LineChart
-        width={500}
-        height={400}
-        data={ranges}
-        margin={{
-          top: 20,
-          right: 20,
-          bottom: 20,
-          left: 20,
-        }}
-      >
-        <CartesianGrid stroke="#f5f5f5" />
-        <XAxis dataKey="date" />
-        <YAxis />
-        <Tooltip
-          itemStyle={{ textTransform: "capitalize", textAlign: "left" }}
-          content={"efficiency"}
-        />
-        {ranges?.length && lines()}
-      </LineChart>
-    </ResponsiveContainer>
+    <div>
+      <ResponsiveContainer width="95%" height={500}>
+        <LineChart
+          width={500}
+          height={400}
+          data={ranges}
+          margin={{
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20,
+          }}
+        >
+          <CartesianGrid stroke="#f5f5f5" />
+          <XAxis dataKey="date" />
+          <YAxis />
+          <Tooltip
+            itemStyle={{ textTransform: "capitalize", textAlign: "left" }}
+            content={"efficiency"}
+          />
+          <Legend onClick={handleClick} />
+          {ranges?.length && lines()}
+        </LineChart>
+      </ResponsiveContainer>
+      <button onClick={handleReset}>Reset graph</button>
+    </div>
   );
 }
