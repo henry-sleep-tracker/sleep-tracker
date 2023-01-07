@@ -49,6 +49,7 @@ const Page4 = () => {
         className={classes.mainPaper}
         flex={4}
         p={9}
+        gap='10px'
 
       >
         <Grid
@@ -68,6 +69,7 @@ const Page4 = () => {
                   marginBottom: { md: '50px', xs: '5px' }
                 }}
               >
+                <ThumbUpIcon/>
               </Box>  
               <Typography variant="h4" sx={{ mb: 8 }} >Prueba gratis</Typography>
               <Box
@@ -120,6 +122,7 @@ const Page4 = () => {
                     marginBottom: { md: '50px', xs: '5px' }
                   }}
                 >
+                  <EmojiEmotionsIcon/>
                 </Box>
                 <Typography variant="h4" sx={{ mb: 8 }}>
                   Plan Estandar
@@ -173,6 +176,7 @@ const Page4 = () => {
                   marginBottom: { md: '50px', xs: '5px' }
                 }}
               >
+                <AutoAwesomeIcon/>
               </Box>
               <Typography variant="h4" sx={{ mb: 8 }}>Plan Premium</Typography>
               <Box

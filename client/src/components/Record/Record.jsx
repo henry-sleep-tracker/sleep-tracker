@@ -51,19 +51,20 @@ import time from "../../images/time.png";
 // Import helpers
 import { date_maker } from "../../helpers/date_maker";
 import { time_maker } from "../../helpers/time_maker";
+import { time_convert } from "../../helpers/time_convert";
 
-// Temporal Constants
-/* const email = "karsoreef@gmail.com"; // --> Cambiar por correo que estas usando
-const password = "Abcde123*"; // --> Cambiar por tu password */
-
+//>======================>//
 //> Starts Component
+//>======================>//
 
 const Record = props => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  let sleepTimeMinutes = "";
+  let sleepTime12Format = "";
 
-  const currentUser = useSelector(state => state.users.currentUser);
-  console.log("SOY CURRENT USER EN RECORD", currentUser);
+  //const currentUser = useSelector(state => state.users.currentUser);
+  //console.log("SOY CURRENT USER EN RECORD", currentUser);
 
   // useRef Hook
   const timeRef = useRef();
@@ -72,36 +73,45 @@ const Record = props => {
   const sizeCup = useRef();
   const drinks = useRef();
   const typeDrink = useRef();
+  const nameActivity = useRef();
+  const nameCoffee = useRef();
+  const nameDrink = useRef();
 
   /******************** Redux States Section *********************/
 
-  const coffeeSizesRedux = useSelector(state => state.record.coffeeSizes);
-  const activitiesRedux = useSelector(state => state.record.activities);
-  const drinksRedux = useSelector(state => state.record.drinks);
+  const userId = useSelector(state => state.users.currentUser.id);
+  const nameUser = useSelector(state => state.users.currentUser.names);
   const recordStatus = useSelector(state => state.record.statusNewRecord);
   const activityStat = useSelector(state => state.record.statusNewActivity);
   const coffeeStat = useSelector(state => state.record.statusNewCoffeeSize);
   const drinkStat = useSelector(state => state.record.statusNewDrink);
-  const userId = useSelector(state => state.users.currentUser.id);
-  const nameUser = useSelector(state => state.users.currentUser.names);
+  const activitiesRedux = useSelector(state => state.record.activities);
+  const coffeeSizesRedux = useSelector(state => state.record.coffeeSizes);
+  const drinksRedux = useSelector(state => state.record.drinks);
   const sleepTime = useSelector(state => state.date);
+
+  const temp = sleepTime.filter(e => e.level !== 1);
+  if (temp.length > 0) {
+    sleepTimeMinutes = Math.floor(
+      temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
+    );
+    sleepTime12Format = time_convert(sleepTimeMinutes);
+  }
 
   /******************** Local States Section *********************/
 
   //! ================== Main Local States ================= !//
 
-  const temp = sleepTime.filter(e => e.level !== 1);
-
   const [record, setRecord] = useState({
     dateMeal: sleepTime.length > 0 ? sleepTime[0].date : "",
     timeMeal: "",
     description: "",
-    sleepTime:
-      temp.length > 0
+    sleepTime: "",
+    /* temp.length > 0
         ? Math.floor(
             temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
           )
-        : "0",
+        : "0", */
     napTime: [],
     timeActivity: [],
     coffeeCups: [],
@@ -171,6 +181,10 @@ const Record = props => {
       setRecord((record.timeMeal = time));
     }
 
+    if (!record.sleepTime) {
+      setRecord((record.sleepTime = "0"));
+    }
+
     const floorTimeActivity = record.timeActivity.map(e => Math.floor(e));
     const floorCoffeeCups = record.coffeeCups.map(e => Math.floor(e));
     const floorDrinks = record.drinks.map(e => Math.floor(e));
@@ -217,12 +231,12 @@ const Record = props => {
       dateMeal: sleepTime.length > 0 ? sleepTime[0].date : "",
       timeMeal: "",
       description: "",
-      sleepTime:
-        temp.length > 0
+      sleepTime: "",
+      /* temp.length > 0
           ? Math.floor(
               temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
             )
-          : "",
+          : "", */
       napTime: [],
       timeActivity: [],
       coffeeCups: [],
@@ -294,10 +308,12 @@ const Record = props => {
     }
 
     if (duplicated.length > 0) {
-      return message.error(
+      message.error(
         `La actividad ${addActivity.activity} no puede duplicarse`,
         2500
       );
+      nameActivity.current.value = "";
+      return;
     }
 
     dispatch(createNewActivity(addActivity));
@@ -394,10 +410,9 @@ const Record = props => {
     }
 
     if (duplicated.length > 0) {
-      return message.error(
-        `La medida ${addCoffeSize.size} no puede duplicarse`,
-        2500
-      );
+      message.error(`La medida ${addCoffeSize.size} no puede duplicarse`, 2500);
+      nameCoffee.current.value = "";
+      return;
     }
 
     dispatch(createNewCoffeeSize(addCoffeSize));
@@ -494,10 +509,9 @@ const Record = props => {
     }
 
     if (duplicated.length > 0) {
-      return message.error(
-        `La bebida ${addNewDrink.drink} no puede duplicarse`,
-        2500
-      );
+      message.error(`La bebida ${addNewDrink.drink} no puede duplicarse`, 2500);
+      nameDrink.current.value = "";
+      return;
     }
 
     dispatch(createNewDrink(addNewDrink));
@@ -594,7 +608,7 @@ const Record = props => {
             ref={timeRef}
             defaultValue="0"
           />
-          <span className="sync">sincronizar</span>
+          {/*  <span className="sync">sincronizar</span> */}
           <label>Actividad</label>
           <select ref={activityRef} onChange={handlerSetActivity}>
             <option value="default">Selecciona...</option>
@@ -639,6 +653,7 @@ const Record = props => {
               name="activity"
               value={addActivity.activity}
               onChange={handlerOnChangeActivity}
+              ref={nameActivity}
             />
             <span className="add_button" onClick={handlerAddActivity}>
               Agregar
@@ -714,6 +729,7 @@ const Record = props => {
               name="size"
               value={addCoffeSize.size}
               onChange={handlerOnChangeCoffeSize}
+              ref={nameCoffee}
             />
             <span className="add_button" onClick={handlerAddSizeCoffee}>
               Agregar
@@ -789,6 +805,7 @@ const Record = props => {
               name="drink"
               value={addNewDrink.drink}
               onChange={handlerOnChangeDrink}
+              ref={nameDrink}
             />
             <span className="add_button" onClick={handlerAddDrink}>
               Agregar
@@ -887,7 +904,8 @@ const Record = props => {
               </div>
               <div className="sleep_section">
                 {/* <label>
-                  <span className="asterisk">* </span>Tiempo
+                  <span className="asterisk">* </span>
+                  {sleepTime12Format}
                 </label> */}
                 <input
                   className="input_number"

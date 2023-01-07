@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
-const path = require("path");
+const path = require("path"); 
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
 const sequelize = new Sequelize(
   "postgresql://postgres:WrpAbk2oBdKzw2PgQQNg@containers-us-west-153.railway.app:7381/railway",
@@ -19,18 +19,18 @@ const modelDefiners = [];
 // Leemos todos los archivos de la carpeta Models, los requerimos y agregamos al arreglo modelDefiners
 fs.readdirSync(path.join(__dirname, "/models"))
   .filter(
-    (file) =>
+    file =>
       file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
   )
-  .forEach((file) => {
+  .forEach(file => {
     modelDefiners.push(require(path.join(__dirname, "/models", file)));
   });
 
 // Injectamos la conexion (sequelize) a todos los modelos
-modelDefiners.forEach((model) => model(sequelize));
+modelDefiners.forEach(model => model(sequelize));
 // Capitalizamos los nombres de los modelos ie: product => Product
 let entries = Object.entries(sequelize.models);
-let capsEntries = entries.map((entry) => [
+let capsEntries = entries.map(entry => [
   entry[0][0].toUpperCase() + entry[0].slice(1),
   entry[1],
 ]);
@@ -47,9 +47,13 @@ const {
   Session,
   Stage,
   Plans,
+  Comment,
 } = sequelize.models;
 
 // Aca vendrian las relaciones
+
+User.hasOne(Comment);
+Comment.belongsTo(User);
 
 User.hasMany(NewRecord);
 NewRecord.belongsTo(User);

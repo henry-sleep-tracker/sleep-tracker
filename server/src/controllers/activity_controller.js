@@ -1,11 +1,12 @@
 const { Activity, User } = require("../db.js");
+const { sortByName } = require("../helpers/sort_by_name_activity.js");
 
 /* ================== Get List Activites =================== */
 
 const getAcitivities = async (req, res) => {
   try {
     const activityRes = await Activity.findAll({
-      /* include: [
+      /*  include: [
         {
           model: User,
         },
@@ -35,8 +36,7 @@ const activities_by_id = async (req, res) => {
         .status(200)
         .json({ message: `No existen actividades para el userId: ${id}` });
     }
-
-    return res.status(200).json(resDb);
+    return res.status(200).json(sortByName(resDb));
   } catch (err) {
     return res.status(400).json(err);
   }

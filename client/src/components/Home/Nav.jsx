@@ -48,9 +48,11 @@ function ResponsiveAppBar() {
   };
 
   const handleConoce = e => {
-    navigate("/team");
+    e.preventDefault();
+    navigate("/private/team");
   };
   const handleGraph = e => {
+    e.preventDefault();
     navigate("/private/graficas");
   };
   const handleBack = e => {

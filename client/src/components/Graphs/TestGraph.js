@@ -1,3 +1,4 @@
+import { Card, CardContent } from "@mui/material";
 import React from "react";
 import { Chart } from "react-google-charts";
 import { useSelector } from "react-redux";
@@ -31,13 +32,14 @@ export default function Graph() {
     }),
   ];
 
+
   const options = {
     title: `Esta es tu grafica de sueño de la noche ${stages[0]?.date}`,
 
     hAxis: {
       title: "Hour",
       gridlines: {
-        count: 5,
+        count: 12,
         units: {
           hours: { format: ["HH:00"] },
         },
@@ -61,13 +63,16 @@ export default function Graph() {
   };
 
   return (
-    <>
-      <Chart
-        chartType="AreaChart"
-        data={data}
-        options={options}
-        height="380px"
-      />
-    </>
+    <Card
+    variant='outlined'>
+      <CardContent>
+        <Chart
+          chartType="AreaChart"
+          data={data}
+          options={options}
+          height="380px"
+        />
+      </CardContent>
+    </Card>
   );
 }

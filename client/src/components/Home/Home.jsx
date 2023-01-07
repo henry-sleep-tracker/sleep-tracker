@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Collection from "./resume";
-import Graph from "../Graphs/TestGraph";
 import ResponsiveAppBar from "./Nav";
-// import "./home.css";
 import Calc from "./calc";
 import Swipeable from "./tips";
 import { Grid, Typography } from "@mui/material";
@@ -11,13 +9,18 @@ import Calendario from "../Calendario/Calendario";
 import { makeStyles } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
 import { getSleepByDate } from "../../actions/getSleepData";
-const MY_AUTH_APP = "MY_AUTH_APP_1";
-const USER_ID = "USER_ID";
+import { getRecordsQuery } from "../../actions/newRecord";
+// const MY_AUTH_APP = "MY_AUTH_APP_1";
+// const USER_ID = "USER_ID";
+import GraphHome from "../Graphs/Graph-home";
+import CustomizedAccordions from "../Graph-Week/detailsGraphs";
+
 
 const Home = () => {
-  const userId= window.localStorage.getItem(USER_ID)
+  //const userId= window.localStorage.getItem(USER_ID)
   const currentUser = useSelector((state) => state?.users.currentUser);
   console.log("SOY CURRENTUSER", currentUser);
+
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -25,25 +28,17 @@ const Home = () => {
       .toISOString()
       .split("T")[0];
     dispatch(getSleepByDate(yesterday));
+    let id = currentUser.id
+    let date = yesterday
+    dispatch(getRecordsQuery(id,date))
   }, [dispatch, currentUser]);
 
   let user = {
-    name: currentUser.names,
-    sueño: [1, 3, 2, 4, 5, 1, 3, 2, 1, 5, 3, 4],
-    consumo: {
-      cafeina: "",
-      alcohol: "2 cervezas, 3 mojitos",
-      comida: "19:00",
-      ejercicio: { tiempo: "30 minutos", tipo: "caminata" },
-    },
+    name: currentUser.names?currentUser.names : '🥰',
   };
-  let consumed = user.consumo;
-  const dream = user.sueño;
+ 
+  
 
-  let prueba = [["horas de sueño", "profundidad de sueño"]];
-  for (let i = 0; i < dream.length; i++) {
-    prueba.push([i + 1, dream[i]]);
-  }
 
   const greet = () => {
     var text = "";
@@ -59,6 +54,7 @@ const Home = () => {
     return text;
   };
 
+  
   const classes = useStyles();
 
   return (
@@ -68,10 +64,10 @@ const Home = () => {
       justifyContent="center"
       alignItems="center"
       direction="column"
-      spacing={1}
+      spacing={3}
       flex={4}
       p={2}
-      // maxWidth='100vw'
+    // maxWidth='100vw'
     >
       <ResponsiveAppBar />
       <Grid item>
@@ -79,30 +75,36 @@ const Home = () => {
           ¡Hola {user.name} {greet()}
         </Typography>
       </Grid>
-      <div>
-        <Fitbit />
-      </div>
 
-      <div>
+      <Grid
+        item
+      >
+        <Fitbit />
+      </Grid>
+
+      {/* <Grid
+        item
+      >
+        <Typography variant="h6">{Date()}</Typography>
+      </Grid> */}
+<Grid
+        item
+      >
         <Calendario />
-      </div>
+      </Grid>
 
       <Grid>
-        <Typography variant="h6">{Date()}</Typography>
+        <GraphHome/>
       </Grid>
-
-      <Grid className={classes.Collection} item>
-        <Collection arg={consumed} />
-      </Grid>
-
-      {/* <br /> */}
-      {/* <Grid
-        className={classes.containerHome}
+      <CustomizedAccordions/>
+      <Grid
+        className={classes.Collection}
         item
-      > */}
-      <Grid className={classes.graphHome} item>
-        <Graph />
+      >
+        <Collection/>
       </Grid>
+
+    
 
       <Grid className={classes.calc} item>
         <Calc />
@@ -112,8 +114,6 @@ const Home = () => {
         <Swipeable className={classes.swipeable} />
       </Grid>
 
-      {/* </Grid>
-       */}
     </Grid>
   );
 };
