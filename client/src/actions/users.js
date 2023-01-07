@@ -5,9 +5,9 @@ export function getUsersResponse(users) {
   };
 }
 
-export function getUsers() {
+export function getUsers(page, size) {
   return function (dispatch) {
-    fetch("http://localhost:3001/users")
+    fetch(`http://localhost:3001/users?page=${page}&limit=${size}`)
       .then((r) => r.json())
       .then((users) => dispatch(getUsersResponse(users)))
       .catch((error) => console.log(error));

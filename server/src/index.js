@@ -9,6 +9,7 @@ const updateUser = require("./routes/updateUser.js");
 const plansRoutes = require("./routes/pagosStripe");
 const getSleepByDate = require("./routes/getSleepByDate");
 const getSleepByRange = require("./routes/getSleepByRange");
+
 const getUser = require("./routes/getUser.js")
 const getComments = require("./routes/Comments/getComments.js")
 const postComment = require("./routes/Comments/postComment.js")
@@ -18,11 +19,11 @@ const changePassword = require("./routes/changePassword.js");
 const deleteUser = require("./routes/deleteUser.js")
 const getAverage = require("./routes/getAverage");
 
-
 const router = Router();
 
 router.use("/sleepfitbit", getSleepFitbit);
 router.use("/user", userMiddleware);
+router.use("/user", deleteUser);
 router.use("/signup", signupMiddleware);
 router.use("/login", loginMiddleware);
 router.use("/newrecord", newRecord);
