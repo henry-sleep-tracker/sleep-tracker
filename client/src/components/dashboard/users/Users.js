@@ -17,19 +17,39 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 function UsersContent() {
-  const users = useSelector((state) => state.users.users);
-  const dispatch = useDispatch();
 
-  const [pageSize, setPageSize] = useState(5);
+  const dispatch = useDispatch();
+  const users = useSelector(state => state.users.users);
+  
   const [rowId, setRowId] = useState(null);
 
+  const [pageState, setPageState] = useState({
+    isLoading: false,
+    users: users.users,
+    total: users.total,
+    page: 1,
+    pageSize: 5
+  });
+  //https://www.youtube.com/watch?v=FdISUQrdmuo&t=477s
+
   useEffect(() => {
-    if (users.length === 0) dispatch(getUsers());
+    dispatch(getUsers(pageState.page, pageState.pageSize));
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    console.log(users);
+    setPageState(old => ({ ...old, isLoading: false, users: users.users, total: users.total }));
+  }, [users]);
+
+  useEffect(() => {
+      setPageState(old => ({ ...old, isLoading: true }));
+      dispatch(getUsers(pageState.page, pageState.pageSize));
+      // eslint-disable-next-line
+  }, [pageState.page, pageState.pageSize]);
+  
+  useEffect(() => {
+    console.log('users', users);
+    console.log('pageState', pageState);
   });
 
   function getFullName(params) {
@@ -95,11 +115,11 @@ function UsersContent() {
         headerName: "Acciones",
         type: "actions",
         renderCell: (params) => (
-          <UsersActions {...{ params, rowId, setRowId }} />
+          <UsersActions {...{ params, rowId, setRowId, pageState }} />
         ),
       },
     ],
-    [rowId]
+    [rowId, pageState]
   );
 
   return (
@@ -126,10 +146,18 @@ function UsersContent() {
             },
           }}
           columns={columns}
-          rows={users}
+          rows={pageState.users}
+
           rowsPerPageOptions={[5, 10, 20]}
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          pageSize={pageState.pageSize}
+          onPageSizeChange={(newPageSize) => setPageState( old => ({ ...old, pageSize: newPageSize}) ) }
+
+          paginationMode="server"
+          rowCount={pageState.total}
+          loading={pageState.isLoading}
+          onPageChange={ (newPage) => setPageState( old => ({ ...old, page: newPage + 1}) ) }
+          page={pageState.page - 1}
+
           getRowSpacing={(params) => ({
             top: params.isFirstVisible ? 0 : 3,
             bottom: params.isLastVisible ? 0 : 3,
