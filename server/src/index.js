@@ -10,11 +10,13 @@ const plansRoutes = require("./routes/pagosStripe");
 const getSleepByDate = require("./routes/getSleepByDate");
 const getSleepByRange = require("./routes/getSleepByRange");
 const getUser = require("./routes/getUser.js");
+const deleteUser = require("./routes/deleteUser.js");
 
 const router = Router();
 
 router.use("/sleepfitbit", getSleepFitbit);
 router.use("/user", userMiddleware);
+router.use("/user", deleteUser);
 router.use("/signup", signupMiddleware);
 router.use("/login", loginMiddleware);
 router.use("/newrecord", newRecord);
