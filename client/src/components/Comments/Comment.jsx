@@ -16,10 +16,12 @@ const CreateComment = () => {
     const dispatch = useDispatch();
 
     let navigate = useNavigate();
-
+    
+    /* eslint-disable */
     useEffect(() => {
         dispatch(getCurrentComment(currentUser.id))
     }, [dispatch])
+    /* eslint-disable */
 
     let currentComment = useSelector((state) => state.currentComment);
 
