@@ -35,8 +35,6 @@ router.post("/session", async (req, res) => {
       apiKey: process.env.STRIPE_SECRET_KEY,
     }
   );
-  console.log("res.json(session):", session);
-  // console.log("res:", res);
   return res.json(session);
 });
 
