@@ -21,7 +21,7 @@ import ChangePassword from "./components/Profile/ChangePassword.jsx";
 import DeleteUser from "./components/Profile/DeleteProfile.jsx";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword.jsx";
 import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
-import CommentCreate from "./components/Comments/CommentCreate";
+import CommentCreate from "./components/Comments/Comment";
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
 axios.defaults.baseURL = "http://localhost:3001/";
@@ -59,7 +59,7 @@ function App() {
           <Route path="/private/profile" element={<Profile />} />
           <Route path="/private/change-password/:id" element={<ChangePassword />} />
           <Route path="/private/delete-user/:id" element={<DeleteUser />} />
-          <Route path="/private/commentcreate" element={<CommentCreate />} />
+          <Route path="/private/createcomment" element={<CommentCreate />} />
 
         </Route>
       </Routes>

@@ -1,18 +1,31 @@
 import { Button, Card, CardContent, Grid, TextField, Typography } from '@mui/material';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HomeIcon from '@mui/icons-material/Home';
 import CheckIcon from '@mui/icons-material/Check';
 import { postComment } from '../../actions/Comments/postComment';
+import { deleteComment } from '../../actions/Comments/deleteComment';
+import { getCurrentComment } from '../../actions/Comments/getCurrentComment';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const PostComment = () => {
+const CreateComment = () => {
 
     const currentUser = useSelector((state) => state?.users.currentUser);
 
     const dispatch = useDispatch();
 
     let navigate = useNavigate();
+
+    useEffect(() => {
+        dispatch(getCurrentComment(currentUser.id))
+    }, [dispatch])
+
+    let currentComment = useSelector((state) => state.currentComment);
+
+    let [currentCommentState, setCurrentCommentState] = useState('Opine sobre su experiencia con la aplicacion:')
+
+    // const [currentCommentState, setCurrentCommentState] = useState('')
 
     const [input, setInput] = useState({
         name: currentUser.names,
@@ -28,7 +41,6 @@ const PostComment = () => {
             ...input,
             [element.target.id]: element.target.value
         })
-        console.log(input)
     }
 
     function handleSubmit(element) {
@@ -41,13 +53,22 @@ const PostComment = () => {
                 comment: "",
                 id: currentUser.id,
             })
-            console.log(input)
         } catch (error) { alert("Fatal Error.") }
         navigate('/private');
+
     }
 
+    function handleDelete(element) {
+        try {
+            dispatch(deleteComment(element))
+            setCurrentCommentState('Opine sobre su experiencia con la aplicacion:')
+        } catch (error) { }
+        navigate('/private');
+
+    }
 
     return (
+
         <Grid
             container
             justifyContent='center'
@@ -55,6 +76,7 @@ const PostComment = () => {
             alignItems='center'
             spacing={3}
         >
+
             <Grid
                 item
             >
@@ -67,7 +89,8 @@ const PostComment = () => {
                 <Button
                     variant="outlined"
                     startIcon={<HomeIcon />}
-                    href='/private'>
+                    href='/private'
+                >
                     Inicio
                 </Button>
 
@@ -76,10 +99,42 @@ const PostComment = () => {
             <Grid
                 item
             >
+                {
+                    (currentComment.data) ?
+                        <Typography>{currentComment.data.comment}</Typography> :
+                        <Typography>{currentCommentState}</Typography>
+                }
+            </Grid>
+
+
+            <Grid
+                item
+            >
+                {
+                    !currentComment.data ?
+                        <Button variant="outlined" disabled>
+                            Eliminar comentario previo
+                        </Button>
+                        :
+                        <Button
+                            variant="outlined"
+                            startIcon={<DeleteIcon />}
+                            color='error'
+                            onClick={() => handleDelete(currentUser.id)}
+                        // href='/private'
+                        >
+                            Eliminar comentario previo
+                        </Button>
+
+                }
+            </Grid>
+
+            <Grid
+                item
+            >
 
                 <Card
                     variant='outlined'
-                    elevation={20}
                 >
                     <CardContent>
 
@@ -140,4 +195,4 @@ const PostComment = () => {
     )
 }
 
-export default PostComment;
+export default CreateComment;
