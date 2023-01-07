@@ -8,7 +8,14 @@ const server = express();
 server.name = "API";
 
 server.use(express.urlencoded({ extended: false }));
-server.use(express.json());
+// server.use(express.json());
+server.use((req, res, next) => {
+  if (req.originalUrl === "/webhook") {
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
 server.use(express.text());
 server.use(cookieParser());
 
