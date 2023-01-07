@@ -3,6 +3,10 @@ const router = Router();
 const stripe = require("stripe");
 const express = require("express");
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+const {
+  getUserByStripeCustomerId,
+  createNewPlan,
+} = require("../controllers/plans");
 
 router.post(
   "/",
@@ -35,21 +39,13 @@ router.post(
       data = req.body.data;
       eventType = req.body.type;
     }
-
+    // amount: 100,
     switch (eventType) {
-      case "checkout.session.completed":
+      case "payment_intent.succeeded":
+        const user = await getUserByStripeCustomerId(data.object.customer);
+        const newRegister = await createNewPlan(data.object.amount, user.id);
         // Payment is successful and the subscription is created.
         // You should provision the subscription and save the customer ID to your database.
-        break;
-      case "invoice.paid":
-        // Continue to provision the subscription as payments continue to be made.
-        // Store the status in your database and check when a user accesses your service.
-        // This approach helps you avoid hitting rate limits.
-        break;
-      case "invoice.payment_failed":
-        // The payment failed or the customer does not have a valid payment method.
-        // The subscription becomes past_due. Notify your customer and send them to the
-        // customer portal to update their payment information.
         break;
       default:
       // Unhandled event type
