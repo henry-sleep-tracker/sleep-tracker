@@ -4,10 +4,16 @@ module.exports = (sequelize) => {
   sequelize.define(
     "plans",
     {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        required: true,
+        primaryKey: true,
+      },
       name: {
         type: DataTypes.STRING,
-        unique: true,
-        primaryKey: true,
+        enum: ["Basico", "Estandar", "Premium"],
+        required: true,
       },
       price: {
         type: DataTypes.INTEGER,
