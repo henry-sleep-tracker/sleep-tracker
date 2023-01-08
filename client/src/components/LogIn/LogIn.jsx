@@ -5,8 +5,10 @@ import { logInUser } from "../../actions/index";
 import { useAuthContext } from "../../actions/authContext";
 import LogInGoogleButton from "../LogInGoogleButton/LogInGoogleButton";
 import { gapi } from "gapi-script"
-import { Button, Card, CardContent, Grid, TextField, Typography } from "@mui/material";
+import { Button, Card, CardContent, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from "@mui/material";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Visibility from "@mui/icons-material/Visibility";
 
 export default function LogIn() {
   const clientId = "335316690432-trah7lbld3ptrek9o23jo6n0t7g30foe.apps.googleusercontent.com"
@@ -51,16 +53,27 @@ export default function LogIn() {
       console.log("el error es:", error);
     }
   }
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <Grid
       container
       direction='column'
       justifyContent="center"
       alignItems="center"
-      spacing={2}
+      spacing={3}
       flex={4}
       p={2}
     >
+
+      <Grid item></Grid>
 
       <Grid
         item
@@ -100,23 +113,10 @@ export default function LogIn() {
               direction='column'
               justifyContent="center"
               alignItems="center"
-              spacing={2}
+              spacing={3}
               flex={4}
               p={2}
             >
-
-
-              <Grid
-                item
-              >
-                <Typography
-                  variant='h5'
-                >
-                  Correo electronico*:
-                </Typography>
-
-                {/* <label htmlFor="email">{`Correo electronico*:`} </label> */}
-              </Grid>
 
               <Grid
                 item
@@ -127,7 +127,7 @@ export default function LogIn() {
                 item
               >
                 <TextField
-                  label="E-mail"
+                  label="Correo electronico"
                   variant="outlined"
                   type="email"
                   name="email"
@@ -137,7 +137,7 @@ export default function LogIn() {
                 />
               </Grid>
 
-              <Grid
+              {/* <Grid
                 item
               >
                 <Typography
@@ -145,7 +145,7 @@ export default function LogIn() {
                 >
                   Contraseña*:
                 </Typography>
-                {/* <label htmlFor="password">{`Contraseña*:`} </label> */}
+                <label htmlFor="password">{`Contraseña*:`} </label>
               </Grid>
 
               <Grid
@@ -161,6 +161,37 @@ export default function LogIn() {
                   onChange={(event) => handleChange(event)}
                   required
                 />
+              </Grid>
+ */}
+
+              <Grid
+                item
+              >
+                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password">Contraseña *</InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={showPassword ? 'text' : 'password'}
+                    label="Contraseña"
+                    variant="outlined"
+                    name="password"
+                    value={input.password}
+                    onChange={(event) => handleChange(event)}
+                    required
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
               </Grid>
 
               <Grid
@@ -222,15 +253,6 @@ export default function LogIn() {
                 </Button>
 
               </Grid>
-              <Grid
-                item
-              >
-                <Typography
-                >
-                  ¿Olvidaste tu contraseña?
-                </Typography>
-
-              </Grid>
 
               <Grid
                 item
@@ -241,7 +263,7 @@ export default function LogIn() {
                     textDecoration: 'none',
                   }}
                 >
-                  Recuperala
+                  ¿Olvidaste tu contraseña?
                 </a>
               </Grid>
 

@@ -124,6 +124,9 @@ export default function Register() {
       alignItems='center'
       spacing={3}
     >
+
+      <Grid item></Grid>
+
       <Grid
         item
       >
@@ -280,6 +283,12 @@ export default function Register() {
                   <OutlinedInput
                     id="outlined-adornment-password"
                     type={showPassword ? 'text' : 'password'}
+                    label="Contraseña"
+                    name="password"
+                    maxLength="32"
+                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
+                    onChange={(event) => handleChange(event)}
+                    required
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -292,12 +301,6 @@ export default function Register() {
                         </IconButton>
                       </InputAdornment>
                     }
-                    label="Contraseña"
-                    name="password"
-                    maxLength="32"
-                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
-                    onChange={(event) => handleChange(event)}
-                    required
 
                   />
                 </FormControl>
@@ -326,6 +329,12 @@ export default function Register() {
                   <OutlinedInput
                     id="outlined-adornment-password"
                     type={showPassword2 ? 'text' : 'password'}
+                    label="Confirmar contraseña"
+                    name="confirmPassword"
+                    maxLength="32"
+                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
+                    onChange={(event) => handleChange(event)}
+                    required
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -338,13 +347,6 @@ export default function Register() {
                         </IconButton>
                       </InputAdornment>
                     }
-                    label="Confirmar contraseña"
-                    name="confirmPassword"
-                    maxLength="32"
-                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
-                    onChange={(event) => handleChange(event)}
-                    required
-
                   />
                 </FormControl>
               </Grid>
