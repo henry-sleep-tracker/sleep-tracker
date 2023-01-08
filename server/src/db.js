@@ -100,6 +100,12 @@ Activity.belongsToMany(NewRecord, {
 Plans.hasOne(User);
 User.belongsTo(Plans);
 
+User.hasMany(Session);
+Session.belongsTo(User);
+
+User.hasMany(Stage);
+Stage.belongsTo(User);
+
 Session.hasMany(Stage);
 Stage.belongsTo(Session);
 
