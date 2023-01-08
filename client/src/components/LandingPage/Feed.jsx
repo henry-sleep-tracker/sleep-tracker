@@ -92,12 +92,12 @@ const Feed = ({
                 <Page5 />
             </Grid>
 
-            <Grid
+            {/* <Grid
                 item
                 ref={page6}
             >
                 <Page6 />
-            </Grid>
+            </Grid> */}
 
         </Grid>
 
