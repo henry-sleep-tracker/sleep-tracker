@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const { User } = require('../db.js');
+const bcrypt = require("bcrypt");
 const { getUserById } = require("../controllers/user");
 
 router.delete('/:id', async (req, res)=>{
@@ -26,10 +27,10 @@ router.delete('/:id', async (req, res)=>{
                 },
               });
             console.log("RESULT DELETE", result); // 0 es que no borro y 1 es que si borro 
-            res.status(200).send("Usuario eliminado");
+            return res.status(200).send("Usuario eliminado");
         }
       } catch (error) {
-        res.status(400).send("No se pudo eliminar el usuario");
+        return res.status(400).send("No se pudo eliminar el usuario");
       }
     });
 
