@@ -135,8 +135,8 @@ const Record = props => {
 
   //! ================== Sleep States ================= !//
   const [time, setTime] = useState({
-    startTime: null,
-    endTime: null,
+    startTime: "",
+    endTime: "",
     minTime: "",
     hourTime: "",
   });
@@ -200,7 +200,7 @@ const Record = props => {
       setRecord((record.timeMeal = time));
     }
 
-    if (st && et) {
+    if (st.length > 0 && et.length > 0) {
       min = timeToMinutes(st, et);
       setRecord((record.sleepTime = min));
     }
@@ -278,6 +278,7 @@ const Record = props => {
     setActivityStatus(false);
     setCoffeeStatus(false);
     setDrinkStatus(false);
+    setTime({ ...time, startTime: "", endTime: "" });
 
     /*  timeRef.current.value = 0;
     activityRef.current.value = "default";
