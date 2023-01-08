@@ -6,11 +6,13 @@ import { useAuthContext } from "../../actions/authContext";
 import LogInGoogleButton from "../LogInGoogleButton/LogInGoogleButton";
 import { gapi } from "gapi-script"
 import { Button, Card, CardContent, Grid, TextField, Typography } from "@mui/material";
+import { getUsersPlanExpDate } from "../../actions/plan";
 
 export default function LogIn() {
   const clientId = "335316690432-trah7lbld3ptrek9o23jo6n0t7g30foe.apps.googleusercontent.com"
   const { login } = useAuthContext();
   const loggedUser = useSelector((state) => state?.users.currentUser)
+  const planExpirationDate = useSelector((state) => state?.users.planExpirationDate);
   const dispatch = useDispatch();
   var [input, setInput] = useState({
     email: "",
@@ -26,12 +28,18 @@ export default function LogIn() {
 
   useEffect(() => {
     if (loggedUser.hasOwnProperty('id') && loggedUser.id !== 0) {
-      alert("Usuario validado");
-      login(loggedUser.id);
+      console.log("planExpirationDate:",planExpirationDate);
+      dispatch(getUsersPlanExpDate(loggedUser.id))
+      debugger
+      if(planExpirationDate!=="1900-01-01"){
+        alert("Usuario validado");
+        // debugger
+        login(loggedUser.id,planExpirationDate);
+      }
     } else if(loggedUser.id===0){
       alert("El usuario o la contraseña no son correctos");
     }
-  }, [loggedUser, login])
+  }, [loggedUser, login,planExpirationDate])
   function handleChange(event) {
     setInput({
       ...input,
