@@ -9,7 +9,7 @@ import {
   GET_COFFEE_SIZE_BY_USER,
   GET_DRINKS_BY_USER,
   NEW_RECORD,
-  ERROR_TRYING_TO_CREATE_RECORD,
+  STATUS_NEW_RECORD,
   NEW_ACTIVITY,
   ERROR_TRYING_TO_CREATE_ACTIVITY,
   NEW_COFFEE_SIZE,
@@ -58,7 +58,7 @@ const recordReducer = (state = initialState, action) => {
       return { ...state, drinks: action.payload };
     case NEW_RECORD:
       return { ...state };
-    case ERROR_TRYING_TO_CREATE_RECORD:
+    case STATUS_NEW_RECORD:
       return { ...state, statusNewRecord: action.payload };
     case NEW_ACTIVITY:
       return { ...state };

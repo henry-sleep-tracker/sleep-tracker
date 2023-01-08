@@ -61,12 +61,10 @@ import { timeToMinutes } from "../../helpers/time_to_minutes";
 
 const Record = props => {
   const dispatch = useDispatch();
+  // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
   let sleepTimeMinutes = "";
   let sleepTime12Format = "";
-
-  //const currentUser = useSelector(state => state.users.currentUser);
-  //console.log("SOY CURRENT USER EN RECORD", currentUser);
 
   // useRef Hook
   const timeRef = useRef();
@@ -99,6 +97,7 @@ const Record = props => {
     sleepTimeMinutes = Math.floor(
       temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
     );
+    // eslint-disable-next-line no-unused-vars
     sleepTime12Format = time_convert(sleepTimeMinutes);
   }
 
@@ -137,8 +136,6 @@ const Record = props => {
   const [time, setTime] = useState({
     startTime: "",
     endTime: "",
-    minTime: "",
-    hourTime: "",
   });
 
   let st = time.startTime;
@@ -190,6 +187,8 @@ const Record = props => {
     let time = "";
     let min = "";
 
+    // Before Dispatch //
+
     if (record.dateMeal === "") {
       date = date_maker();
       setRecord((record.dateMeal = date));
@@ -216,6 +215,9 @@ const Record = props => {
     setRecord((record.coffeeCups = floorCoffeeCups));
     setRecord((record.drinks = floorDrinks));
     dispatch(createNewRecord(record));
+
+    // After Dispatch //
+
     setRecord({
       dateMeal: date_maker(),
       timeMeal: "",
@@ -236,23 +238,12 @@ const Record = props => {
     setActivityStatus(false);
     setCoffeeStatus(false);
     setDrinkStatus(false);
-
-    /* timeRef.current.value = "0";
-      activityRef.current.value = "default";
-
-      cups.current.value = "0";
-      sizeCup.current.value = "default";
-
-      drinks.current.value = "0";
-      typeDrink.current.value = "default"; */
-    message.success(`${nameUser} tu registro se creo correctamente!!`);
-    navigate("/private");
+    setTime({ startTime: "", endTime: "" });
   };
 
   const handlerOnClear = e => {
     e.preventDefault();
     setRecord({
-      //dateMeal: sleepTime.length > 0 ? sleepTime[0].date : "",
       dateMeal: date_maker(),
       timeMeal: "",
       description: "",
@@ -278,16 +269,7 @@ const Record = props => {
     setActivityStatus(false);
     setCoffeeStatus(false);
     setDrinkStatus(false);
-    setTime({ ...time, startTime: "", endTime: "" });
-
-    /*  timeRef.current.value = 0;
-    activityRef.current.value = "default";
-
-    cups.current.value = 0;
-    sizeCup.current.value = "default";
-
-    drinks.current.value = 0;
-    typeDrink.current.value = "default"; */
+    setTime({ startTime: "", endTime: "" });
   };
 
   //! ================== SleepTime Handlers ================= !//
@@ -606,22 +588,28 @@ const Record = props => {
 
   // Mount/Unmount Component
   useEffect(() => {
-    //dispatch(getActivities());
-    //dispatch(getCoffeeSizes());
-    //dispatch(getDrinks());
-    //dispatch(getLastIdActivity());
-    //dispatch(getLastIdCoffeSize());
-    //dispatch(getLastIdDrink());
-    dispatch(getActivitiesByUser(userId));
-    dispatch(getCoffeeSizesByUser(userId));
-    dispatch(getDrinksByUser(userId));
-    dispatch(setStatusNewRecord());
+    const fetchData = async () => {
+      // eslint-disable-next-line no-unused-vars
+      const dataActivitiy = await dispatch(getActivitiesByUser(userId));
+      // eslint-disable-next-line no-unused-vars
+      const dataCoffeSize = await dispatch(getCoffeeSizesByUser(userId));
+      // eslint-disable-next-line no-unused-vars
+      const dataDrinks = await dispatch(getDrinksByUser(userId));
+    };
 
-    /* if (recordStatus) {
-      message.error(`Error: al intentar crear el registro`, 2500);
-    }  else {
-      message.success(`${nameUser} tu registro se creo correctamente!!`);
-    } */
+    fetchData().catch(console.error);
+    if (!recordStatus) {
+      return;
+    } else {
+      if (recordStatus.status === 200) {
+        message.success(`${nameUser} tu registro se creo correctamente!!`);
+        dispatch(setStatusNewRecord());
+      }
+      if (recordStatus) {
+        message.error(`Error: al intentar crear el registro`, record);
+        dispatch(setStatusNewRecord());
+      }
+    }
   }, [value, recordStatus]);
 
   const PopupActivity = () => (
