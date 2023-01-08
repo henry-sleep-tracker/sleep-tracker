@@ -16,7 +16,7 @@ const CreateComment = () => {
     const dispatch = useDispatch();
 
     let navigate = useNavigate();
-    
+
     /* eslint-disable */
     useEffect(() => {
         dispatch(getCurrentComment(currentUser.id))
@@ -82,7 +82,11 @@ const CreateComment = () => {
             <Grid
                 item
             >
-                <Typography variant='h4'>Registrar comentario</Typography>
+                <Typography
+                    variant='h4'
+                >
+                    Registrar comentario
+                </Typography>
             </Grid>
 
             <Grid
@@ -103,8 +107,17 @@ const CreateComment = () => {
             >
                 {
                     (currentComment.data) ?
-                        <Typography>{currentComment.data.comment}</Typography> :
-                        <Typography>{currentCommentState}</Typography>
+                        <Typography
+                            variant='h5'
+                        >
+                            {currentComment.data.comment}
+                        </Typography>
+                        :
+                        <Typography
+                            variant='h5'
+                        >
+                            {currentCommentState}
+                        </Typography>
                 }
             </Grid>
 
@@ -192,7 +205,6 @@ const CreateComment = () => {
                     </CardContent>
                 </Card>
             </Grid>
-
         </Grid>
     )
 }
