@@ -136,13 +136,24 @@ h5 {
 }
 
 .sleep_section input {
-  width: 5rem;
+  width: 8rem;
   margin-left: 0.3rem;
-  margin-right: 0.3rem;
+  margin-right: 1rem;
 }
 
 .sleep_section button {
   margin-left: 1rem;
+}
+
+.sleep_section_input {
+  margin-right: 2rem;
+}
+
+.sleep_result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
 }
 
 .popup_ico {
