@@ -21,7 +21,7 @@ const nullUser = {
   lastConnection: "",
 };
 
-export const createToken = (code) => async (dispatch) => {
+export const createToken = (code, userId) => async (dispatch) => {
   try {
     const sendCode = await fetch("http://localhost:3001/sleepfitbit", {
       // The default URL for backEnd is written on "app.js", just write "/*yourBackenRoute*"
@@ -29,7 +29,7 @@ export const createToken = (code) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ code: code }),
+      body: JSON.stringify({ code: code, userId: userId }),
     });
 
     const response = await sendCode.json();
