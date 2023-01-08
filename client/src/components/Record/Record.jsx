@@ -46,12 +46,14 @@ import coffeeImg from "../../images/coffee.png";
 import drinkMain from "../../images/tropical-drink-Main.png";
 import drinkImg from "../../images/tropical-drink.png";
 import calendar from "../../images/calendar.png";
-import time from "../../images/time.png";
+import timeIco from "../../images/time.png";
 
 // Import helpers
 import { date_maker } from "../../helpers/date_maker";
 import { time_maker } from "../../helpers/time_maker";
 import { time_convert } from "../../helpers/time_convert";
+import { formatingDate } from "../../helpers/date_formating";
+import { timeToMinutes } from "../../helpers/time_to_minutes";
 
 //>======================>//
 //> Starts Component
@@ -90,6 +92,8 @@ const Record = props => {
   const drinksRedux = useSelector(state => state.record.drinks);
   const sleepTime = useSelector(state => state.date);
 
+  /******************** Functions Before load component *********************/
+
   const temp = sleepTime.filter(e => e.level !== 1);
   if (temp.length > 0) {
     sleepTimeMinutes = Math.floor(
@@ -103,7 +107,8 @@ const Record = props => {
   //! ================== Main Local States ================= !//
 
   const [record, setRecord] = useState({
-    dateMeal: sleepTime.length > 0 ? sleepTime[0].date : "",
+    //dateMeal: sleepTime.length > 0 ? sleepTime[0].date : date_maker(),
+    dateMeal: date_maker(),
     timeMeal: "",
     description: "",
     sleepTime: "",
@@ -122,11 +127,24 @@ const Record = props => {
     userId: userId,
   });
 
-  //const [value, setValue] = useState();
+  const [value, setValue] = useState({});
 
-  /* const refresh = () => {
+  const refresh = () => {
     setValue({});
-  }; */
+  };
+
+  //! ================== Sleep States ================= !//
+  const [time, setTime] = useState({
+    startTime: null,
+    endTime: null,
+    minTime: "",
+    hourTime: "",
+  });
+
+  let st = time.startTime;
+  let et = time.endTime;
+
+  const finalHours = formatingDate(st, et);
 
   //! ================== Activity States ================= !//
 
@@ -170,6 +188,7 @@ const Record = props => {
     e.preventDefault();
     let date = "";
     let time = "";
+    let min = "";
 
     if (record.dateMeal === "") {
       date = date_maker();
@@ -179,6 +198,11 @@ const Record = props => {
     if (record.timeMeal === "") {
       time = time_maker();
       setRecord((record.timeMeal = time));
+    }
+
+    if (st && et) {
+      min = timeToMinutes(st, et);
+      setRecord((record.sleepTime = min));
     }
 
     if (!record.sleepTime) {
@@ -193,7 +217,7 @@ const Record = props => {
     setRecord((record.drinks = floorDrinks));
     dispatch(createNewRecord(record));
     setRecord({
-      dateMeal: "",
+      dateMeal: date_maker(),
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -228,7 +252,8 @@ const Record = props => {
   const handlerOnClear = e => {
     e.preventDefault();
     setRecord({
-      dateMeal: sleepTime.length > 0 ? sleepTime[0].date : "",
+      //dateMeal: sleepTime.length > 0 ? sleepTime[0].date : "",
+      dateMeal: date_maker(),
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -262,6 +287,12 @@ const Record = props => {
 
     drinks.current.value = 0;
     typeDrink.current.value = "default"; */
+  };
+
+  //! ================== SleepTime Handlers ================= !//
+
+  const handlerSleepTimeChange = e => {
+    setTime({ ...time, [e.target.name]: e.target.value });
   };
 
   //! ================== Activity Handlers ================= !//
@@ -328,6 +359,8 @@ const Record = props => {
       setNewActivity(false);
       setActivityStatus(false);
       activityRef.current.value = "default";
+      dispatch(getActivitiesByUser(userId));
+      refresh();
     }
   };
 
@@ -427,6 +460,8 @@ const Record = props => {
       setNewCoffeeSize(false);
       setCoffeeStatus(false);
       sizeCup.current.value = "default";
+      dispatch(getCoffeeSizesByUser(userId));
+      refresh();
     }
   };
 
@@ -526,6 +561,8 @@ const Record = props => {
       setNewDrink(false);
       setDrinkStatus(false);
       typeDrink.current.value = "default";
+      dispatch(getDrinksByUser(userId));
+      refresh();
     }
   };
 
@@ -584,7 +621,7 @@ const Record = props => {
     }  else {
       message.success(`${nameUser} tu registro se creo correctamente!!`);
     } */
-  }, [newActivity, newCoffeeSize, newDrink, recordStatus]);
+  }, [value, recordStatus]);
 
   const PopupActivity = () => (
     <Popup
@@ -857,7 +894,7 @@ const Record = props => {
               <div className="time_meal_container">
                 <h5 className="h5_head">Hora de tu cena</h5>
                 <div>
-                  <img src={time} alt="" className="main_ico" />
+                  <img src={timeIco} alt="" className="main_ico" />
                   <input
                     type="time"
                     /* required={true} */
@@ -903,29 +940,49 @@ const Record = props => {
                 </h2>
               </div>
               <div className="sleep_section">
+                <label>Dormiste </label>
+                <input
+                  className="sleep_section_input"
+                  type="time"
+                  name="startTime"
+                  id=""
+                  value={time.startTime}
+                  onChange={handlerSleepTimeChange}
+                />
+                <label> Despertaste </label>
+                <input
+                  type="time"
+                  name="endTime"
+                  id=""
+                  value={time.endTime}
+                  onChange={handlerSleepTimeChange}
+                />
+                <div className="sleep_result" hidden={st && et ? false : true}>
+                  <h4>Dormiste: {finalHours}</h4>
+                </div>
                 {/* <label>
                   <span className="asterisk">* </span>
                   {sleepTime12Format}
                 </label> */}
-                <input
+                {/* <input
                   className="input_number"
                   type="number"
                   step="1"
                   min="0"
-                  /* required={true} */
+                  //required={true}
                   name="sleepTime"
                   value={record.sleepTime}
                   onChange={handlerOnChange}
                   placeholder="0"
-                  /* disabled={sleepTime.length > 0 ? true : false} */
-                />
-                <span>min.</span>
-                <span
+                  //disabled={sleepTime.length > 0 ? true : false}
+                /> */}
+                {/* <span>min.</span> */}
+                {/* <span
                   className="sync"
                   hidden={sleepTime.length > 0 ? true : false}
                 >
                   sincronizar
-                </span>
+                </span> */}
               </div>
               {/* <label>Siesta</label>
               <input className="input_number" type="number" step="1" min="0" />
