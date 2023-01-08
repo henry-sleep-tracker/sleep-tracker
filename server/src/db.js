@@ -4,8 +4,8 @@ const fs = require("fs");
 const path = require("path");
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
 const sequelize = new Sequelize(
-  // "postgresql://postgres:WrpAbk2oBdKzw2PgQQNg@containers-us-west-153.railway.app:7381/railway",
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+  "postgresql://postgres:WrpAbk2oBdKzw2PgQQNg@containers-us-west-153.railway.app:7381/railway",
+  //`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
   {
     logging: false, // set to console.log to see the raw SQL queries
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
@@ -100,13 +100,19 @@ Activity.belongsToMany(NewRecord, {
 Plans.hasOne(User);
 User.belongsTo(Plans);
 
-User.hasMany(Session);
+User.hasMany(Session, {
+  foreignKey: "userId",
+});
 Session.belongsTo(User);
 
-User.hasMany(Stage);
+User.hasMany(Stage, {
+  foreignKey: "userId",
+});
 Stage.belongsTo(User);
 
-Session.hasMany(Stage);
+Session.hasMany(Stage, {
+  foreignKey: "sessionId",
+});
 Stage.belongsTo(Session);
 
 module.exports = {
