@@ -1,13 +1,14 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-import { Grid, Paper } from "@mui/material";
+import { Card, CardContent, Grid, Paper, Typography } from "@mui/material";
 import { useEffect } from "react";
 import getComments from "../../actions/Comments/getComments";
+import CommentsCarousel from './CommentsCarousel'
 
 const Page1 = () => {
   const classes = useStyles();
 
-  useEffect(()=>{
+  useEffect(() => {
     getComments()
   })
 
@@ -19,21 +20,31 @@ const Page1 = () => {
 
       <Grid
         container
-        // display='flex'
         // direction="row"
-        justifyContent="center"
+        justifyContent="space-evenly"
         alignItems="center"
         className={classes.mainPaper}
         flex={4}
-        p={2}
-
+        p={9}
       >
         <Grid
           item
-          lg={6}
-          md={6}
           xs={12}
+          md={3}
         >
+          <Typography
+            variant="h2"
+          >
+            Comentarios sobre Sleep Tracker
+          </Typography>
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          md={3}
+        >
+          <CommentsCarousel />
         </Grid>
       </Grid>
     </Paper>
