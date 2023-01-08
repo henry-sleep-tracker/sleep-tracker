@@ -2,11 +2,13 @@ import {
   CREATE_TOKEN,
   GET_CURRENT_USER,
   POST_USER_WITH_GOOGLE,
+  GET_CURRENT_PLAN,
 } from "./constants";
 const emailjs = require("emailjs-com");
 const templateId = "template_upsqgx4";
 const serviceId = "service_ts4dsnk";
 const Public_Key = "DkkyjnDmwCqT4qOL1";
+const getUsersPlanExpDate = require("./plan");
 
 const nullUser = {
   id: 0,
@@ -176,6 +178,18 @@ export function logOutUser() {
       return dispatch({
         type: GET_CURRENT_USER,
         payload: "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+export function cleanExpDate() {
+  return async function (dispatch) {
+    try {
+      return dispatch({
+        type: GET_CURRENT_PLAN,
+        payload: "1900-01-01",
       });
     } catch (error) {
       console.log(error);
