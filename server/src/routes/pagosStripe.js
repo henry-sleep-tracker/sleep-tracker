@@ -1,12 +1,18 @@
 const { Router } = require("express");
 const Stripe = require("stripe");
 const router = Router();
-const { User } = require("../db.js");
+const { User, Plan } = require("../db.js");
+const { getPlanByUserId } = require("../controllers/plan");
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2020-08-27",
 });
 
+router.get("/", async (req, res) => {
+  const { userId } = req.query;
+  const plan = await getPlanByUserId(userId);
+  return res.status(200).send(plan.dataValues);
+});
 router.get("/prices", async (req, res) => {
   const prices = await stripe.prices.list({
     apiKey: process.env.STRIPE_SECRET_KEY,
@@ -28,7 +34,7 @@ router.post("/session", async (req, res) => {
         },
       ],
       success_url: "http://localhost:3000/private/planes", //si todo sale bien redirigira la sgt pag
-      cancel_url: "http://localhost:3000//private/", //si todo sale mal, redirigir a otra pag
+      cancel_url: "http://localhost:3000/private/", //si todo sale mal, redirigir a otra pag
       customer: user.stripeCustomerId,
     },
     {
