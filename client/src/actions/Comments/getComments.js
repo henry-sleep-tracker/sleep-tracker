@@ -2,7 +2,7 @@ import { GET_COMMENTS } from "../constants";
 
 const getComments = () => async (dispatch) => {
   try {
-    fetch("http://localhost:3001/getcomments")
+    fetch("/getcomments")
       .then((response) => response.json())
       .then((payload) =>
         dispatch({
