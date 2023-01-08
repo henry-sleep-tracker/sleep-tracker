@@ -38,7 +38,7 @@ router.use("/daterange", getSleepByRange);
 router.use("/myuser", getUser);
 router.use("/changeprofile", updateProfile);
 router.use("/changepassword", changePassword);
-router.use("/deleteuser", deleteUser)
+router.use("/deleteuser", deleteUser);
 router.use("/getcomments", getComments);
 router.use("/postcomment", postComment);
 router.use("/deletecomment", deleteComment);
