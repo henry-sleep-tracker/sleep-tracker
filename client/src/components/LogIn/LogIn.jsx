@@ -213,7 +213,7 @@ export default function LogIn() {
                 <Typography
                   variant='h5'
                 >
-                  Ó iniciar sesion con Google
+                  Ó ingresa con Google
                 </Typography>
               </Grid>
 

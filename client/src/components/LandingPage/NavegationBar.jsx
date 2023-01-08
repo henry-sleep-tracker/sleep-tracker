@@ -10,6 +10,7 @@ import { theme } from "../../theme";
 import { ThemeProvider } from "@emotion/react";
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import CommentIcon from '@mui/icons-material/Comment';
 // import { makeStyles } from "@mui/styles";
 
 
@@ -54,7 +55,8 @@ const NavegationBar = ({
     page2,
     page3,
     page4,
-    page5
+    page5,
+    page6,
 }) => {
 
     // const [open, setOpen] = useState(false)
@@ -131,7 +133,6 @@ const NavegationBar = ({
                                     <ListItem disablePadding>
                                         <ListItemButton
                                             component='a'
-                                            href='#home'
                                             onClick={() => setCurrentPage(page1)}
                                         >
                                             <ListItemIcon>
@@ -144,7 +145,6 @@ const NavegationBar = ({
                                     <ListItem disablePadding>
                                         <ListItemButton
                                             component='a'
-                                            href='#howItWorks'
                                             onClick={() => setCurrentPage(page2)}
                                         >
                                             <ListItemIcon>
@@ -157,7 +157,6 @@ const NavegationBar = ({
                                     <ListItem disablePadding>
                                         <ListItemButton
                                             component='a'
-                                            href='#supportedDevices'
                                             onClick={() => setCurrentPage(page3)}
                                         >
                                             <ListItemIcon>
@@ -170,7 +169,6 @@ const NavegationBar = ({
                                     <ListItem disablePadding>
                                         <ListItemButton
                                             component='a'
-                                            href='#billingPlans'
                                             onClick={() => setCurrentPage(page4)}
                                         >
                                             <ListItemIcon>
@@ -183,7 +181,18 @@ const NavegationBar = ({
                                     <ListItem disablePadding>
                                         <ListItemButton
                                             component='a'
-                                            href='#meetTheTeam'
+                                            onClick={() => setCurrentPage(page6)}
+                                        >
+                                            <ListItemIcon>
+                                                <CommentIcon />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Comentarios" />
+                                        </ListItemButton>
+                                    </ListItem>
+
+                                    <ListItem disablePadding>
+                                        <ListItemButton
+                                            component='a'
                                             onClick={() => setCurrentPage(page5)}
                                         >
                                             <ListItemIcon>
