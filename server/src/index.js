@@ -18,6 +18,8 @@ const updateProfile = require("./routes/updateProfile.js");
 const changePassword = require("./routes/changePassword.js");
 const deleteUser = require("./routes/deleteUser.js");
 const getAverage = require("./routes/getAverage");
+const getCurrentComment = require("./routes/Comments/getCurrentComment");
+
 const webHook = require("./routes/webhook");
 
 const router = Router();
@@ -41,6 +43,7 @@ router.use("/getcomments", getComments);
 router.use("/postcomment", postComment);
 router.use("/deletecomment", deleteComment);
 router.use("/average", getAverage);
+router.use("/getcurrentcomment", getCurrentComment);
 router.use("/webhook", webHook);
 
 module.exports = router;
