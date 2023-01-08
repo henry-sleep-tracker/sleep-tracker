@@ -10,20 +10,21 @@ import { makeStyles } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
 import { getSleepByDate } from "../../actions/getSleepData";
 import { getRecordsQuery } from "../../actions/newRecord";
-// const MY_AUTH_APP = "MY_AUTH_APP_1";
-// const USER_ID = "USER_ID";
 import GraphHome from "../Graphs/Graph-home";
 import CustomizedAccordions from "../Graph-Week/detailsGraphs";
-
+import { getUsersPlanExpDate } from "../../actions/plan";
+import { useAuthContext } from "../../actions/authContext";
 
 const Home = () => {
-  //const userId= window.localStorage.getItem(USER_ID)
+  const { payPlan } = useAuthContext();
+  // const expiDate= window.localStorage.getItem("PLAN_EXPIRATION_DATE")
+  // debugger
   const currentUser = useSelector((state) => state?.users.currentUser);
-  console.log("SOY CURRENTUSER", currentUser);
-
-
+  const planExpirationDate = useSelector((state) => state?.users.planExpirationDate);
   const dispatch = useDispatch();
   useEffect(() => {
+    // dispatch(getUsersPlanExpDate(currentUser.id))
+    let today = new Date().toISOString().split('T')[0]
     const yesterday = new Date(Date.now() - 28800000)
       .toISOString()
       .split("T")[0];
@@ -31,6 +32,10 @@ const Home = () => {
     let id = currentUser.id
     let date = yesterday
     dispatch(getRecordsQuery(id,date))
+    // debugger
+    // if (planExpirationDate<today) {
+      // payPlan(planExpirationDate);
+    // }
   }, [dispatch, currentUser]);
 
   let user = {
