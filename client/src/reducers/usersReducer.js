@@ -5,11 +5,8 @@ import {
 } from "../actions/constants";
 
 const initialState = {
-  users: {
-    users: [],
-    total: 0
-  },
-  currentUser: '',
+  users: [],
+  currentUser: {},
 };
 
 const usersReducer = function (state = initialState, action) {
@@ -29,6 +26,11 @@ const usersReducer = function (state = initialState, action) {
         ...state,
         currentUser: action.payload,
       };
+    case "GET_PROFILE":
+      return {
+        ...state,
+        currentUser: action.payload,
+      }
 
     default:
       return { ...state };

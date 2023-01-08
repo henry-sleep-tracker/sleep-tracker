@@ -6,7 +6,7 @@
   background-color: rgb(152, 198, 235);
   margin: 0%;
   padding: 0%;
-  height: 48vw;
+  height: 80vw;
   
 }
 
@@ -62,46 +62,71 @@
 #buttonDelete{
   border-radius: 3px;
   border: none;
-  background-color: rgba(128, 128, 128, 0.804);
-  height: 30px;
+  background-color: gray;
+  height: 35px;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   font-size: 15px;
   text-align: center;
   cursor: pointer;
   transition: all .3s ease-in-out 0s;
-  position: absolute;
-  top: 20px;
-  left: 5rem;
+  position:absolute;
+  top: 3rem;
+  right: 5rem;
   transition: all .3s ease-in-out 0s;
+  box-shadow: rgb(38, 57, 77) 0px 20px 20px -10px;
 }
 
 #buttonDelete:hover{
-  background-color: #565658b5;
-  transform: translateX(6px);
+  background-color: #56565888;
+  transform: translateX(-6px);
   outline: none;
 }
 
 #buttonPassword{
   border-radius: 3px;
   border: none;
-  background-color: rgba(128, 128, 128, 0.804);
-  height: 30px;
+  background-color: gray;
+  height: 35px;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   font-size: 15px;
   text-align: center;
   cursor: pointer;
   transition: all .3s ease-in-out 0s;
-  position: absolute;
-  top: 20px;
-  left: 5rem;
+  position:absolute;
+  top: 6rem;
+  right: 5rem;
   transition: all .3s ease-in-out 0s;
+  box-shadow: rgb(38, 57, 77) 0px 20px 20px -10px;
 }
 
 #buttonPassword:hover{
-  background-color: #565658b5;
-  transform: translateX(6px);
+  background-color: #56565888;
+  transform: translateX(-6px);
   outline: none;
 }
+
+#buttonSubmit{
+  border-radius: 3px;
+   border: none;
+   background-color: gray;
+   height: 30px;
+   font-family:Verdana, Geneva, Tahoma, sans-serif;
+   font-size: 15px;
+   text-align: center;
+   cursor: pointer;
+   transition: all .3s ease-in-out 0s;
+   position:absolute;
+   top: 1rem;
+   left: 5rem;
+   transition: all .3s ease-in-out 0s;
+   box-shadow: rgb(38, 57, 77) 0px 20px 20px -10px;
+ }
+ 
+ #buttonSubmit:hover{
+   background-color: #565658b5;
+   transform: translateX(6px);
+   outline: none;
+ }
 
 .buttonBack{
   border-radius: 3px;
@@ -136,4 +161,13 @@
 
 .font{
   font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.inputs{
+  border-radius: 3px;
+  border: none;
+  height: 30px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 15px;
+  cursor: pointer;
 }

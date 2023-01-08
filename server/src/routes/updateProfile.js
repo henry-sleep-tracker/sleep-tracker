@@ -13,8 +13,13 @@ router.put('/:id', async (req, res)=>{
         id: id
       }
     });
-    console.log("ROUTE UPDATE", update)
-    res.status(200).jsonp(update);
+    console.log("ROUTE UPDATE", update);
+    if(update){
+      const user = await User.findOne({ where: { id: id } });
+      console.log("ROUTE UPDATE USER", user);
+      return res.status(200).jsonp(user);
+    }
+    
   } catch (error) {
     return res.status(400).send(error.message);
   }

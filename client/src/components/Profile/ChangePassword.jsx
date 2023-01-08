@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import {useDispatch} from "react-redux";
-import { useParams,useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { changePassword } from "../../actions/profileActions";
 import style from "./ChangePassword.module.css";
 
@@ -54,7 +54,7 @@ export default function ChangePassword() {
             password: "",
             confirmPassword: "",
           });
-          navigate("/login");
+          navigate("/");
         }
       } catch (error) {
         console.log("el error es:", error);
@@ -64,6 +64,9 @@ export default function ChangePassword() {
   return (
     <div className= {style.container}>
       <h1 className= {style.h1}>Crear una nueva contraseña</h1>
+      <Link to = "/private/profile">
+        <button className= {style.buttonBack}>Regresar</button>
+      </Link>
       <form className = {style.containers} onSubmit={(event) => handleSubmit(event)}>
         <div className= {style.containers2}>
           <label htmlFor="password">{`Contraseña*:`} </label>
