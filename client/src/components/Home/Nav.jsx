@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import log from "../logi/log-.png";
 import { useAuthContext } from "../../actions/authContext";
 import { useDispatch } from "react-redux";
-import { logOutUser } from "../../actions";
+import { logOutUser, cleanExpDate } from "../../actions";
 
 function ResponsiveAppBar() {
   const dispatch=useDispatch();
@@ -30,6 +30,7 @@ function ResponsiveAppBar() {
   async function handleLogOut(event) {
     event.preventDefault();
     dispatch( logOutUser());
+    dispatch( cleanExpDate());
     await logout();
   }
   const handleOpenNavMenu = event => {
