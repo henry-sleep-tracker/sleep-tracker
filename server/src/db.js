@@ -101,19 +101,13 @@ User.hasOne(Plan);
 Plan.belongsTo(User, { foreignKey: "userId" });
 
 User.hasMany(Session);
-Session.belongsTo(User, {
-  foreignKey: "userId",
-});
+Session.belongsTo(User);
 
 User.hasMany(Stage);
-Stage.belongsTo(User, {
-  foreignKey: "userId",
-});
+Stage.belongsTo(User);
 
 Session.hasMany(Stage);
-Stage.belongsTo(Session, {
-  foreignKey: "sessionId",
-});
+Stage.belongsTo(Session);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
