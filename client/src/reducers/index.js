@@ -8,6 +8,8 @@ import usersReducer from "./usersReducer";
 import recordReducer from "./recordReducer";
 import dateSleepReducer from "./dateSleepReducer";
 import rangeSleepReducer from "./rangeSleepReducer";
+import getCommentsReducer from "./getCommentsReducer";
+import getCurrentCommentReducer from "./getCurrentCommentReducer";
 
 const persistConfig = {
   key: "root",
@@ -27,6 +29,8 @@ const reducers = combineReducers({
   record: recordReducer,
   date: dateSleepReducer,
   range: rangeSleepReducer,
+  comments: getCommentsReducer,
+  currentComment: getCurrentCommentReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

@@ -6,12 +6,8 @@ import {
 } from "../actions/constants";
 
 const initialState = {
-  users: {
-    users: [],
-    total: 0,
-  },
-  currentUser: "",
-  planExpirationDate: "1900-01-01",
+  users: [],
+  currentUser: {},
 };
 
 const usersReducer = function (state = initialState, action) {
@@ -32,6 +28,11 @@ const usersReducer = function (state = initialState, action) {
         planExpirationDate: action.payload,
       };
     case POST_USER_WITH_GOOGLE:
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    case "GET_PROFILE":
       return {
         ...state,
         currentUser: action.payload,

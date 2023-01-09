@@ -17,6 +17,7 @@ function LandingPage() {
   const page3 = useRef(null);
   const page4 = useRef(null);
   const page5 = useRef(null);
+  const page6 = useRef(null);
 
   const [currentPage, setCurrentPage] = useState(page1);
 
@@ -49,6 +50,7 @@ function LandingPage() {
         page3={page3}
         page4={page4}
         page5={page5}
+        page6={page6}
       />
 
 
@@ -75,6 +77,7 @@ function LandingPage() {
           page3={page3}
           page4={page4}
           page5={page5}
+          page6={page6}
         />
         {/* <RightBar /> */}
         {/* </Stack> */}
