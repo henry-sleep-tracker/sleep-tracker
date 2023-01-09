@@ -29,11 +29,8 @@ const Home = () => {
     let id = currentUser.id
     let date = yesterday
     dispatch(getRecordsQuery(id,date))
-    if (planExpirationDate<today) {
-      dispatch(getUsersPlanExpDate(id))
-    }else{
-      payPlan(planExpirationDate);
-    }
+    dispatch(getUsersPlanExpDate(id))
+    payPlan(planExpirationDate);
   }, [dispatch, currentUser,planExpirationDate]);
 
   let user = {

@@ -43,9 +43,9 @@ router.post(
     }
     try {
       switch (eventType) {
-        case "payment_intent.succeeded":
+        case "invoice.payment_succeeded":
           const user = await getUserByStripeCustomerId(data.object.customer);
-          await createNewPlan(data.object.amount, user.id);
+          await createNewPlan(data.object.amount_paid, user.id);
           // Payment is successful and the subscription is created.
           // You should provision the subscription and save the customer ID to your database.
           break;
