@@ -1,12 +1,13 @@
 import {
   GET_CURRENT_USER,
+  GET_CURRENT_PLAN,
   GET_USERS_RESPONSE,
   POST_USER_WITH_GOOGLE,
 } from "../actions/constants";
 
 const initialState = {
   users: [],
-  currentUser: '',
+  currentUser: {},
 };
 
 const usersReducer = function (state = initialState, action) {
@@ -21,7 +22,17 @@ const usersReducer = function (state = initialState, action) {
         ...state,
         currentUser: action.payload,
       };
+    case GET_CURRENT_PLAN:
+      return {
+        ...state,
+        planExpirationDate: action.payload,
+      };
     case POST_USER_WITH_GOOGLE:
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    case "GET_PROFILE":
       return {
         ...state,
         currentUser: action.payload,

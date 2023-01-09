@@ -1,117 +1,173 @@
 .container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5rem;
-    background-color: rgb(152, 198, 235);
-    margin: 0%;
-    padding: 0%;
-    height: 48vw;
-    
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5rem;
+  background-color: rgb(152, 198, 235);
+  margin: 0%;
+  padding: 0%;
+  height: 80vw;
+  
 }
 
 .containers {
-    border-radius: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 25rem;
-    width: 50vw;
-    margin: 0;
-    padding: 0;
-    background-color: rgb(202, 202, 202);
-    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  border-radius: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 25rem;
+  width: 50vw;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(202, 202, 202);
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
 
 .containerImg{
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .containers2{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding-left: 5rem;
-    position: relative;
-    height: 10rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 5rem;
+  position: relative;
+  height: 10rem;
 }
 
 .buttons{
-    border-radius: 3px;
-    border: none;
-    background-color: rgba(128, 128, 128, 0.804);
-    height: 30px;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 15px;
-    text-align: center;
-    cursor: pointer;
-    transition: all .3s ease-in-out 0s;
-    position: absolute;
-    top: 20px;
-    right: 5rem;
-    transition: all .3s ease-in-out 0s;
+  border-radius: 3px;
+  border: none;
+  background-color: rgba(128, 128, 128, 0.804);
+  height: 30px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .3s ease-in-out 0s;
+  position: absolute;
+  top: 20px;
+  right: 5rem;
+  transition: all .3s ease-in-out 0s;
 }
 
 .buttons:hover{
-    background-color: #565658b5;
-    transform: translateX(-6px);
-    outline: none;
-  }
+  background-color: #565658b5;
+  transform: translateX(-6px);
+  outline: none;
+}
 
-  #buttonDelete{
-    border-radius: 3px;
-    border: none;
-    background-color: rgba(128, 128, 128, 0.804);
-    height: 35px;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 15px;
-    text-align: center;
-    cursor: pointer;
-    transition: all .3s ease-in-out 0s;
-    position: absolute;
-    top: 20px;
-    left: 5rem;
-    transition: all .3s ease-in-out 0s;
-  }
+#buttonDelete{
+  border-radius: 3px;
+  border: none;
+  background-color: gray;
+  height: 35px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .3s ease-in-out 0s;
+  position:absolute;
+  top: 3rem;
+  right: 5rem;
+  transition: all .3s ease-in-out 0s;
+  box-shadow: rgb(38, 57, 77) 0px 20px 20px -10px;
+}
 
-  #buttonDelete:hover{
-    background-color: #565658b5;
-    transform: translateX(6px);
-    outline: none;
-  }
+#buttonDelete:hover{
+  background-color: #56565888;
+  transform: translateX(-6px);
+  outline: none;
+}
 
-  .buttonBack{
-    border-radius: 3px;
-    border: none;
-    background-color: gray;
-    height: 35px;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 15px;
-    text-align: center;
-    cursor: pointer;
-    transition: all .3s ease-in-out 0s;
-    position:absolute;
-    top: 3rem;
-    left: 5rem;
-    transition: all .3s ease-in-out 0s;
-    box-shadow: rgb(38, 57, 77) 0px 20px 20px -10px;
-  }
+#buttonPassword{
+  border-radius: 3px;
+  border: none;
+  background-color: gray;
+  height: 35px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .3s ease-in-out 0s;
+  position:absolute;
+  top: 6rem;
+  right: 5rem;
+  transition: all .3s ease-in-out 0s;
+  box-shadow: rgb(38, 57, 77) 0px 20px 20px -10px;
+}
 
-  .buttonBack:hover{
-    background-color: #56565888;
-    transform: translateX(6px);
-    outline: none;
-  }
-  
-  .img{
-    border: solid black;
-    border-radius: 15px;
-    width: 100px;
-    height: 100px;
-    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-  }
+#buttonPassword:hover{
+  background-color: #56565888;
+  transform: translateX(-6px);
+  outline: none;
+}
 
-  .font{
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-  }
+#buttonSubmit{
+  border-radius: 3px;
+   border: none;
+   background-color: gray;
+   height: 30px;
+   font-family:Verdana, Geneva, Tahoma, sans-serif;
+   font-size: 15px;
+   text-align: center;
+   cursor: pointer;
+   transition: all .3s ease-in-out 0s;
+   position:absolute;
+   top: 1rem;
+   left: 5rem;
+   transition: all .3s ease-in-out 0s;
+   box-shadow: rgb(38, 57, 77) 0px 20px 20px -10px;
+ }
+ 
+ #buttonSubmit:hover{
+   background-color: #565658b5;
+   transform: translateX(6px);
+   outline: none;
+ }
+
+.buttonBack{
+  border-radius: 3px;
+  border: none;
+  background-color: gray;
+  height: 35px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .3s ease-in-out 0s;
+  position:absolute;
+  top: 3rem;
+  left: 5rem;
+  transition: all .3s ease-in-out 0s;
+  box-shadow: rgb(38, 57, 77) 0px 20px 20px -10px;
+}
+
+.buttonBack:hover{
+  background-color: #56565888;
+  transform: translateX(6px);
+  outline: none;
+}
+
+.img{
+  border: solid black;
+  border-radius: 15px;
+  width: 100px;
+  height: 100px;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+
+.font{
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.inputs{
+  border-radius: 3px;
+  border: none;
+  height: 30px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 15px;
+  cursor: pointer;
+}

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -15,10 +16,11 @@ import { useNavigate } from "react-router-dom";
 import log from "../logi/log-.png";
 import { useAuthContext } from "../../actions/authContext";
 import { useDispatch } from "react-redux";
-import { logOutUser } from "../../actions";
+import { logOutUser, cleanExpDate } from "../../actions";
 
 function ResponsiveAppBar() {
   const dispatch=useDispatch();
+  const currentUser = useSelector((state) => state?.users.currentUser);
   const { logout } = useAuthContext();
   const navigate = useNavigate();
 
@@ -28,6 +30,7 @@ function ResponsiveAppBar() {
   async function handleLogOut(event) {
     event.preventDefault();
     dispatch( logOutUser());
+    dispatch( cleanExpDate());
     await logout();
   }
   const handleOpenNavMenu = event => {
@@ -199,6 +202,14 @@ function ResponsiveAppBar() {
                   <Button>Perfil</Button>
                 </Link>
               </MenuItem>
+
+              { currentUser.isAdmin? 
+                <MenuItem key="Dashboard" onClick={handleCloseUserMenu}>
+                  <Button onClick={ event => navigate('/private/dashboard')}>Dashboard</Button>
+                </MenuItem>
+                :
+                <> </>
+              }
 
               <MenuItem key="Log Out" onClick={handleCloseUserMenu}>
                 <Button onClick={event => handleLogOut(event)}>Log Out</Button>

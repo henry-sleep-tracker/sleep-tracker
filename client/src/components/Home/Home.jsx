@@ -10,20 +10,18 @@ import { makeStyles } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
 import { getSleepByDate } from "../../actions/getSleepData";
 import { getRecordsQuery } from "../../actions/newRecord";
-// const MY_AUTH_APP = "MY_AUTH_APP_1";
-// const USER_ID = "USER_ID";
 import GraphHome from "../Graphs/Graph-home";
 import CustomizedAccordions from "../Graph-Week/detailsGraphs";
-
+import { getUsersPlanExpDate } from "../../actions/plan";
+import { useAuthContext } from "../../actions/authContext";
 
 const Home = () => {
-  //const userId= window.localStorage.getItem(USER_ID)
+  const { payPlan } = useAuthContext();
   const currentUser = useSelector((state) => state?.users.currentUser);
-  console.log("SOY CURRENTUSER", currentUser);
-
-
+  const planExpirationDate = useSelector((state) => state?.users.planExpirationDate);
   const dispatch = useDispatch();
   useEffect(() => {
+    let today = new Date().toISOString().split('T')[0]
     const yesterday = new Date(Date.now() - 28800000)
       .toISOString()
       .split("T")[0];
@@ -31,7 +29,12 @@ const Home = () => {
     let id = currentUser.id
     let date = yesterday
     dispatch(getRecordsQuery(id,date))
-  }, [dispatch, currentUser]);
+    if (planExpirationDate<today) {
+      dispatch(getUsersPlanExpDate(id))
+    }else{
+      payPlan(planExpirationDate);
+    }
+  }, [dispatch, currentUser,planExpirationDate]);
 
   let user = {
     name: currentUser.names?currentUser.names : '🥰',

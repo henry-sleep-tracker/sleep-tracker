@@ -80,17 +80,14 @@ export default function GraphHome() {
       </defs>
       <XAxis
         dataKey="name"
-        tickCount={2}
+        minTickGap={50}
         tickFormatter={(value) => {
+          console.log("value", value);
           if (value) {
             const hours = value.split(":")[0];
-            parseInt(hours, 0);
-
             return `${hours}:00`;
           }
         }}
-        allowDuplicatedCategory={false}
-        interval={"preserveStartEnd"}
       />
       <YAxis tick={renderCustomAxisTick} />
       <CartesianGrid strokeDasharray="0 1" />

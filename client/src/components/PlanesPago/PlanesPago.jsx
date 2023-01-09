@@ -33,12 +33,9 @@ const Pricing = () => {
         {priceId,
           email}
     );
-
+    
     window.location.href = response.url; // obtener la url y redirigil al usuario a la url
   };
-
- 
-
 
   return (
     <div className="container">

@@ -4,7 +4,7 @@ export const GET_COFFEE_SIZES = "GET_COFFEE_SIZES";
 export const GET_ACTIVITIES = "GET_ACTIVITIES";
 export const GET_DRINKS = "GET_DRINKS";
 export const NEW_RECORD = "NEW_RECORD";
-export const ERROR_TRYING_TO_CREATE_RECORD = "ERROR_TRYING_TO_CREATE_RECORD";
+export const STATUS_NEW_RECORD = "STATUS_NEW_RECORD";
 export const NEW_ACTIVITY = "NEW_ACTIVITY";
 export const ERROR_TRYING_TO_CREATE_ACTIVITY =
   "ERROR_TRYING_TO_CREATE_ACTIVITY";
@@ -20,7 +20,7 @@ export const SET_STATUS_NEW_RECORD = "SET_STATUS_NEW_RECORD";
 export const GET_ACTIVITIES_BY_USER = "GET_ACTIVITIES_BY_USER";
 export const GET_COFFEE_SIZE_BY_USER = "GET_COFFEE_SIZE_BY_USER";
 export const GET_DRINKS_BY_USER = "GET_DRINKS_BY_USER";
-export const GET_RECORDS_USER_DATE = "GET_RECORDS_USER_DATE"
+export const GET_RECORDS_USER_DATE = "GET_RECORDS_USER_DATE";
 
 /* ====================== GET'S SECTION ======================= */
 
@@ -39,7 +39,6 @@ export const getRecordsQuery = (id, date) => {
     }
   };
 };
-
 
 export const getActivities = () => {
   return async function (dispatch) {
@@ -196,9 +195,15 @@ export const createNewRecord = obj => {
         type: NEW_RECORD,
         payload: newRecord.data,
       });
+      if (newRecord.data) {
+        dispatch({
+          type: STATUS_NEW_RECORD,
+          payload: newRecord,
+        });
+      }
     } catch (err) {
       dispatch({
-        type: ERROR_TRYING_TO_CREATE_RECORD,
+        type: STATUS_NEW_RECORD,
         /* payload: err.message, */
         payload: err,
       });

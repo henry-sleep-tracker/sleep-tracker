@@ -1,4 +1,5 @@
 const { CoffeeSize, User } = require("../db.js");
+const { sortByName } = require("../helpers/sort_by_name_coffee.js");
 
 /* ================== Get List Size ==================== */
 
@@ -15,8 +16,8 @@ const getCoffeeSizeList = async (req, res) => {
     if (coffeRes.length < 1) {
       return res.status(200).json({ message: `No existen registros` });
     }
-
-    res.status(200).json(coffeRes);
+    //const sorted = sortByName(coffeRes);
+    return res.status(200).json(coffeRes);
   } catch (err) {
     return res.status(400).json(err);
   }
