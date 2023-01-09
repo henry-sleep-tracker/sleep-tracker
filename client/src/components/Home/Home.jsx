@@ -17,13 +17,10 @@ import { useAuthContext } from "../../actions/authContext";
 
 const Home = () => {
   const { payPlan } = useAuthContext();
-  // const expiDate= window.localStorage.getItem("PLAN_EXPIRATION_DATE")
-  // debugger
   const currentUser = useSelector((state) => state?.users.currentUser);
   const planExpirationDate = useSelector((state) => state?.users.planExpirationDate);
   const dispatch = useDispatch();
   useEffect(() => {
-    // dispatch(getUsersPlanExpDate(currentUser.id))
     let today = new Date().toISOString().split('T')[0]
     const yesterday = new Date(Date.now() - 28800000)
       .toISOString()
@@ -32,11 +29,12 @@ const Home = () => {
     let id = currentUser.id
     let date = yesterday
     dispatch(getRecordsQuery(id,date))
-    // debugger
-    // if (planExpirationDate<today) {
-      // payPlan(planExpirationDate);
-    // }
-  }, [dispatch, currentUser]);
+    if (planExpirationDate<today) {
+      dispatch(getUsersPlanExpDate(id))
+    }else{
+      payPlan(planExpirationDate);
+    }
+  }, [dispatch, currentUser,planExpirationDate]);
 
   let user = {
     name: currentUser.names?currentUser.names : '🥰',
