@@ -30,10 +30,8 @@ export default function LogIn() {
     if (loggedUser.hasOwnProperty('id') && loggedUser.id !== 0) {
       console.log("planExpirationDate:",planExpirationDate);
       dispatch(getUsersPlanExpDate(loggedUser.id))
-      debugger
-      if(planExpirationDate!=="1900-01-01"){
+      if(planExpirationDate!=="1900-01-01"&&planExpirationDate!==undefined){
         alert("Usuario validado");
-        // debugger
         login(loggedUser.id,planExpirationDate);
       }
     } else if(loggedUser.id===0){
