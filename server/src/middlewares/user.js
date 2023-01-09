@@ -57,13 +57,21 @@ router.post("/", async (req, res) => {
 router.post("/google", async (req, res) => {
   try {
     const { email, names, lastNames } = req.body;
+    const customer = await stripe.customers.create(
+      {
+        email,
+      },
+      {
+        apiKey: process.env.STRIPE_SECRET_KEY,
+      }
+    );
     if (!email || !names || !lastNames) {
       return res.status(428).send("Falta enviar datos obligatorios");
     }
-    const bodyInfo = { email, names, lastNames };
+    const bodyInfo = { email, names, lastNames, stripeCustomerId: customer.id };
     const oldUser = await repeatedEmail(email);
     if (oldUser.length > 0) {
-      return res.status(202).send(oldUser);
+      return res.status(202).send(oldUser[0]);
     }
     let createdUser = await postUser(bodyInfo);
     res.status(201).json(createdUser); //201 es que fue creado
