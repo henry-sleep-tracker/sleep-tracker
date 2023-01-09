@@ -27,12 +27,6 @@ const getUserByStripeCustomerId = async (stripeCustomerId) => {
       "El error controllers plan getUserByStripeCustomerId es:",
       error.message
     );
-    res
-      .status(401)
-      .send(
-        "El error controllers plan getUserByStripeCustomerId es:",
-        error.message
-      );
   }
 };
 const createNewPlan = async (planPrice, userId) => {
@@ -94,9 +88,6 @@ const getPlanByUserId = async (userId) => {
     return foundPlan;
   } catch (error) {
     console.log("El error controllers plan getPlanByUserId es:", error.message);
-    res
-      .status(401)
-      .send("El error controllers plan getPlanByUserId es:", error.message);
   }
 };
 module.exports = {
