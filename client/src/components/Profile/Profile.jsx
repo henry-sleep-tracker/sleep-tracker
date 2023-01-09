@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { Link } from "react-router-dom";
-// import style from "./Profile.module.css";
+import { Link } from "react-router-dom";
+import style from "./Profile.module.css";
 import { useNavigate } from 'react-router-dom';
 import { updateUser } from "../../actions/profileActions";
 import { Button, Card, CardContent, Grid, TextField, Typography } from '@mui/material';

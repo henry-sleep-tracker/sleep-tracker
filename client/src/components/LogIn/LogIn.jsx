@@ -109,7 +109,11 @@ export default function LogIn() {
       </Grid>
 
       <Grid item>
-        <Button variant="outlined" startIcon={<ArrowBackIosNewIcon />} href="/">
+        <Button 
+        variant="outlined" 
+        startIcon={<ArrowBackIosNewIcon />} 
+        href="/"
+        >
           Regresar
         </Button>
       </Grid>

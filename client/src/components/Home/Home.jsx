@@ -21,10 +21,10 @@ const Home = () => {
   const currentUser = useSelector((state) => state?.users.currentUser);
   const planExpirationDate = useSelector(
     (state) => state?.users.planExpirationDate
-  );  const dispatch = useDispatch();
+  );
+  const dispatch = useDispatch();
   useEffect(() => {
     let today = new Date().toISOString().split("T")[0];
-
     const yesterday = new Date(Date.now() - 28800000)
       .toISOString()
       .split("T")[0];
@@ -66,7 +66,7 @@ const greet = () => {
       spacing={3}
       flex={4}
       p={2}
-    // maxWidth='100vw'
+      // maxWidth='100vw'
     >
 
       <Helmet>
@@ -83,9 +83,7 @@ const greet = () => {
         </Typography>
       </Grid>
 
-      <Grid
-        item
-      >
+      <Grid item>
         <Fitbit />
       </Grid>
 
@@ -94,32 +92,17 @@ const greet = () => {
       >
         <Typography variant="h6">{Date()}</Typography>
       </Grid> */}
-      <Grid
-        item
-      >
+      <Grid item>
         <Calendario />
       </Grid>
 
-      <Grid
-        item
-      >
+      <Grid>
         <GraphHome />
       </Grid>
-
-      <Grid
-        item
-      >
-        <CustomizedAccordions />
-      </Grid>
-
-      <Grid
-        className={classes.Collection}
-        item
-      >
+      <CustomizedAccordions />
+      <Grid className={classes.Collection} item>
         <Collection />
       </Grid>
-
-
 
       <Grid className={classes.calc} item>
         <Calc />
@@ -128,7 +111,6 @@ const greet = () => {
       <Grid className={classes.swipeableHome} item>
         <Swipeable className={classes.swipeable} />
       </Grid>
-
     </Grid>
   );
 };
