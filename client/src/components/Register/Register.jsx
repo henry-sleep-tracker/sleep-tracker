@@ -223,7 +223,9 @@ export default function Register() {
                   label="Nacionalidad"
                   defaultValue=""
                   helperText="Seleccione su nacionalidad"
-                  name="select" value={input.nationality} onChange={(event) => handleSelect(event)}
+                  name="select" 
+                  value={input.nationality} 
+                  onChange={(event) => handleSelect(event)}
                 >
                   {nationalities?.map((nationality) => (
                     <MenuItem key={keyNationalities++}

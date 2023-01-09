@@ -5,7 +5,7 @@ import React from "react";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { changePassword } from "../../actions/profileActions";
 // import style from "./ChangePassword.module.css";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -126,27 +126,6 @@ export default function ChangePassword() {
         </Button>
       </Grid>
 
-      {/*<Grid
-        item
-      >
-         <Grid >
-          <label htmlFor="password">{`Contraseña*:`} </label>
-          <input
-
-            type="password"
-            name="password"
-            placeholder="Contraseña"
-            maxLength="32"
-            pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
-            onChange={(e) => handleChange(e)}
-            required
-          />
-        </Grid> */}
-
-
-
-
-
       <Grid
         item
       >
@@ -199,32 +178,6 @@ export default function ChangePassword() {
                 </FormControl>
               </Grid>
 
-
-
-
-
-
-
-
-
-
-              {/* <Grid >
-          <label htmlFor="confirmPassword">{`Confirmar contraseña*:`} </label>
-          <input
-
-            type="password"
-            name="confirmPassword"
-            placeholder="Contraseña"
-            maxLength="32"
-            pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
-            onChange={(e) => handleChange(e)}
-            required
-          />
-        </Grid> */}
-
-
-
-
               <Grid
                 item
               >
@@ -235,7 +188,7 @@ export default function ChangePassword() {
                   <OutlinedInput
                     value={input.confirmPassword}
                     id="outlined-adornment-password"
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword2 ? "text" : "password"}
                     label="Confirmar contraseña *"
                     variant="outlined"
                     name="confirmPassword"
@@ -259,16 +212,10 @@ export default function ChangePassword() {
                 </FormControl>
               </Grid>
 
-
-
-
-
-
-
               <Grid
                 item>
                 {
-                  !input.password && input.confirmPassword ?
+                  !input.password || !input.confirmPassword || input.password !== input.confirmPassword?
                     <Button variant="contained" disabled>
                       Cambiar contraseña
                     </Button>
