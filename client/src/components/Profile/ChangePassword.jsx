@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import {useDispatch} from "react-redux";
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { changePassword } from "../../actions/profileActions";
@@ -63,6 +64,10 @@ export default function ChangePassword() {
 
   return (
     <div className= {style.container}>
+            <Helmet>
+        <title>Cambiar contraseña | Sleep Tracker</title>
+      </Helmet>
+
       <h1 className= {style.h1}>Crear una nueva contraseña</h1>
       <Link to = "/private/profile">
         <button className= {style.buttonBack}>Regresar</button>

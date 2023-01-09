@@ -8,6 +8,7 @@ import { getCurrentComment } from '../../actions/Comments/getCurrentComment';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Helmet } from 'react-helmet';
 
 const CreateComment = () => {
 
@@ -78,6 +79,10 @@ const CreateComment = () => {
             alignItems='center'
             spacing={3}
         >
+
+            <Helmet>
+                <title>Comentario | Sleep Tracker</title>
+            </Helmet>
 
             <Grid
                 item

@@ -1,4 +1,4 @@
-const { User, Plans } = require("../db");
+const { User, Plan } = require("../db");
 const nullUser = {
   id: 0,
   isAdmin: false,
@@ -24,13 +24,13 @@ const getUserByStripeCustomerId = async (stripeCustomerId) => {
     }
   } catch (error) {
     console.log(
-      "El error controllers plans getUserByStripeCustomerId es:",
+      "El error controllers plan getUserByStripeCustomerId es:",
       error.message
     );
     res
       .status(401)
       .send(
-        "El error controllers plans getUserByStripeCustomerId es:",
+        "El error controllers plan getUserByStripeCustomerId es:",
         error.message
       );
   }
@@ -62,31 +62,45 @@ const createNewPlan = async (planPrice, userId) => {
       break;
   }
   const body = { name, price, endTime };
+  // console.log("body:", body);
   try {
     const userInfo = await User.findOne({
       where: { id: userId },
     });
-    if (userInfo.planId === null) {
-      const newPlan = await Plans.create(body);
-      //   console.log("1newPlan:", newPlan);
-      newPlan.createUser(userInfo);
-      //   console.log("2newPlan:", newPlan);
-      //   console.log("usuario asociado:", userInfo);
+    const foundPlan = await userInfo.getPlan();
+    if (foundPlan === null) {
+      const newPlan = await Plan.create(body);
+      await userInfo.setPlan(newPlan);
     } else {
-      //   const originalPlan = await Plans.findOne({
-      //     where: { id: userInfo.planId }, //busca todas las dietas donde el nombre coincida con lo traido por el body
-      //   });
-      //   if (originalPlan.endTime !== body.endTime) {
-      //   }
+      if (
+        foundPlan.dataValues.endTime !== body.endTime &&
+        foundPlan.dataValues.name !== body.name
+      ) {
+        const newPlan = await Plan.create(body);
+        await userInfo.setPlan(newPlan);
+      }
     }
-
-    const result = await User.findAll();
-    //   console.log("result:", result);
   } catch (error) {
-    console.log("El error controllers plans createNewPlan es:", error.message);
+    console.log("El error controllers plan createNewPlan es:", error.message);
+  }
+};
+
+const getPlanByUserId = async (userId) => {
+  try {
+    const userInfo = await User.findOne({
+      where: { id: userId },
+    });
+    const foundPlan = await userInfo.getPlan();
+    return foundPlan;
+  } catch (error) {
+    console.log("El error controllers plan getPlanByUserId es:", error.message);
+    res
+      .status(401)
+      .send("El error controllers plan getPlanByUserId es:", error.message);
   }
 };
 module.exports = {
   getUserByStripeCustomerId,
   createNewPlan,
+  getPlanByUserId,
 };

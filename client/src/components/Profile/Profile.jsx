@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // import style from "./Profile.module.css";
 import { useNavigate } from 'react-router-dom';
 import { updateUser } from "../../actions/profileActions";
 import { Button, Card, CardContent, Grid, TextField, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import PasswordIcon from '@mui/icons-material/Password';
 import CheckIcon from '@mui/icons-material/Check';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PlaceIcon from '@mui/icons-material/Place';
+import { Helmet } from 'react-helmet';
 
 const Profile = () => {
 
@@ -38,6 +38,7 @@ const Profile = () => {
       ...inputs,
       [e.target.name]: e.target.value
     })
+    console.log(inputs)
   }
 
   const handleClick = (e) => {
@@ -104,6 +105,10 @@ const Profile = () => {
       spacing={3}
     >
 
+      <Helmet>
+        <title>Perfil | Sleep Tracker</title>
+      </Helmet>
+
       <Grid item></Grid>
 
       <Grid
@@ -131,30 +136,32 @@ const Profile = () => {
       <Grid
         item
       >
-        <Link to={`/private/delete-user/${currentUser.id}`}>
-          <Button
-            startIcon={<DeleteIcon />}
-            variant='outlined'
-            color='error'
-            id='ButtonDelete'
-          >
-            Borrar usuario
-          </Button>
-        </Link>
+        {/* <Link to={`/private/delete-user/${currentUser.id}`}> */}
+        <Button
+          href={`/private/delete-user/${currentUser.id}`}
+          startIcon={<DeleteIcon />}
+          variant='outlined'
+          color='error'
+          id='ButtonDelete'
+        >
+          Borrar usuario
+        </Button>
+        {/* </Link> */}
       </Grid>
 
       <Grid
         item
       >
-        <Link to={`/private/change-password/${currentUser.id}`}>
-          <Button
-            startIcon={<PasswordIcon />}
-            variant='outlined'
-            id='ButtonPassword'
-          >
-            Cambiar contraseña
-          </Button>
-        </Link>
+        {/* <Link to={`/private/change-password/${currentUser.id}`}> */}
+        <Button
+          href={`/private/change-password/${currentUser.id}`}
+          startIcon={<PasswordIcon />}
+          variant='outlined'
+          id='ButtonPassword'
+        >
+          Cambiar contraseña
+        </Button>
+        {/* </Link> */}
       </Grid>
 
       {/* <Grid
@@ -289,7 +296,12 @@ const Profile = () => {
                   >
                     {`Nationality: ${currentUser.nationality}`}
                   </Typography>
-                  : <TextField type="text" name="nationality" placeholder="nueva nacionalidad" value={inputs.nationality} onChange={handleInputs} />}
+                  : <TextField
+                    type="text"
+                    name="nationality"
+                    placeholder="Nueva nacionalidad"
+                    value={inputs.nationality}
+                    onChange={handleInputs} />}
               </Grid>
 
               <Grid
@@ -310,7 +322,7 @@ const Profile = () => {
                 {
                   editNames || editEmail || editiBirthday || editNationality ?
                     <Button
-                      onSubmit={(e) => handleSubmit(e)}
+                      onClick={(e) => handleSubmit(e)}
                       variant='outlined'
                       type="submit" id='ButtonSubmit'
                       startIcon={<CheckIcon />}

@@ -2,6 +2,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Button, Card, CardContent, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
 import React from "react";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
 import { useParams, useNavigate } from 'react-router-dom';
 import { resetPassword } from "../../actions";
@@ -79,6 +80,11 @@ export default function ResetPassword() {
       alignItems='center'
       spacing={3}
     >
+
+      <Helmet>
+        <title>Nueva contraseña | Sleep Tracker</title>
+      </Helmet>
+
 
       <Grid
         item

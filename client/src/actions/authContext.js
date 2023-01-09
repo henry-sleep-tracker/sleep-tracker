@@ -16,26 +16,30 @@ export function AuthContextProvider({ children }) {
     window.localStorage.getItem(USER_ID) ?? null
   );
   const [planExpDate, setPlanExpDate] = useState(
-    window.localStorage.getItem(PLAN_EXPIRATION_DATE) ?? "1900-00-00"
+    window.localStorage.getItem(PLAN_EXPIRATION_DATE) ?? "1900-01-01"
   );
   const payPlan = useCallback(function (expDate) {
     //esto lo usa el componente log in cuando se valide la contraseña y el email
     window.localStorage.setItem(PLAN_EXPIRATION_DATE, expDate);
     setPlanExpDate(expDate);
   }, []);
-  const login = useCallback(function (id) {
+  const login = useCallback(function (id, planExpirationDate) {
     //esto lo usa el componente log in cuando se valide la contraseña y el email
     window.localStorage.setItem(MY_AUTH_APP, true); //cuando se invoque establecera en el localstorage que establece el valor true para la clave my_auth_app
     window.localStorage.setItem(USER_ID, id);
+    window.localStorage.setItem(PLAN_EXPIRATION_DATE, planExpirationDate);
     setIsAuthenticated(true); //actualiza el estado
     setUserId(id);
+    setPlanExpDate(planExpirationDate);
   }, []);
   const logout = useCallback(function () {
     //esto lo usa el componente log in cuando se valide la contraseña y el email
     window.localStorage.removeItem(MY_AUTH_APP); //cuando se invoque establecera en el localstorage que establece el valor true para la clave my_auth_app
     window.localStorage.removeItem(USER_ID);
+    window.localStorage.removeItem(PLAN_EXPIRATION_DATE);
     setIsAuthenticated(false); //actualiza el estado
     setUserId(null);
+    setPlanExpDate("1900-01-01");
   }, []);
   const value = useMemo(
     () => ({

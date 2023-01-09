@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import {useDispatch} from "react-redux";
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { deleteUser } from "../../actions/profileActions";
@@ -68,6 +69,10 @@ export default function DeleteUser() {
 
   return (
     <div className= {style.container}>
+            <Helmet>
+        <title>Eliminar usuario | Sleep Tracker</title>
+      </Helmet>
+
         <h1 className= {style.h1}>Para continuar confirme su contraseña</h1>
         <Link to = "/private/profile">
         <button className= {style.buttonBack}>Regresar</button>
