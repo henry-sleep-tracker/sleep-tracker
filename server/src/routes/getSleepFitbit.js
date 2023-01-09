@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const fetch = require("node-fetch");
-const { Stage, Session } = require("../db");
+const { Stage, Session, User } = require("../db");
 const { Op } = require("sequelize");
 
 router.post("/", async (req, res) => {
@@ -72,9 +72,7 @@ router.post("/", async (req, res) => {
         obj["summary_awake_min"] = d?.levels?.summary?.wake?.minutes;
         return obj;
       });
-      console.log("sessions", sessions);
-      const sessionInstance = await Session.bulkCreate(sessions);
-      // await sessionInstance.setUser(userId);
+      await Session.bulkCreate(sessions);
 
       const stages = getData.sleep
         ?.map((stage) => {
@@ -88,21 +86,18 @@ router.post("/", async (req, res) => {
           });
         })
         .flat(2);
-      // console.log("stages", stages);
 
-      const stagesInstance = await Stage.bulkCreate(stages);
-      // await stagesInstance.setUser(userId);
+      await Stage.bulkCreate(stages);
     } else {
       // if there's a recent timestamp, then adds from the past 12h to today
-      const today = mostRecent?.dataValues?.createdAt
-        .toISOString()
-        .split("T")[0];
-      console.log("recenttoday", today);
-
-      const startDate = new Date(Date.now() - 43200000)
+      const startDate = mostRecent?.dataValues?.createdAt
         .toISOString()
         .split("T")[0];
       console.log("recentstartDate", startDate);
+
+      const today = new Date(Date.now() - 43200000).toISOString().split("T")[0];
+
+      console.log("recenttoday", today);
 
       const data = await fetch(
         `https://api.fitbit.com/1.2/user/-/sleep/date/${today}/${startDate}.json`,
@@ -134,7 +129,7 @@ router.post("/", async (req, res) => {
       });
       console.log("sessions", sessions);
       const sessionInstance = await Session.bulkCreate(sessions);
-      // await sessionInstance.setUser(userId);
+      //await sessionInstance.addUser(userId);
 
       const stages = getData.sleep
         ?.map((stage) => {
@@ -150,7 +145,7 @@ router.post("/", async (req, res) => {
         .flat(2);
       console.log("stages", stages);
       const stagesInstance = await Stage.bulkCreate(stages);
-      // await stagesInstance.setUser(userId);
+      // await stagesInstance.addUser(userId);
     }
   } catch (error) {
     console.error(error);
