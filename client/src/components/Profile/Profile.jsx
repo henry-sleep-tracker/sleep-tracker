@@ -1,11 +1,22 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import style from "./Profile.module.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { updateUser } from "../../actions/profileActions";
+import { Button, Card, CardContent, Grid, TextField, Typography } from '@mui/material';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import DeleteIcon from '@mui/icons-material/Delete';
+import PasswordIcon from '@mui/icons-material/Password';
+import CheckIcon from '@mui/icons-material/Check';
+import PersonIcon from '@mui/icons-material/Person';
+import EmailIcon from '@mui/icons-material/Email';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import PlaceIcon from '@mui/icons-material/Place';
+import { Helmet } from 'react-helmet';
+import AddCommentIcon from '@mui/icons-material/AddComment';
+import PaymentIcon from '@mui/icons-material/Payment';
 
 const Profile = () => {
+
   const currentUser = useSelector((state) => state.users.currentUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,177 +36,349 @@ const Profile = () => {
     e.preventDefault();
     setInputs({
       ...inputs,
-      [e.target.name]: e.target.value,
-    });
-  };
+      [e.target.name]: e.target.value
+    })
+  }
 
   const handleClick = (e) => {
     e.preventDefault();
     if (!editNames) {
       setEditNames(true);
-    } else {
+    }
+    else {
       setEditNames(false);
     }
-  };
+  }
   const handleClickEmail = (e) => {
     e.preventDefault();
     if (!editEmail) {
       setEditEmail(true);
-    } else {
+    }
+    else {
       setEditEmail(false);
     }
-  };
+  }
   const handleClickBirthday = (e) => {
     e.preventDefault();
     if (!editiBirthday) {
       setEditBirthday(true);
-    } else {
+    }
+    else {
       setEditBirthday(false);
     }
-  };
+  }
   const handleClickNationality = (e) => {
     e.preventDefault();
     if (!editNationality) {
       setEditNationality(true);
-    } else {
+    }
+    else {
       setEditNationality(false);
     }
-  };
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(updateUser(currentUser.id, inputs));
+      dispatch(updateUser(currentUser.id, inputs))
       setInputs({
         names: "",
         lastNames: "",
         email: "",
         birthday: "",
         nationality: "",
-      });
-      navigate("/private/profile");
+      })
+      navigate("/home");
     } catch (error) {
       console.log("el error es:", error);
     }
-  };
+  }
 
   return (
-    <div className={style.container}>
-      <Link to="/home">
-        <button className={style.buttonBack}>Regresar a Home</button>
-      </Link>
 
-      <Link to={`/private/delete-user/${currentUser.id}`}>
-        <button id={style.buttonDelete}>Borrar usuario</button>
-      </Link>
+    <Grid
+      container
+      justifyContent='center'
+      direction='column'
+      alignItems='center'
+      spacing={3}
+    >
 
-      <Link to={`/private/change-password/${currentUser.id}`}>
-        <button id={style.buttonPassword}>Cambiar contraseña</button>
-      </Link>
+      <Helmet>
+        <title>Perfil | Sleep Tracker</title>
+      </Helmet>
 
-      <div className={style.containerImg}>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/en/4/4c/Team_8_logo.png"
-          alt="Imagen aqui"
-          className={style.img}
-        />
-      </div>
+      <Grid item></Grid>
 
-      <form className={style.containers} onSubmit={(e) => handleSubmit(e)}>
-        <div className={style.containers2}>
-          {!editNames ? (
-            <h3
-              className={style.font}
-            >{`${currentUser.names} ${currentUser.lastNames}`}</h3>
-          ) : (
-            <input
-              className={style.inputs}
-              type="text"
-              name="names"
-              placeholder="nuevo nombre"
-              value={inputs.names}
-              onChange={(e) => handleInputs(e)}
-            />
-          )}
-          <button className={style.buttons} onClick={(e) => handleClick(e)}>
-            Editar
-          </button>
-        </div>
+      <Grid
+        item
+      >
+        <Typography
+          variant='h2'
+        >
+          Perfil
+        </Typography>
+      </Grid>
 
-        <div className={style.containers2}>
-          {!editEmail ? (
-            <p className={style.font}>{`Email: ${currentUser.email}`}</p>
-          ) : (
-            <input
-              className={style.inputs}
-              type="text"
-              name="email"
-              placeholder="nuevo email"
-              value={inputs.email}
-              onChange={handleInputs}
-            />
-          )}
-          <button
-            className={style.buttons}
-            onClick={(e) => handleClickEmail(e)}
-          >
-            Editar
-          </button>
-        </div>
+      <Grid
+        item
+      >
+        <Button
+          variant="outlined"
+          startIcon={<ArrowBackIosNewIcon />}
+          href='/'
+        >
+          Regresar
+        </Button>
+      </Grid>
 
-        <div className={style.containers2}>
-          {!editiBirthday ? (
-            <p className={style.font}>{`Birthday: ${currentUser.birthday}`}</p>
-          ) : (
-            <input
-              className={style.inputs}
-              type="text"
-              name="birthday"
-              placeholder="nuevo cumpleaños"
-              value={inputs.birthday}
-              onChange={handleInputs}
-            />
-          )}
-          <button
-            className={style.buttons}
-            onClick={(e) => handleClickBirthday(e)}
-          >
-            Editar
-          </button>
-        </div>
+      <Grid
+        item
+      >
+        {/* <Link to={`/private/delete-user/${currentUser.id}`}> */}
+        <Button
+          href={`/private/delete-user/${currentUser.id}`}
+          startIcon={<DeleteIcon />}
+          variant='outlined'
+          color='error'
+          id='ButtonDelete'
+        >
+          Borrar usuario
+        </Button>
+        {/* </Link> */}
+      </Grid>
 
-        <div className={style.containers2}>
-          {!editNationality ? (
-            <p
-              className={style.font}
-            >{`Nationality: ${currentUser.nationality}`}</p>
-          ) : (
-            <input
-              className={style.inputs}
-              type="text"
-              name="nationality"
-              placeholder="nueva nacionalidad"
-              value={inputs.nationality}
-              onChange={handleInputs}
-            />
-          )}
-          <button
-            className={style.buttons}
-            onClick={(e) => handleClickNationality(e)}
-          >
-            Editar
-          </button>
-        </div>
+      <Grid
+        item
+      >
+        {/* <Link to={`/private/change-password/${currentUser.id}`}> */}
+        <Button
+          href={`/private/change-password/${currentUser.id}`}
+          startIcon={<PasswordIcon />}
+          variant='outlined'
+          id='ButtonPassword'
+        >
+          Cambiar contraseña
+        </Button>
+        {/* </Link> */}
+      </Grid>
 
-        <div className={style.containers2}>
-          {editNames || editEmail || editiBirthday || editNationality ? (
-            <button type="submit" id={style.buttonSubmit}>
-              Confirmar
-            </button>
-          ) : null}
-        </div>
-      </form>
-    </div>
+      <Grid
+        item
+      >
+        <Button
+          href='/private/createcomment'
+          startIcon={<AddCommentIcon />}
+          variant='outlined'
+          id='buttonCreatecomment'
+        >
+          Dejar comentario
+        </Button>
+      </Grid>
+
+      <Grid
+        item
+      >
+        <Button
+          href='/private/planes'
+          startIcon={<PaymentIcon />}
+          variant='outlined'
+          id='buttonPlanes'
+        >
+          Planes de pago
+        </Button>
+      </Grid>
+
+      {/* <Grid
+        item
+      >
+        <img src="https://upload.wikimedia.org/wikipedia/en/4/4c/Team_8_logo.png" alt="Imagen aqui" />
+      </Grid> */}
+
+      <Grid
+        item
+      >
+        <Card
+          variant="outlined"
+        >
+          <CardContent>
+
+            <Grid
+              container
+              direction='column'
+              justifyContent="center"
+              alignItems="center"
+              spacing={3}
+              flex={4}
+              p={2}
+            >
+              <Grid
+                item
+              >
+                {
+                  !editNames ?
+                    <Typography
+                      variant="h6"
+                    >
+                      {`${currentUser.names} ${currentUser.lastNames}`}
+                    </Typography>
+                    :
+                    <TextField
+                      variant='outlined'
+                      label="Nuevo nombre"
+                      type="text"
+                      name="names"
+                      value={inputs.names}
+                      onChange={(e) => handleInputs(e)}
+                    />
+                }
+              </Grid>
+
+              <Grid
+                item
+              >
+                {
+                  !inputs.names &&
+                  <Button
+                    variant='outlined'
+                    onClick={(e) => handleClick(e)}
+                    startIcon={<PersonIcon />}
+                  >
+                    Editar
+                  </Button>
+                }
+              </Grid>
+
+              <Grid
+                item
+              >
+                {
+                  !editEmail ?
+                    <Typography
+                      variant="h6"
+                    >
+                      {`Correo electronico: ${currentUser.email}`}
+                    </Typography>
+                    :
+                    <TextField
+                      type="text"
+                      name="email"
+                      label="Nuevo email"
+                      value={inputs.email}
+                      onChange={handleInputs}
+                    />
+                }
+              </Grid>
+
+              <Grid
+                item
+              >
+                {
+                  !inputs.email &&
+                  <Button
+                    variant='outlined'
+                    onClick={(e) => handleClickEmail(e)}
+                    startIcon={<EmailIcon />}
+                  >
+                    Editar
+                  </Button>
+                }
+              </Grid>
+
+              <Grid
+                item
+              >
+                {
+                  !editiBirthday ?
+                    <Typography
+                      variant="h6"
+                    >
+                      {`Fecha de nacimiento: ${currentUser.birthday}`}
+                    </Typography>
+                    : <TextField
+                      type="text"
+                      name="birthday"
+                      label="Nueva fecha de nacimiento"
+                      value={inputs.birthday}
+                      onChange={handleInputs}
+                    />
+                }
+
+              </Grid>
+
+              <Grid
+                item
+              >
+                {
+                  !inputs.birthday &&
+                  <Button
+                    variant='outlined'
+                    onClick={(e) => handleClickBirthday(e)}
+                    startIcon={<CalendarMonthIcon />}
+                  >
+                    Editar
+                  </Button>
+                }
+              </Grid>
+
+              <Grid
+                item
+              >
+                {!editNationality ?
+                  <Typography
+                    variant="h6"
+                  >
+                    {`Nationality: ${currentUser.nationality}`}
+                  </Typography>
+                  : <TextField
+                    type="text"
+                    name="nationality"
+                    label="Nueva nacionalidad"
+                    value={inputs.nationality}
+                    onChange={handleInputs} />}
+              </Grid>
+
+              <Grid
+                item
+              >
+                {
+                  !inputs.nationality &&
+                  <Button
+                    variant='outlined'
+                    onClick={(e) => handleClickNationality(e)}
+                    startIcon={<PlaceIcon />}
+                  >
+                    Editar
+                  </Button>
+                }
+              </Grid>
+
+              <Grid
+                item
+              >
+                {
+                  inputs.names || inputs.email || inputs.birthday || inputs.nationality ?
+                    <Button
+                      onClick={(e) => handleSubmit(e)}
+                      color='success'
+                      variant='contained'
+                      type="submit" id='ButtonSubmit'
+                      startIcon={<CheckIcon />}
+                    >
+                      Confirmar
+                    </Button>
+                    :
+                    null
+                }
+              </Grid>
+
+            </Grid>
+          </CardContent>
+        </Card>
+
+      </Grid>
+
+    </Grid>
   );
 };
 

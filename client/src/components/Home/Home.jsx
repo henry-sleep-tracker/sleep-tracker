@@ -14,6 +14,7 @@ import GraphHome from "../Graphs/Graph-home";
 import CustomizedAccordions from "../Graph-Week/detailsGraphs";
 import { getUsersPlanExpDate } from "../../actions/plan";
 import { useAuthContext } from "../../actions/authContext";
+import { Helmet } from "react-helmet";
 
 const Home = () => {
   const { payPlan } = useAuthContext();
@@ -39,16 +40,16 @@ const Home = () => {
     name: currentUser.names ? currentUser.names : "🥰",
   };
 
-  const greet = () => {
+const greet = () => {
     var text = "";
     var now = new Date();
     var time = now.getHours();
     if (time >= 5 && time < 13) {
-      text = "Buenos días! ☀️ ";
+      text = "Buenos días!  ";
     } else if (time >= 13 && time < 21) {
-      text = "Buenas tardes! 🌎";
+      text = "Buenas tardes! ";
     } else {
-      text = "Buenas noches! 🌙 ";
+      text = "Buenas noches!  ";
     }
     return text;
   };
@@ -67,8 +68,16 @@ const Home = () => {
       p={2}
       // maxWidth='100vw'
     >
+
+      <Helmet>
+        <title>Inicio | Sleep Tracker</title>
+      </Helmet>
+
       <ResponsiveAppBar />
-      <Grid item>
+      
+      <Grid 
+      item
+      >
         <Typography className={classes.saludo} variant="h4">
           ¡Hola {user.name} {greet()}
         </Typography>

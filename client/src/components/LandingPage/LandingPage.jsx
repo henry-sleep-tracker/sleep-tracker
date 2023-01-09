@@ -6,6 +6,7 @@ import NavegationBar from "./NavegationBar";
 // import ScrollButton from "./ScrollButton";
 import { createTheme, ThemeProvider, Box } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet";
 
 function LandingPage() {
   const [mode, setMode] = useState("light");
@@ -40,6 +41,11 @@ function LandingPage() {
 
   return (
     <ThemeProvider theme={darkTheme}>
+
+      <Helmet>
+        <title>Sleep Tracker</title>
+      </Helmet>
+
       <NavegationBar
         mode={mode}
         setMode={setMode}

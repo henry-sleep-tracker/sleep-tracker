@@ -1,6 +1,5 @@
 import { Button, Card, CardContent, Grid, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from "react";
-import HomeIcon from '@mui/icons-material/Home';
 import CheckIcon from '@mui/icons-material/Check';
 import { postComment } from '../../actions/Comments/postComment';
 import { deleteComment } from '../../actions/Comments/deleteComment';
@@ -8,6 +7,8 @@ import { getCurrentComment } from '../../actions/Comments/getCurrentComment';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Helmet } from 'react-helmet';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 const CreateComment = () => {
 
@@ -79,6 +80,10 @@ const CreateComment = () => {
             spacing={3}
         >
 
+            <Helmet>
+                <title>Comentario | Sleep Tracker</title>
+            </Helmet>
+
             <Grid
                 item
             >
@@ -94,12 +99,11 @@ const CreateComment = () => {
             >
                 <Button
                     variant="outlined"
-                    startIcon={<HomeIcon />}
-                    href='/private'
+                    startIcon={<ArrowBackIosNewIcon />}
+                    href='/private/profile'
                 >
-                    Inicio
+                    Regresar
                 </Button>
-
             </Grid>
 
             <Grid
