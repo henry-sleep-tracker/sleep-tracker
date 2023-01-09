@@ -14,6 +14,8 @@ import EmailIcon from '@mui/icons-material/Email';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PlaceIcon from '@mui/icons-material/Place';
 import { Helmet } from 'react-helmet';
+import AddCommentIcon from '@mui/icons-material/AddComment';
+import PaymentIcon from '@mui/icons-material/Payment';
 
 const Profile = () => {
 
@@ -38,7 +40,6 @@ const Profile = () => {
       ...inputs,
       [e.target.name]: e.target.value
     })
-    console.log(inputs)
   }
 
   const handleClick = (e) => {
@@ -164,6 +165,32 @@ const Profile = () => {
         {/* </Link> */}
       </Grid>
 
+      <Grid
+        item
+      >
+        <Button
+          href='/private/createcomment'
+          startIcon={<AddCommentIcon />}
+          variant='outlined'
+          id='buttonCreatecomment'
+        >
+          Dejar comentario
+        </Button>
+      </Grid>
+
+      <Grid
+        item
+      >
+        <Button
+          href='/private/planes'
+          startIcon={<PaymentIcon />}
+          variant='outlined'
+          id='buttonPlanes'
+        >
+          Planes de pago
+        </Button>
+      </Grid>
+
       {/* <Grid
         item
       >
@@ -212,13 +239,16 @@ const Profile = () => {
               <Grid
                 item
               >
-                <Button
-                  variant='outlined'
-                  onClick={(e) => handleClick(e)}
-                  startIcon={<PersonIcon />}
-                >
-                  Editar
-                </Button>
+                {
+                  !inputs.names &&
+                  <Button
+                    variant='outlined'
+                    onClick={(e) => handleClick(e)}
+                    startIcon={<PersonIcon />}
+                  >
+                    Editar
+                  </Button>
+                }
               </Grid>
 
               <Grid
@@ -245,13 +275,16 @@ const Profile = () => {
               <Grid
                 item
               >
-                <Button
-                  variant='outlined'
-                  onClick={(e) => handleClickEmail(e)}
-                  startIcon={<EmailIcon />}
-                >
-                  Editar
-                </Button>
+                {
+                  !inputs.email &&
+                  <Button
+                    variant='outlined'
+                    onClick={(e) => handleClickEmail(e)}
+                    startIcon={<EmailIcon />}
+                  >
+                    Editar
+                  </Button>
+                }
               </Grid>
 
               <Grid
@@ -278,13 +311,16 @@ const Profile = () => {
               <Grid
                 item
               >
-                <Button
-                  variant='outlined'
-                  onClick={(e) => handleClickBirthday(e)}
-                  startIcon={<CalendarMonthIcon />}
-                >
-                  Editar
-                </Button>
+                {
+                  !inputs.birthday &&
+                  <Button
+                    variant='outlined'
+                    onClick={(e) => handleClickBirthday(e)}
+                    startIcon={<CalendarMonthIcon />}
+                  >
+                    Editar
+                  </Button>
+                }
               </Grid>
 
               <Grid
@@ -299,7 +335,7 @@ const Profile = () => {
                   : <TextField
                     type="text"
                     name="nationality"
-                    placeholder="Nueva nacionalidad"
+                    label="Nueva nacionalidad"
                     value={inputs.nationality}
                     onChange={handleInputs} />}
               </Grid>
@@ -307,23 +343,27 @@ const Profile = () => {
               <Grid
                 item
               >
-                <Button
-                  variant='outlined'
-                  onClick={(e) => handleClickNationality(e)}
-                  startIcon={<PlaceIcon />}
-                >
-                  Editar
-                </Button>
+                {
+                  !inputs.nationality &&
+                  <Button
+                    variant='outlined'
+                    onClick={(e) => handleClickNationality(e)}
+                    startIcon={<PlaceIcon />}
+                  >
+                    Editar
+                  </Button>
+                }
               </Grid>
 
               <Grid
                 item
               >
                 {
-                  editNames || editEmail || editiBirthday || editNationality ?
+                  inputs.names || inputs.email || inputs.birthday || inputs.nationality ?
                     <Button
                       onClick={(e) => handleSubmit(e)}
-                      variant='outlined'
+                      color='success'
+                      variant='contained'
                       type="submit" id='ButtonSubmit'
                       startIcon={<CheckIcon />}
                     >
