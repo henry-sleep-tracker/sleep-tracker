@@ -6,7 +6,10 @@ import {
 } from "../actions/constants";
 
 const initialState = {
-  users: [],
+  users: {
+    users: [],
+    total: 0,
+  },
   currentUser: {},
 };
 

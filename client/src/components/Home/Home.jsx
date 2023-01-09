@@ -18,27 +18,26 @@ import { useAuthContext } from "../../actions/authContext";
 const Home = () => {
   const { payPlan } = useAuthContext();
   const currentUser = useSelector((state) => state?.users.currentUser);
-  const planExpirationDate = useSelector((state) => state?.users.planExpirationDate);
+  const planExpirationDate = useSelector(
+    (state) => state?.users.planExpirationDate
+  );
   const dispatch = useDispatch();
   useEffect(() => {
-    let today = new Date().toISOString().split('T')[0]
+    let today = new Date().toISOString().split("T")[0];
     const yesterday = new Date(Date.now() - 28800000)
       .toISOString()
       .split("T")[0];
     dispatch(getSleepByDate(yesterday));
-    let id = currentUser.id
-    let date = yesterday
-    dispatch(getRecordsQuery(id,date))
-    dispatch(getUsersPlanExpDate(id))
+    let id = currentUser.id;
+    let date = yesterday;
+    dispatch(getRecordsQuery(id, date));
+    dispatch(getUsersPlanExpDate(id));
     payPlan(planExpirationDate);
-  }, [dispatch, currentUser,planExpirationDate]);
+  }, [dispatch, currentUser, planExpirationDate, payPlan]);
 
   let user = {
-    name: currentUser.names?currentUser.names : '🥰',
+    name: currentUser.names ? currentUser.names : "🥰",
   };
- 
-  
-
 
   const greet = () => {
     var text = "";
@@ -54,7 +53,6 @@ const Home = () => {
     return text;
   };
 
-  
   const classes = useStyles();
 
   return (
@@ -67,7 +65,7 @@ const Home = () => {
       spacing={3}
       flex={4}
       p={2}
-    // maxWidth='100vw'
+      // maxWidth='100vw'
     >
       <ResponsiveAppBar />
       <Grid item>
@@ -76,9 +74,7 @@ const Home = () => {
         </Typography>
       </Grid>
 
-      <Grid
-        item
-      >
+      <Grid item>
         <Fitbit />
       </Grid>
 
@@ -87,24 +83,17 @@ const Home = () => {
       >
         <Typography variant="h6">{Date()}</Typography>
       </Grid> */}
-<Grid
-        item
-      >
+      <Grid item>
         <Calendario />
       </Grid>
 
       <Grid>
-        <GraphHome/>
+        <GraphHome />
       </Grid>
-      <CustomizedAccordions/>
-      <Grid
-        className={classes.Collection}
-        item
-      >
-        <Collection/>
+      <CustomizedAccordions />
+      <Grid className={classes.Collection} item>
+        <Collection />
       </Grid>
-
-    
 
       <Grid className={classes.calc} item>
         <Calc />
@@ -113,7 +102,6 @@ const Home = () => {
       <Grid className={classes.swipeableHome} item>
         <Swipeable className={classes.swipeable} />
       </Grid>
-
     </Grid>
   );
 };
