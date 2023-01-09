@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const fetch = require("node-fetch");
-const { Stage, Session, User } = require("../db");
+const { Stage, Session } = require("../db");
 const { Op } = require("sequelize");
 
 router.post("/", async (req, res) => {
@@ -58,26 +58,29 @@ router.post("/", async (req, res) => {
       const getData = await data.json();
       console.log("dataNORECENT", getData);
 
-      const sessions = getData.sleep?.map((d) => {
+      const sessions = getData.sleep?.map((session) => {
         let obj = {};
-        obj["log_id"] = d.logId;
-        obj["date"] = d.dateOfSleep;
-        obj["start_time"] = d.startTime;
-        obj["end_time"] = d.endTime;
-        obj["duration"] = d.duration;
-        obj["efficiency"] = d.efficiency;
-        obj["summary_deep_min"] = d?.levels?.summary?.deep?.minutes;
-        obj["summary_light_min"] = d?.levels?.summary?.light?.minutes;
-        obj["summary_rem_min"] = d?.levels?.summary?.rem?.minutes;
-        obj["summary_awake_min"] = d?.levels?.summary?.wake?.minutes;
+        obj["log_id"] = session.logId;
+        obj["userId"] = userId;
+        obj["date"] = session.dateOfSleep;
+        obj["start_time"] = session.startTime;
+        obj["end_time"] = session.endTime;
+        obj["duration"] = session.duration;
+        obj["efficiency"] = session.efficiency;
+        obj["summary_deep_min"] = session?.levels?.summary?.deep?.minutes;
+        obj["summary_light_min"] = session?.levels?.summary?.light?.minutes;
+        obj["summary_rem_min"] = session?.levels?.summary?.rem?.minutes;
+        obj["summary_awake_min"] = session?.levels?.summary?.wake?.minutes;
         return obj;
       });
+      console.log("SESSIONS", sessions);
       await Session.bulkCreate(sessions);
 
       const stages = getData.sleep
-        ?.map((stage) => {
-          return stage?.levels?.data?.map((s) => {
+        ?.map((session) => {
+          return session?.levels?.data?.map((s) => {
             let obj = {};
+            obj["userId"] = userId;
             obj["date"] = s.dateTime.split("T")[0];
             obj["time"] = s.dateTime.split("T")[1].split(".")[0];
             obj["level"] = s.level;
@@ -86,7 +89,7 @@ router.post("/", async (req, res) => {
           });
         })
         .flat(2);
-
+      console.log("stages", stages);
       await Stage.bulkCreate(stages);
     } else {
       // if there's a recent timestamp, then adds from the past 12h to today
@@ -113,28 +116,29 @@ router.post("/", async (req, res) => {
       const getData = await data.json();
       console.log("recentDATA", getData);
 
-      const sessions = getData.sleep?.map((d) => {
+      const sessions = getData.sleep?.map((session) => {
         let obj = {};
-        obj["log_id"] = d.logId;
-        obj["date"] = d.dateOfSleep;
-        obj["start_time"] = d.startTime;
-        obj["end_time"] = d.endTime;
-        obj["duration"] = d.duration;
-        obj["efficiency"] = d.efficiency;
-        obj["summary_deep_min"] = d?.levels?.summary?.deep?.minutes;
-        obj["summary_light_min"] = d?.levels?.summary?.light?.minutes;
-        obj["summary_rem_min"] = d?.levels?.summary?.rem?.minutes;
-        obj["summary_awake_min"] = d?.levels?.summary?.wake?.minutes;
+        obj["log_id"] = session.logId;
+        obj["userId"] = userId;
+        obj["date"] = session.dateOfSleep;
+        obj["start_time"] = session.startTime;
+        obj["end_time"] = session.endTime;
+        obj["duration"] = session.duration;
+        obj["efficiency"] = session.efficiency;
+        obj["summary_deep_min"] = session?.levels?.summary?.deep?.minutes;
+        obj["summary_light_min"] = session?.levels?.summary?.light?.minutes;
+        obj["summary_rem_min"] = session?.levels?.summary?.rem?.minutes;
+        obj["summary_awake_min"] = session?.levels?.summary?.wake?.minutes;
         return obj;
       });
-      console.log("sessions", sessions);
-      const sessionInstance = await Session.bulkCreate(sessions);
-      //await sessionInstance.addUser(userId);
+      console.log("SESSIONS", sessions);
+      await Session.bulkCreate(sessions);
 
       const stages = getData.sleep
-        ?.map((stage) => {
-          return stage?.levels?.data?.map((s) => {
+        ?.map((session) => {
+          return session?.levels?.data?.map((s) => {
             let obj = {};
+            obj["userId"] = userId;
             obj["date"] = s.dateTime.split("T")[0];
             obj["time"] = s.dateTime.split("T")[1].split(".")[0];
             obj["level"] = s.level;
@@ -144,8 +148,8 @@ router.post("/", async (req, res) => {
         })
         .flat(2);
       console.log("stages", stages);
-      const stagesInstance = await Stage.bulkCreate(stages);
-      // await stagesInstance.addUser(userId);
+
+      await Stage.bulkCreate(stages);
     }
   } catch (error) {
     console.error(error);

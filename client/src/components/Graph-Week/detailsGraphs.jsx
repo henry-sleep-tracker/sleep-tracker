@@ -209,7 +209,7 @@ export function CustomizedAccordions3() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            En esta grafica puedes observar las horas de sueño diarias que has tenido en un lapso de tiempo de siete dias. 
+            En esta grafica puedes observar las horas de sueño diarias que has tenido en el lapso de tiempo que eliges. 
           </Typography>
         </AccordionDetails>
       </Accordion>

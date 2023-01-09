@@ -27,12 +27,6 @@ const getUserByStripeCustomerId = async (stripeCustomerId) => {
       "El error controllers plan getUserByStripeCustomerId es:",
       error.message
     );
-    res
-      .status(401)
-      .send(
-        "El error controllers plan getUserByStripeCustomerId es:",
-        error.message
-      );
   }
 };
 const createNewPlan = async (planPrice, userId) => {
@@ -62,7 +56,6 @@ const createNewPlan = async (planPrice, userId) => {
       break;
   }
   const body = { name, price, endTime };
-  // console.log("body:", body);
   try {
     const userInfo = await User.findOne({
       where: { id: userId },
@@ -73,9 +66,10 @@ const createNewPlan = async (planPrice, userId) => {
       await userInfo.setPlan(newPlan);
     } else {
       if (
-        foundPlan.dataValues.endTime !== body.endTime &&
-        foundPlan.dataValues.name !== body.name
+        foundPlan.dataValues.endTime === body.endTime &&
+        foundPlan.dataValues.name === body.name
       ) {
+      } else {
         const newPlan = await Plan.create(body);
         await userInfo.setPlan(newPlan);
       }
@@ -94,9 +88,6 @@ const getPlanByUserId = async (userId) => {
     return foundPlan;
   } catch (error) {
     console.log("El error controllers plan getPlanByUserId es:", error.message);
-    res
-      .status(401)
-      .send("El error controllers plan getPlanByUserId es:", error.message);
   }
 };
 module.exports = {

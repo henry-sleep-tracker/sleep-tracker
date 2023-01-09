@@ -19,45 +19,40 @@ import { Helmet } from "react-helmet";
 const Home = () => {
   const { payPlan } = useAuthContext();
   const currentUser = useSelector((state) => state?.users.currentUser);
-  const planExpirationDate = useSelector((state) => state?.users.planExpirationDate);
-  const dispatch = useDispatch();
+  const planExpirationDate = useSelector(
+    (state) => state?.users.planExpirationDate
+  );  const dispatch = useDispatch();
   useEffect(() => {
-    let today = new Date().toISOString().split('T')[0]
+    let today = new Date().toISOString().split("T")[0];
+
     const yesterday = new Date(Date.now() - 28800000)
       .toISOString()
       .split("T")[0];
     dispatch(getSleepByDate(yesterday));
-    let id = currentUser.id
-    let date = yesterday
-    dispatch(getRecordsQuery(id, date))
-    if (planExpirationDate < today) {
-      dispatch(getUsersPlanExpDate(id))
-    } else {
-      payPlan(planExpirationDate);
-    }
-  }, [dispatch, currentUser, planExpirationDate]);
+    let id = currentUser.id;
+    let date = yesterday;
+    dispatch(getRecordsQuery(id, date));
+    dispatch(getUsersPlanExpDate(id));
+    payPlan(planExpirationDate);
+  }, [dispatch, currentUser, planExpirationDate, payPlan]);
 
   let user = {
-    name: currentUser.names ? currentUser.names : '🥰',
+    name: currentUser.names ? currentUser.names : "🥰",
   };
 
-
-
-
-  const greet = () => {
+const greet = () => {
     var text = "";
     var now = new Date();
     var time = now.getHours();
     if (time >= 5 && time < 13) {
-      text = "Buenos días! ☀️ ";
+      text = "Buenos días!  ";
     } else if (time >= 13 && time < 21) {
-      text = "Buenas tardes! 🌎";
+      text = "Buenas tardes! ";
     } else {
-      text = "Buenas noches! 🌙 ";
+      text = "Buenas noches!  ";
     }
     return text;
   };
-
 
   const classes = useStyles();
 
