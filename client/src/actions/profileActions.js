@@ -34,7 +34,7 @@ export const changePassword = (id, newPassword) => {
                 headers: {
                   'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newPassword),
+                body: JSON.stringify({newPassword:newPassword}),
             });
             if (response.status === 200) {
                 alert(`La contraseña se cambio correctamente`);
