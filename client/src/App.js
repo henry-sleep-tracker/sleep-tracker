@@ -57,10 +57,12 @@ function App() {
           <Route path="/private/newrecord" element={<Record />} />
           <Route path="/private/dashboard/*" element={<Dashboard />} />
           <Route path="/private/profile" element={<Profile />} />
-          <Route path="/private/change-password/:id" element={<ChangePassword />} />
+          <Route
+            path="/private/change-password/:id"
+            element={<ChangePassword />}
+          />
           <Route path="/private/delete-user/:id" element={<DeleteUser />} />
           <Route path="/private/createcomment" element={<CommentCreate />} />
-
         </Route>
       </Routes>
     </AuthContextProvider>
