@@ -7,11 +7,18 @@ export function getUsersPlanExpDate(userId) {
       const response = await axios.get(
         `http://localhost:3001/plans?userId=${userId}`
       );
-      // console.log(response.status);
-      return dispatch({
-        type: GET_CURRENT_PLAN,
-        payload: response.data.endTime,
-      });
+
+      if (response.data.endTime) {
+        return dispatch({
+          type: GET_CURRENT_PLAN,
+          payload: response.data.endTime,
+        });
+      } else {
+        return dispatch({
+          type: GET_CURRENT_PLAN,
+          payload: response.data,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
