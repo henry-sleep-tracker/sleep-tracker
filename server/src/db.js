@@ -100,20 +100,20 @@ Activity.belongsToMany(NewRecord, {
 Plans.hasOne(User);
 User.belongsTo(Plans);
 
-User.hasMany(Session, {
+User.hasMany(Session);
+Session.belongsTo(User, {
   foreignKey: "userId",
 });
-Session.belongsTo(User);
 
-User.hasMany(Stage, {
+User.hasMany(Stage);
+Stage.belongsTo(User, {
   foreignKey: "userId",
 });
-Stage.belongsTo(User);
 
-Session.hasMany(Stage, {
+Session.hasMany(Stage);
+Stage.belongsTo(Session, {
   foreignKey: "sessionId",
 });
-Stage.belongsTo(Session);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
