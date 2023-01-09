@@ -11,7 +11,11 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 router.get("/", async (req, res) => {
   const { userId } = req.query;
   const plan = await getPlanByUserId(userId);
-  return res.status(200).send(plan.dataValues);
+  if (plan === null) {
+    return res.status(200).send("1900-01-02");
+  } else {
+    return res.status(200).send(plan.dataValues);
+  }
 });
 router.get("/prices", async (req, res) => {
   const prices = await stripe.prices.list({
@@ -33,8 +37,8 @@ router.post("/session", async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: "http://localhost:3000/private/planes", //si todo sale bien redirigira la sgt pag
-      cancel_url: "http://localhost:3000/private/", //si todo sale mal, redirigir a otra pag
+      success_url: "http://localhost:3000/private/", //si todo sale bien redirigira la sgt pag
+      cancel_url: "http://localhost:3000/private/planes", //si todo sale mal, redirigir a otra pag
       customer: user.stripeCustomerId,
     },
     {
