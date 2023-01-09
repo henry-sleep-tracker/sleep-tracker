@@ -62,7 +62,6 @@ const createNewPlan = async (planPrice, userId) => {
       break;
   }
   const body = { name, price, endTime };
-  // console.log("body:", body);
   try {
     const userInfo = await User.findOne({
       where: { id: userId },
@@ -73,9 +72,10 @@ const createNewPlan = async (planPrice, userId) => {
       await userInfo.setPlan(newPlan);
     } else {
       if (
-        foundPlan.dataValues.endTime !== body.endTime &&
-        foundPlan.dataValues.name !== body.name
+        foundPlan.dataValues.endTime === body.endTime &&
+        foundPlan.dataValues.name === body.name
       ) {
+      } else {
         const newPlan = await Plan.create(body);
         await userInfo.setPlan(newPlan);
       }
