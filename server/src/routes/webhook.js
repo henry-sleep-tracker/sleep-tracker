@@ -6,7 +6,7 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 const {
   getUserByStripeCustomerId,
   createNewPlan,
-} = require("../controllers/plans");
+} = require("../controllers/plan");
 
 router.post(
   "/",
@@ -30,6 +30,7 @@ router.post(
         console.log(`error`, err.message);
         return res.sendStatus(400);
       }
+
       // Extract the object from the event.
       data = event.data;
       eventType = event.type;
@@ -38,20 +39,23 @@ router.post(
       // retrieve the event data directly from the request body.
       data = req.body.data;
       eventType = req.body.type;
+      console.log("there is not a webhookSecret");
     }
-    // amount: 100,
-    switch (eventType) {
-      case "payment_intent.succeeded":
-        const user = await getUserByStripeCustomerId(data.object.customer);
-        const newRegister = await createNewPlan(data.object.amount, user.id);
-        // Payment is successful and the subscription is created.
-        // You should provision the subscription and save the customer ID to your database.
-        break;
-      default:
-      // Unhandled event type
+    try {
+      switch (eventType) {
+        case "payment_intent.succeeded":
+          const user = await getUserByStripeCustomerId(data.object.customer);
+          await createNewPlan(data.object.amount, user.id);
+          // Payment is successful and the subscription is created.
+          // You should provision the subscription and save the customer ID to your database.
+          break;
+        default:
+        // Unhandled event type
+      }
+      res.sendStatus(200);
+    } catch (error) {
+      res.status(400).send(error.message);
     }
-
-    res.sendStatus(200);
   }
 );
 
