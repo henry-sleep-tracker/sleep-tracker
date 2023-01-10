@@ -53,7 +53,6 @@ export default function LogIn() {
         planExpirationDate !== undefined
       ) {
         alert("Usuario validado");
-        // debugger
         login(loggedUser.id,loggedUser.email,loggedUser.hashedPassword, planExpirationDate);
       }
     } else if (loggedUser.id === 0) {
