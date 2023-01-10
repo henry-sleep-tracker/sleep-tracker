@@ -24,7 +24,6 @@ const Home = () => {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    let today = new Date().toISOString().split("T")[0];
     const yesterday = new Date(Date.now() - 28800000)
       .toISOString()
       .split("T")[0];
