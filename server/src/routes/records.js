@@ -8,7 +8,7 @@ const {
   getRecords_by_id,
   getRecords_by_id_unformat,
   post_new_record,
-} = require("../controllers/newRecord_controller.js");
+} = require("../controllers/records_controller.js");
 
 const {
   newCoffeeSize,
@@ -20,7 +20,7 @@ const {
   getDrinks,
   newDrink,
   drink_type_by_id,
-} = require("../controllers/newDrink_controller.js");
+} = require("../controllers/drink_controller.js");
 
 const {
   getAcitivities,
@@ -28,17 +28,15 @@ const {
   activities_by_id,
 } = require("../controllers/activity_controller");
 
-/* ==================== Import Validators ======================== */
+/* ==================== Import Middlewares Validators ======================== */
 
-const {
-  new_record_validator,
-} = require("../middlewares/newRecord_validator.js");
+const { new_record_validator } = require("../middlewares/record_validator.js");
 
 const {
   coffeeSizeValidator,
 } = require("../middlewares/coffeSize_validator.js");
 
-const { drinkValidator } = require("../middlewares/newDrink_validator.js");
+const { drinkValidator } = require("../middlewares/drink_validator.js");
 
 const { activityValidator } = require("../middlewares/activity_validator.js");
 

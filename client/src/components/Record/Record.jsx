@@ -34,7 +34,7 @@ import {
   createNewCoffeeSize,
   createNewDrink,
   setStatusNewRecord,
-} from "../../actions/newRecord";
+} from "../../actions/records";
 
 // Import images
 import check from "../../images/check-mark-button_2705.png";

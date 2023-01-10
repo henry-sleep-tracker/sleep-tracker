@@ -18,7 +18,7 @@ import {
   ERROR_TRYING_TO_CREATE_DRINK,
   SET_STATUS_NEW_RECORD,
   GET_RECORDS_USER_DATE,
-} from "../actions/newRecord";
+} from "../actions/records";
 
 const initialState = {
   //lastIdActivity: null,
