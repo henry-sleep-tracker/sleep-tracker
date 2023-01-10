@@ -47,9 +47,7 @@ function App() {
           {/*deberia ser privada, pero solo es para probar*/}
         </Route>
         <Route path="/private" element={<PrivateRoute />}>
-          {/* rutas privadas */}
           <Route index element={<Home />} />
-
           <Route path="/private/team" element={<ConoceAlEquipo />} />
           <Route path="/private/fitbit" element={<Fitbit />} />
           <Route path="/private/graficas" element={<GraphWM />} />
