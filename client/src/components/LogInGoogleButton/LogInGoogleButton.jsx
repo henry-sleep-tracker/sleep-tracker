@@ -9,7 +9,6 @@ export default function LogInGoogleButton() {
     const dispatch=useDispatch();
     const onSuccess = (response) => {
       dispatch( logInUserWithGoogle(response));
-      login();
     }
     const onFailure = (response) => {
       console.log("login failed res:",response);

@@ -9,7 +9,7 @@ import Calendario from "../Calendario/Calendario";
 import { makeStyles } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
 import { getSleepByDate } from "../../actions/getSleepData";
-import { getRecordsQuery } from "../../actions/newRecord";
+import { getRecordsQuery } from "../../actions/records";
 import GraphHome from "../Graphs/Graph-home";
 import CustomizedAccordions from "../Graph-Week/detailsGraphs";
 import { getUsersPlanExpDate } from "../../actions/plan";
@@ -24,7 +24,6 @@ const Home = () => {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    let today = new Date().toISOString().split("T")[0];
     const yesterday = new Date(Date.now() - 28800000)
       .toISOString()
       .split("T")[0];
