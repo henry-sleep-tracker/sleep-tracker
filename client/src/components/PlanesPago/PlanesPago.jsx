@@ -22,9 +22,13 @@ const Pricing = () => {
     const { data: response } = await axios.get(
       "http://localhost:3001/plans/prices"
     );
-    setPrices(response.data);
+    let allPlans=response.data;
+    if(currentUser.hasUsedFreePlan===true){
+      allPlans=allPlans.filter(plan=>plan.unit_amount!==0)
+    }
+    setPrices(allPlans);
   };
-
+  
   const createSession = async (currentUser,priceId) => {
     const email=currentUser.email
 

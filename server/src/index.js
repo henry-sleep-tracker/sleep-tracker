@@ -19,6 +19,7 @@ const changePassword = require("./routes/changePassword.js");
 const deleteUser = require("./routes/deleteUser.js");
 const getAverage = require("./routes/getAverage");
 const getCurrentComment = require("./routes/Comments/getCurrentComment");
+const getByEfficiency = require("./routes/getEfficiency");
 
 const webHook = require("./routes/webhook");
 
@@ -45,5 +46,6 @@ router.use("/deletecomment", deleteComment);
 router.use("/average", getAverage);
 router.use("/getcurrentcomment", getCurrentComment);
 router.use("/webhook", webHook);
+router.use("/efficiency", getByEfficiency);
 
 module.exports = router;

@@ -21,6 +21,7 @@ export const GET_ACTIVITIES_BY_USER = "GET_ACTIVITIES_BY_USER";
 export const GET_COFFEE_SIZE_BY_USER = "GET_COFFEE_SIZE_BY_USER";
 export const GET_DRINKS_BY_USER = "GET_DRINKS_BY_USER";
 export const GET_RECORDS_USER_DATE = "GET_RECORDS_USER_DATE";
+export const GET_RECORDS_RANGE = "GET_RECORDS_RANGE"
 
 /* ====================== GET'S SECTION ======================= */
 
@@ -39,6 +40,23 @@ export const getRecordsQuery = (id, date) => {
     }
   };
 };
+
+export const getRecordsRange = (id, date, dateEnd) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/newrecord/?id=${id}&date=${date}&dateEnd=${dateEnd}`
+      );
+      dispatch({
+        type: GET_RECORDS_RANGE,
+        payload: response.data,
+      });
+    } catch (err) {
+      console.log(`${err} try again`);
+    }
+  };
+};
+
 
 export const getActivities = () => {
   return async function (dispatch) {

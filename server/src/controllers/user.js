@@ -82,6 +82,23 @@ const updatePassword = async (id, hashedPassword) => {
       .send("El error controllers user updatePassword es:", error.message);
   }
 };
+const updateFreePlanUsage = async (id) => {
+  try {
+    const userFound = await User.findOne({ where: { id: id } });
+    const userUpdated = await userFound.update({
+      hasUsedFreePlan: true,
+    });
+    userUpdated.save();
+  } catch (error) {
+    console.log(
+      "El error controllers user updateFreePlanUsage es:",
+      error.message
+    );
+    res
+      .status(401)
+      .send("El error controllers user updateFreePlanUsage es:", error.message);
+  }
+};
 
 module.exports = {
   postUser,
@@ -89,4 +106,5 @@ module.exports = {
   getUserByEmail,
   getUserById,
   updatePassword,
+  updateFreePlanUsage,
 };

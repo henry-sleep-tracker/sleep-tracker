@@ -22,6 +22,7 @@ import {
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
+import { Helmet } from "react-helmet";
 
 export default function LogIn() {
   const clientId =
@@ -96,6 +97,11 @@ export default function LogIn() {
       flex={4}
       p={2}
     >
+
+<Helmet>
+        <title>Iniciar sesion | Sleep Tracker</title>
+      </Helmet>
+
       <Grid item></Grid>
 
       <Grid item>
@@ -103,7 +109,11 @@ export default function LogIn() {
       </Grid>
 
       <Grid item>
-        <Button variant="outlined" startIcon={<ArrowBackIosNewIcon />} href="/">
+        <Button 
+        variant="outlined" 
+        startIcon={<ArrowBackIosNewIcon />} 
+        href="/"
+        >
           Regresar
         </Button>
       </Grid>

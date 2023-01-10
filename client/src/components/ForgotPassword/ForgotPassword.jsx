@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { sendRecoveryEmail } from "../../actions";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 
 export default function ForgotPassword() {
   const dispatch = useDispatch();
@@ -63,6 +64,11 @@ export default function ForgotPassword() {
       alignItems='center'
       spacing={3}
     >
+
+      <Helmet>
+        <title>Recuperar contraseña | Sleep Tracker</title>
+      </Helmet>
+
       <Grid item></Grid>
 
       <Grid

@@ -8,7 +8,12 @@ const {
   getRecords_by_id,
   getRecords_by_id_unformat,
   post_new_record,
+<<<<<<< HEAD:server/src/routes/records.js
 } = require("../controllers/records_controller.js");
+=======
+ 
+} = require("../controllers/newRecord_controller.js");
+>>>>>>> development:server/src/routes/newRecord_router.js
 
 const {
   newCoffeeSize,
@@ -51,6 +56,7 @@ router.get("/:id", getRecords_by_id);
 router.get("/unformat/:id", getRecords_by_id_unformat);
 
 router.post("/", new_record_validator, post_new_record);
+
 
 /* ==================== Coffee Size ======================== */
 
