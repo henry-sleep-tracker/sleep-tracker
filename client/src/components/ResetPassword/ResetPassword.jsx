@@ -2,6 +2,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Button, Card, CardContent, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
 import React from "react";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
 import { useParams, useNavigate } from 'react-router-dom';
 import { resetPassword } from "../../actions";
@@ -80,6 +81,11 @@ export default function ResetPassword() {
       spacing={3}
     >
 
+      <Helmet>
+        <title>Nueva contraseña | Sleep Tracker</title>
+      </Helmet>
+
+
       <Grid
         item
       >
@@ -134,12 +140,14 @@ export default function ResetPassword() {
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-password">Contraseña *</InputLabel>
                   <OutlinedInput
+                    value={input.password}
                     id="outlined-adornment-password"
                     type={showPassword ? 'text' : 'password'}
                     name="password"
                     label="Contraseña"
                     maxLength="32"
-                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
+                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
+                    title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                     onChange={(event) => handleChange(event)}
                     required
                     endAdornment={
@@ -179,12 +187,14 @@ export default function ResetPassword() {
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-password">Confirmar contraseña *</InputLabel>
                   <OutlinedInput
+                    value={input.confirmPassword}
                     id="outlined-adornment-password"
                     type={showPassword2 ? 'text' : 'password'}
                     name="confirmPassword"
                     label="Confirmar contraseña"
                     maxLength="32"
-                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
+                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
+                    title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                     onChange={(event) => handleChange(event)}
                     required
                     endAdornment={
@@ -204,15 +214,23 @@ export default function ResetPassword() {
               </Grid>
 
               <Grid
-                item
-              >
-                <Button
-                  type="submit"
-                  variant="contained"
-                  onClick={(event) => handleSubmit(event)}
-                >
-                  Cambiar contraseña
-                </Button>
+                item>
+                {
+                  !input.password || !input.confirmPassword || input.password !== input.confirmPassword
+                  ?
+                    <Button variant="contained" disabled>
+                      Crear nueva contraseña
+                    </Button>
+                    :
+                    <Button
+                      variant='contained'
+                      color='success'
+                      type="submit"
+                      onClick={(event) => handleSubmit(event)}
+                    >
+                      Crear nueva contraseña
+                    </Button>
+                }
               </Grid>
 
             </Grid>
