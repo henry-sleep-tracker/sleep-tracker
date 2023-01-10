@@ -19,7 +19,7 @@ import {
   SET_STATUS_NEW_RECORD,
   GET_RECORDS_USER_DATE,
   GET_RECORDS_RANGE,
-} from "../actions/newRecord";
+} from "../actions/records";
 
 const initialState = {
   //lastIdActivity: null,
