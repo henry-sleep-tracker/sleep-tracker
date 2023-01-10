@@ -11,7 +11,6 @@ const GraphWM = () => {
 
   return (
     <div>
-      <ResponsiveAppBar />
       <div className="graficas0">
         <br />
         <br />

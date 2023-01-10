@@ -8,7 +8,7 @@ import "./Record.css";
 import "reactjs-popup/dist/index.css";
 
 // Import Components
-import Nav from "../Home/Nav";
+
 
 // Hooks Imports
 import { useState, useRef } from "react";
@@ -867,7 +867,6 @@ const Record = props => {
   return (
     <div>
       <div className="nav_bar">
-        <Nav />
       </div>
       <div className="form_container">
         <form onSubmit={handlerOnSubmit}>
