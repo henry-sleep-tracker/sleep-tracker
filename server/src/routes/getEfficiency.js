@@ -5,20 +5,16 @@ const { Session } = require("../db");
 
 router.get("/", async (req, res) => {
   try {
-    const { startDate, endDate } = req.query;
+    const { efficiency } = req.query;
 
     if (startDate) {
-      const searchByRange = await Session.findAll({
-        where: {
-          date: {
-            [Op.between]: [startDate, endDate],
-          },
-        },
+      const searchByEfficiency = await Session.findAll({
+        where: { efficiency: { [Op.gte]: efficiency } },
         order: [["date", "ASC"]],
       });
-      res.status(200).json(searchByRange);
+      res.status(200).json(searchByEfficiency);
     } else {
-      res.status(400).json({ error: "date not found" });
+      res.status(400).json({ error: "efficiency not found" });
     }
   } catch (error) {
     console.error(error);
