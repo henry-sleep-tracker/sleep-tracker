@@ -9,7 +9,6 @@ const updateUser = require("./routes/updateUser.js");
 const plansRoutes = require("./routes/pagosStripe");
 const getSleepByDate = require("./routes/getSleepByDate");
 const getSleepByRange = require("./routes/getSleepByRange");
-
 const getUser = require("./routes/getUser.js");
 const getComments = require("./routes/Comments/getComments.js");
 const postComment = require("./routes/Comments/postComment.js");
@@ -19,7 +18,6 @@ const changePassword = require("./routes/changePassword.js");
 const deleteUser = require("./routes/deleteUser.js");
 const getAverage = require("./routes/getAverage");
 const getCurrentComment = require("./routes/Comments/getCurrentComment");
-const getByEfficiency = require("./routes/getEfficiency");
 
 const webHook = require("./routes/webhook");
 
@@ -46,6 +44,5 @@ router.use("/deletecomment", deleteComment);
 router.use("/average", getAverage);
 router.use("/getcurrentcomment", getCurrentComment);
 router.use("/webhook", webHook);
-router.use("/efficiency", getByEfficiency);
 
 module.exports = router;
