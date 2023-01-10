@@ -28,7 +28,7 @@ conn.sync({ force: false }).then(() => {
       "\n" + "%s listening at " + process.env.PORT + "\n" + Date() + "\n"
     );
   });
-}); 
+});
 
 //true --> borrar todo
 //false --> mantener datos
