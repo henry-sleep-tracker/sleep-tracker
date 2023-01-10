@@ -47,14 +47,14 @@ export default function LogIn() {
 
   useEffect(() => {
     if (loggedUser.hasOwnProperty("id") && loggedUser.id !== 0) {
-      console.log("planExpirationDate:", planExpirationDate);
       dispatch(getUsersPlanExpDate(loggedUser.id));
       if (
         planExpirationDate !== "1900-01-01" &&
         planExpirationDate !== undefined
       ) {
         alert("Usuario validado");
-        login(loggedUser.id, planExpirationDate);
+        // debugger
+        login(loggedUser.id,loggedUser.email,loggedUser.hashedPassword, planExpirationDate);
       }
     } else if (loggedUser.id === 0) {
       alert("El usuario o la contraseña no son correctos");
