@@ -19,6 +19,10 @@ module.exports = (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+      hasUsedFreePlan: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -60,7 +64,7 @@ module.exports = (sequelize) => {
       },
     },
     {
-      paranoid: true
+      paranoid: true,
     }
   );
 };
