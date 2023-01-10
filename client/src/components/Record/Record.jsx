@@ -25,6 +25,7 @@ import {
   //getLastIdActivity,
   //getLastIdCoffeSize,
   //getLastIdDrink,
+  getRecordsQuery,
   getActivitiesByUser,
   getCoffeeSizesByUser,
   getDrinksByUser,
@@ -82,6 +83,7 @@ const Record = props => {
 
   const userId = useSelector(state => state.users.currentUser.id);
   const nameUser = useSelector(state => state.users.currentUser.names);
+  const recordsUserRedux = useSelector(state => state.recordsUser);
   const recordStatus = useSelector(state => state.record.statusNewRecord);
   const activityStat = useSelector(state => state.record.statusNewActivity);
   const coffeeStat = useSelector(state => state.record.statusNewCoffeeSize);
@@ -102,7 +104,11 @@ const Record = props => {
     sleepTime12Format = time_convert(sleepTimeMinutes);
   }
   const [sleepSync, setSleepSync] = useState(
-    dateStringToDate(sleepTime[0].date.replace("-", ""))
+    dateStringToDate(sleepTime[0]?.date.replace("-", ""))
+  );
+
+  const [sleepRedux, setSleepRedux] = useState(
+    recordsUserRedux?.map(e => e.sleepTime)
   );
 
   /******************** Local States Section *********************/
@@ -592,10 +598,18 @@ const Record = props => {
 
     setDrinkStatus(false);
   };
+  setTimeout(() => {
+    console.log(sleepRedux);
+  }, 3000);
 
   // Mount/Unmount Component
   useEffect(() => {
     const fetchData = async () => {
+      if (sleepTime[0]) {
+        const getRecords = await dispatch(
+          getRecordsQuery(userId, sleepTime[0]?.date)
+        );
+      }
       // eslint-disable-next-line no-unused-vars
       const dataActivitiy = await dispatch(getActivitiesByUser(userId));
       // eslint-disable-next-line no-unused-vars
