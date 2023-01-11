@@ -1,4 +1,6 @@
-import { useSelector } from "react-redux";
+import { Card, CardContent } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux"
 import {
   XAxis,
   YAxis,
@@ -21,21 +23,38 @@ export default function GraphEff() {
     }),
   ];
 
+  const [windowWidth, setwindowWidth] = useState(window.innerWidth)
+
+  const handleResize = () => {
+    setwindowWidth(window.innerWidth)
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+  }, [])
+
   return (
-    <div>
-      <BarChart width={530} height={250} data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis  tickFormatter={(value) => { 
-          if (value) {
-            const hours = value
-            return `${hours}%`;
-          }
-        }} />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="eficiencia" fill="#2196f3" />
-      </BarChart>
-    </div>
+    <Card>
+      <CardContent>
+
+        <BarChart
+          width={windowWidth - 150}
+          height={250}
+          data={data}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis tickFormatter={(value) => {
+            if (value) {
+              const hours = value
+              return `${hours}%`;
+            }
+          }} />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="eficiencia" fill="#2196f3" />
+        </BarChart>
+      </CardContent>
+    </Card>
   );
 }

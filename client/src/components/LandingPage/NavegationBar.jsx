@@ -11,8 +11,9 @@ import { ThemeProvider } from "@emotion/react";
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import CommentIcon from '@mui/icons-material/Comment';
+import { useSelector } from "react-redux";
 // import { makeStyles } from "@mui/styles";
-
+import log from "../logi/log-.png";
 
 const StyledToolbar = styled(Toolbar)({
     display: "flex",
@@ -69,10 +70,15 @@ const NavegationBar = ({
 
     // const classes = useStyles();
 
+    const currentComments = useSelector((state) => state.comments);
+
+
     return (
         <ThemeProvider theme={theme}>
 
-            <AppBar position="sticky">
+            <AppBar 
+            position="sticky"
+            >
                 <StyledToolbar>
 
                     <IconButton
@@ -84,7 +90,10 @@ const NavegationBar = ({
                     </IconButton>
                     <Box
                         component="nav"
-                        sx={{ width: { sm: 240 }, flexShrink: { sm: 0 } }}
+                        sx={{ 
+                            width: { sm: 240 }, 
+                            flexShrink: { sm: 0 } 
+                        }}
                     >
                         <Drawer
                             variant="temporary"
@@ -97,7 +106,7 @@ const NavegationBar = ({
                             <div>
                                 <List>
 
-                                    <ListItem disablePadding>
+                                    {/* <ListItem disablePadding>
                                         <ListItemButton component='a'>
                                             <ListItemIcon>
                                                 <DarkMode />
@@ -106,7 +115,7 @@ const NavegationBar = ({
                                         </ListItemButton>
                                     </ListItem>
 
-                                    <Divider />
+                                    <Divider /> */}
 
                                     <ListItem disablePadding>
                                         <ListItemButton component='a' href='login'>
@@ -177,18 +186,20 @@ const NavegationBar = ({
                                             <ListItemText primary="Planes de pago" />
                                         </ListItemButton>
                                     </ListItem>
-
+                                    {
+                                    currentComments.data &&
                                     <ListItem disablePadding>
                                         <ListItemButton
                                             component='a'
                                             onClick={() => setCurrentPage(page6)}
-                                        >
+                                            >
                                             <ListItemIcon>
                                                 <CommentIcon />
                                             </ListItemIcon>
                                             <ListItemText primary="Comentarios" />
                                         </ListItemButton>
                                     </ListItem>
+                                        }
 
                                     <ListItem disablePadding>
                                         <ListItemButton
@@ -207,30 +218,28 @@ const NavegationBar = ({
                             </div>
 
                         </Drawer>
+                    <img
+                        // sx={{ display: { xs: "none",md: "block", sm: "none" } }}
+                        onClick={() => setCurrentPage(page1)}
+                        src={log}
+                        alt="logo"
+                        width="200px"
+                    />
                     </Box>
 
-                    {/* <Search><InputBase 
-                placeholder="buscar..."/>
-                </Search> */}
-                    <Typography
-                        sx={{ display: { xs: "none",md: "block", sm: "none" } }}
-                        variant='h4'
-                        onClick={() => setCurrentPage(page1)}
-                    >
-                        Sleep Tracker
-                    </Typography>
-                    <NightShelterIcon
+
+                    {/* <NightShelterIcon
                         sx={{ display: { xs: "block", sm: "block", md: 'none' } }}
                         onClick={() => setCurrentPage(page1)}
-                    />
+                    /> */}
 
                     <LoginIcon
-                        sx={{ display: { xs: "block", sm: "none" } }}
+                        sx={{ display: { xs: "block", sm: "block" , md:'none' } }}
                         onClick={() => setCurrentPage(page1)}
                     />
 
                     <AppRegistrationIcon
-                        sx={{ display: { xs: "block", sm: "none" } }}
+                        sx={{ display: { xs: "block", sm: "block" , md:'none' } }}
                         onClick={() => setCurrentPage(page1)}
                     />
 
@@ -244,6 +253,7 @@ const NavegationBar = ({
                         />
                     </Badge> */}
                             <Button
+                                sx={{ display: { xs: "none", sm: "none" , md:'block' } }}
                                 variant="text"
                                 color='lightFont'
                                 href='/login'
@@ -252,6 +262,7 @@ const NavegationBar = ({
                             </Button>
 
                             <Button
+                                sx={{ display: { xs: "none", sm: "none" , md:'block' } }}
                                 variant="outlined"
                                 color='lightFont'
                                 href='/registro'

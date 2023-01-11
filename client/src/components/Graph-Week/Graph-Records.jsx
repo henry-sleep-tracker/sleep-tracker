@@ -1,24 +1,18 @@
-import React from "react";
+import { Card, CardContent } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import {
-  Bar,
-  CartesianGrid,
-  Legend,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Line,
-  Scatter,
-  ComposedChart,
-} from "recharts";
+
+import { Bar, CartesianGrid, Legend, XAxis, YAxis, Tooltip, Line, ComposedChart } from "recharts";
+
 
 export default function GraphRecord() {
-  const records = useSelector((state) => state?.record.recordsRange);
+  const records = useSelector((state) => state?.record.recordsRange)
 
-  console.log("records antes", records);
 
-  let auxRecords = [];
-  let auxRecord = records[0];
+  console.log('records antes', records);
+
+  let auxRecords = []
+  let auxRecord = records[0]
 
   for (let i = 1; i < records.length; i++) {
     if (auxRecord.dateMeal === records[i].dateMeal) {
@@ -51,8 +45,22 @@ export default function GraphRecord() {
     }),
   ];
   console.log("data", data);
+  
+    const [windowWidth, setwindowWidth] = useState(window.innerWidth)
+
+  const handleResize = () => {
+    setwindowWidth(window.innerWidth)
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+  }, [])
 
   return (
+    <Card
+      variant="outlined"
+    >
+      <CardContent>
     <ComposedChart width={730} height={300} data={data}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="Dia" />
@@ -85,5 +93,8 @@ export default function GraphRecord() {
         minPointSize={2}
       />
     </ComposedChart>
+          </CardContent>
+    </Card>
+  )
   );
 }
