@@ -1,10 +1,10 @@
-const { DataTypes, Sequelize } = require('sequelize');
+const { DataTypes, Sequelize } = require("sequelize");
 
 const sequelize = Sequelize;
 
 module.exports = sequelize => {
   sequelize.define(
-    'newRecord',
+    "newRecord",
     {
       id: {
         primaryKey: true,
@@ -14,20 +14,20 @@ module.exports = sequelize => {
       },
       dateMeal: {
         type: DataTypes.DATEONLY,
-        allowNull: false,
+        allowNull: true,
       },
       timeMeal: {
         type: DataTypes.TIME,
-        allowNull: false,
+        allowNull: true,
       },
       description: {
         type: DataTypes.STRING(300),
         allowNull: true,
-        defaultValue: '',
+        defaultValue: "",
       },
       sleepTime: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       napTime: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),

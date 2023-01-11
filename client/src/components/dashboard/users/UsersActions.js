@@ -9,7 +9,7 @@ import { green } from '@mui/material/colors';
 
 import { updateUsers, getUsers } from '../../../actions/users';
 
-const UsersActions = ({ params, rowId, setRowId }) => {
+const UsersActions = ({ params, rowId, setRowId, pageState }) => {
 
   const dispatch = useDispatch();
 
@@ -25,7 +25,7 @@ const UsersActions = ({ params, rowId, setRowId }) => {
       if (result) {
         setSuccess(true);
         setRowId(null);
-        dispatch(getUsers());
+        dispatch(getUsers(pageState.page, pageState.pageSize));
       }
     } else {
       alert('Nombre y Apellidos son requeridos');

@@ -92,6 +92,7 @@ const Page5 = () => {
             flex={4}
             p={9}
             // height='100vh'
+            gap='10px'
             
             >
             {itemData.map((item) => (

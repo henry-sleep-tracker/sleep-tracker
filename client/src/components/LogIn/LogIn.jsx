@@ -1,36 +1,65 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import {useDispatch, useSelector} from "react-redux";
-import { logInUser} from "../../actions/index";
-import { useAuthContext} from "../../actions/authContext";
+import { useDispatch, useSelector } from "react-redux";
+import { logInUser } from "../../actions/index";
+import { useAuthContext } from "../../actions/authContext";
 import LogInGoogleButton from "../LogInGoogleButton/LogInGoogleButton";
-import {gapi} from "gapi-script"
+import { gapi } from "gapi-script";
+import { getUsersPlanExpDate } from "../../actions/plan";
+import {
+  Button,
+  Card,
+  CardContent,
+  FormControl,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+  Typography,
+} from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Visibility from "@mui/icons-material/Visibility";
+import { Helmet } from "react-helmet";
+import log from "../logi/log-.png";
 
 export default function LogIn() {
-  const clientId="335316690432-trah7lbld3ptrek9o23jo6n0t7g30foe.apps.googleusercontent.com"
-  const {login} = useAuthContext();
-  const loggedUser =  useSelector((state)=>state?.users.currentUser)
-  const dispatch=useDispatch();
+  const clientId =
+    "335316690432-trah7lbld3ptrek9o23jo6n0t7g30foe.apps.googleusercontent.com";
+  const { login } = useAuthContext();
+  const loggedUser = useSelector((state) => state?.users.currentUser);
+  const planExpirationDate = useSelector(
+    (state) => state?.users.planExpirationDate
+  );
+  const dispatch = useDispatch();
   var [input, setInput] = useState({
     email: "",
     password: "",
   });
-  function start(){
+  function start() {
     gapi.client.init({
-      clientId:clientId,
-      scope:""
-    })
+      clientId: clientId,
+      scope: "",
+    });
   }
-  gapi.load("client:auth2",start)
+  gapi.load("client:auth2", start);
 
-  useEffect(()=>{
-    if (loggedUser.hasOwnProperty('id')&&loggedUser.id!==0) {
-      alert("Usuario validado");
-      login();
-    } else if(loggedUser.id===0){
+  useEffect(() => {
+    if (loggedUser.hasOwnProperty("id") && loggedUser.id !== 0) {
+      dispatch(getUsersPlanExpDate(loggedUser.id));
+      if (
+        planExpirationDate !== "1900-01-01" &&
+        planExpirationDate !== undefined
+      ) {
+        alert("Usuario validado");
+        login(loggedUser.id, loggedUser.email, loggedUser.hashedPassword, planExpirationDate);
+      }
+    } else if (loggedUser.id === 0) {
       alert("El usuario o la contraseña no son correctos");
     }
-  },[loggedUser,login])
+  }, [loggedUser, login, planExpirationDate]);
   function handleChange(event) {
     setInput({
       ...input,
@@ -40,7 +69,7 @@ export default function LogIn() {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      dispatch( logInUser(input.email, input.password));
+      dispatch(logInUser(input.email, input.password));
       setInput({
         email: "",
         password: "",
@@ -49,40 +78,197 @@ export default function LogIn() {
       console.log("el error es:", error);
     }
   }
-  return (
-    <form onSubmit={(event) => handleSubmit(event)}>
-      <h1>Iniciar sesion</h1>
-      <div>
-        <label htmlFor="email">{`Correo electronico*:`} </label>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={input.email}
-          onChange={(event) => handleChange(event)}
-          required
-        />
-      </div>
 
-      <div>
-        <label htmlFor="password">{`Contraseña*:`} </label>
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={input.password}
-          onChange={(event) => handleChange(event)}
-          required
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  return (
+    <Grid
+      container
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      spacing={3}
+      flex={4}
+      p={2}
+    >
+
+      <Helmet>
+        <title>Iniciar sesion | Sleep Tracker</title>
+      </Helmet>
+
+      <Grid item>
+        <img
+          src={log}
+          alt="logo"
+          width="200px"
         />
-      </div>
-      <button type="submit">Iniciar Sesion</button>
-      <p>
-        No tienes cuenta? <a href="/registro"> Registrate</a>
-      </p>
-      <p>
-        Olvidaste tu contraseña? <a href="/contrasena_olvidada"> Recuperala</a>
-      </p>
-      <LogInGoogleButton/>
-    </form>
+      </Grid>
+
+      <Grid item>
+        <Typography variant="h2">Iniciar sesion</Typography>
+      </Grid>
+
+      <Grid item>
+        <Button
+          variant="outlined"
+          startIcon={<ArrowBackIosNewIcon />}
+          href="/"
+        >
+          Regresar
+        </Button>
+      </Grid>
+
+      <Grid item>
+        <Card
+          className="titleresume"
+          variant="outlined"
+          elevation={20}
+          sx={{ maxWidth: 300 }}
+        >
+          <CardContent>
+            <Grid
+              container
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              spacing={3}
+              flex={4}
+              p={2}
+            >
+              <Grid item></Grid>
+
+              <Grid item>
+                <TextField
+                  label="Correo electronico"
+                  variant="outlined"
+                  type="email"
+                  name="email"
+                  value={input.email}
+                  onChange={(event) => handleChange(event)}
+                  required
+                />
+              </Grid>
+
+              {/* <Grid
+                item
+              >
+                <Typography
+                  variant='h5'
+                >
+                  Contraseña*:
+                </Typography>
+                <label htmlFor="password">{`Contraseña*:`} </label>
+              </Grid>
+
+              <Grid
+                item
+              >
+                <TextField
+                  id="outlined-basic"
+                  label="Contraseña"
+                  variant="outlined"
+                  type="password"
+                  name="password"
+                  value={input.password}
+                  onChange={(event) => handleChange(event)}
+                  required
+                />
+              </Grid>
+ */}
+
+              <Grid item>
+                <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Contraseña *
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={showPassword ? "text" : "password"}
+                    label="Contraseña"
+                    variant="outlined"
+                    name="password"
+                    value={input.password}
+                    onChange={(event) => handleChange(event)}
+                    required
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </Grid>
+
+              <Grid
+                item
+              >
+
+              </Grid>
+
+              <Grid item>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                  onClick={(event) => handleSubmit(event)}
+                >
+                  Iniciar Sesion
+                </Button>
+              </Grid>
+
+              <Grid item>
+                <Typography variant="h5">Ó ingresa con Google</Typography>
+              </Grid>
+
+              <Grid item>
+                <LogInGoogleButton />
+              </Grid>
+
+              <Grid item>
+                <Typography variant="h5">¿No tienes cuenta?</Typography>
+              </Grid>
+
+              <Grid item>
+                <Button variant="contained" size="large">
+                  <a
+                    href="/registro"
+                    style={{
+                      color: "white",
+                      textDecoration: "none",
+                    }}
+                  >
+                    registrate
+                  </a>
+                </Button>
+              </Grid>
+
+              <Grid item>
+                <a
+                  href="/contrasena_olvidada"
+                  style={{
+                    textDecoration: "none",
+                  }}
+                >
+                  ¿Olvidaste tu contraseña?
+                </a>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
 }

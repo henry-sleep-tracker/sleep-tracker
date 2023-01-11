@@ -2,11 +2,13 @@ import {
   CREATE_TOKEN,
   GET_CURRENT_USER,
   POST_USER_WITH_GOOGLE,
+  GET_CURRENT_PLAN,
 } from "./constants";
 const emailjs = require("emailjs-com");
 const templateId = "template_upsqgx4";
 const serviceId = "service_ts4dsnk";
 const Public_Key = "DkkyjnDmwCqT4qOL1";
+const getUsersPlanExpDate = require("./plan");
 
 const nullUser = {
   id: 0,
@@ -21,15 +23,15 @@ const nullUser = {
   lastConnection: "",
 };
 
-export const createToken = (code) => async (dispatch) => {
+export const createToken = (code, userId) => async (dispatch) => {
   try {
-    const sendCode = await fetch("http://localhost:3001/sleepfitbit", {
+    const sendCode = await fetch("http://localhost:3001/fitbit", {
       // The default URL for backEnd is written on "app.js", just write "/*yourBackenRoute*"
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ code: code }),
+      body: JSON.stringify({ code: code, userId: userId }),
     });
 
     const response = await sendCode.json();
@@ -175,7 +177,19 @@ export function logOutUser() {
     try {
       return dispatch({
         type: GET_CURRENT_USER,
-        payload: nullUser,
+        payload: "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+export function cleanExpDate() {
+  return async function (dispatch) {
+    try {
+      return dispatch({
+        type: GET_CURRENT_PLAN,
+        payload: "1900-01-01",
       });
     } catch (error) {
       console.log(error);

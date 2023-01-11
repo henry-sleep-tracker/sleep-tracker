@@ -3,9 +3,10 @@ import React from "react";
 // import RightBar from "./RightBar";
 // import SideBar from "./SideBar";
 import NavegationBar from "./NavegationBar";
-import ScrollButton from "./ScrollButton";
-import { Stack, createTheme, ThemeProvider, Box } from "@mui/material";
+// import ScrollButton from "./ScrollButton";
+import { createTheme, ThemeProvider, Box } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet";
 
 function LandingPage() {
   const [mode, setMode] = useState("light");
@@ -17,6 +18,7 @@ function LandingPage() {
   const page3 = useRef(null);
   const page4 = useRef(null);
   const page5 = useRef(null);
+  const page6 = useRef(null);
 
   const [currentPage, setCurrentPage] = useState(page1);
 
@@ -39,6 +41,11 @@ function LandingPage() {
 
   return (
     <ThemeProvider theme={darkTheme}>
+
+      <Helmet>
+        <title>Sleep Tracker</title>
+      </Helmet>
+
       <NavegationBar
         mode={mode}
         setMode={setMode}
@@ -49,6 +56,7 @@ function LandingPage() {
         page3={page3}
         page4={page4}
         page5={page5}
+        page6={page6}
       />
 
 
@@ -75,6 +83,7 @@ function LandingPage() {
           page3={page3}
           page4={page4}
           page5={page5}
+          page6={page6}
         />
         {/* <RightBar /> */}
         {/* </Stack> */}

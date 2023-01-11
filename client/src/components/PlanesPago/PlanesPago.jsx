@@ -1,43 +1,45 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector} from "react-redux";
+import { getUser } from "../../actions/getUser";
 
 const Pricing = () => {
-  const loggedUser =  useSelector((state)=>state?.users.currentUser)
-  console.log("SOY CURRENT USER:", loggedUser, "despues");
+  const USER_ID = "USER_ID";
+  const userId= window.localStorage.getItem(USER_ID)
+  const currentUser = useSelector((state) => state?.users.currentUser);
+  const dispatch = useDispatch();
   const [prices, setPrices] = useState([]);
 
   useEffect(() => {
     fetchPrices();
-    // if(usuario === null){
-    //   dispatch(getUser(currentUser));
-    // }
-  }, []);
-  const dispatch = useDispatch();
-
-
+    if(currentUser ===""){
+    dispatch(getUser(userId));
+    }
+  }, [dispatch, currentUser, userId]);
 
 
   const fetchPrices = async () => {
     const { data: response } = await axios.get(
       "http://localhost:3001/plans/prices"
     );
-    setPrices(response.data);
+    let allPlans=response.data;
+    if(currentUser.hasUsedFreePlan===true){
+      allPlans=allPlans.filter(plan=>plan.unit_amount!==0)
+    }
+    setPrices(allPlans);
   };
+  
+  const createSession = async (currentUser,priceId) => {
+    const email=currentUser.email
 
-  const createSession = async (priceId) => {
     const { data: response } = await axios.post(
       "http://localhost:3001/plans/session",
-      {
-        priceId,
-      }
+        {priceId,
+          email}
     );
-
+    
     window.location.href = response.url; // obtener la url y redirigil al usuario a la url
   };
-
- 
-
 
   return (
     <div className="container">
@@ -70,7 +72,7 @@ const Pricing = () => {
                   <button
                     className="btn btn-lg text-white btn-success w-100"
                     variant="outline-success"
-                    onClick={() => createSession(price.id)}
+                    onClick={() => createSession(currentUser,price.id)}
                   >
                     Comprar
                   </button>

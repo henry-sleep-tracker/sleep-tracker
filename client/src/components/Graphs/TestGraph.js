@@ -1,9 +1,10 @@
+import { Card, CardContent } from "@mui/material";
 import React from "react";
 import { Chart } from "react-google-charts";
 import { useSelector } from "react-redux";
 
 export default function Graph() {
-  const stages = useSelector((state) => state.date);
+  const stages = useSelector((state) => state.stage);
   console.log("stages", stages);
 
   stages.forEach((s) => {
@@ -37,7 +38,7 @@ export default function Graph() {
     hAxis: {
       title: "Hour",
       gridlines: {
-        count: 5,
+        count: 12,
         units: {
           hours: { format: ["HH:00"] },
         },
@@ -61,13 +62,15 @@ export default function Graph() {
   };
 
   return (
-    <>
-      <Chart
-        chartType="AreaChart"
-        data={data}
-        options={options}
-        height="380px"
-      />
-    </>
+    <Card variant="outlined">
+      <CardContent>
+        <Chart
+          chartType="AreaChart"
+          data={data}
+          options={options}
+          height="380px"
+        />
+      </CardContent>
+    </Card>
   );
 }

@@ -1,65 +1,53 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Collection from "./resume";
-import Graph from "../Graphs/TestGraph";
-import ResponsiveAppBar from "./Nav";
-// import "./home.css";
 import Calc from "./calc";
 import Swipeable from "./tips";
 import { Grid, Typography } from "@mui/material";
 import Calendario from "../Calendario/Calendario";
 import { makeStyles } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
-import { getSleepByDate } from "../../actions/getSleepData";
-import { getUser } from "../../actions/getUser.js";
+import { getSleepStage } from "../../actions/getUserHealthData";
+import { getRecordsQuery } from "../../actions/records_data";
+import GraphHome from "../Graphs/Graph-home";
+import CollapsibleTable from "../Graph-Week/CollapsibleTable";
+import { getUsersPlanExpDate } from "../../actions/plan";
+import { useAuthContext } from "../../actions/authContext";
+import { Helmet } from "react-helmet";
 
 const Home = () => {
-
+  const { payPlan } = useAuthContext();
   const currentUser = useSelector((state) => state?.users.currentUser);
-  console.log("SOY CURRENTUSER", currentUser);
-  const usuario = useSelector((state) => state.user.user)
-  console.log("SOY USUARIO", usuario);
-    
-
+  const planExpirationDate = useSelector(
+    (state) => state?.users.planExpirationDate
+  );
   const dispatch = useDispatch();
   useEffect(() => {
-    if(usuario === null){
-      dispatch(getUser(currentUser));
-    }
     const yesterday = new Date(Date.now() - 28800000)
       .toISOString()
       .split("T")[0];
-    dispatch(getSleepByDate(yesterday));
-  }, [dispatch, currentUser, usuario]);
+    dispatch(getSleepStage(yesterday));
+    let id = currentUser.id;
+    let date = yesterday;
+    dispatch(getRecordsQuery(id, date));
+    dispatch(getUsersPlanExpDate(id));
+    payPlan(planExpirationDate);
+  }, [dispatch, currentUser, planExpirationDate, payPlan]);
 
   let user = {
-    name: usuario ? usuario.names : " Loaging...",
-    sueño: [1, 3, 2, 4, 5, 1, 3, 2, 1, 5, 3, 4],
-    consumo: {
-      cafeina: "",
-      alcohol: "2 cervezas, 3 mojitos",
-      comida: "19:00",
-      ejercicio: { tiempo: "30 minutos", tipo: "caminata" },
-    },
+    name: currentUser.names ? currentUser.names : "🥰",
   };
-  let consumed = user.consumo;
-  const dream = user.sueño;
-
-  let prueba = [["horas de sueño", "profundidad de sueño"]];
-  for (let i = 0; i < dream.length; i++) {
-    prueba.push([i + 1, dream[i]]);
-  }
 
   const greet = () => {
     var text = "";
     var now = new Date();
     var time = now.getHours();
     if (time >= 5 && time < 13) {
-      text = "Buenos días! ☀️ ";
+      text = "Buenos días!  ";
     } else if (time >= 13 && time < 21) {
-      text = "Buenas tardes! 🌎";
+      text = "Buenas tardes! ";
     } else {
-      text = "Buenas noches! 🌙 ";
+      text = "Buenas noches!  ";
     }
     return text;
   };
@@ -68,57 +56,72 @@ const Home = () => {
 
   return (
     <Grid
-      className={classes.home}
       container
       justifyContent="center"
       alignItems="center"
       direction="column"
-      spacing={1}
+      spacing={3}
       flex={4}
       p={2}
-      // maxWidth='100vw'
+    // maxWidth='100vw'
     >
-      <ResponsiveAppBar />
+      <Helmet>
+        <title>Inicio | Sleep Tracker</title>
+      </Helmet>
+
       <Grid item>
         <Typography className={classes.saludo} variant="h4">
           ¡Hola {user.name} {greet()}
         </Typography>
       </Grid>
-      <div>
-        <Fitbit />
-      </div>
 
-      <div>
-        <Calendario />
-      </div>
-
-      <Grid>
-        <Typography variant="h6">{Date()}</Typography>
-      </Grid>
-
-      <Grid className={classes.Collection} item>
-        <Collection arg={consumed} />
-      </Grid>
-
-      {/* <br /> */}
-      {/* <Grid
-        className={classes.containerHome}
+      <Grid
         item
-      > */}
-      <Grid className={classes.graphHome} item>
-        <Graph />
+      >
+        <Fitbit />
       </Grid>
 
-      <Grid className={classes.calc} item>
+      {/* <Grid
+        item
+      >
+        <Typography variant="h6">{Date()}</Typography>
+      </Grid> */}
+      <Grid
+        item
+      >
+        <Calendario />
+      </Grid>
+
+      <Grid
+        item
+      >
+        <GraphHome />
+      </Grid>
+
+      <Grid
+        item
+      >
+        <CollapsibleTable />
+      </Grid>
+
+      <Grid className={classes.Collection}
+        item
+      >
+        <Collection />
+      </Grid>
+
+      <Grid className={classes.calc}
+        item
+      >
         <Calc />
       </Grid>
 
-      <Grid className={classes.swipeableHome} item>
+      <Grid className={classes.swipeableHome}
+        item
+      >
         <Swipeable className={classes.swipeable} />
       </Grid>
 
-      {/* </Grid>
-       */}
     </Grid>
   );
 };

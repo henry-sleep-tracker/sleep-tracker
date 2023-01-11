@@ -1,88 +1,83 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Chart } from "react-google-charts";
-import { porcentage, semana, total } from "./GraphW";
-import Graph from "../Graphs/TestGraph";
-import ResponsiveAppBar from "../Home/Nav";
 import RangeCalendar from "../Calendario/RangeCalendar";
-import CustomizedAccordions, {
-  CustomizedAccordions2,
-  CustomizedAccordions3,
-} from "./detailsGraphs";
-import "./graficas.css";
+import CollapsibleTableTime from "./CollapsibleTableTime";
+import DualGraph from "./DualGraph";
+import GraphEff from "./Graph-efficiency";
+import GraphTime from "./Graph-Time";
+import { Button, Grid } from "@mui/material";
+import CollapsibleTableEfficiency from "./CollapsibleTableEfficiency";
+import GraphRecord from "./Graph-Records";
+
 const GraphWM = () => {
-  const daterange = useSelector((state) => state.range);
-  console.log("range", daterange);
-
-  const options1 = {
-    title: `Porcentaje de eficiencia de descanso semanal ${semana[0]} - ${
-      semana[semana.length - 1]
-    }`,
-    colors: ["#2196f3"],
-  };
-
-  const option2 = {
-    title: `Horas de descanso semanal ${semana[0]} - ${
-      semana[semana.length - 1]
-    } `,
-
-    vAxis: {
-      ticks: [
-        { v: 12, f: "12 hrs" },
-        { v: 10, f: "10 hrs" },
-        { v: 8, f: "8 hrs" },
-        { v: 6, f: "6 hrs" },
-        { v: 4, f: "4 hrs" },
-        { v: 2, f: "2 hrs" },
-      ],
-    },
-    colors: ["#2196f3"],
-  };
 
   return (
-    <div>
-      <ResponsiveAppBar />
-      <div className="graficas0">
-        <br />
-        <br />
-        <div>
-          <RangeCalendar />
-        </div>
-        {/* <div className="gafica1">
-          <Graph />
-          <div className="descgraph">
-            <CustomizedAccordions />
-          </div>
-        </div>
-        <hr /> */}
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      direction="column"
+      spacing={3}
+      flex={4}
+      p={1}
+    >
 
-        <div className="grafica2">
-          <h4>{options1.title}</h4>
-          <Chart
-            options={options1}
-            chartType="Bar"
-            data={porcentage}
-            height="400px"
-          />{" "}
-          <div className="descgraph">
-            <CustomizedAccordions2 />
-          </div>
-        </div>
-        <hr />
+      <Grid
+        item
+      >
+        <Button
+          variant="outlined"
+          key="pdf"
+          download="pdf"
+          href="/pdf"
+        >
+          Reporte PDF
+        </Button>
+      </Grid>
 
-        <div className="gafica3">
-          <Chart
-            data={total}
-            chartType="BarChart"
-            options={option2}
-            height="400px"
-          />
-          <div className="descgraph">
-            <CustomizedAccordions3 />
-          </div>
-        </div>
-      </div>
-    </div>
+      <Grid
+        item
+      >
+        <RangeCalendar />
+      </Grid>
+
+      <Grid
+        item
+      >
+        <DualGraph />
+      </Grid>
+
+      <Grid
+        item
+      >
+        {/* <h4>{options1.title}</h4> */}
+        <GraphEff />
+      </Grid>
+
+      <Grid
+        item
+      >
+        <CollapsibleTableEfficiency />
+      </Grid>
+
+      <Grid
+        item
+      >
+        <GraphTime />
+      </Grid>
+
+      <Grid
+        item
+      >
+        <CollapsibleTableTime />
+      </Grid>
+
+      <Grid
+        item
+      >
+        <GraphRecord />
+      </Grid>
+
+    </Grid>
   );
 };
 
