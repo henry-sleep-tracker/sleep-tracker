@@ -25,7 +25,7 @@ const nullUser = {
 
 export const createToken = (code, userId) => async (dispatch) => {
   try {
-    const sendCode = await fetch("http://localhost:3001/sleepfitbit", {
+    const sendCode = await fetch("http://localhost:3001/fitbit", {
       // The default URL for backEnd is written on "app.js", just write "/*yourBackenRoute*"
       method: "POST",
       headers: {
