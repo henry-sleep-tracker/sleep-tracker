@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 // Actions Imports
+import { getRecordsQuery } from "../../actions/records_data";
 import {
   //getCoffeeSizes,
   //getActivities,
@@ -24,7 +25,6 @@ import {
   //getLastIdActivity,
   //getLastIdCoffeSize,
   //getLastIdDrink,
-  getRecordsQuery,
   getActivitiesByUser,
   getCoffeeSizesByUser,
   getDrinksByUser,
