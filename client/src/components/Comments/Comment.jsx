@@ -94,7 +94,7 @@ const CreateComment = () => {
                 </Typography>
             </Grid>
 
-            <Grid
+            {/* <Grid
                 item
             >
                 <Button
@@ -104,7 +104,7 @@ const CreateComment = () => {
                 >
                     Regresar
                 </Button>
-            </Grid>
+            </Grid> */}
 
             <Grid
                 item

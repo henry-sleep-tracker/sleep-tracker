@@ -46,6 +46,7 @@ const {
   User,
   Session,
   Stage,
+  Steps,
   Plan,
   Comment,
 } = sequelize.models;
@@ -99,6 +100,9 @@ Activity.belongsToMany(NewRecord, {
 
 User.hasOne(Plan);
 Plan.belongsTo(User, { foreignKey: "userId" });
+
+User.hasMany(Steps);
+Steps.belongsTo(User);
 
 User.hasMany(Session);
 Session.belongsTo(User);

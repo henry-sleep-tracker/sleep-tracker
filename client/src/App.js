@@ -30,24 +30,25 @@ axios.defaults.baseURL = "http://localhost:3001/";
 //The following link must be un-comented on gitHub if you wanna work with on-line servers
 // axios.defaults.baseURL = 'https://sleep-tracker-production.up.railway.app'
 
+
 function App() {
+
   return (
+
     <AuthContextProvider>
+
       <Routes>
+
         <Route path="/" element={<PublicRoute />}>
           <Route index element={<LandingPage />} />{" "}
-          {/* rutas publicas- lo de indez quiere decir / */}
           <Route path="/login" element={<LogIn />} />
           <Route path="/logout" element={<LogOut />} />
           <Route path="/registro" element={<Register />} />
           <Route path="/contrasena_olvidada" element={<ForgotPassword />} />
-          <Route
-            path="/reiniciar_contrasena/:id/:token"
-            element={<ResetPassword />}
-          />
+          <Route path="/reiniciar_contrasena/:id/:token" element={<ResetPassword />} />
           <Route path="*" element={<NotFound />} />
-          {/*deberia ser privada, pero solo es para probar*/}
         </Route>
+
         <Route path="/private" element={<PrivateRoute />}>
           <Route index element={<Home />} />
           <Route path="/private/team" element={<ConoceAlEquipo />} />
@@ -57,14 +58,13 @@ function App() {
           <Route path="/private/newrecord" element={<Record />} />
           <Route path="/private/dashboard/*" element={<Dashboard />} />
           <Route path="/private/profile" element={<Profile />} />
-          <Route
-            path="/private/change-password/:id"
-            element={<ChangePassword />}
-          />
+          <Route path="/private/change-password/:id" element={<ChangePassword />} />
           <Route path="/private/delete-user/:id" element={<DeleteUser />} />
           <Route path="/private/createcomment" element={<CommentCreate />} />
         </Route>
+
       </Routes>
+
     </AuthContextProvider>
   );
 }

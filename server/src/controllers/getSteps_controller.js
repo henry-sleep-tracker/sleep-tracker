@@ -1,14 +1,14 @@
 const { Router } = require("express");
 const { Op } = require("sequelize");
 const router = Router();
-const { Session } = require("../db");
+const { Steps } = require("../db");
 
-router.get("/", async (req, res) => {
+const getSteps = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
 
-    if (startDate) {
-      const searchByRange = await Session.findAll({
+    if (startDate && endDate) {
+      const searchByRange = await Steps.findAll({
         where: {
           date: {
             [Op.between]: [startDate, endDate],
@@ -17,12 +17,15 @@ router.get("/", async (req, res) => {
         order: [["date", "ASC"]],
       });
       res.status(200).json(searchByRange);
-    } else {
-      res.status(400).json({ error: "date not found" });
+    } else if (startDate) {
+      const searchByDay = await Steps.findAll({
+        where: { date: startDate },
+        order: [["date", "ASC"]],
+      });
+      res.status(200).json(searchByDay);
     }
   } catch (error) {
     console.error(error);
   }
-});
-
-module.exports = router;
+};
+module.exports = { getSteps };

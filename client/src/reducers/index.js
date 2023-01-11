@@ -6,8 +6,9 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import ReducerLogin from "./loginReducer";
 import usersReducer from "./usersReducer";
 import recordReducer from "./recordReducer";
-import dateSleepReducer from "./dateSleepReducer";
-import rangeSleepReducer from "./rangeSleepReducer";
+import stageSleepReducer from "./stageSleepReducer";
+import sessionSleepReducer from "./sessionSleepReducer";
+import stepsReducer from "./stepsReducer";
 import getCommentsReducer from "./getCommentsReducer";
 import getCurrentCommentReducer from "./getCurrentCommentReducer";
 
@@ -27,8 +28,9 @@ const reducers = combineReducers({
   logingReducer: ReducerLogin,
   users: persistReducer(userPersistConfig, usersReducer),
   record: recordReducer,
-  date: dateSleepReducer,
-  range: rangeSleepReducer,
+  stage: stageSleepReducer,
+  steps: stepsReducer,
+  session: sessionSleepReducer,
   comments: getCommentsReducer,
   currentComment: getCurrentCommentReducer,
 });

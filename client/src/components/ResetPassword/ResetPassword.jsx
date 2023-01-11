@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
 import { useParams, useNavigate } from 'react-router-dom';
 import { resetPassword } from "../../actions";
+import log from "../logi/log-.png";
 
 export default function ResetPassword() {
   const navigate = useNavigate();
@@ -89,6 +90,14 @@ export default function ResetPassword() {
       <Grid
         item
       >
+      </Grid>
+
+      <Grid item>
+        <img
+          src={log}
+          alt="logo"
+          width="200px"
+        />
       </Grid>
 
       <Grid

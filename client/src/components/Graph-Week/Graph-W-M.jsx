@@ -1,45 +1,83 @@
 import React from "react";
-import ResponsiveAppBar from "../Home/Nav";
 import RangeCalendar from "../Calendario/RangeCalendar";
-import { CustomizedAccordions2, CustomizedAccordions3 } from "./detailsGraphs";
+import CollapsibleTableTime from "./CollapsibleTableTime";
 import DualGraph from "./DualGraph";
 import GraphEff from "./Graph-efficiency";
 import GraphTime from "./Graph-Time";
+import { Button, Grid } from "@mui/material";
+import CollapsibleTableEfficiency from "./CollapsibleTableEfficiency";
+import GraphRecord from "./Graph-Records";
 
 const GraphWM = () => {
 
-
   return (
-    <div>
-      <div className="graficas0">
-        <br />
-        <br />
-        <div>
-          <RangeCalendar />
-        </div>
-        <div>
-          <DualGraph />
-        </div>
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      direction="column"
+      spacing={3}
+      flex={4}
+      p={1}
+    >
 
-        <div className="grafica2">
-          {/* <h4>{options1.title}</h4> */}
+      <Grid
+        item
+      >
+        <Button
+          variant="outlined"
+          key="pdf"
+          download="pdf"
+          href="/pdf"
+        >
+          Reporte PDF
+        </Button>
+      </Grid>
 
-          <GraphEff />
+      <Grid
+        item
+      >
+        <RangeCalendar />
+      </Grid>
 
-          <div className="descgraph">
-            <CustomizedAccordions2 />
-          </div>
-        </div>
-        <hr />
+      <Grid
+        item
+      >
+        <DualGraph />
+      </Grid>
 
-        <div className="gafica3">
-          <GraphTime />
-          <div className="descgraph">
-            <CustomizedAccordions3 />
-          </div>
-        </div>
-      </div>
-    </div>
+      <Grid
+        item
+      >
+        {/* <h4>{options1.title}</h4> */}
+        <GraphEff />
+      </Grid>
+
+      <Grid
+        item
+      >
+        <CollapsibleTableEfficiency />
+      </Grid>
+
+      <Grid
+        item
+      >
+        <GraphTime />
+      </Grid>
+
+      <Grid
+        item
+      >
+        <CollapsibleTableTime />
+      </Grid>
+
+      <Grid
+        item
+      >
+        <GraphRecord />
+      </Grid>
+
+    </Grid>
   );
 };
 
