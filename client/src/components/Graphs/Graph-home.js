@@ -8,6 +8,7 @@ import {
   Area,
 } from "recharts";
 import { useSelector } from "react-redux";
+import { Card, CardContent, Grid } from "@mui/material";
 
 export default function GraphHome() {
   const stages = useSelector((state) => state.date);
@@ -42,16 +43,16 @@ export default function GraphHome() {
 
     switch (payload.value) {
       case 1:
-        path = "awake🟠";
+        path = "Despierto 🟠";
         break;
       case 2:
-        path = "light🟡";
+        path = "Ligero 🟡";
         break;
       case 3:
-        path = "deep🟣";
+        path = "Profundo 🟣";
         break;
       case 4:
-        path = "rem🟢";
+        path = "R.E.M 🟢";
         break;
 
       default:
@@ -66,39 +67,54 @@ export default function GraphHome() {
   };
 
   return (
-    <AreaChart
-      width={730}
-      height={250}
-      data={data}
-      margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      direction="column"
+      spacing={3}
+      flex={4}
     >
-      <defs>
-        <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="5%" stopColor="#4fc3f7" stopOpacity={0.6} />
-          <stop offset="95%" stopColor="#4fc3f7" stopOpacity={0} />
-        </linearGradient>
-      </defs>
-      <XAxis
-        dataKey="name"
-        minTickGap={50}
-        tickFormatter={(value) => {
-          console.log("value", value);
-          if (value) {
-            const hours = value.split(":")[0];
-            return `${hours}:00`;
-          }
-        }}
-      />
-      <YAxis tick={renderCustomAxisTick} />
-      <CartesianGrid strokeDasharray="0 1" />
-      <Tooltip />
-      <Area
-        type="monotone"
-        dataKey="uv"
-        stroke="#4fc3f7"
-        fillOpacity={1}
-        fill="url(#colorUv)"
-      />
-    </AreaChart>
+      <Grid item>
+        <Card variant="outlined">
+          <CardContent>
+            <AreaChart
+              width={350}
+              height={250}
+              data={data}
+              margin={{ top: 10, left: 40, bottom: 0 }}
+            >
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#4fc3f7" stopOpacity={0.6} />
+                  <stop offset="95%" stopColor="#4fc3f7" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis
+                dataKey="name"
+                minTickGap={50}
+                tickFormatter={(value) => {
+                  console.log("value", value);
+                  if (value) {
+                    const hours = value.split(":")[0];
+                    return `${hours}:00`;
+                  }
+                }}
+              />
+              <YAxis tick={renderCustomAxisTick} />
+              <CartesianGrid strokeDasharray="0 1" />
+              <Tooltip />
+              <Area
+                type="monotone"
+                dataKey="uv"
+                stroke="#4fc3f7"
+                fillOpacity={1}
+                fill="url(#colorUv)"
+              />
+            </AreaChart>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
 }

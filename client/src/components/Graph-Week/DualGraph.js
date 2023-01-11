@@ -1,3 +1,4 @@
+import { Button, Card, CardContent, Grid } from "@mui/material";
 import React, { useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -13,7 +14,7 @@ import {
 
 export default function DualGraph() {
   const ranges = useSelector((state) => state.range);
-  console.log("ranges", ranges);
+  // console.log("ranges", ranges);
   const [opacity, setOpacity] = useState({
     summary_light_min: 1,
     summary_deep_min: 1,
@@ -92,31 +93,77 @@ export default function DualGraph() {
   };
 
   return (
-    <div>
-      <ResponsiveContainer width="95%" height={500}>
-        <LineChart
-          width={500}
-          height={400}
-          data={ranges}
-          margin={{
-            top: 20,
-            right: 20,
-            bottom: 20,
-            left: 20,
-          }}
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      direction="column"
+      spacing={3}
+      flex={4}
+      p={2}
+    >
+      <Grid
+        item
+      >
+        <Card
+          variant="outlined"
         >
-          <CartesianGrid stroke="#f5f5f5" />
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip
-            itemStyle={{ textTransform: "capitalize", textAlign: "left" }}
-            content={"efficiency"}
-          />
-          <Legend onClick={handleClick} />
-          {ranges?.length && lines()}
-        </LineChart>
-      </ResponsiveContainer>
-      <button onClick={handleReset}>Reset graph</button>
-    </div>
+          <CardContent>
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              direction="column"
+              spacing={3}
+              flex={4}
+              p={2}
+            >
+
+              <ResponsiveContainer
+                width={1000}
+                height={500}
+              >
+                <LineChart
+                  width={500}
+                  height={400}
+                  data={ranges}
+                  margin={{
+                    top: 20,
+                    right: 20,
+                    bottom: 20,
+                    left: 20,
+                  }}
+                >
+                  <CartesianGrid stroke="#f5f5f5" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip
+                    itemStyle={{ textTransform: "capitalize", textAlign: "left" }}
+                    content={"efficiency"}
+                  />
+                  <Legend onClick={handleClick} />
+                  {ranges?.length && lines()}
+                </LineChart>
+              </ResponsiveContainer>
+
+              <Grid
+                item
+              >
+                <Button
+                  onClick={handleReset}
+                  variant='outlined'
+                >
+                  Reiniciar grafica
+                </Button>
+              </Grid>
+
+            </Grid>
+
+          </CardContent>
+        </Card>
+
+      </Grid>
+
+    </Grid>
   );
 }

@@ -67,7 +67,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#24559e" }}>
+    <AppBar position="sticky">
       <Container maxWidth="xl" sx={{ color: "black" }}>
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -148,7 +148,7 @@ function ResponsiveAppBar() {
             </Button>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          {/* <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               key="pdf"
               download="pdf"
@@ -157,7 +157,7 @@ function ResponsiveAppBar() {
             >
               Reporte PDF
             </Button>
-          </Box>
+          </Box> */}
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button

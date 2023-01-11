@@ -4,6 +4,7 @@ import { DateRange } from "react-date-range";
 import { getSleepByRange } from "../../actions/getSleepData";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { Button, Card, CardContent, Grid } from "@mui/material";
 
 export default function Calendario() {
   const [state, setState] = useState([
@@ -43,14 +44,33 @@ export default function Calendario() {
   };
 
   return (
-    <div>
-      <button onClick={toggleCalendar}>hide</button>
-      <DateRange
-        editableDateInputs={true}
-        onChange={handleChange}
-        moveRangeOnFirstSelection={false}
-        ranges={state}
-      />
-    </div>
+    <Card>
+      <CardContent>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          direction="column"
+          spacing={3}
+          flex={4}
+          p={2}
+        >
+          {/* <Grid item>
+            <Button onClick={toggleCalendar} variant="outlined">
+              hide
+            </Button>
+          </Grid> */}
+
+          <Grid item>
+            <DateRange
+              editableDateInputs={true}
+              onChange={handleChange}
+              moveRangeOnFirstSelection={false}
+              ranges={state}
+            />
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
   );
 }

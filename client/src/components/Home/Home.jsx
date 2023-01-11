@@ -11,7 +11,7 @@ import Fitbit from "../SignUp/Fitbit";
 import { getSleepByDate } from "../../actions/getSleepData";
 import { getRecordsQuery } from "../../actions/newRecord";
 import GraphHome from "../Graphs/Graph-home";
-import CustomizedAccordions from "../Graph-Week/detailsGraphs";
+import CollapsibleTable from "../Graph-Week/CollapsibleTable";
 import { getUsersPlanExpDate } from "../../actions/plan";
 import { useAuthContext } from "../../actions/authContext";
 import { Helmet } from "react-helmet";
@@ -40,7 +40,7 @@ const Home = () => {
     name: currentUser.names ? currentUser.names : "🥰",
   };
 
-const greet = () => {
+  const greet = () => {
     var text = "";
     var now = new Date();
     var time = now.getHours();
@@ -58,7 +58,6 @@ const greet = () => {
 
   return (
     <Grid
-      className={classes.home}
       container
       justifyContent="center"
       alignItems="center"
@@ -66,7 +65,7 @@ const greet = () => {
       spacing={3}
       flex={4}
       p={2}
-      // maxWidth='100vw'
+    // maxWidth='100vw'
     >
 
       <Helmet>
@@ -74,16 +73,18 @@ const greet = () => {
       </Helmet>
 
       <ResponsiveAppBar />
-      
-      <Grid 
-      item
+
+      <Grid
+        item
       >
         <Typography className={classes.saludo} variant="h4">
           ¡Hola {user.name} {greet()}
         </Typography>
       </Grid>
 
-      <Grid item>
+      <Grid
+        item
+      >
         <Fitbit />
       </Grid>
 
@@ -92,25 +93,42 @@ const greet = () => {
       >
         <Typography variant="h6">{Date()}</Typography>
       </Grid> */}
-      <Grid item>
+      <Grid
+        item
+      >
         <Calendario />
       </Grid>
 
-      <Grid>
+      <Grid
+        item
+      >
         <GraphHome />
       </Grid>
-      <CustomizedAccordions />
-      <Grid className={classes.Collection} item>
+
+      <Grid
+        item
+      >
+        <CollapsibleTable />
+      </Grid>
+
+      <Grid className={classes.Collection}
+        item
+      >
         <Collection />
       </Grid>
 
-      <Grid className={classes.calc} item>
+      <Grid className={classes.calc}
+        item
+      >
         <Calc />
       </Grid>
 
-      <Grid className={classes.swipeableHome} item>
+      <Grid className={classes.swipeableHome}
+        item
+      >
         <Swipeable className={classes.swipeable} />
       </Grid>
+
     </Grid>
   );
 };
