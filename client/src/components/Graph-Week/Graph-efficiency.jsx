@@ -11,16 +11,14 @@ import {
   Bar,
 } from "recharts";
 
-
-
 export default function GraphEff() {
-  const effective = useSelector((state) => state.range);
+  const effective = useSelector((state) => state.session);
 
   const data = [
     ...effective.map((d) => {
       return {
         name: d.date,
-        uv: d.efficiency,
+        eficiencia: d.efficiency,
       };
     }),
   ];
@@ -37,36 +35,23 @@ export default function GraphEff() {
 
 
   return (
-    <Card
-      variant="outlined"
-    >
+    <Card>
       <CardContent>
-        <BarChart
-          width={windowWidth - 150}
-          height={250}
-          data={data}
-        // margin={{ top: 10, left: 40, bottom: 0 }}
-        >
-          <CartesianGrid
-            strokeDasharray="3 3"
-          />
-          <XAxis
-            dataKey="name"
-          />
-          <YAxis />
+
+        <BarChart width={530} height={250} data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis tickFormatter={(value) => {
+            if (value) {
+              const hours = value
+              return `${hours}%`;
+            }
+          }} />
           <Tooltip />
           <Legend />
-          <Bar
-            dataKey="uv"
-            fill="#2196f3"
-          />
+          <Bar dataKey="eficiencia" fill="#2196f3" />
         </BarChart>
       </CardContent>
     </Card>
   );
 }
-
-
-
-
-

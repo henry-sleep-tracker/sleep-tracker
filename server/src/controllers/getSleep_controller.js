@@ -3,7 +3,7 @@ const { Op } = require("sequelize");
 const router = Router();
 const { Stage, Session } = require("../db");
 
-const getSleepByDate = async (req, res) => {
+const getSleepStage = async (req, res) => {
   try {
     const { date } = req.query;
 
@@ -21,7 +21,7 @@ const getSleepByDate = async (req, res) => {
   }
 };
 
-const getSleepByRange = async (req, res) => {
+const getSleepSession = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
 
@@ -46,4 +46,4 @@ const getSleepByRange = async (req, res) => {
     console.error(error);
   }
 };
-module.exports = { getSleepByDate, getSleepByRange };
+module.exports = { getSleepStage, getSleepSession };

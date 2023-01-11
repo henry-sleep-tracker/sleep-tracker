@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 // Actions Imports
+import { getRecordsQuery } from "../../actions/records_data";
 import {
   //getCoffeeSizes,
   //getActivities,
@@ -24,7 +25,6 @@ import {
   //getLastIdActivity,
   //getLastIdCoffeSize,
   //getLastIdDrink,
-  getRecordsQuery,
   getActivitiesByUser,
   getCoffeeSizesByUser,
   getDrinksByUser,
@@ -90,7 +90,7 @@ const Record = (props) => {
   const activitiesRedux = useSelector((state) => state.record.activities);
   const coffeeSizesRedux = useSelector((state) => state.record.coffeeSizes);
   const drinksRedux = useSelector((state) => state.record.drinks);
-  const sleepTime = useSelector((state) => state.date);
+  const sleepTime = useSelector((state) => state.stage);
 
   /******************** Functions Before load component *********************/
 

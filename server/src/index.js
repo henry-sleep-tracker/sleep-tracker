@@ -6,8 +6,7 @@ const userMiddleware = require("./middlewares/user.js");
 const signupMiddleware = require("./middlewares/signup.js");
 const loginMiddleware = require("./middlewares/login.js");
 const records = require("./routes/records.js");
-const getUsers = require("./routes/getUsers.js");
-const updateUser = require("./routes/updateUser.js");
+const users = require("./routes/users.js");
 const plansRoutes = require("./routes/pagosStripe");
 const getUser = require("./routes/getUser.js");
 const getComments = require("./routes/Comments/getComments.js");
@@ -19,6 +18,7 @@ const deleteUser = require("./routes/deleteUser.js");
 const getCurrentComment = require("./routes/Comments/getCurrentComment");
 
 const webHook = require("./routes/webhook");
+const getRecordsRange = require("./routes/records_range.js");
 
 const router = Router();
 
@@ -30,8 +30,7 @@ router.use("/user", deleteUser);
 router.use("/signup", signupMiddleware);
 router.use("/login", loginMiddleware);
 router.use("/records", records);
-router.use("/users", getUsers);
-router.use("/users/update", updateUser);
+router.use("/users", users);
 router.use("/plans", plansRoutes);
 router.use("/myuser", getUser);
 router.use("/changeprofile", updateProfile);
@@ -42,5 +41,6 @@ router.use("/postcomment", postComment);
 router.use("/deletecomment", deleteComment);
 router.use("/getcurrentcomment", getCurrentComment);
 router.use("/webhook", webHook);
+router.use("/recordrange", getRecordsRange)
 
 module.exports = router;

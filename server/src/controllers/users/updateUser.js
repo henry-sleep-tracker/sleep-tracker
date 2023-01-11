@@ -1,9 +1,6 @@
-const { Router } = require("express");
-const { User } = require("../db.js");
+const { User } = require("../../db.js");
 
-const router = Router();
-
-router.put("/:id", async (req, res) => {
+const updateUser = async (req, res) => {
   const { id } = req.params;
   const updatedFields = req.body;
 
@@ -13,10 +10,10 @@ router.put("/:id", async (req, res) => {
         id: id,
       },
     });
-    res.status(200).send(result);
+    return res.status(200).send(result);
   } catch (error) {
     return res.status(400).send(error.message);
   }
-});
+};
 
-module.exports = router;
+module.exports = { updateUser }

@@ -13,9 +13,9 @@ const { tConvert } = require("../helpers/convert_24_to_12hrs.js");
 
 const getRecords = async (req, res) => {
   const finalResult = [];
-  const { id, date, dateEnd } = req.query;
+  const { id, date } = req.query;
 
-  if (!id && !date && !dateEnd) {
+  if (!id && !date) {
     try {
       const recordsRes = await NewRecord.findAll({
         include: [
@@ -115,7 +115,7 @@ const getRecords = async (req, res) => {
     } catch (err) {
       return res.status(400).json(err);
     }
-  } if(id && date && !dateEnd) {
+  } if(id && date) {
     const finalResultId = [];
     try {
       const resDb = await NewRecord.findAll({
@@ -218,112 +218,7 @@ const getRecords = async (req, res) => {
       return res.status(400).json(err);
     } 
   }
-  if(id && date && dateEnd){
-        try {
-          let finalResultsId = []
-          const resDb = await NewRecord.findAll({
-        include: [{ all: true }],
-        where: {
-          /* userId: id,
-        dateMeal: date, */
-          [Op.and]: [{ userId: id, 
-            dateMeal: {[Op.between]: [date, dateEnd]}
-          }],
-        },
-        order: [["dateMeal", "ASC"]],
-      });
-
-      if (resDb.length < 1) {
-        return res
-          .status(200)
-          .json({
-            message: `No hay registros en fecha: ${date} para el userId: ${id}`,
-          });
-      }
-
-      for (let i = 0; i < resDb.length; i++) {
-        let joinActivity = [];
-        let timeActivity = 0;
-        let typeActivity = "";
-        let joinCoffee = [];
-        let coffeeCups = 0;
-        let coffeeSizes = "";
-        let joinDrinks = [];
-        let quantityDrinks = 0;
-        let typeDrinks = "";
-
-        if (resDb[i].timeActivity.length >= 1) {
-          timeActivity = resDb[i].timeActivity.flat();
-          typeActivity = resDb[i].activities.map(e => e.activity).flat();
-
-           for (let i = 0; i < timeActivity.length; i++) {
-          joinActivity.push(`${timeActivity[i]} min de ${typeActivity[i]}`);
-        } 
-        }
-
-        if (resDb[i].coffeeCups.length >= 1) {
-          coffeeCups = resDb[i].coffeeCups.flat();
-          coffeeSizes = resDb[i].coffeeSizes.map(e => e.size).flat();
-
-           for (let i = 0; i < coffeeCups.length; i++) {
-          coffeeCups[i] > 1
-            ? joinCoffee.push(`${coffeeCups[i]} tazas de ${coffeeSizes[i]}`)
-            : joinCoffee.push(`${coffeeCups[i]} taza de ${coffeeSizes[i]}`);
-        } 
-        }
-
-        if (resDb[i].drinks.length >= 1) {
-          quantityDrinks = resDb[i].drinks.flat();
-          typeDrinks = resDb[i].alcoholTypes.map(e => e.drink).flat();
-
-           for (let i = 0; i < quantityDrinks.length; i++) {
-          quantityDrinks[i] > 1
-            ? joinDrinks.push(`${quantityDrinks[i]} ${typeDrinks[i]}s`)
-            : joinDrinks.push(`${quantityDrinks[i]} ${typeDrinks[i]}`);
-        } 
-        }
-
-        let obj = {
-          id: resDb[i].id,
-          userId: resDb[i].userId,
-          dateMeal: resDb[i].dateMeal,
-          timeMeal: resDb[i].timeMeal,
-          description: resDb[i].description,
-          sleepTime: resDb[i].sleepTime,
-          napTime: resDb[i].napTime.map(e => e),
-          timeActivity: timeActivity,
-          nameActivity: typeActivity,
-          coffeeConsumption: coffeeCups,
-          coffeSize: coffeeSizes,
-          drinkConsumption: quantityDrinks,
-          typeDrink: typeDrinks,
-
-          // dateMeal: resDb[i].dateMeal,
-          // timeMeal: tConvert(resDb[i].timeMeal),
-          // description:
-          //   resDb[i].description === ""
-          //     ? "sin registro"
-          //     : resDb[i].description,
-          // sleepTime: `${time_convert(resDb[i].sleepTime)}`,
-          // napTime:
-          //   resDb[i].napTime.length < 1
-          //     ? "sin registro"
-          //     : resDb[i].napTime.map(e => `${e} min. de siesta`),
-          // activities: joinActivity.length < 1 ? "sin registro" : joinActivity,
-          // coffees: joinCoffee.length < 1 ? "sin registro" : joinCoffee,
-          // drinks: joinDrinks.length < 1 ? "sin registro" : joinDrinks,
-        };
-        finalResultsId.push(obj);
-      } 
-
-      return res.status(200).json(finalResultsId);
-
-
-
-        } catch (error) {
-          console.log(error)
-        }
-    }
+  
 };
 
 

@@ -1,5 +1,4 @@
 import React from "react";
-import ResponsiveAppBar from "../Home/Nav";
 import RangeCalendar from "../Calendario/RangeCalendar";
 import CollapsibleTableTime from "./CollapsibleTableTime";
 import DualGraph from "./DualGraph";
@@ -7,6 +6,7 @@ import GraphEff from "./Graph-efficiency";
 import GraphTime from "./Graph-Time";
 import { Button, Grid } from "@mui/material";
 import CollapsibleTableEfficiency from "./CollapsibleTableEfficiency";
+import GraphRecord from "./Graph-Records";
 
 const GraphWM = () => {
 
@@ -69,6 +69,12 @@ const GraphWM = () => {
         item
       >
         <CollapsibleTableTime />
+      </Grid>
+
+      <Grid
+        item
+      >
+        <GraphRecord />
       </Grid>
 
     </Grid>

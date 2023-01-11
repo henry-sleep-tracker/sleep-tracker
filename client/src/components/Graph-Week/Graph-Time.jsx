@@ -5,7 +5,7 @@ import { Card, CardContent } from "@mui/material";
 import { useEffect, useState } from "react";
 
 export default function GraphTime() {
-  const effective = useSelector((state) => state.range);
+  const effective = useSelector((state) => state.session);
 
   let totality = [["dia", "Horas de sueño"]];
   let sumary = [];

@@ -1,3 +1,6 @@
+import {   GET_RECORDS_USER_DATE,
+  GET_RECORDS_RANGE,} from '../actions/records_data'
+
 import {
   //GET_COFFEE_SIZES,
   //GET_ACTIVITIES,
@@ -17,9 +20,9 @@ import {
   NEW_DRINK,
   ERROR_TRYING_TO_CREATE_DRINK,
   SET_STATUS_NEW_RECORD,
-  GET_RECORDS_USER_DATE,
-  GET_RECORDS_RANGE,
 } from "../actions/records";
+
+
 
 const initialState = {
   //lastIdActivity: null,

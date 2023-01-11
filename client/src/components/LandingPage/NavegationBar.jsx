@@ -76,7 +76,9 @@ const NavegationBar = ({
     return (
         <ThemeProvider theme={theme}>
 
-            <AppBar position="sticky">
+            <AppBar 
+            position="sticky"
+            >
                 <StyledToolbar>
 
                     <IconButton
