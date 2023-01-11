@@ -1,7 +1,6 @@
 const { Router, application } = require("express");
-const getSleepFitbit = require("./routes/getSleepFitbit");
-const getSleepByDate = require("./routes/getSleepByDate");
-const getSleepByRange = require("./routes/getSleepByRange");
+const getFitbitData = require("./routes/getFitbitData");
+const getSleep = require("./routes/getSleep");
 const getSteps = require("./routes/getSteps");
 const userMiddleware = require("./middlewares/user.js");
 const signupMiddleware = require("./middlewares/signup.js");
@@ -23,9 +22,8 @@ const webHook = require("./routes/webhook");
 
 const router = Router();
 
-router.use("/fitbit", getSleepFitbit);
-router.use("/search", getSleepByDate);
-router.use("/daterange", getSleepByRange);
+router.use("/fitbit", getFitbitData);
+router.use("/sleep", getSleep);
 router.use("/steps", getSteps);
 router.use("/user", userMiddleware);
 router.use("/user", deleteUser);
