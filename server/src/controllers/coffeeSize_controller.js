@@ -5,19 +5,13 @@ const { sortByName } = require("../helpers/sort_by_name_coffee.js");
 
 const getCoffeeSizeList = async (req, res) => {
   try {
-    const coffeRes = await CoffeeSize.findAll({
-      /*  include: [
-        {
-          model: User,
-        },
-      ], */
-    });
+    const coffeeRes = await CoffeeSize.findAll({ include: [{ all: true }] });
 
-    if (coffeRes.length < 1) {
+    if (coffeeRes.length < 1) {
       return res.status(200).json({ message: `No existen registros` });
     }
     //const sorted = sortByName(coffeRes);
-    return res.status(200).json(coffeRes);
+    return res.status(200).json(coffeeRes);
   } catch (err) {
     return res.status(400).json(err);
   }
