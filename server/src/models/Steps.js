@@ -12,7 +12,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
     },
     steps: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
     },
   });
 };
