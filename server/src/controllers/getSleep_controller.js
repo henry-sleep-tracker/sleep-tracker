@@ -25,7 +25,7 @@ const getSleepByRange = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
 
-    if (startDate) {
+    if (startDate && endDate) {
       const searchByRange = await Session.findAll({
         where: {
           date: {
@@ -35,8 +35,12 @@ const getSleepByRange = async (req, res) => {
         order: [["date", "ASC"]],
       });
       res.status(200).json(searchByRange);
-    } else {
-      res.status(400).json({ error: "date not found" });
+    } else if (startDate) {
+      const searchByDay = await Session.findAll({
+        where: { date: startDate },
+        order: [["date", "ASC"]],
+      });
+      res.status(200).json(searchByDay);
     }
   } catch (error) {
     console.error(error);
