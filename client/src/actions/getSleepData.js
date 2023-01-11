@@ -2,7 +2,9 @@ import { GET_SLEEP_BY_DATE, GET_SLEEP_BY_RANGE } from "./constants";
 
 export const getSleepByDate = (date) => async (dispatch) => {
   try {
-    const getDate = await fetch(`http://localhost:3001/search?date=${date}`);
+    const getDate = await fetch(
+      `http://localhost:3001/sleep/date?date=${date}`
+    );
     const response = await getDate.json();
 
     dispatch({ type: GET_SLEEP_BY_DATE, payload: response });
@@ -14,7 +16,7 @@ export const getSleepByDate = (date) => async (dispatch) => {
 export const getSleepByRange = (startDate, endDate) => async (dispatch) => {
   try {
     const getRange = await fetch(
-      `http://localhost:3001/daterange?startDate=${startDate}&endDate=${endDate}`
+      `http://localhost:3001/sleep/range?startDate=${startDate}&endDate=${endDate}`
     );
     const response = await getRange.json();
 

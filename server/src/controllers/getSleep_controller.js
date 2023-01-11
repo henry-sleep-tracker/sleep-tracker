@@ -1,9 +1,27 @@
 const { Router } = require("express");
 const { Op } = require("sequelize");
 const router = Router();
-const { Session } = require("../db");
+const { Stage, Session } = require("../db");
 
-router.get("/", async (req, res) => {
+const getSleepByDate = async (req, res) => {
+  try {
+    const { date } = req.query;
+
+    if (date) {
+      const searchByDate = await Stage.findAll({
+        where: { date: date },
+        order: [["time", "ASC"]],
+      });
+      res.status(200).json(searchByDate);
+    } else {
+      res.status(400).json({ error: "date not found" });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const getSleepByRange = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
 
@@ -23,6 +41,5 @@ router.get("/", async (req, res) => {
   } catch (error) {
     console.error(error);
   }
-});
-
-module.exports = router;
+};
+module.exports = { getSleepByDate, getSleepByRange };
