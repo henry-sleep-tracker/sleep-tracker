@@ -71,7 +71,7 @@ export default function CustomizedAccordions() {
         onChange={handleChange("panel2")}
       >
         <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-          <Typography> awake 🟠</Typography>
+          <Typography>🟠 Awake</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -85,7 +85,7 @@ export default function CustomizedAccordions() {
         onChange={handleChange("panel3")}
       >
         <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-          <Typography>light 🟡</Typography>
+          <Typography>🟡 Light</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -105,7 +105,7 @@ export default function CustomizedAccordions() {
         onChange={handleChange("panel4")}
       >
         <AccordionSummary aria-controls="panel4d-content" id="panel1d-header">
-          <Typography>deep 🟣</Typography>
+          <Typography>🟣 Deep</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -129,7 +129,7 @@ export default function CustomizedAccordions() {
         onChange={handleChange("panel5")}
       >
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography>rem 🟢</Typography>
+          <Typography>🟢 R.E.M</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -168,12 +168,14 @@ export function CustomizedAccordions2() {
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <Typography>Generalidades: </Typography>
         </AccordionSummary>
+
         <AccordionDetails>
           <Typography>
-          En esta grafica se observa La eficiencia del sueño la cual se calcula en base al tiempo dormido y el tiempo que la persona pasa en la cama, de esta manera se obtiene estimación de la calidad y características del sueño.
+            En esta grafica se observa La eficiencia del sueño la cual se calcula en base al tiempo dormido y el tiempo que la persona pasa en la cama, de esta manera se obtiene estimación de la calidad y características del sueño.
           </Typography>
         </AccordionDetails>
       </Accordion>
+
       <Accordion
         expanded={expanded === "panel2"}
         onChange={handleChange("panel2")}
@@ -183,10 +185,11 @@ export function CustomizedAccordions2() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-          Una menor eficiencia del sueño se relaciona con patrones de sueño más largos y mayor latencia del sueño. Es decir que más tiempo la persona necesita para conciliar el sueño menos eficiente es el sueño
+            Una menor eficiencia del sueño se relaciona con patrones de sueño más largos y mayor latencia del sueño. Es decir que más tiempo la persona necesita para conciliar el sueño menos eficiente es el sueño
           </Typography>
         </AccordionDetails>
       </Accordion>
+
     </div>
   );
 }
@@ -209,10 +212,11 @@ export function CustomizedAccordions3() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            En esta grafica puedes observar las horas de sueño diarias que has tenido en el lapso de tiempo que eliges. 
+            En esta grafica puedes observar las horas de sueño diarias que has tenido en el lapso de tiempo que eliges.
           </Typography>
         </AccordionDetails>
       </Accordion>
+
       <Accordion
         expanded={expanded === "panel2"}
         onChange={handleChange("panel2")}
@@ -222,10 +226,11 @@ export function CustomizedAccordions3() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-          Dormir le da al cuerpo y al cerebro tiempo para recuperarse del estrés del día. Después de una buena noche de sueño, usted se desempeña mejor y es mejor para tomar decisiones. Dormir lo ayuda a sentirse más alerta, optimista y a tener una mejor relación con las personas. Dormir también ayuda al cuerpo a combatir enfermedades. Las horas que debe dormir un adulto para un optimo rendiemiento oscilan entre las 7-8 horas diarias.
+            Dormir le da al cuerpo y al cerebro tiempo para recuperarse del estrés del día. Después de una buena noche de sueño, usted se desempeña mejor y es mejor para tomar decisiones. Dormir lo ayuda a sentirse más alerta, optimista y a tener una mejor relación con las personas. Dormir también ayuda al cuerpo a combatir enfermedades. Las horas que debe dormir un adulto para un optimo rendiemiento oscilan entre las 7-8 horas diarias.
           </Typography>
         </AccordionDetails>
       </Accordion>
+
     </div>
   );
 }

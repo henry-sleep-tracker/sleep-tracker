@@ -6,6 +6,7 @@ import { sendRecoveryEmail } from "../../actions";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from "react-helmet";
+import log from "../logi/log-.png";
 
 export default function ForgotPassword() {
   const dispatch = useDispatch();
@@ -70,6 +71,14 @@ export default function ForgotPassword() {
       </Helmet>
 
       <Grid item></Grid>
+
+      <Grid item>
+        <img
+          src={log}
+          alt="logo"
+          width="200px"
+        />
+      </Grid>
 
       <Grid
         item
