@@ -183,6 +183,12 @@ h5 {
   margin-top: 0.8rem;
 }
 
+.sync_div_true {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .sleep_section input {
   width: 8rem;
   margin-left: 0.3rem;
@@ -348,9 +354,12 @@ h5 {
 }
 
 .sync {
+  width: 6.3rem;
+  height: 3rem;
   padding: 0.2rem;
-  font-size: smaller;
+  font-size: large;
   font-weight: lighter;
+  text-align: center;
   margin-left: 0.2rem;
   margin-right: 0.8rem;
   border: solid black 0.2rem;
