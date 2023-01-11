@@ -20,7 +20,7 @@ import {
   NEW_DRINK,
   ERROR_TRYING_TO_CREATE_DRINK,
   SET_STATUS_NEW_RECORD,
-} from "../actions/newRecord";
+} from "../actions/records";
 
 
 
