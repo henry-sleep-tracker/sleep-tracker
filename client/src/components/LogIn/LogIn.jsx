@@ -23,6 +23,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
 import { Helmet } from "react-helmet";
+import log from "../logi/log-.png";
 
 export default function LogIn() {
   const clientId =
@@ -53,7 +54,7 @@ export default function LogIn() {
         planExpirationDate !== undefined
       ) {
         alert("Usuario validado");
-        login(loggedUser.id,loggedUser.email,loggedUser.hashedPassword, planExpirationDate);
+        login(loggedUser.id, loggedUser.email, loggedUser.hashedPassword, planExpirationDate);
       }
     } else if (loggedUser.id === 0) {
       alert("El usuario o la contraseña no son correctos");
@@ -97,21 +98,27 @@ export default function LogIn() {
       p={2}
     >
 
-<Helmet>
+      <Helmet>
         <title>Iniciar sesion | Sleep Tracker</title>
       </Helmet>
 
-      <Grid item></Grid>
+      <Grid item>
+        <img
+          src={log}
+          alt="logo"
+          width="200px"
+        />
+      </Grid>
 
       <Grid item>
         <Typography variant="h2">Iniciar sesion</Typography>
       </Grid>
 
       <Grid item>
-        <Button 
-        variant="outlined" 
-        startIcon={<ArrowBackIosNewIcon />} 
-        href="/"
+        <Button
+          variant="outlined"
+          startIcon={<ArrowBackIosNewIcon />}
+          href="/"
         >
           Regresar
         </Button>
@@ -203,6 +210,12 @@ export default function LogIn() {
                     }
                   />
                 </FormControl>
+              </Grid>
+
+              <Grid
+                item
+              >
+
               </Grid>
 
               <Grid item>

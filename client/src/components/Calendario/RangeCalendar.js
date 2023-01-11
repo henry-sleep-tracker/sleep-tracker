@@ -5,6 +5,7 @@ import { getSleepByRange } from "../../actions/getSleepData";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { Button, Card, CardContent, Grid } from "@mui/material";
+import { ResponsiveContainer } from "recharts";
 
 export default function Calendario() {
   const [state, setState] = useState([
@@ -46,7 +47,7 @@ export default function Calendario() {
   return (
     <Card>
       <CardContent>
-        <Grid
+        {/* <Grid
           container
           justifyContent="center"
           alignItems="center"
@@ -54,22 +55,23 @@ export default function Calendario() {
           spacing={3}
           flex={4}
           p={2}
-        >
-          {/* <Grid item>
+        > */}
+        {/* <Grid item>
             <Button onClick={toggleCalendar} variant="outlined">
               hide
             </Button>
           </Grid> */}
 
-          <Grid item>
-            <DateRange
-              editableDateInputs={true}
-              onChange={handleChange}
-              moveRangeOnFirstSelection={false}
-              ranges={state}
-            />
-          </Grid>
-        </Grid>
+        {/* <Grid item> */}
+        <DateRange
+          editableDateInputs={true}
+          onChange={handleChange}
+          moveRangeOnFirstSelection={false}
+          ranges={state}
+        />
+
+        {/* </Grid>
+        </Grid> */}
       </CardContent>
     </Card>
   );

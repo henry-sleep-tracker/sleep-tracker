@@ -1,7 +1,7 @@
 import React from "react";
 import ResponsiveAppBar from "../Home/Nav";
 import RangeCalendar from "../Calendario/RangeCalendar";
-import  CollapsibleTableTime  from "./CollapsibleTableTime";
+import CollapsibleTableTime from "./CollapsibleTableTime";
 import DualGraph from "./DualGraph";
 import GraphEff from "./Graph-efficiency";
 import GraphTime from "./Graph-Time";
@@ -18,9 +18,8 @@ const GraphWM = () => {
       direction="column"
       spacing={3}
       flex={4}
-      p={2}
+      p={1}
     >
-      <ResponsiveAppBar />
 
       <Grid
         item

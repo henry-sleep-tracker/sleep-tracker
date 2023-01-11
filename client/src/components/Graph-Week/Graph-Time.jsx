@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { Chart } from "react-google-charts";
 import { ResponsiveContainer } from "recharts";
 import { Card, CardContent } from "@mui/material";
+import { useEffect, useState } from "react";
 
 export default function GraphTime() {
   const effective = useSelector((state) => state.range);
@@ -25,6 +26,17 @@ export default function GraphTime() {
     colors: ["#2196f3"],
   };
 
+  const [windowWidth, setwindowWidth] = useState(window.innerWidth)
+
+  const handleResize = () => {
+    setwindowWidth(window.innerWidth)
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+  }, [])
+
+
   return (
     <Card
       variant="outlined"
@@ -32,9 +44,9 @@ export default function GraphTime() {
       <CardContent>
 
         <ResponsiveContainer
-          width={1000}
+          width={windowWidth - 150}
           height={500}
-          // margin={{ top: 10, left: 20, bottom: 0 }}
+        // margin={{ top: 10, left: 20, bottom: 0 }}
         >
           <Chart
             data={totality}

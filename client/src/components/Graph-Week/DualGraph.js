@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, Grid } from "@mui/material";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   Line,
@@ -92,6 +92,16 @@ export default function DualGraph() {
     });
   };
 
+  const [windowWidth, setwindowWidth] = useState(window.innerWidth)
+
+  const handleResize = () => {
+    setwindowWidth(window.innerWidth)
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+  }, [])
+
   return (
     <Grid
       container
@@ -120,7 +130,7 @@ export default function DualGraph() {
             >
 
               <ResponsiveContainer
-                width={1000}
+                width={windowWidth - 150}
                 height={500}
               >
                 <LineChart

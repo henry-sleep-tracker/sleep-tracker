@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux"
 import {
   XAxis,
@@ -24,17 +25,28 @@ export default function GraphEff() {
     }),
   ];
 
+  const [windowWidth, setwindowWidth] = useState(window.innerWidth)
+
+  const handleResize = () => {
+    setwindowWidth(window.innerWidth)
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+  }, [])
+
+
   return (
     <Card
       variant="outlined"
     >
       <CardContent>
         <BarChart
-          width={530}
+          width={windowWidth - 150}
           height={250}
           data={data}
-          // margin={{ top: 10, left: 40, bottom: 0 }}
-          >
+        // margin={{ top: 10, left: 40, bottom: 0 }}
+        >
           <CartesianGrid
             strokeDasharray="3 3"
           />
