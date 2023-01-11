@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Bar, CartesianGrid, Legend, XAxis, YAxis, Tooltip, BarChart } from "recharts";
+import { Bar, CartesianGrid, Legend, XAxis, YAxis, Tooltip,  Line, ComposedChart } from "recharts";
 
 
 export default function GraphRecord(){
@@ -50,26 +50,21 @@ const data = [
   ];
 
 
-
-   
-   
-   
-
-
     return(
 
 
-<BarChart width={730} height={250} data={data} >
-  <XAxis dataKey="Dia" />
-  <YAxis />
+<ComposedChart width={730} height={250} data={data} >
+  <XAxis dataKey="Dia"  />
+  <YAxis yAxisId='derecha' />
+  <YAxis yAxisId='izquierda' />
   <Tooltip />
   <Legend />
   <CartesianGrid stroke="#f5f5f5" />
-  <Bar type="monotone" dataKey="Ejercicio" fill="#8884d8" stroke="#8884d8" />
-  <Bar type="monotone" dataKey="Alcohol" fill="#8884d8" stroke="#8884d8" />
-  <Bar dataKey="Cafe" barSize={20} fill="#413ea0" />
-  <Bar type="monotone" dataKey="Alcohol" stroke="#ff7300" />
-</BarChart>
+  <Line type="monotone" dataKey="Ejercicio" fill="#8884d8" stroke="#8884d8" yAxisId='izquierda' />
+  <Bar type="monotone" dataKey="Alcohol" fill="#8884d8" stroke="#8884d8"  yAxisId='derecha' />
+  <Bar dataKey="Cafe" barSize={20} fill="#413ea0" yAxisId='derecha' />
+  <Line type="monotone" dataKey="Hora" stroke="#ff7300" yAxisId='izquierda' />
+</ComposedChart>
     )
 }
 
