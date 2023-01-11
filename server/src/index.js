@@ -22,6 +22,7 @@ const getCurrentComment = require("./routes/Comments/getCurrentComment");
 const getByEfficiency = require("./routes/getEfficiency");
 
 const webHook = require("./routes/webhook");
+const getRecordsRange = require("./routes/records_range.js");
 
 const router = Router();
 
@@ -47,5 +48,6 @@ router.use("/average", getAverage);
 router.use("/getcurrentcomment", getCurrentComment);
 router.use("/webhook", webHook);
 router.use("/efficiency", getByEfficiency);
+router.use("/recordrange", getRecordsRange)
 
 module.exports = router;
