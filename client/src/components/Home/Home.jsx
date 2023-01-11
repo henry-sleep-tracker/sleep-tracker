@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Collection from "./resume";
-import ResponsiveAppBar from "./Nav";
 import Calc from "./calc";
 import Swipeable from "./tips";
 import { Grid, Typography } from "@mui/material";
@@ -71,9 +70,7 @@ const greet = () => {
       <Helmet>
         <title>Inicio | Sleep Tracker</title>
       </Helmet>
-
-      <ResponsiveAppBar />
-      
+     
       <Grid 
       item
       >
