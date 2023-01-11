@@ -14,7 +14,7 @@ import Paper from '@mui/material/Paper';
 const Collection = () => {
 
   const record = useSelector((state) => state?.record.recordsUser)
-
+   
   let caffeine = []
   let drink = []
   let activity = []

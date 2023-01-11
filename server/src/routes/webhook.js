@@ -7,6 +7,7 @@ const {
   getUserByStripeCustomerId,
   createNewPlan,
 } = require("../controllers/plan");
+const { updateFreePlanUsage } = require("../controllers/user");
 
 router.post(
   "/",
@@ -46,6 +47,9 @@ router.post(
         case "invoice.payment_succeeded":
           const user = await getUserByStripeCustomerId(data.object.customer);
           await createNewPlan(data.object.amount_paid, user.id);
+          if (data.object.amount_paid === 0) {
+            await updateFreePlanUsage(user.id);
+          }
           // Payment is successful and the subscription is created.
           // You should provision the subscription and save the customer ID to your database.
           break;

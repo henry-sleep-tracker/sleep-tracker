@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Collection from "./resume";
-import ResponsiveAppBar from "./Nav";
 import Calc from "./calc";
 import Swipeable from "./tips";
 import { Grid, Typography } from "@mui/material";
@@ -9,7 +8,7 @@ import Calendario from "../Calendario/Calendario";
 import { makeStyles } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
 import { getSleepByDate } from "../../actions/getSleepData";
-import { getRecordsQuery } from "../../actions/newRecord";
+import { getRecordsQuery } from "../../actions/records";
 import GraphHome from "../Graphs/Graph-home";
 import CollapsibleTable from "../Graph-Week/CollapsibleTable";
 import { getUsersPlanExpDate } from "../../actions/plan";
@@ -24,7 +23,6 @@ const Home = () => {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    let today = new Date().toISOString().split("T")[0];
     const yesterday = new Date(Date.now() - 28800000)
       .toISOString()
       .split("T")[0];
@@ -71,11 +69,9 @@ const Home = () => {
       <Helmet>
         <title>Inicio | Sleep Tracker</title>
       </Helmet>
-
-      <ResponsiveAppBar />
-
-      <Grid
-        item
+     
+      <Grid 
+      item
       >
         <Typography className={classes.saludo} variant="h4">
           ¡Hola {user.name} {greet()}

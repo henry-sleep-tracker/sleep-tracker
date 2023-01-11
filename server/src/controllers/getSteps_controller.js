@@ -1,15 +1,14 @@
 const { Router } = require("express");
 const router = Router();
-const { Stage } = require("../db");
+const { Steps } = require("../db");
 
-router.get("/", async (req, res) => {
+const getSteps = async (req, res) => {
   try {
     const { date } = req.query;
 
     if (date) {
-      const searchByDate = await Stage.findAll({
+      const searchByDate = await Steps.findAll({
         where: { date: date },
-        order: [["time", "ASC"]],
       });
       res.status(200).json(searchByDate);
     } else {
@@ -18,6 +17,5 @@ router.get("/", async (req, res) => {
   } catch (error) {
     console.error(error);
   }
-});
-
-module.exports = router;
+};
+module.exports = { getSteps };

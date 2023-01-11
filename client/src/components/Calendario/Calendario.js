@@ -5,7 +5,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { getSleepByDate } from "../../actions/getSleepData";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { getRecordsQuery } from "../../actions/newRecord";
+import { getRecordsQuery } from "../../actions/records";
 
 export default function Calendario() {
   const [value, setValue] = useState(new Date(Date.now() - 28800000));

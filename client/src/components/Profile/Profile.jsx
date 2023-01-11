@@ -16,7 +16,7 @@ import AddCommentIcon from '@mui/icons-material/AddComment';
 import PaymentIcon from '@mui/icons-material/Payment';
 
 const Profile = () => {
-
+  
   const currentUser = useSelector((state) => state.users.currentUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();

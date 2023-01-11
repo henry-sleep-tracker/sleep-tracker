@@ -18,7 +18,8 @@ import {
   ERROR_TRYING_TO_CREATE_DRINK,
   SET_STATUS_NEW_RECORD,
   GET_RECORDS_USER_DATE,
-} from "../actions/newRecord";
+  GET_RECORDS_RANGE,
+} from "../actions/records";
 
 const initialState = {
   //lastIdActivity: null,
@@ -34,6 +35,7 @@ const initialState = {
   coffeeSizes: [],
   drinks: [],
   recordsUser: [],
+  recordsRange: [],
 };
 
 const recordReducer = (state = initialState, action) => {
@@ -76,6 +78,8 @@ const recordReducer = (state = initialState, action) => {
       return { ...state, statusNewRecord: action.payload };
     case GET_RECORDS_USER_DATE:
       return { ...state, recordsUser: action.payload };
+    case GET_RECORDS_RANGE:
+      return { ...state, recordsRange: action.payload };
     default:
       return { ...state };
   }
