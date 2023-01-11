@@ -12,7 +12,7 @@ import {
 } from "recharts";
 
 export default function DualGraph() {
-  const ranges = useSelector((state) => state.range);
+  const ranges = useSelector((state) => state.session);
   console.log("ranges", ranges);
   const [opacity, setOpacity] = useState({
     summary_light_min: 1,

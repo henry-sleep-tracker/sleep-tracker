@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { DateRange } from "react-date-range";
-import { getSleepByRange } from "../../actions/getSleepData";
+import { getSleepSession } from "../../actions/getUserHealthData";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
@@ -29,7 +29,7 @@ export default function Calendario() {
         .split("T")[0];
       console.log("start", startDate);
       console.log("end", endDate);
-      dispatch(getSleepByRange(startDate, endDate));
+      dispatch(getSleepSession(startDate, endDate));
     }
   };
 

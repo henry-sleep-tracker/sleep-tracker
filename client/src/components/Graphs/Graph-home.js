@@ -10,7 +10,7 @@ import {
 import { useSelector } from "react-redux";
 
 export default function GraphHome() {
-  const stages = useSelector((state) => state.date);
+  const stages = useSelector((state) => state.stage);
 
   stages.forEach((s) => {
     if (s.level === "wake") {
