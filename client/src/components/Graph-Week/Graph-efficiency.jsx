@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 import {
   XAxis,
   YAxis,
@@ -9,10 +9,8 @@ import {
   Bar,
 } from "recharts";
 
-
-
 export default function GraphEff() {
-  const effective = useSelector((state) => state.range);
+  const effective = useSelector((state) => state.session);
 
   const data = [
     ...effective.map((d) => {
@@ -41,8 +39,3 @@ export default function GraphEff() {
     </div>
   );
 }
-
-
-
-
-

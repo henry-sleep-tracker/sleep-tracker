@@ -7,7 +7,7 @@ import { Grid, Typography } from "@mui/material";
 import Calendario from "../Calendario/Calendario";
 import { makeStyles } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
-import { getSleepByDate } from "../../actions/getSleepData";
+import { getSleepStage } from "../../actions/getUserHealthData";
 import { getRecordsQuery } from "../../actions/records_data";
 import GraphHome from "../Graphs/Graph-home";
 import CustomizedAccordions from "../Graph-Week/detailsGraphs";
@@ -26,7 +26,7 @@ const Home = () => {
     const yesterday = new Date(Date.now() - 28800000)
       .toISOString()
       .split("T")[0];
-    dispatch(getSleepByDate(yesterday));
+    dispatch(getSleepStage(yesterday));
     let id = currentUser.id;
     let date = yesterday;
     dispatch(getRecordsQuery(id, date));
@@ -38,7 +38,7 @@ const Home = () => {
     name: currentUser.names ? currentUser.names : "🥰",
   };
 
-const greet = () => {
+  const greet = () => {
     var text = "";
     var now = new Date();
     var time = now.getHours();
@@ -66,14 +66,11 @@ const greet = () => {
       p={2}
       // maxWidth='100vw'
     >
-
       <Helmet>
         <title>Inicio | Sleep Tracker</title>
       </Helmet>
-     
-      <Grid 
-      item
-      >
+
+      <Grid item>
         <Typography className={classes.saludo} variant="h4">
           ¡Hola {user.name} {greet()}
         </Typography>

@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Chart } from "react-google-charts";
 
 export default function GraphTime() {
-  const effective = useSelector((state) => state.range);
+  const effective = useSelector((state) => state.session);
 
   let totality = [["dia", "Horas de sueño"]];
   let sumary = [];

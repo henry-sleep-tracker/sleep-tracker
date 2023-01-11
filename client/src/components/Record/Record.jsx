@@ -90,7 +90,7 @@ const Record = (props) => {
   const activitiesRedux = useSelector((state) => state.record.activities);
   const coffeeSizesRedux = useSelector((state) => state.record.coffeeSizes);
   const drinksRedux = useSelector((state) => state.record.drinks);
-  const sleepTime = useSelector((state) => state.date);
+  const sleepTime = useSelector((state) => state.stage);
 
   /******************** Functions Before load component *********************/
 

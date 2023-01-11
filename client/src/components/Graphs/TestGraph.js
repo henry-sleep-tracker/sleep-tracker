@@ -4,7 +4,7 @@ import { Chart } from "react-google-charts";
 import { useSelector } from "react-redux";
 
 export default function Graph() {
-  const stages = useSelector((state) => state.date);
+  const stages = useSelector((state) => state.stage);
   console.log("stages", stages);
 
   stages.forEach((s) => {
@@ -31,7 +31,6 @@ export default function Graph() {
       ];
     }),
   ];
-
 
   const options = {
     title: `Esta es tu grafica de sueño de la noche ${stages[0]?.date}`,
@@ -63,8 +62,7 @@ export default function Graph() {
   };
 
   return (
-    <Card
-    variant='outlined'>
+    <Card variant="outlined">
       <CardContent>
         <Chart
           chartType="AreaChart"
