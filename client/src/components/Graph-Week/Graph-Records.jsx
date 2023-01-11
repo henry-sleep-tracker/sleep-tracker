@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Bar, CartesianGrid, Legend, XAxis, YAxis, Tooltip, Line, ComposedChart } from "recharts";
 
@@ -50,6 +50,15 @@ export default function GraphRecord() {
     }),
   ];
 
+  const [windowWidth, setwindowWidth] = useState(window.innerWidth)
+
+  const handleResize = () => {
+    setwindowWidth(window.innerWidth)
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+  }, [])
 
   return (
 
@@ -57,7 +66,11 @@ export default function GraphRecord() {
       variant="outlined"
     >
       <CardContent>
-        <ComposedChart width={730} height={250} data={data} >
+        <ComposedChart
+          width={windowWidth - 150}
+          height={250}
+          data={data}
+        >
           <XAxis dataKey="Dia" />
           <YAxis yAxisId='derecha' />
           <YAxis yAxisId='izquierda' />

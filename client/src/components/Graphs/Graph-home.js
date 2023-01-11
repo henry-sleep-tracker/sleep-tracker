@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   XAxis,
   YAxis,
@@ -66,13 +66,23 @@ export default function GraphHome() {
     );
   };
 
+  const [windowWidth, setwindowWidth] = useState(window.innerWidth)
+
+  const handleResize = () => {
+    setwindowWidth(window.innerWidth)
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+  }, [])
+
   return (
     <Card
       variant="outlined"
     >
       <CardContent>
         <AreaChart
-          width={730}
+          width={windowWidth - 150}
           height={250}
           data={data}
           margin={{ top: 10, right: 30, left: 0, bottom: 0 }}

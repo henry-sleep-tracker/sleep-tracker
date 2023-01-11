@@ -33,12 +33,15 @@ export default function GraphEff() {
     window.addEventListener('resize', handleResize)
   }, [])
 
-
   return (
     <Card>
       <CardContent>
 
-        <BarChart width={530} height={250} data={data}>
+        <BarChart
+          width={windowWidth - 150}
+          height={250}
+          data={data}
+        >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis tickFormatter={(value) => {
