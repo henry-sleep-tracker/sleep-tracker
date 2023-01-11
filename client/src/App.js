@@ -26,10 +26,9 @@ import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
 
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
-axios.defaults.baseURL = "http://localhost:3001/";
+axios.defaults.baseURL = "http://localhost:3001";
 //The following link must be un-comented on gitHub if you wanna work with on-line servers
 // axios.defaults.baseURL = 'https://sleep-tracker-production.up.railway.app'
-
 
 function App() {
 
