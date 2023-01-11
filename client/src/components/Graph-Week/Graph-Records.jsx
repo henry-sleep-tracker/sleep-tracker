@@ -4,15 +4,39 @@ import { Bar, CartesianGrid, Legend, XAxis, YAxis, Tooltip, BarChart } from "rec
 
 
 export default function GraphRecord(){
-    let records = useSelector((state) => state?.record.recordsRange) 
+    const records = useSelector((state) => state?.record.recordsRange) 
 
 
-console.log(records);
+console.log('records antes',records);
 
+let auxRecords = []
+let auxRecord = records[0]
+
+
+
+for (let i = 1; i < records.length; i++) {
+  if (auxRecord.dateMeal === records[i].dateMeal) {
+    auxRecord = {
+      ...auxRecord,
+      coffee: auxRecord.coffee + records[i].coffee,
+      drinks: auxRecord.drinks + records[i].drinks,
+      timeActivity: auxRecord.timeActivity + records[i].timeActivity,
+    };
+  }
+  else {
+    auxRecords.push(auxRecord)
+    auxRecord = records[i]
+  }
+}
+
+auxRecords.push(auxRecord)
+
+console.log('records',records);
+console.log('AAAUUXXXrecords',auxRecords);
 
 
 const data = [
-    ...records.map((d) => {
+    ...auxRecords.map((d) => {
         
       
       return {
@@ -26,10 +50,6 @@ const data = [
   ];
 
 
-
-
-
-console.log(data);
 
    
    
