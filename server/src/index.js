@@ -19,6 +19,7 @@ const deleteUser = require("./routes/deleteUser.js");
 const getCurrentComment = require("./routes/Comments/getCurrentComment");
 
 const webHook = require("./routes/webhook");
+const getRecordsRange = require("./routes/records_range.js");
 
 const router = Router();
 
@@ -42,5 +43,6 @@ router.use("/postcomment", postComment);
 router.use("/deletecomment", deleteComment);
 router.use("/getcurrentcomment", getCurrentComment);
 router.use("/webhook", webHook);
+router.use("/recordrange", getRecordsRange)
 
 module.exports = router;

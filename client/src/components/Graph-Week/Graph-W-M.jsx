@@ -5,6 +5,7 @@ import { CustomizedAccordions2, CustomizedAccordions3 } from "./detailsGraphs";
 import DualGraph from "./DualGraph";
 import GraphEff from "./Graph-efficiency";
 import GraphTime from "./Graph-Time";
+import GraphRecord from "./Graph-Records";
 
 const GraphWM = () => {
 
@@ -39,6 +40,7 @@ const GraphWM = () => {
           </div>
         </div>
       </div>
+      <GraphRecord/>
     </div>
   );
 };
