@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DateRange } from "react-date-range";
 import { getSleepSession } from "../../actions/getUserHealthData";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { getRecordsRange } from "../../actions/records_data";
 
 export default function Calendario() {
+  const currentUser = useSelector((state) => state?.users.currentUser);
+
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -30,6 +33,9 @@ export default function Calendario() {
       console.log("start", startDate);
       console.log("end", endDate);
       dispatch(getSleepSession(startDate, endDate));
+      let id = currentUser.id;
+      let date = startDate;
+      dispatch(getRecordsRange(id, date, endDate));
     }
   };
 

@@ -8,7 +8,7 @@ import Calendario from "../Calendario/Calendario";
 import { makeStyles } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
 import { getSleepStage } from "../../actions/getUserHealthData";
-import { getRecordsQuery } from "../../actions/records";
+import { getRecordsQuery } from "../../actions/records_data";
 import GraphHome from "../Graphs/Graph-home";
 import CustomizedAccordions from "../Graph-Week/detailsGraphs";
 import { getUsersPlanExpDate } from "../../actions/plan";

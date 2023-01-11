@@ -31,8 +31,8 @@ export default function GraphHome() {
     ...stages.map((d) => {
       let time = d.time.slice(0, -3);
       return {
-        name: time,
-        uv: d.level,
+        Hora: time,
+        Nivel: d.level,
       };
     }),
   ];
@@ -79,13 +79,13 @@ export default function GraphHome() {
         </linearGradient>
       </defs>
       <XAxis
-        dataKey="name"
+        dataKey="Hora"
         minTickGap={50}
         tickFormatter={(value) => {
-          console.log("value", value);
+          
           if (value) {
             const hours = value.split(":")[0];
-            return `${hours}:00`;
+            return `${hours}:00 Hrs`;
           }
         }}
       />
@@ -94,7 +94,7 @@ export default function GraphHome() {
       <Tooltip />
       <Area
         type="monotone"
-        dataKey="uv"
+        dataKey="Nivel"
         stroke="#4fc3f7"
         fillOpacity={1}
         fill="url(#colorUv)"
