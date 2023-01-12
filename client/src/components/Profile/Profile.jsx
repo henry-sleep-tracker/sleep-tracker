@@ -1,22 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from "../../actions/authContext";
+import { useNavigate } from "react-router-dom";
 import { updateUser } from "../../actions/profileActions";
-import { Button, Card, CardContent, Grid, TextField, Typography } from '@mui/material';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import DeleteIcon from '@mui/icons-material/Delete';
-import PasswordIcon from '@mui/icons-material/Password';
-import CheckIcon from '@mui/icons-material/Check';
-import PersonIcon from '@mui/icons-material/Person';
-import EmailIcon from '@mui/icons-material/Email';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import PlaceIcon from '@mui/icons-material/Place';
-import { Helmet } from 'react-helmet';
-import AddCommentIcon from '@mui/icons-material/AddComment';
-import PaymentIcon from '@mui/icons-material/Payment';
+import {
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PasswordIcon from "@mui/icons-material/Password";
+import CheckIcon from "@mui/icons-material/Check";
+import PersonIcon from "@mui/icons-material/Person";
+import EmailIcon from "@mui/icons-material/Email";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import PlaceIcon from "@mui/icons-material/Place";
+import { Helmet } from "react-helmet";
+import AddCommentIcon from "@mui/icons-material/AddComment";
+import PaymentIcon from "@mui/icons-material/Payment";
 
 const Profile = () => {
-
+  const { createPassword } = useAuthContext();
   const currentUser = useSelector((state) => state.users.currentUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -31,93 +39,85 @@ const Profile = () => {
     birthday: "",
     nationality: "",
   });
-
+  useEffect(() => {
+    if (currentUser.password !== null) {
+      createPassword();
+    }
+  }, [currentUser]);
   const handleInputs = (e) => {
     e.preventDefault();
     setInputs({
       ...inputs,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleClick = (e) => {
     e.preventDefault();
     if (!editNames) {
       setEditNames(true);
-    }
-    else {
+    } else {
       setEditNames(false);
     }
-  }
+  };
   const handleClickEmail = (e) => {
     e.preventDefault();
     if (!editEmail) {
       setEditEmail(true);
-    }
-    else {
+    } else {
       setEditEmail(false);
     }
-  }
+  };
   const handleClickBirthday = (e) => {
     e.preventDefault();
     if (!editiBirthday) {
       setEditBirthday(true);
-    }
-    else {
+    } else {
       setEditBirthday(false);
     }
-  }
+  };
   const handleClickNationality = (e) => {
     e.preventDefault();
     if (!editNationality) {
       setEditNationality(true);
-    }
-    else {
+    } else {
       setEditNationality(false);
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(updateUser(currentUser.id, inputs))
+      dispatch(updateUser(currentUser.id, inputs));
       setInputs({
         names: "",
         lastNames: "",
         email: "",
         birthday: "",
         nationality: "",
-      })
+      });
       navigate("/home");
     } catch (error) {
       console.log("el error es:", error);
     }
-  }
+  };
 
   return (
-
     <Grid
       container
-      justifyContent='center'
-      direction='column'
-      alignItems='center'
+      justifyContent="center"
+      direction="column"
+      alignItems="center"
       spacing={3}
     >
-
       <Helmet>
         <title>Perfil | Sleep Tracker</title>
       </Helmet>
 
       <Grid item></Grid>
 
-      <Grid
-        item
-      >
-        <Typography
-          variant='h2'
-        >
-          Perfil
-        </Typography>
+      <Grid item>
+        <Typography variant="h2">Perfil</Typography>
       </Grid>
 
       {/* <Grid
@@ -132,31 +132,27 @@ const Profile = () => {
         </Button>
       </Grid> */}
 
-      <Grid
-        item
-      >
+      <Grid item>
         {/* <Link to={`/private/delete-user/${currentUser.id}`}> */}
         <Button
           href={`/private/delete-user/${currentUser.id}`}
           startIcon={<DeleteIcon />}
-          variant='outlined'
-          color='error'
-          id='ButtonDelete'
+          variant="outlined"
+          color="error"
+          id="ButtonDelete"
         >
           Borrar usuario
         </Button>
         {/* </Link> */}
       </Grid>
 
-      <Grid
-        item
-      >
+      <Grid item>
         {/* <Link to={`/private/change-password/${currentUser.id}`}> */}
         <Button
           href={`/private/change-password/${currentUser.id}`}
           startIcon={<PasswordIcon />}
-          variant='outlined'
-          id='ButtonPassword'
+          variant="outlined"
+          id="ButtonPassword"
         >
           Cambiar contraseña
         </Button>
@@ -195,226 +191,164 @@ const Profile = () => {
         <img src="https://upload.wikimedia.org/wikipedia/en/4/4c/Team_8_logo.png" alt="Imagen aqui" />
       </Grid> */}
 
-      <Grid
-        item
-      >
-        <Card
-          variant="outlined"
-        >
+      <Grid item>
+        <Card variant="outlined">
           <CardContent>
-
             <Grid
               container
-              direction='column'
+              direction="column"
               justifyContent="center"
               alignItems="center"
               spacing={2}
               flex={4}
               p={2}
             >
-              <Grid
-                item
-              >
-                <Typography
-                  variant='h4'>
-                    Tu nombre:
-                </Typography>
+              <Grid item>
+                <Typography variant="h4">Tu nombre:</Typography>
               </Grid>
 
-              <Grid
-                item
-              >
-                {
-                  !editNames ?
-                    <Typography
-                      variant="h6"
-                    >
-                      {`${currentUser.names} ${currentUser.lastNames}`}
-                    </Typography>
-                    :
-                    <TextField
-                      variant='outlined'
-                      label="Nuevo nombre"
-                      type="text"
-                      name="names"
-                      value={inputs.names}
-                      onChange={(e) => handleInputs(e)}
-                    />
-                }
+              <Grid item>
+                {!editNames ? (
+                  <Typography variant="h6">
+                    {`${currentUser.names} ${currentUser.lastNames}`}
+                  </Typography>
+                ) : (
+                  <TextField
+                    variant="outlined"
+                    label="Nuevo nombre"
+                    type="text"
+                    name="names"
+                    value={inputs.names}
+                    onChange={(e) => handleInputs(e)}
+                  />
+                )}
               </Grid>
 
-              <Grid
-                item
-              >
-                {
-                  !inputs.names &&
+              <Grid item>
+                {!inputs.names && (
                   <Button
-                    variant='outlined'
+                    variant="outlined"
                     onClick={(e) => handleClick(e)}
                     startIcon={<PersonIcon />}
                   >
                     Editar
                   </Button>
-                }
+                )}
               </Grid>
 
-              <Grid
-                item
-              >
-                <Typography
-                  variant='h5'>
-                    Correo electronico:
-                </Typography>
+              <Grid item>
+                <Typography variant="h5">Correo electronico:</Typography>
               </Grid>
 
-              <Grid
-                item
-              >
-                {
-                  !editEmail ?
-                    <Typography
-                      variant="h6"
-                    >
-                      {currentUser.email}
-                    </Typography>
-                    :
-                    <TextField
-                      type="text"
-                      name="email"
-                      label="Nuevo email"
-                      value={inputs.email}
-                      onChange={handleInputs}
-                    />
-                }
+              <Grid item>
+                {!editEmail ? (
+                  <Typography variant="h6">{currentUser.email}</Typography>
+                ) : (
+                  <TextField
+                    type="text"
+                    name="email"
+                    label="Nuevo email"
+                    value={inputs.email}
+                    onChange={handleInputs}
+                  />
+                )}
               </Grid>
 
-              <Grid
-                item
-              >
-                {
-                  !inputs.email &&
+              <Grid item>
+                {!inputs.email && (
                   <Button
-                    variant='outlined'
+                    variant="outlined"
                     onClick={(e) => handleClickEmail(e)}
                     startIcon={<EmailIcon />}
                   >
                     Editar
                   </Button>
-                }
+                )}
               </Grid>
 
-              <Grid
-                item
-              >
-                <Typography
-                  variant='h5'>
-                    Fecha de nacimiento:
-                </Typography>
+              <Grid item>
+                <Typography variant="h5">Fecha de nacimiento:</Typography>
               </Grid>
 
-              <Grid
-                item
-              >
-                {
-                  !editiBirthday ?
-                    <Typography
-                      variant="h6"
-                    >
-                      {currentUser.birthday}
-                    </Typography>
-                    : 
-                    <TextField
-                      type="text"
-                      name="birthday"
-                      label="Nueva fecha de nacimiento"
-                      value={inputs.birthday}
-                      onChange={handleInputs}
-                    />
-                }
-
+              <Grid item>
+                {!editiBirthday ? (
+                  <Typography variant="h6">{currentUser.birthday}</Typography>
+                ) : (
+                  <TextField
+                    type="text"
+                    name="birthday"
+                    label="Nueva fecha de nacimiento"
+                    value={inputs.birthday}
+                    onChange={handleInputs}
+                  />
+                )}
               </Grid>
 
-              <Grid
-                item
-              >
-                {
-                  !inputs.birthday &&
+              <Grid item>
+                {!inputs.birthday && (
                   <Button
-                    variant='outlined'
+                    variant="outlined"
                     onClick={(e) => handleClickBirthday(e)}
                     startIcon={<CalendarMonthIcon />}
                   >
                     Editar
                   </Button>
-                }
+                )}
               </Grid>
 
-              <Grid
-                item
-              >
-                <Typography
-                  variant='h5'>
-                    Nacionalidad:
-                </Typography>
+              <Grid item>
+                <Typography variant="h5">Nacionalidad:</Typography>
               </Grid>
 
-              <Grid
-                item
-              >
-                {!editNationality ?
-                  <Typography
-                    variant="h6"
-                  >
-                   {currentUser.nationality}
+              <Grid item>
+                {!editNationality ? (
+                  <Typography variant="h6">
+                    {currentUser.nationality}
                   </Typography>
-                  : <TextField
+                ) : (
+                  <TextField
                     type="text"
                     name="nationality"
                     label="Nueva nacionalidad"
                     value={inputs.nationality}
-                    onChange={handleInputs} />}
+                    onChange={handleInputs}
+                  />
+                )}
               </Grid>
 
-              <Grid
-                item
-              >
-                {
-                  !inputs.nationality &&
+              <Grid item>
+                {!inputs.nationality && (
                   <Button
-                    variant='outlined'
+                    variant="outlined"
                     onClick={(e) => handleClickNationality(e)}
                     startIcon={<PlaceIcon />}
                   >
                     Editar
                   </Button>
-                }
+                )}
               </Grid>
 
-              <Grid
-                item
-              >
-                {
-                  inputs.names || inputs.email || inputs.birthday || inputs.nationality ?
-                    <Button
-                      onClick={(e) => handleSubmit(e)}
-                      color='success'
-                      variant='contained'
-                      type="submit" id='ButtonSubmit'
-                      startIcon={<CheckIcon />}
-                    >
-                      Confirmar
-                    </Button>
-                    :
-                    null
-                }
+              <Grid item>
+                {inputs.names ||
+                inputs.email ||
+                inputs.birthday ||
+                inputs.nationality ? (
+                  <Button
+                    onClick={(e) => handleSubmit(e)}
+                    color="success"
+                    variant="contained"
+                    type="submit"
+                    id="ButtonSubmit"
+                    startIcon={<CheckIcon />}
+                  >
+                    Confirmar
+                  </Button>
+                ) : null}
               </Grid>
-
             </Grid>
           </CardContent>
         </Card>
-
       </Grid>
-
     </Grid>
   );
 };

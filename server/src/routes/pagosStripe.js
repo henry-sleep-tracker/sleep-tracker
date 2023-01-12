@@ -37,7 +37,7 @@ router.post("/session", async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: "http://localhost:3000/private/", //si todo sale bien redirigira la sgt pag
+      success_url: "http://localhost:3000/private/home", //si todo sale bien redirigira la sgt pag
       cancel_url: "http://localhost:3000/private/planes", //si todo sale mal, redirigir a otra pag
       customer: user.stripeCustomerId,
     },

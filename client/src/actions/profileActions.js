@@ -5,16 +5,13 @@ export const updateUser = (id, info) => {
         if (entri[1]) return entri[0];
         return null;
       });
-      const response = await fetch(
-        `http://localhost:3001/changeprofile/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(info, [...filterInfo]),
-        }
-      );
+      const response = await fetch(`http://localhost:3001/user/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(info, [...filterInfo]),
+      });
       if (response.status === 200) {
         const user = await response.json();
         return dispatch({ type: "GET_PROFILE", payload: user });
@@ -33,7 +30,7 @@ export const changePassword = (id, newPassword) => {
   return async function () {
     try {
       const response = await fetch(
-        `http://localhost:3001/changepassword/${id}`,
+        `http://localhost:3001/user/changepassword/${id}`,
         {
           method: "PUT",
           headers: {
