@@ -1,4 +1,4 @@
-const { User } = require("../db");
+const { User, Plan } = require("../db");
 const nullUser = {
   id: 0,
   isAdmin: false,
@@ -16,6 +16,7 @@ const findUserByEmail = async (email) => {
   try {
     const userFound = await User.findOne({
       where: { email: email },
+      include : {model:Plan,attributes:['id','name','price','endTime']},
     });
     if (userFound !== null) {
       return userFound.dataValues;
