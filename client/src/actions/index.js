@@ -1,3 +1,4 @@
+
 import {
   CREATE_TOKEN,
   GET_CURRENT_USER,
@@ -8,7 +9,12 @@ const emailjs = require("emailjs-com");
 const templateId = "template_upsqgx4";
 const serviceId = "service_ts4dsnk";
 const Public_Key = "DkkyjnDmwCqT4qOL1";
+
 const getUsersPlanExpDate = require("./plan");
+
+// require("dotenv").config();
+
+
 
 const nullUser = {
   id: 0,
@@ -144,10 +150,32 @@ export function resetPassword(password, id, token) {
   };
 }
 
+// export function logInUser(email, password) {
+//   return async (dispatch) => {
+//     try {
+//       const response = await axios.post(`http://localhost:3001/login/manual`, {email: email, password:password});
+//       if (response.status === 204) {
+//         return dispatch({
+//           type: GET_CURRENT_USER,
+//           payload: nullUser,
+//         });
+//       } else {
+//         const userFound = await response;
+//         return dispatch({
+//           type: GET_CURRENT_USER,
+//           payload: userFound,
+//         });
+//       }
+//       // return response
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// }
 export function logInUser(email, password) {
   return async function (dispatch) {
     try {
-      const response = await fetch(`http://localhost:3001/login/manual`, {
+      const response = await fetch(`${process.env.REACT_APP_DEFAULT_URL}/login/manual`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

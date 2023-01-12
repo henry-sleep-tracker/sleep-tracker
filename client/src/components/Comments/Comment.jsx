@@ -10,6 +10,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Helmet } from 'react-helmet';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
+
+
 const CreateComment = () => {
 
     const currentUser = useSelector((state) => state?.users.currentUser);
@@ -164,7 +166,6 @@ const CreateComment = () => {
                             alignItems='center'
                             spacing={3}
                         >
-
                             <Grid
                                 item
                             >
