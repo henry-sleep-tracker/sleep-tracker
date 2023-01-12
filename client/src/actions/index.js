@@ -100,6 +100,7 @@ export function sendRecoveryEmail(email) {
     }
   };
 }
+
 export function resetPassword(password, id, token) {
   return async function (dispatch) {
     try {
@@ -129,6 +130,19 @@ export function resetPassword(password, id, token) {
     }
   };
 }
+
+export const getUserById = (id) => {
+  return async function (dispatch) {
+    try {
+      const response = await fetch(`http://localhost:3001/myuser/${id}`);
+      const user = await response.json();
+      console.log("ACTIONS USER", user);
+      return dispatch({ type: "GET_USER", payload: user });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
 
 export function logInUser(email, password) {
   return async function (dispatch) {
@@ -170,6 +184,7 @@ export function logOutUser() {
     }
   };
 }
+
 export function cleanExpDate() {
   return async function (dispatch) {
     try {
