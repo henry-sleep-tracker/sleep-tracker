@@ -35,6 +35,7 @@ function ResponsiveAppBar({ mode, setMode }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+
   async function handleLogOut(event) {
     event.preventDefault();
     dispatch(logOutUser());
@@ -71,7 +72,7 @@ function ResponsiveAppBar({ mode, setMode }) {
 
   const handlerRecord = e => {
     e.preventDefault();
-    navigate("/private/newrecord");
+    navigate("/private/records");
   };
 
   const handlerProfile = e => {
@@ -359,6 +360,7 @@ function ResponsiveAppBar({ mode, setMode }) {
           </Box>
 {/* 
           <Box sx={{ flexGrow: 0 }}>
+            { currentUser.email?  <Notification/>: <> </>}
             <Tooltip title="Settings">
               <IconButton
                 onClick={handleOpenUserMenu}
@@ -368,6 +370,7 @@ function ResponsiveAppBar({ mode, setMode }) {
                   alt="Remy Sharp"
                   src="https://cdn-icons-png.flaticon.com/512/10/10915.png"
                 />
+                
               </IconButton>
             </Tooltip>
             <Menu
@@ -406,6 +409,7 @@ function ResponsiveAppBar({ mode, setMode }) {
               <MenuItem key="Log Out" onClick={handleCloseUserMenu}>
                 <Button onClick={event => handleLogOut(event)}>Log Out</Button>
               </MenuItem>
+              
             </Menu>
           </Box> */}
         </Toolbar>
