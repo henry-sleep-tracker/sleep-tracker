@@ -53,7 +53,7 @@ function App() {
             <Route path="/private/team" element={<ConoceAlEquipo />} />
             <Route path="/private/fitbit" element={<Fitbit />} />
             <Route path="/private/graficas" element={<GraphWM />} />
-            <Route path="/private/records" element={<Record />} />
+            <Route path="/private/newrecord" element={<Record />} />
             <Route path="/private/dashboard/*" element={<Dashboard />} />
             <Route path="/private/delete-user/:id" element={<DeleteUser />} />
             <Route path="/private/createcomment" element={<CommentCreate />} />

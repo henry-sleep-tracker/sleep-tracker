@@ -1004,7 +1004,7 @@ const Record = props => {
                   <h3>
                     El dia{" "}
                     {dateStringToDate(
-                      currentDay.current?.value.replace("-", "")
+                      currentDay.current.value.replace("-", "")
                     )}
                   </h3>
                   <h4>Dormiste: {sleepTime12Format}</h4>
