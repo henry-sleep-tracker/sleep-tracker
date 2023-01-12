@@ -5,9 +5,8 @@ export function getUsersPlanExpDate(userId) {
   return async function (dispatch) {
     try {
       const response = await axios.get(
-        `http://localhost:3001/plans?userId=${userId}`
+        `${process.env.REACT_APP_DEFAULT_URL}/plans?userId=${userId}`
       );
-      // debugger;
       if (response.data.endTime) {
         return dispatch({
           type: GET_CURRENT_PLAN,

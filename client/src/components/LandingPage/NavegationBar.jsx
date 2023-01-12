@@ -97,13 +97,6 @@ const NavegationBar = ({
         <ThemeProvider theme={theme}>
             <AppBar position="sticky">
                 <StyledToolbar>
-                    <IconButton
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                    >
-                        <MenuIcon />
-                    </IconButton>
                     <Box
                         component="nav"
                         sx={{
@@ -111,6 +104,14 @@ const NavegationBar = ({
                             flexShrink: { sm: 0 },
                         }}
                     >
+                        <IconButton
+                            aria-label="open drawer"
+                            edge="start"
+                            onClick={handleDrawerToggle}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        
                         <Drawer
                             variant="temporary"
                             open={mobileOpen}

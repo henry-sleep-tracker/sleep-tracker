@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector} from "react-redux";
-import { getUser } from "../../actions/getUser";
+import { getUserById } from "../../actions/index";
 
 const Pricing = () => {
   const USER_ID = "USER_ID";
@@ -13,14 +13,14 @@ const Pricing = () => {
   useEffect(() => {
     fetchPrices();
     if(currentUser ===""){
-    dispatch(getUser(userId));
+    dispatch(getUserById(userId));
     }
   }, [dispatch, currentUser, userId]);
 
 
   const fetchPrices = async () => {
     const { data: response } = await axios.get(
-      "http://localhost:3001/plans/prices"
+      `${process.env.REACT_APP_DEFAULT_URL}/plans/prices`
     );
     let allPlans=response.data;
     if(currentUser.hasUsedFreePlan===true){
@@ -33,7 +33,7 @@ const Pricing = () => {
     const email=currentUser.email
 
     const { data: response } = await axios.post(
-      "http://localhost:3001/plans/session",
+      `${process.env.REACT_APP_DEFAULT_URL}/plans/session`,
         {priceId,
           email}
     );
@@ -52,7 +52,7 @@ const Pricing = () => {
           </p>
         </div>
       </header>
-      <main>
+      <main key={Math.random()}>
         <div className="row row-col-1 row-cols-md-3">
           {prices.map((price) => (
             <div className="col">

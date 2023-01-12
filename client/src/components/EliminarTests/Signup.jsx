@@ -6,7 +6,7 @@ import useFetch from "../hooks/useFetch";
 
 const SignUp = () => {
   const { handleGoogle, loading, error } = useFetch(
-    "http://localhost:3001/signup"
+    `${process.env.REACT_APP_DEFAULT_URL}/signup`
   );
 
   useEffect(() => {

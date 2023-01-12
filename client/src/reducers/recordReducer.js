@@ -1,5 +1,7 @@
-import {   GET_RECORDS_USER_DATE,
-  GET_RECORDS_RANGE,} from '../actions/records_data'
+import {
+  GET_RECORDS_USER_DATE,
+  GET_RECORDS_RANGE,
+} from "../actions/records_data";
 
 import {
   //GET_COFFEE_SIZES,
@@ -8,6 +10,7 @@ import {
   //GET_LAST_ID_ACTIVITY,
   //GET_LAST_ID_COFFEE_SIZE,
   //GET_LAST_ID_DRINK,
+  GET_RECORDS_BY_ID_AND_DATE,
   GET_ACTIVITIES_BY_USER,
   GET_COFFEE_SIZE_BY_USER,
   GET_DRINKS_BY_USER,
@@ -22,14 +25,13 @@ import {
   SET_STATUS_NEW_RECORD,
 } from "../actions/records";
 
-
-
 const initialState = {
   //lastIdActivity: null,
   //lastIdCoffeeSize: null,
   //lastIdDrink: null,
   //lastIdDrink: null,
   //token: null,
+  recordsByUserAndDate: [],
   statusNewRecord: null,
   statusNewActivity: null,
   statusNewCoffeeSize: null,
@@ -55,6 +57,8 @@ const recordReducer = (state = initialState, action) => {
       return { ...state, lastIdCoffeeSize: action.payload }; */
     /* case GET_LAST_ID_DRINK:
       return { ...state, lastIdDrink: action.payload }; */
+    case GET_RECORDS_BY_ID_AND_DATE:
+      return { ...state, recordsByUserAndDate: action.payload };
     case GET_ACTIVITIES_BY_USER:
       return { ...state, activities: action.payload };
     case GET_COFFEE_SIZE_BY_USER:

@@ -25,13 +25,21 @@ export function AuthContextProvider({ children }) {
     window.localStorage.getItem(IS_GOOGLE_USER) ?? false
   );
   const [isPasswordSetUp, setIsPasswordSetUp] = useState(
-    window.localStorage.getItem(IS_GOOGLE_USER) ?? false
+    window.localStorage.getItem(IS_PASSWORD_SET_UP) ?? false
   );
   const payPlan = useCallback(function (expDate) {
     //esto lo usa el componente log in cuando se valide la contraseña y el email
     window.localStorage.setItem(PLAN_EXPIRATION_DATE, expDate);
     setPlanExpDate(expDate);
   }, []);
+
+  const createPassword = useCallback(function (expDate) {
+    //esto lo usa el componente log in cuando se valide la contraseña y el email
+
+    window.localStorage.setItem(IS_PASSWORD_SET_UP, true);
+    setIsPasswordSetUp(true);
+  }, []);
+
   const login = useCallback(function (id, email, password, planExpirationDate) {
     //esto lo usa el componente log in cuando se valide la contraseña y el email
     window.localStorage.setItem(MY_AUTH_APP, true); //cuando se invoque establecera en el localstorage que establece el valor true para la clave my_auth_app
@@ -50,6 +58,9 @@ export function AuthContextProvider({ children }) {
     if (password !== null) {
       window.localStorage.setItem(IS_PASSWORD_SET_UP, true);
       setIsPasswordSetUp(true);
+    } else {
+      window.localStorage.setItem(IS_PASSWORD_SET_UP, false);
+      setIsPasswordSetUp(false);
     }
   }, []);
   const logout = useCallback(function () {
@@ -57,8 +68,12 @@ export function AuthContextProvider({ children }) {
     window.localStorage.removeItem(MY_AUTH_APP); //cuando se invoque establecera en el localstorage que establece el valor true para la clave my_auth_app
     window.localStorage.removeItem(USER_ID);
     window.localStorage.removeItem(PLAN_EXPIRATION_DATE);
+    window.localStorage.removeItem(IS_PASSWORD_SET_UP);
+    window.localStorage.removeItem(IS_GOOGLE_USER);
     setIsAuthenticated(false); //actualiza el estado
     setUserId(null);
+    setIsGoogleUser(false);
+    setIsPasswordSetUp(false);
     setPlanExpDate("1900-01-01");
   }, []);
   const value = useMemo(
@@ -67,6 +82,7 @@ export function AuthContextProvider({ children }) {
       login,
       logout,
       payPlan,
+      createPassword,
       isAuthenticated,
       userId,
       planExpDate,
@@ -77,6 +93,7 @@ export function AuthContextProvider({ children }) {
       login,
       logout,
       payPlan,
+      createPassword,
       isAuthenticated,
       userId,
       planExpDate,

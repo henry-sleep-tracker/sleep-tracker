@@ -17,7 +17,6 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 // Actions Imports
-import { getRecordsQuery } from "../../actions/records_data";
 import {
   //getCoffeeSizes,
   //getActivities,
@@ -25,6 +24,7 @@ import {
   //getLastIdActivity,
   //getLastIdCoffeSize,
   //getLastIdDrink,
+  getRecordByIdDate,
   getActivitiesByUser,
   getCoffeeSizesByUser,
   getDrinksByUser,
@@ -35,13 +35,10 @@ import {
   setStatusNewRecord,
 } from "../../actions/records";
 
-import {
-  getSleepStage,
-  getSleepSession,
-} from "../../actions/getUserHealthData";
+import { getSleepStage } from "../../actions/getUserHealthData";
 
 // Import images
-import check from "../../images/check-mark-button_2705.png";
+import checkImg from "../../images/check-mark-button_2705.png";
 import memo from "../../images/memo2.png";
 import personBed from "../../images/person-in-bed.png";
 import runingShoe from "../../images/running-shoe.png";
@@ -65,7 +62,7 @@ import { dateStringToDate } from "../../helpers/string_to_date";
 //> Starts Component
 //>======================>//
 
-const Record = (props) => {
+const Record = props => {
   const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
@@ -73,7 +70,21 @@ const Record = (props) => {
   let sleepTime12Format = "";
   let check = "";
 
+  /******************** Set Timeouts Section *********************/
+
+  //! ============ TimeOut for check Sync Sleep Record ========== !//
+  setTimeout(() => {
+    if (check.length >= 1) {
+      if (check[0].dateMeal === currentDay.current.value) {
+        setSync(true);
+      } else {
+        setSync(false);
+      }
+    }
+  }, 1);
+
   // useRef Hook
+  const currentDay = useRef();
   const timeRef = useRef();
   const activityRef = useRef();
   const cups = useRef();
@@ -86,46 +97,34 @@ const Record = (props) => {
 
   /******************** Redux States Section *********************/
 
-  const userId = useSelector((state) => state.users.currentUser.id);
-  const nameUser = useSelector((state) => state.users.currentUser.names);
-  const recordsUserRedux = useSelector((state) => state.recordsUser);
-  const recordStatus = useSelector((state) => state.record.statusNewRecord);
-  const activityStat = useSelector((state) => state.record.statusNewActivity);
-  const coffeeStat = useSelector((state) => state.record.statusNewCoffeeSize);
-  const drinkStat = useSelector((state) => state.record.statusNewDrink);
-  const activitiesRedux = useSelector((state) => state.record.activities);
-  const coffeeSizesRedux = useSelector((state) => state.record.coffeeSizes);
-  const drinksRedux = useSelector((state) => state.record.drinks);
-  const sleepTime = useSelector((state) => state.stage); //--> Estado global que guarda los segundos de suenio
+  const userId = useSelector(state => state.users.currentUser.id);
+  const nameUser = useSelector(state => state.users.currentUser.names);
+  const recordsUserRedux = useSelector(
+    state => state.record.recordsByUserAndDate
+  );
+  const recordStatus = useSelector(state => state.record.statusNewRecord);
+  const activityStat = useSelector(state => state.record.statusNewActivity);
+  const coffeeStat = useSelector(state => state.record.statusNewCoffeeSize);
+  const drinkStat = useSelector(state => state.record.statusNewDrink);
+  const activitiesRedux = useSelector(state => state.record.activities);
+  const coffeeSizesRedux = useSelector(state => state.record.coffeeSizes);
+  const drinksRedux = useSelector(state => state.record.drinks);
+  const sleepTime = useSelector(state => state.stage); //--> Estado global que guarda los segundos de suenio
 
   /******************** Functions Before load component *********************/
 
-  const temp = sleepTime?.filter((e) => e.level !== 1);
+  const temp = sleepTime?.filter(e => e.level !== 1);
   if (temp.length > 0) {
     sleepTimeMinutes = Math.floor(
-      temp.map((e) => e.seconds).reduce((acc, e) => acc + e, 0) / 60
+      temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
     );
     // eslint-disable-next-line no-unused-vars
     sleepTime12Format = time_convert(sleepTimeMinutes);
   }
 
-  const [sleepSync, setSleepSync] = useState(
-    dateStringToDate(sleepTime[0]?.date.replace("-", ""))
-  );
-
-  const [sleepRedux, setSleepRedux] = useState();
-  /* recordsUserRedux.length < 1
-      ? "No existen registros"
-      : recordsUserRedux.hasOwnProperty("message")
-      ? recordsUserRedux.message
-      : recordsUserRedux[0].sleepTimeNumber */
-
-  console.log(`sleepTime in Minutes ${sleepRedux}`);
-  console.log(`console.log de temp: ${temp.length}`);
-  if (recordsUserRedux.length) {
-    check = recordsUserRedux?.map((e) => e.sleepTimeNumber);
+  if (recordsUserRedux?.length >= 1) {
+    check = recordsUserRedux?.filter(e => e.sleepTime > 0);
   }
-  console.log(`console.log de check: ${check.length}`);
 
   /******************** Local States Section *********************/
 
@@ -163,7 +162,7 @@ const Record = (props) => {
 
   const finalHours = formatingDate(st, et);
 
-  const [sync, setSync] = useState(false);
+  const [sync, setSync] = useState(false); //--> 61
 
   //! ================== Activity States ================= !//
 
@@ -199,14 +198,15 @@ const Record = (props) => {
 
   //! ================== Main Handlers ================= !//
 
-  const handlerOnChange = (e) => {
+  const handlerOnChange = e => {
     setRecord({ ...record, [e.target.name]: e.target.value });
     if (e.target.name === "dateMeal") {
-      dispatch(getRecordsQuery(userId, e.target.value));
+      dispatch(getRecordByIdDate(userId, e.target.value));
+      refresh();
     }
   };
 
-  const handlerOnSubmit = (e) => {
+  const handlerOnSubmit = e => {
     e.preventDefault();
     let date = "";
     let time = "";
@@ -238,18 +238,19 @@ const Record = (props) => {
       setRecord((record.sleepTime = "0"));
     }
 
-    const floorTimeActivity = record.timeActivity.map((e) => Math.floor(e));
-    const floorCoffeeCups = record.coffeeCups.map((e) => Math.floor(e));
-    const floorDrinks = record.drinks.map((e) => Math.floor(e));
+    const floorTimeActivity = record.timeActivity.map(e => Math.floor(e));
+    const floorCoffeeCups = record.coffeeCups.map(e => Math.floor(e));
+    const floorDrinks = record.drinks.map(e => Math.floor(e));
     setRecord((record.timeActivity = floorTimeActivity));
     setRecord((record.coffeeCups = floorCoffeeCups));
     setRecord((record.drinks = floorDrinks));
     dispatch(createNewRecord(record));
+    message.success(`${nameUser} tu registro se creo correctamente!!`, 2500);
 
     // After Dispatch //
 
     setRecord({
-      dateMeal: date_maker(),
+      dateMeal: currentDay.current.value,
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -269,13 +270,13 @@ const Record = (props) => {
     setCoffeeStatus(false);
     setDrinkStatus(false);
     setTime({ startTime: "", endTime: "" });
-    //setSync(false);
+    refresh();
   };
 
-  const handlerOnClear = (e) => {
+  const handlerOnClear = e => {
     e.preventDefault();
     setRecord({
-      dateMeal: date_maker(),
+      dateMeal: currentDay.current.value,
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -296,16 +297,15 @@ const Record = (props) => {
     setCoffeeStatus(false);
     setDrinkStatus(false);
     setTime({ startTime: "", endTime: "" });
-    //setSync(false);
   };
 
   //! ================== SleepTime Handlers ================= !//
 
-  const handlerSleepTimeChange = (e) => {
+  const handlerSleepTimeChange = e => {
     setTime({ ...time, [e.target.name]: e.target.value });
   };
 
-  const handlerSync = (e) => {
+  const handlerSync = e => {
     e.preventDefault();
     setRecord((record.sleepTime = sleepTimeMinutes));
     if (record.timeMeal === "") {
@@ -313,11 +313,11 @@ const Record = (props) => {
       setRecord((record.timeMeal = time));
     }
     dispatch(createNewRecord(record));
-    //message.success(`Se sincronizo tu sueño correctamente`, 2500);
+    message.success(`Se sincronizo tu sueño correctamente`, 2500);
 
     setSync(true);
     setRecord({
-      dateMeal: date_maker(),
+      dateMeal: currentDay.current.value,
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -341,12 +341,12 @@ const Record = (props) => {
 
   //! ================== Activity Handlers ================= !//
 
-  const handlerActivity = (e) => {
+  const handlerActivity = e => {
     e.preventDefault();
     const timeSelected = parseInt(timeRef.current.value) + Math.random();
     const activitySelected = activityRef.current.value;
     const timeSelectedText = timeRef.current.value;
-    const filter = activitiesRedux.filter((e) => e.id === activitySelected);
+    const filter = activitiesRedux.filter(e => e.id === activitySelected);
     const nameActivity = filter[0].activity;
 
     if (!timeSelected || !activitySelected || timeSelected < 1) {
@@ -364,7 +364,7 @@ const Record = (props) => {
     timeRef.current.value = "0";
   };
 
-  const handlerOnChangeActivity = (e) => {
+  const handlerOnChangeActivity = e => {
     e.preventDefault();
     setAddActivity({
       ...addActivity,
@@ -372,13 +372,13 @@ const Record = (props) => {
     });
   };
 
-  const handlerAddActivity = (e) => {
+  const handlerAddActivity = e => {
     e.preventDefault();
     let duplicated = "";
 
     if (activitiesRedux.length > 0) {
       duplicated = activitiesRedux.filter(
-        (e) => e.activity === addActivity.activity
+        e => e.activity === addActivity.activity
       );
     }
 
@@ -387,6 +387,7 @@ const Record = (props) => {
         `La actividad ${addActivity.activity} no puede duplicarse`,
         2500
       );
+      //alert(`La actividad ${addActivity.activity} no puede duplicarse`);
       nameActivity.current.value = "";
       return;
     }
@@ -408,7 +409,7 @@ const Record = (props) => {
     }
   };
 
-  const handlerSetActivity = (e) => {
+  const handlerSetActivity = e => {
     e.preventDefault();
     if (e.target.value !== "default" && e.target.value !== "add_activity")
       setActivityStatus(true);
@@ -422,19 +423,17 @@ const Record = (props) => {
     }
   };
 
-  const eraseActivity = (e) => {
+  const eraseActivity = e => {
     e.preventDefault();
     const activityToErase = e.target.innerText;
-    const activityFilter = activity.filter((e) => e !== activityToErase);
+    const activityFilter = activity.filter(e => e !== activityToErase);
     const indexToErase = e.target.id;
     setActivity(activityFilter);
 
     const valueToRemoveTA = record.timeActivity[indexToErase];
     const valueToRemoveA = record.activity[indexToErase];
-    const timeActivity = record.timeActivity.filter(
-      (e) => e !== valueToRemoveTA
-    );
-    const activity2 = record.activity.filter((e) => e !== valueToRemoveA);
+    const timeActivity = record.timeActivity.filter(e => e !== valueToRemoveTA);
+    const activity2 = record.activity.filter(e => e !== valueToRemoveA);
     setRecord({
       ...record,
       timeActivity: timeActivity,
@@ -449,12 +448,12 @@ const Record = (props) => {
 
   //! ================== Coffee Handlers ================= !//
 
-  const handlerCoffee = (e) => {
+  const handlerCoffee = e => {
     e.preventDefault();
     const quantityCoffee = parseInt(cups.current.value) + Math.random();
     const cup = sizeCup.current.value;
     const coffees = cups.current.value;
-    const filter = coffeeSizesRedux.filter((e) => e.id === cup);
+    const filter = coffeeSizesRedux.filter(e => e.id === cup);
     const size = filter[0].size;
 
     if (!quantityCoffee || !cup || quantityCoffee < 1) {
@@ -472,7 +471,7 @@ const Record = (props) => {
     cups.current.value = "0";
   };
 
-  const handlerOnChangeCoffeSize = (e) => {
+  const handlerOnChangeCoffeSize = e => {
     e.preventDefault();
     setAddCoffeSize({
       ...addCoffeSize,
@@ -480,12 +479,12 @@ const Record = (props) => {
     });
   };
 
-  const handlerAddSizeCoffee = (e) => {
+  const handlerAddSizeCoffee = e => {
     e.preventDefault();
     let duplicated = "";
 
     if (coffeeSizesRedux.length > 0) {
-      duplicated = coffeeSizesRedux.filter((e) => e.size === addCoffeSize.size);
+      duplicated = coffeeSizesRedux.filter(e => e.size === addCoffeSize.size);
     }
 
     if (duplicated.length > 0) {
@@ -511,7 +510,7 @@ const Record = (props) => {
     }
   };
 
-  const handlerSetCoffee = (e) => {
+  const handlerSetCoffee = e => {
     e.preventDefault();
     if (e.target.value !== "default" && e.target.value !== "add_coffee_size")
       setCoffeeStatus(true);
@@ -525,17 +524,17 @@ const Record = (props) => {
     }
   };
 
-  const eraseCoffee = (e) => {
+  const eraseCoffee = e => {
     e.preventDefault();
     const coffeeToErase = e.target.innerText;
-    const coffeeFilter = coffee.filter((e) => e !== coffeeToErase);
+    const coffeeFilter = coffee.filter(e => e !== coffeeToErase);
     const indexToErase = e.target.id;
     setCoffee(coffeeFilter);
 
     const valueToRemoveC = record.coffeeCups[indexToErase];
     const valueToRemoveCS = record.coffee[indexToErase];
-    const coffees = record.coffeeCups.filter((e) => e !== valueToRemoveC);
-    const sizeCoffees = record.coffee.filter((e) => e !== valueToRemoveCS);
+    const coffees = record.coffeeCups.filter(e => e !== valueToRemoveC);
+    const sizeCoffees = record.coffee.filter(e => e !== valueToRemoveCS);
     setRecord({
       ...record,
       coffeeCups: coffees,
@@ -550,12 +549,12 @@ const Record = (props) => {
 
   //! ================== Drinks Handlers ================= !//
 
-  const handlerDrinks = (e) => {
+  const handlerDrinks = e => {
     e.preventDefault();
     const quantityDrinks = parseInt(drinks.current.value) + Math.random();
     const typeDrinks = typeDrink.current.value;
     const drinkss = drinks.current.value;
-    const filter = drinksRedux.filter((e) => e.id === typeDrinks);
+    const filter = drinksRedux.filter(e => e.id === typeDrinks);
     const typeDrinkss = filter[0].drink;
 
     if (!quantityDrinks || !typeDrinks || quantityDrinks < 1) {
@@ -573,7 +572,7 @@ const Record = (props) => {
     drinks.current.value = "0";
   };
 
-  const handlerOnChangeDrink = (e) => {
+  const handlerOnChangeDrink = e => {
     e.preventDefault();
     setAddNewDrink({
       ...addNewDrink,
@@ -581,12 +580,12 @@ const Record = (props) => {
     });
   };
 
-  const handlerAddDrink = (e) => {
+  const handlerAddDrink = e => {
     e.preventDefault();
     let duplicated = "";
 
     if (drinksRedux.length > 0) {
-      duplicated = drinksRedux.filter((e) => e.drink === addNewDrink.drink);
+      duplicated = drinksRedux.filter(e => e.drink === addNewDrink.drink);
     }
 
     if (duplicated.length > 0) {
@@ -612,7 +611,7 @@ const Record = (props) => {
     }
   };
 
-  const handlerSetDrink = (e) => {
+  const handlerSetDrink = e => {
     e.preventDefault();
     if (e.target.value !== "default" && e.target.value !== "add_drink")
       setDrinkStatus(true);
@@ -626,17 +625,17 @@ const Record = (props) => {
     }
   };
 
-  const eraseDrink = (e) => {
+  const eraseDrink = e => {
     e.preventDefault();
     const drinkToErase = e.target.innerText;
-    const drinkFilter = drink.filter((e) => e !== drinkToErase);
+    const drinkFilter = drink.filter(e => e !== drinkToErase);
     const indexToErase = e.target.id;
     setDrink(drinkFilter);
 
     const valueToRemoveD = record.drinks[indexToErase];
     const valueToRemoveDT = record.drink[indexToErase];
-    const drinks2 = record.drinks.filter((e) => e !== valueToRemoveD);
-    const typeDrinks = record.drink.filter((e) => e !== valueToRemoveDT);
+    const drinks2 = record.drinks.filter(e => e !== valueToRemoveD);
+    const typeDrinks = record.drink.filter(e => e !== valueToRemoveDT);
     setRecord({
       ...record,
       drinks: drinks2,
@@ -652,25 +651,12 @@ const Record = (props) => {
   // Mount/Unmount Component
   useEffect(() => {
     const fetchData = async () => {
-      /* if (sleepTime[0]) {
-        const getRecords = await dispatch(
-          getRecordsQuery(userId, sleepTime[0]?.date)
-        );
-      } */
-      // eslint-disable-next-line no-unused-vars
-      const dataActivitiy = await dispatch(getActivitiesByUser(userId));
-      // eslint-disable-next-line no-unused-vars
-      const dataCoffeSize = await dispatch(getCoffeeSizesByUser(userId));
-      // eslint-disable-next-line no-unused-vars
-      const dataDrinks = await dispatch(getDrinksByUser(userId));
-      const getSleepRecord = await dispatch(getSleepStage("2023-01-10"));
-      const getSleepRangeRecord = await dispatch(
-        getSleepSession("2023-01-01", "2023-01-10")
-      );
+      dispatch(getActivitiesByUser(userId));
+      dispatch(getRecordByIdDate(userId, currentDay.current.value));
+      const three = await dispatch(getCoffeeSizesByUser(userId));
+      const four = await dispatch(getDrinksByUser(userId));
+      const five = await dispatch(getSleepStage(currentDay.current.value));
     };
-    if (check) {
-      setSync(true);
-    }
 
     fetchData().catch(console.error);
 
@@ -678,15 +664,17 @@ const Record = (props) => {
       return;
     } else {
       if (recordStatus.status === 200) {
-        message.success(`${nameUser} tu registro se creo correctamente!!`);
+        message.success(
+          `${nameUser} tu registro se creo correctamente!!`,
+          2500
+        );
         dispatch(setStatusNewRecord());
-      }
-      if (recordStatus) {
-        message.error(`Error: al intentar crear el registro`, record);
+      } else {
+        message.error(`Error: al intentar crear el registro`, 2500);
         dispatch(setStatusNewRecord());
       }
     }
-  }, [value, recordStatus]);
+  }, [value, recordStatus, sync]);
 
   const PopupActivity = () => (
     <Popup
@@ -946,6 +934,7 @@ const Record = (props) => {
                     name="dateMeal"
                     value={record.dateMeal}
                     onChange={handlerOnChange}
+                    ref={currentDay}
                   />
                 </div>
               </div>
@@ -969,7 +958,7 @@ const Record = (props) => {
                 <h5>
                   Descripcion de tu cena{" "}
                   <img
-                    src={check}
+                    src={checkImg}
                     alt=""
                     hidden={
                       record.timeMeal.length > 0 &&
@@ -998,7 +987,7 @@ const Record = (props) => {
                   <img src={personBed} alt="" className="person_bed" />
                   Tiempo de Sueño{" "}
                   <img
-                    src={check}
+                    src={checkImg}
                     alt=""
                     hidden={
                       time.startTime.length > 0 && time.endTime.length > 0
@@ -1011,7 +1000,13 @@ const Record = (props) => {
               </div>
               {temp.length > 0 ? (
                 <div className="sync_div_true">
-                  <h3>El dia {sleepSync}</h3>
+                  {/* <h3>El dia {sleepSync}</h3> */}
+                  <h3>
+                    El dia{" "}
+                    {dateStringToDate(
+                      currentDay.current.value.replace("-", "")
+                    )}
+                  </h3>
                   <h4>Dormiste: {sleepTime12Format}</h4>
                   <span
                     className="sync"

@@ -6,7 +6,7 @@ export const getRecordsQuery = (id, date) => {
     return async function (dispatch) {
       try {
         const response = await axios.get(
-          `http://localhost:3001/newrecord?id=${id}&date=${date}`
+          `${process.env.REACT_APP_DEFAULT_URL}/newrecord?id=${id}&date=${date}`
         );
         dispatch({
           type: GET_RECORDS_USER_DATE,
@@ -22,7 +22,7 @@ export const getRecordsQuery = (id, date) => {
     return async function (dispatch) {
       try {
         const response = await axios.get(
-          `http://localhost:3001/recordrange/?id=${id}&date=${date}&endDate=${endDate}`
+          `${process.env.REACT_APP_DEFAULT_URL}/recordrange/?id=${id}&date=${date}&endDate=${endDate}`
         );
         dispatch({
           type: GET_RECORDS_RANGE,

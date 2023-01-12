@@ -1,7 +1,8 @@
 import axios from "axios";
 
-export const GET_COFFEE_SIZES = "GET_COFFEE_SIZES";
+export const GET_RECORDS_BY_ID_AND_DATE = "GET_RECORDS_BY_ID_AND_DATE";
 export const GET_ACTIVITIES = "GET_ACTIVITIES";
+export const GET_COFFEE_SIZES = "GET_COFFEE_SIZES";
 export const GET_DRINKS = "GET_DRINKS";
 export const NEW_RECORD = "NEW_RECORD";
 export const STATUS_NEW_RECORD = "STATUS_NEW_RECORD";
@@ -21,15 +22,29 @@ export const GET_ACTIVITIES_BY_USER = "GET_ACTIVITIES_BY_USER";
 export const GET_COFFEE_SIZE_BY_USER = "GET_COFFEE_SIZE_BY_USER";
 export const GET_DRINKS_BY_USER = "GET_DRINKS_BY_USER";
 
-
 /* ====================== GET'S SECTION ======================= */
 
+export const getRecordByIdDate = (id, date) => {
+  return async function (dispatch) {
+    try {
+      const resRecord = await axios.get(
+        `${process.env.REACT_APP_DEFAULT_URL}/records?id=${id}&date=${date}`
+      );
+      dispatch({
+        type: GET_RECORDS_BY_ID_AND_DATE,
+        payload: resRecord.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
 
 export const getActivities = () => {
   return async function (dispatch) {
     try {
       const resActivities = await axios.get(
-        "http://localhost:3001/records/activity"
+        `${process.env.REACT_APP_DEFAULT_URL}/records/activity`
       );
       dispatch({
         type: GET_ACTIVITIES,
@@ -45,7 +60,7 @@ export const getActivitiesByUser = userId => {
   return async function (dispatch) {
     try {
       const resActivities = await axios.get(
-        `http://localhost:3001/records/activity/${userId}`
+        `${process.env.REACT_APP_DEFAULT_URL}/records/activity/${userId}`
       );
       dispatch({
         type: GET_ACTIVITIES_BY_USER,
@@ -61,7 +76,7 @@ export const getLastIdActivity = () => {
   return async function (dispatch) {
     try {
       const resActivities = await axios.get(
-        "http://localhost:3001/records/activity"
+        `${process.env.REACT_APP_DEFAULT_URL}/records/activity`
       );
       dispatch({
         type: GET_LAST_ID_ACTIVITY,
@@ -77,7 +92,7 @@ export const getCoffeeSizes = () => {
   return async function (dispatch) {
     try {
       const resCoffeeSizes = await axios.get(
-        "http://localhost:3001/records/coffeesize"
+        `${process.env.REACT_APP_DEFAULT_URL}/records/coffeesize`
       );
       dispatch({
         type: GET_COFFEE_SIZES,
@@ -93,7 +108,7 @@ export const getCoffeeSizesByUser = userId => {
   return async function (dispatch) {
     try {
       const resCoffeeSizes = await axios.get(
-        `http://localhost:3001/records/coffeesize/${userId}`
+        `${process.env.REACT_APP_DEFAULT_URL}/records/coffeesize/${userId}`
       );
       dispatch({
         type: GET_COFFEE_SIZE_BY_USER,
@@ -109,7 +124,7 @@ export const getLastIdCoffeSize = () => {
   return async function (dispatch) {
     try {
       const resCoffeeSizes = await axios.get(
-        "http://localhost:3001/records/coffeesize"
+        `${process.env.REACT_APP_DEFAULT_URL}/records/coffeesize`
       );
       dispatch({
         type: GET_LAST_ID_COFFEE_SIZE,
@@ -124,7 +139,7 @@ export const getLastIdCoffeSize = () => {
 export const getDrinks = () => {
   return async function (dispatch) {
     try {
-      const resDrinks = await axios.get("http://localhost:3001/records/drink");
+      const resDrinks = await axios.get(`${process.env.REACT_APP_DEFAULT_URL}/records/drink`);
       dispatch({
         type: GET_DRINKS,
         payload: resDrinks.data,
@@ -139,7 +154,7 @@ export const getDrinksByUser = userId => {
   return async function (dispatch) {
     try {
       const resDrinks = await axios.get(
-        `http://localhost:3001/records/drink/${userId}`
+        `${process.env.REACT_APP_DEFAULT_URL}/records/drink/${userId}`
       );
       dispatch({
         type: GET_DRINKS_BY_USER,
@@ -154,7 +169,7 @@ export const getDrinksByUser = userId => {
 export const getLastIdDrink = () => {
   return async function (dispatch) {
     try {
-      const resDrinks = await axios.get("http://localhost:3001/records/drink");
+      const resDrinks = await axios.get(`${process.env.REACT_APP_DEFAULT_URL}/records/drink`);
       dispatch({
         type: GET_LAST_ID_DRINK,
         payload: resDrinks.data.length + 1,
@@ -171,7 +186,7 @@ export const createNewRecord = obj => {
   return async function (dispatch) {
     try {
       let newRecord = null;
-      newRecord = await axios.post("http://localhost:3001/records", obj);
+      newRecord = await axios.post(`${process.env.REACT_APP_DEFAULT_URL}/records`, obj);
       dispatch({
         type: NEW_RECORD,
         payload: newRecord.data,
@@ -197,7 +212,7 @@ export const createNewActivity = obj => {
     try {
       let newActivity = null;
       newActivity = await axios.post(
-        "http://localhost:3001/records/activity",
+        `${process.env.REACT_APP_DEFAULT_URL}/records/activity`,
         obj
       );
       dispatch({
@@ -218,7 +233,7 @@ export const createNewCoffeeSize = obj => {
     try {
       let newCoffeeSize = null;
       newCoffeeSize = await axios.post(
-        "http://localhost:3001/records/coffeesize",
+        `${process.env.REACT_APP_DEFAULT_URL}/records/coffeesize`,
         obj
       );
       dispatch({
@@ -238,7 +253,7 @@ export const createNewDrink = obj => {
   return async function (dispatch) {
     try {
       let newDrink = null;
-      newDrink = await axios.post("http://localhost:3001/records/drink", obj);
+      newDrink = await axios.post(`${process.env.REACT_APP_DEFAULT_URL}/records/drink`, obj);
       dispatch({
         type: NEW_DRINK,
         payload: newDrink.data,
