@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { User } = require("../db");
+const { User, Plan } = require("../db");
 const nullUser = {
   id: 0,
   isAdmin: false,
@@ -38,7 +38,9 @@ const postUser = async (bodyInfo) => {
 const getUserByEmail = async (email) => {
   try {
     const userFound = await User.findOne({
-      where: { email: email },
+      where: { email: email} ,
+      include : {model:Plan,attributes:['id','name','price','endTime']}
+        
     });
     if (userFound !== null) {
       return userFound.dataValues;
@@ -52,6 +54,7 @@ const getUserByEmail = async (email) => {
       .send("El error controllers user getUserByEmail es:", error.message);
   }
 };
+
 
 const getUserById = async (id) => {
   try {
