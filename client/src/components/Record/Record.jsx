@@ -70,6 +70,19 @@ const Record = props => {
   let sleepTime12Format = "";
   let check = "";
 
+  /******************** Set Timeouts Section *********************/
+
+  //! ============ TimeOut for check Sync Sleep Record ========== !//
+  setTimeout(() => {
+    if (check.length >= 1) {
+      if (check[0].dateMeal === currentDay.current.value) {
+        setSync(true);
+      } else {
+        setSync(false);
+      }
+    }
+  }, 1);
+
   // useRef Hook
   const currentDay = useRef();
   const timeRef = useRef();
@@ -180,19 +193,6 @@ const Record = props => {
     drink: "",
     userId: userId,
   });
-
-  /******************** Set Timeouts Section *********************/
-
-  //! ============ TimeOut for check Sync Sleep Record ========== !//
-  setTimeout(() => {
-    if (check.length >= 1) {
-      if (check[0].dateMeal === currentDay.current.value) {
-        setSync(true);
-      } else {
-        setSync(false);
-      }
-    }
-  }, 10);
 
   /******************** Handlers Section *********************/
 
@@ -387,6 +387,7 @@ const Record = props => {
         `La actividad ${addActivity.activity} no puede duplicarse`,
         2500
       );
+      //alert(`La actividad ${addActivity.activity} no puede duplicarse`);
       nameActivity.current.value = "";
       return;
     }
@@ -649,14 +650,15 @@ const Record = props => {
 
   // Mount/Unmount Component
   useEffect(() => {
-    /* const fetchData = async () => { };
-    fetchData().catch(console.error); */
+    const fetchData = async () => {
+      dispatch(getActivitiesByUser(userId));
+      dispatch(getRecordByIdDate(userId, currentDay.current.value));
+      const three = await dispatch(getCoffeeSizesByUser(userId));
+      const four = await dispatch(getDrinksByUser(userId));
+      const five = await dispatch(getSleepStage(currentDay.current.value));
+    };
 
-    dispatch(getRecordByIdDate(userId, currentDay.current.value));
-    dispatch(getActivitiesByUser(userId));
-    dispatch(getCoffeeSizesByUser(userId));
-    dispatch(getDrinksByUser(userId));
-    dispatch(getSleepStage(currentDay.current.value));
+    fetchData().catch(console.error);
 
     if (!recordStatus) {
       return;
