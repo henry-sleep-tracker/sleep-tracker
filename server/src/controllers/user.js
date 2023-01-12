@@ -1,33 +1,53 @@
-const axios = require("axios");
-const { User } = require("../db");
+const {
+  findUserByEmail,
+  findUserById,
+  updatePassword,
+} = require("../functions/user");
+const bcrypt = require("bcrypt");
+const { STRIPE_SECRET_KEY } = process.env;
+const Stripe = require("stripe");
+const JWT_SECRET = "CVDF61651BV231TR894VBCX51LIK5LÑK84";
+const basicURL = "http://localhost:3000";
+const jwt = require("jsonwebtoken");
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2020-08-27",
+});
+const { User } = require("../db.js");
 const nullUser = {
-  id: 0,
-  isAdmin: false,
-  isActive: false,
-  email: "",
-  hashedPassword: "",
-  names: "",
-  lastNames: "",
-  nationality: "",
-  birthday: "",
-  lastConnection: "",
-};
-const repeatedEmail = async (email) => {
-  try {
-    let foundEmail = await User.findAll({ where: { email: email } }); //busca los paises
-    return foundEmail;
-  } catch (error) {
-    console.log("El error controllers user repeatedEmail es:", error.message);
-    res
-      .status(401)
-      .send("El error controllers user repeatedEmail es:", error.message);
-  }
+  dataValues: "",
 };
 
-const postUser = async (bodyInfo) => {
+const postUser = async (req, res) => {
   try {
-    const createdUser = await User.create(bodyInfo);
-    return createdUser.dataValues;
+    const { email, password, names, lastNames, nationality, birthday } =
+      req.body;
+    const hashedPassword = await bcrypt.hash(password, 10); //la segunda variable es el numero de rondas que se encriptara
+    const customer = await stripe.customers.create(
+      {
+        email,
+      },
+      {
+        apiKey: process.env.STRIPE_SECRET_KEY,
+      }
+    );
+    const bodyInfo = {
+      email,
+      hashedPassword,
+      names,
+      lastNames,
+      nationality,
+      birthday,
+      stripeCustomerId: customer.id,
+    };
+    if (!email || !names || !lastNames) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
+    const oldUser = await findUserByEmail(email);
+    if (oldUser.id !== 0) {
+      return res.status(406).send(`El email ya esta registrado en la BD`);
+    }
+    let createdUser = await User.create(bodyInfo);
+    res.status(201).json(createdUser); //201 es que fue creado
   } catch (error) {
     console.log("El error controllers user postUser es:", error.message);
     res
@@ -35,15 +55,91 @@ const postUser = async (bodyInfo) => {
       .send("El error controllers user postUser es:", error.message);
   }
 };
-const getUserByEmail = async (email) => {
+
+const postGoogleUser = async (req, res) => {
   try {
-    const userFound = await User.findOne({
-      where: { email: email },
-    });
-    if (userFound !== null) {
-      return userFound.dataValues;
+    const { email, names, lastNames } = req.body;
+    const customer = await stripe.customers.create(
+      {
+        email,
+      },
+      {
+        apiKey: process.env.STRIPE_SECRET_KEY,
+      }
+    );
+    if (!email || !names || !lastNames) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
+    const bodyInfo = { email, names, lastNames, stripeCustomerId: customer.id };
+    const oldUser = await findUserByEmail(email);
+    if (oldUser.id !== 0) {
+      return res.status(202).send(oldUser);
     } else {
-      return nullUser;
+      let createdUser = await User.create(bodyInfo);
+      res.status(201).json(createdUser.dataValues); //201 es que fue creado
+    }
+  } catch (error) {
+    console.log("El error controllers user postGoogleUser es:", error.message);
+    res.status(401).send("El error controllers user postGoogleUser es");
+  }
+};
+
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
+    const oldUser = await findUserByEmail(email);
+    if (oldUser.id === 0) {
+      return res.status(202).send({ status: "el usuario no existe" });
+    }
+    const secret = JWT_SECRET + oldUser.hashedPassword;
+    const token = jwt.sign({ email: oldUser.email, id: oldUser.id }, secret, {
+      expiresIn: "50m",
+    });
+    const link = `${basicURL}/reiniciar_contrasena/${oldUser.id}/${token}`;
+    console.log("el link es:", link);
+    res.status(200).json(link); //201 es que fue creado
+  } catch (error) {
+    console.log("El error controllers user forgotPassword es:", error.message);
+    res.status(401).send("El error controllers user forgotPassword es");
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { id, token } = req.params;
+    const { password } = req.body;
+    if (!id || !token || !password) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
+    const oldUser = await User.findOne({ where: { id: id } });
+    if (!oldUser) {
+      return res.status(202).send("el usuario no existe");
+    }
+    const secret = JWT_SECRET + oldUser.hashedPassword;
+    const verify = jwt.verify(token, secret);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    updatePassword(id, hashedPassword);
+    res.status(200).send("Verificado");
+  } catch (error) {
+    console.log("El error controllers resetPassword es:", error.message);
+    res.status(400).send("Sin verificar");
+  }
+};
+
+const getUserByEmail = async (req, res) => {
+  try {
+    const { email } = req.params;
+    if (!email) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
+    const user = await findUserByEmail(email);
+    if (user.id === 0) {
+      return res.status(204).send(nullUser);
+    } else {
+      return res.status(200).send(user);
     }
   } catch (error) {
     console.log("El error controllers user getUserByEmail es:", error.message);
@@ -53,58 +149,41 @@ const getUserByEmail = async (email) => {
   }
 };
 
-const getUserById = async (id) => {
+const deleteUser = async (req, res) => {
   try {
-    const userFound = await User.findOne({ where: { id: id } });
-    if (userFound !== null) {
-      return userFound.dataValues;
-    } else {
-      return nullUser;
+    const { id, password } = req.params;
+    function copareHash(password, hashed) {
+      return bcrypt.compareSync(password, hashed);
+    }
+
+    if (!id || !password) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
+
+    const user = await findUserById(id);
+    if (!user) {
+      return res.status(202).send("el usuario no existe");
+    }
+
+    if (copareHash(password, user.hashedPassword)) {
+      const result = await User.destroy({
+        where: {
+          id: id,
+        },
+      });
+      console.log("RESULT DELETE", result); // 0 es que no borro y 1 es que si borro
+      return res.status(200).send("Usuario eliminado");
     }
   } catch (error) {
-    console.log("El error controllers user getUserById es:", error.message);
-    res
-      .status(401)
-      .send("El error controllers user getUserById es:", error.message);
-  }
-};
-const updatePassword = async (id, hashedPassword) => {
-  try {
-    const userFound = await User.findOne({ where: { id: id } });
-    const userUpdated = await userFound.update({
-      hashedPassword: hashedPassword,
-    });
-    userUpdated.save();
-  } catch (error) {
-    console.log("El error controllers user updatePassword es:", error.message);
-    res
-      .status(401)
-      .send("El error controllers user updatePassword es:", error.message);
-  }
-};
-const updateFreePlanUsage = async (id) => {
-  try {
-    const userFound = await User.findOne({ where: { id: id } });
-    const userUpdated = await userFound.update({
-      hasUsedFreePlan: true,
-    });
-    userUpdated.save();
-  } catch (error) {
-    console.log(
-      "El error controllers user updateFreePlanUsage es:",
-      error.message
-    );
-    res
-      .status(401)
-      .send("El error controllers user updateFreePlanUsage es:", error.message);
+    return res.status(400).send("No se pudo eliminar el usuario");
   }
 };
 
 module.exports = {
   postUser,
-  repeatedEmail,
+  postGoogleUser,
+  forgotPassword,
+  resetPassword,
   getUserByEmail,
-  getUserById,
-  updatePassword,
-  updateFreePlanUsage,
+  deleteUser,
 };
