@@ -1,11 +1,11 @@
 const { Router } = require("express");
 const {
-  getSleepByDate,
-  getSleepByRange,
+  getSleepStage,
+  getSleepSession,
 } = require("../controllers/getSleep_controller");
 const router = Router();
 
-router.get("/date", getSleepByDate);
-router.get("/range", getSleepByRange);
+router.get("/date", getSleepStage);
+router.get("/range", getSleepSession);
 
 module.exports = router;

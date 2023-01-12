@@ -1,44 +1,40 @@
-import React from "react";
+import { Card, CardContent } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Bar,  Legend, XAxis, YAxis, Tooltip,  Line, ComposedChart } from "recharts";
+
+import { Bar, CartesianGrid, Legend, XAxis, YAxis, Tooltip, Line, ComposedChart } from "recharts";
 
 
-export default function GraphRecord(){
-    const records = useSelector((state) => state?.record.recordsRange) 
+export default function GraphRecord() {
+  const records = useSelector((state) => state?.record.recordsRange)
 
 
-console.log('records antes',records);
+  console.log('records antes', records);
 
-let auxRecords = []
-let auxRecord = records[0]
+  let auxRecords = []
+  let auxRecord = records[0]
 
-
-
-for (let i = 1; i < records.length; i++) {
-  if (auxRecord.dateMeal === records[i].dateMeal) {
-    auxRecord = {
-      ...auxRecord,
-      coffee: auxRecord.coffee + records[i].coffee,
-      drinks: auxRecord.drinks + records[i].drinks,
-      timeActivity: auxRecord.timeActivity + records[i].timeActivity,
-    };
+  for (let i = 1; i < records.length; i++) {
+    if (auxRecord.dateMeal === records[i].dateMeal) {
+      auxRecord = {
+        ...auxRecord,
+        coffee: auxRecord.coffee + records[i].coffee,
+        drinks: auxRecord.drinks + records[i].drinks,
+        timeActivity: auxRecord.timeActivity + records[i].timeActivity,
+      };
+    } else {
+      auxRecords.push(auxRecord);
+      auxRecord = records[i];
+    }
   }
-  else {
-    auxRecords.push(auxRecord)
-    auxRecord = records[i]
-  }
-}
 
-auxRecords.push(auxRecord)
+  auxRecords.push(auxRecord);
 
-console.log('records',records);
-console.log('AAAUUXXXrecords',auxRecords);
+  console.log("records", records);
+  console.log("AAAUUXXXrecords", auxRecords);
 
-
-const data = [
+  const data = [
     ...auxRecords.map((d) => {
-        
-      
       return {
         Dia: d?.dateMeal,
         Café: d?.coffee,
@@ -48,11 +44,23 @@ const data = [
       };
     }),
   ];
+  console.log("data", data);
+  
+    const [windowWidth, setwindowWidth] = useState(window.innerWidth)
 
+  const handleResize = () => {
+    setwindowWidth(window.innerWidth)
+  }
 
-    return(
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+  }, [])
 
-
+return (
+  <Card
+  variant="outlined"
+>
+  <CardContent>
 <ComposedChart width={730} height={250} data={data} >
   <XAxis dataKey="Dia"  />
   <YAxis yAxisId='left'   />
@@ -88,6 +96,8 @@ const data = [
       />
  
 </ComposedChart>
+</CardContent>
+</Card>
+      
     )
 }
-

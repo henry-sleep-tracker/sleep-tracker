@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DateRange } from "react-date-range";
-import { getSleepByRange } from "../../actions/getSleepData";
+import { getSleepSession } from "../../actions/getUserHealthData";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { Button, Card, CardContent, Grid } from "@mui/material";
+import { ResponsiveContainer } from "recharts";
 import { getRecordsRange } from "../../actions/records_data";
 
 export default function Calendario() {
@@ -32,10 +34,10 @@ export default function Calendario() {
         .split("T")[0];
       console.log("start", startDate);
       console.log("end", endDate);
-      dispatch(getSleepByRange(startDate, endDate));
-      let id =currentUser.id
-      let date = startDate
-      dispatch(getRecordsRange(id, date, endDate))
+      dispatch(getSleepSession(startDate, endDate));
+      let id = currentUser.id;
+      let date = startDate;
+      dispatch(getRecordsRange(id, date, endDate));
     }
   };
 
@@ -49,14 +51,34 @@ export default function Calendario() {
   };
 
   return (
-    <div>
-      <button onClick={toggleCalendar}>hide</button>
-      <DateRange
-        editableDateInputs={true}
-        onChange={handleChange}
-        moveRangeOnFirstSelection={false}
-        ranges={state}
-      />
-    </div>
+    <Card>
+      <CardContent>
+        {/* <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          direction="column"
+          spacing={3}
+          flex={4}
+          p={2}
+        > */}
+        {/* <Grid item>
+            <Button onClick={toggleCalendar} variant="outlined">
+              hide
+            </Button>
+          </Grid> */}
+
+        {/* <Grid item> */}
+        <DateRange
+          editableDateInputs={true}
+          onChange={handleChange}
+          moveRangeOnFirstSelection={false}
+          ranges={state}
+        />
+
+        {/* </Grid>
+        </Grid> */}
+      </CardContent>
+    </Card>
   );
 }

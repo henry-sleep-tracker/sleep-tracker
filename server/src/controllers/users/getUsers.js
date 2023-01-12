@@ -1,8 +1,6 @@
-const { Router } = require("express");
-const router = Router();
-const { User, Plan } = require("../db.js");
+const { User, Plan } = require("../../db.js");
 
-router.get("/", async (req, res) => {
+const getUsers = async (req, res) => {
   let { page, limit } = req.query;
   if (!page) page = 1;
   if (!limit) limit = 10;
@@ -27,13 +25,13 @@ router.get("/", async (req, res) => {
       }
     });
 
-    res.status(200).send({
+    return res.status(200).send({
       users: users.slice((page - 1) * limit, page * limit),
       total: users.length,
     });
   } catch (error) {
     return res.status(400).send(error.message);
   }
-});
+};
 
-module.exports = router;
+module.exports = { getUsers };

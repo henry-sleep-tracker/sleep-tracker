@@ -17,10 +17,17 @@ import log from "../logi/log-.png";
 import { useAuthContext } from "../../actions/authContext";
 import { useDispatch } from "react-redux";
 import { logOutUser, cleanExpDate } from "../../actions";
-import Notification from "../Recomendation/notification";
+import { Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Switch, styled } from "@mui/material";
+import { AccountBalanceWalletSharp, AppRegistration, DarkMode, DevicesOther, Groups2, Login, QuestionMark } from "@mui/icons-material";
+import Home from "./Home";
+import TimelineIcon from '@mui/icons-material/Timeline';
+import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AddCommentIcon from '@mui/icons-material/AddComment';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
-function ResponsiveAppBar() {
-  const dispatch=useDispatch();
+function ResponsiveAppBar({ mode, setMode }) {
+  const dispatch = useDispatch();
   const currentUser = useSelector((state) => state?.users.currentUser);
   const { logout } = useAuthContext();
   const navigate = useNavigate();
@@ -31,8 +38,8 @@ function ResponsiveAppBar() {
 
   async function handleLogOut(event) {
     event.preventDefault();
-    dispatch( logOutUser());
-    dispatch( cleanExpDate());
+    dispatch(logOutUser());
+    dispatch(cleanExpDate());
     await logout();
   }
   const handleOpenNavMenu = event => {
@@ -65,30 +72,70 @@ function ResponsiveAppBar() {
 
   const handlerRecord = e => {
     e.preventDefault();
-    navigate("/private/newrecord");
+    navigate("/private/records");
   };
 
+  const handlerProfile = e => {
+    e.preventDefault();
+    navigate("/private/profile");
+  };
+
+  const handlerPlans = e => {
+    e.preventDefault();
+    navigate("/private/planes");
+  };
+
+  const handlerComment = e => {
+    e.preventDefault();
+    navigate("/private/createcomment");
+  };
+
+  const handlerDashboard = e => {
+    e.preventDefault();
+    navigate("/private/dashboard");
+  };
+
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  // const StyledToolbar = styled(Toolbar)({
+  //   display: "flex",
+  //   justifyContent: "space-between",
+  //   alignItems: 'center',
+  // })
+
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#24559e" }}>
+    <AppBar position="sticky">
+      {/* <StyledToolbar> */}
+
       <Container maxWidth="xl" sx={{ color: "black" }}>
         <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box
+          // sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              onClick={handleDrawerToggle}
               color="inherit"
             >
               <MenuIcon />
             </IconButton>
 
             <Button onClick={handleBack}>
-              <img src={log} alt="logo" width="200px" />
+              <img
+                src={log}
+                alt="logo"
+                width="200px"
+              />
             </Button>
 
-            <Menu
+            {/* <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -123,17 +170,158 @@ function ResponsiveAppBar() {
               <MenuItem key="registro">
                 <Button onClick={handlerRecord}>Registrar actividad</Button>
               </MenuItem>
-            </Menu>
+            </Menu> */}
           </Box>
 
+          <Box
+            component="nav"
+            // sx={{ width: { sm: 240 }, flexShrink: { sm: 0 } }}
+          >
+            <Drawer
+              variant="temporary"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+              <div>
+                <List>
+
+                  <ListItem disablePadding>
+                    <ListItemButton component='a'>
+                      <ListItemIcon>
+                        <PersonIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Perfil"
+                        onClick={handlerProfile}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+
+                  {currentUser.isAdmin &&
+                    <ListItem disablePadding>
+                      <ListItemButton component='a'>
+                        <ListItemIcon>
+                          <DashboardIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Tablero de administrador"
+                          onClick={handlerDashboard}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  }
+
+                  <Divider />
+
+                  <ListItem disablePadding>
+                    <ListItemButton component='a'>
+                      <ListItemIcon>
+                        <DarkMode />
+                      </ListItemIcon>
+                      <Switch onChange={event => setMode(mode === "light" ? "dark" : "light")} />
+                    </ListItemButton>
+                  </ListItem>
+
+                  <Divider />
+
+
+                  <ListItem disablePadding>
+                    <ListItemButton component='a'>
+                      <ListItemIcon>
+                        <Groups2 />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Conoce al equipo"
+                        onClick={handleConoce}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+
+                  <ListItem disablePadding>
+                    <ListItemButton component='a'>
+                      <ListItemIcon>
+                        <TimelineIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Graficas"
+                        onClick={handleGraph}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      component='a'
+                    >
+                      <ListItemIcon>
+                        <QuestionMark />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Registrar actividad"
+                        onClick={handlerRecord}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      component='a'
+                    >
+                      <ListItemIcon>
+                        <AccountBalanceWalletSharp />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Planes de pago"
+                        onClick={handlerPlans} />
+                    </ListItemButton>
+                  </ListItem>
+
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      component='a'
+                    >
+                      <ListItemIcon>
+                        <AddCommentIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Dejar comentario"
+                        onClick={handlerComment} />
+                    </ListItemButton>
+                  </ListItem>
+
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      component='a'
+                    >
+                      <ListItemIcon>
+                        <LogoutIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Cerrar sesion"
+                        onClick={event => handleLogOut(event)}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+
+                </List>
+
+              </div>
+
+            </Drawer>
+          </Box>
+
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Tooltip title="Inicio">
+            {/* <Tooltip title="Inicio">
               <Button onClick={handleBack}>
                 <img src={log} alt="logo" width="200px" />
               </Button>
-            </Tooltip>
+            </Tooltip> */}
             <Button
-              key="hola"
+              key="conoce al equipo"
               onClick={handleConoce}
               sx={{ my: 2, color: "white", display: "block" }}
             >
@@ -142,7 +330,7 @@ function ResponsiveAppBar() {
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
-              key="hola"
+              key="Graficas"
               onClick={handleGraph}
               sx={{ my: 2, color: "white", display: "block" }}
             >
@@ -150,7 +338,7 @@ function ResponsiveAppBar() {
             </Button>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          {/* <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               key="pdf"
               download="pdf"
@@ -159,19 +347,18 @@ function ResponsiveAppBar() {
             >
               Reporte PDF
             </Button>
-          </Box>
+          </Box> */}
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
-              key="actividad"
+              key="Registrar Actividad"
               onClick={handlerRecord}
               sx={{ my: 2, color: "white", display: "block" }}
             >
               Registrar Actividad
             </Button>
           </Box>
-          
-
+{/* 
           <Box sx={{ flexGrow: 0 }}>
             { currentUser.email?  <Notification/>: <> </>}
             <Tooltip title="Settings">
@@ -202,15 +389,18 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem key="Perfil" onClick={handleCloseUserMenu}>
+              <MenuItem
+                key="Perfil"
+                onClick={handleCloseUserMenu}
+              >
                 <Link to="/private/profile">
                   <Button>Perfil</Button>
                 </Link>
               </MenuItem>
 
-              { currentUser.isAdmin? 
+              {currentUser.isAdmin ?
                 <MenuItem key="Dashboard" onClick={handleCloseUserMenu}>
-                  <Button onClick={ event => navigate('/private/dashboard')}>Dashboard</Button>
+                  <Button onClick={event => navigate('/private/dashboard')}>Dashboard</Button>
                 </MenuItem>
                 :
                 <> </>
@@ -221,12 +411,11 @@ function ResponsiveAppBar() {
               </MenuItem>
               
             </Menu>
-            
-        
-          </Box>
-          
+          </Box> */}
         </Toolbar>
       </Container>
+      {/* </StyledToolbar> */}
+
     </AppBar>
   );
 }

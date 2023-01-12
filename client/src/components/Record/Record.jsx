@@ -35,6 +35,11 @@ import {
   setStatusNewRecord,
 } from "../../actions/records";
 
+import {
+  getSleepStage,
+  getSleepSession,
+} from "../../actions/getUserHealthData";
+
 // Import images
 import check from "../../images/check-mark-button_2705.png";
 import memo from "../../images/memo2.png";
@@ -66,6 +71,7 @@ const Record = (props) => {
   const navigate = useNavigate();
   let sleepTimeMinutes = "";
   let sleepTime12Format = "";
+  let check = "";
 
   // useRef Hook
   const timeRef = useRef();
@@ -90,7 +96,7 @@ const Record = (props) => {
   const activitiesRedux = useSelector((state) => state.record.activities);
   const coffeeSizesRedux = useSelector((state) => state.record.coffeeSizes);
   const drinksRedux = useSelector((state) => state.record.drinks);
-  const sleepTime = useSelector((state) => state.date);
+  const sleepTime = useSelector((state) => state.stage); //--> Estado global que guarda los segundos de suenio
 
   /******************** Functions Before load component *********************/
 
@@ -102,13 +108,24 @@ const Record = (props) => {
     // eslint-disable-next-line no-unused-vars
     sleepTime12Format = time_convert(sleepTimeMinutes);
   }
+
   const [sleepSync, setSleepSync] = useState(
     dateStringToDate(sleepTime[0]?.date.replace("-", ""))
   );
 
-  const [sleepRedux, setSleepRedux] = useState(
-    recordsUserRedux?.map((e) => e.sleepTime)
-  );
+  const [sleepRedux, setSleepRedux] = useState();
+  /* recordsUserRedux.length < 1
+      ? "No existen registros"
+      : recordsUserRedux.hasOwnProperty("message")
+      ? recordsUserRedux.message
+      : recordsUserRedux[0].sleepTimeNumber */
+
+  console.log(`sleepTime in Minutes ${sleepRedux}`);
+  console.log(`console.log de temp: ${temp.length}`);
+  if (recordsUserRedux.length) {
+    check = recordsUserRedux?.map((e) => e.sleepTimeNumber);
+  }
+  console.log(`console.log de check: ${check.length}`);
 
   /******************** Local States Section *********************/
 
@@ -184,6 +201,9 @@ const Record = (props) => {
 
   const handlerOnChange = (e) => {
     setRecord({ ...record, [e.target.name]: e.target.value });
+    if (e.target.name === "dateMeal") {
+      dispatch(getRecordsQuery(userId, e.target.value));
+    }
   };
 
   const handlerOnSubmit = (e) => {
@@ -249,7 +269,7 @@ const Record = (props) => {
     setCoffeeStatus(false);
     setDrinkStatus(false);
     setTime({ startTime: "", endTime: "" });
-    setSync(false);
+    //setSync(false);
   };
 
   const handlerOnClear = (e) => {
@@ -276,7 +296,7 @@ const Record = (props) => {
     setCoffeeStatus(false);
     setDrinkStatus(false);
     setTime({ startTime: "", endTime: "" });
-    setSync(false);
+    //setSync(false);
   };
 
   //! ================== SleepTime Handlers ================= !//
@@ -287,7 +307,36 @@ const Record = (props) => {
 
   const handlerSync = (e) => {
     e.preventDefault();
+    setRecord((record.sleepTime = sleepTimeMinutes));
+    if (record.timeMeal === "") {
+      let time = time_maker();
+      setRecord((record.timeMeal = time));
+    }
+    dispatch(createNewRecord(record));
+    //message.success(`Se sincronizo tu sueño correctamente`, 2500);
+
     setSync(true);
+    setRecord({
+      dateMeal: date_maker(),
+      timeMeal: "",
+      description: "",
+      sleepTime: "",
+      napTime: [],
+      timeActivity: [],
+      coffeeCups: [],
+      drinks: [],
+      coffee: [],
+      drink: [],
+      activity: [],
+      userId: userId,
+    });
+    setActivity([]);
+    setCoffee([]);
+    setDrink([]);
+    setActivityStatus(false);
+    setCoffeeStatus(false);
+    setDrinkStatus(false);
+    setTime({ startTime: "", endTime: "" });
   };
 
   //! ================== Activity Handlers ================= !//
@@ -599,27 +648,32 @@ const Record = (props) => {
 
     setDrinkStatus(false);
   };
-  setTimeout(() => {
-    console.log(sleepRedux);
-  }, 3000);
 
   // Mount/Unmount Component
   useEffect(() => {
     const fetchData = async () => {
-      if (sleepTime[0]) {
+      /* if (sleepTime[0]) {
         const getRecords = await dispatch(
           getRecordsQuery(userId, sleepTime[0]?.date)
         );
-      }
+      } */
       // eslint-disable-next-line no-unused-vars
       const dataActivitiy = await dispatch(getActivitiesByUser(userId));
       // eslint-disable-next-line no-unused-vars
       const dataCoffeSize = await dispatch(getCoffeeSizesByUser(userId));
       // eslint-disable-next-line no-unused-vars
       const dataDrinks = await dispatch(getDrinksByUser(userId));
+      const getSleepRecord = await dispatch(getSleepStage("2023-01-10"));
+      const getSleepRangeRecord = await dispatch(
+        getSleepSession("2023-01-01", "2023-01-10")
+      );
     };
+    if (check) {
+      setSync(true);
+    }
 
     fetchData().catch(console.error);
+
     if (!recordStatus) {
       return;
     } else {
@@ -938,12 +992,11 @@ const Record = (props) => {
                 ></textarea>
               </div>
             </div>
-
-            <div className="sleep_container">
+            <div className="sleep_container" hidden={sync ? true : false}>
               <div>
                 <h2>
                   <img src={personBed} alt="" className="person_bed" />
-                  Tiempo de Sueño
+                  Tiempo de Sueño{" "}
                   <img
                     src={check}
                     alt=""
@@ -956,19 +1009,18 @@ const Record = (props) => {
                   />
                 </h2>
               </div>
-              {sync ? (
-                <div>
+              {temp.length > 0 ? (
+                <div className="sync_div_true">
                   <h3>El dia {sleepSync}</h3>
                   <h4>Dormiste: {sleepTime12Format}</h4>
+                  <span
+                    className="sync"
+                    hidden={sleepTime.length > 0 ? false : true}
+                    onClick={handlerSync}
+                  >
+                    sincronizar
+                  </span>
                 </div>
-              ) : sleepTime12Format ? (
-                <span
-                  className="sync"
-                  hidden={sleepTime.length > 0 ? false : true}
-                  onClick={handlerSync}
-                >
-                  sincronizar
-                </span>
               ) : (
                 <div className="sleep_section">
                   <label>Dormiste </label>

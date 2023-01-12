@@ -43,7 +43,7 @@ function CustomPagination({ totalUsers }) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <Box>
-        Usuarios Totales: { totalUsers }
+        Total de Usuarios: { totalUsers }
       </Box>
       <Pagination
         color="primary"
