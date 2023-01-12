@@ -62,7 +62,7 @@ const getRecords = async (req, res) => {
 
         if (recordsRes[i].timeActivity.length >= 1) {
           timeActivity = recordsRes[i].timeActivity.flat();
-          typeActivity = recordsRes[i].activities.map((e) => e.activity).flat();
+          typeActivity = recordsRes[i].activities.map(e => e.activity).flat();
 
           for (let i = 0; i < timeActivity.length; i++) {
             joinActivity.push(`${timeActivity[i]} min de ${typeActivity[i]}`);
@@ -71,7 +71,7 @@ const getRecords = async (req, res) => {
 
         if (recordsRes[i].coffeeCups.length >= 1) {
           coffeeCups = recordsRes[i].coffeeCups.flat();
-          coffeeSizes = recordsRes[i].coffeeSizes.map((e) => e.size).flat();
+          coffeeSizes = recordsRes[i].coffeeSizes.map(e => e.size).flat();
 
           for (let i = 0; i < coffeeCups.length; i++) {
             coffeeCups[i] > 1
@@ -82,7 +82,7 @@ const getRecords = async (req, res) => {
 
         if (recordsRes[i].drinks.length >= 1) {
           quantityDrinks = recordsRes[i].drinks.flat();
-          typeDrinks = recordsRes[i].alcoholTypes.map((e) => e.drink).flat();
+          typeDrinks = recordsRes[i].alcoholTypes.map(e => e.drink).flat();
 
           for (let i = 0; i < quantityDrinks.length; i++) {
             quantityDrinks[i] > 1
@@ -104,7 +104,7 @@ const getRecords = async (req, res) => {
           napTime:
             recordsRes[i].napTime.length < 1
               ? "sin registro"
-              : recordsRes[i].napTime.map((e) => `${e} min. de siesta`),
+              : recordsRes[i].napTime.map(e => `${e} min. de siesta`),
           activities: joinActivity.length < 1 ? "sin registro" : joinActivity,
           coffees: joinCoffee.length < 1 ? "sin registro" : joinCoffee,
           drinks: joinDrinks.length < 1 ? "sin registro" : joinDrinks,
@@ -115,8 +115,7 @@ const getRecords = async (req, res) => {
     } catch (err) {
       return res.status(400).json(err);
     }
-  }
-  if (id && date) {
+  } else {
     const finalResultId = [];
     try {
       const resDb = await NewRecord.findAll({
@@ -147,62 +146,49 @@ const getRecords = async (req, res) => {
 
         if (resDb[i].timeActivity.length >= 1) {
           timeActivity = resDb[i].timeActivity.flat();
-          typeActivity = resDb[i].activities.map((e) => e.activity).flat();
+          typeActivity = resDb[i].activities.map(e => e.activity).flat();
 
-          for (let i = 0; i < timeActivity.length; i++) {
-            joinActivity.push(`${timeActivity[i]} min de ${typeActivity[i]}`);
-          }
+          /* for (let i = 0; i < timeActivity.length; i++) {
+          joinActivity.push(`${timeActivity[i]} min de ${typeActivity[i]}`);
+        } */
         }
 
         if (resDb[i].coffeeCups.length >= 1) {
           coffeeCups = resDb[i].coffeeCups.flat();
-          coffeeSizes = resDb[i].coffeeSizes.map((e) => e.size).flat();
+          coffeeSizes = resDb[i].coffeeSizes.map(e => e.size).flat();
 
-          for (let i = 0; i < coffeeCups.length; i++) {
-            coffeeCups[i] > 1
-              ? joinCoffee.push(`${coffeeCups[i]} tazas de ${coffeeSizes[i]}`)
-              : joinCoffee.push(`${coffeeCups[i]} taza de ${coffeeSizes[i]}`);
-          }
+          /* for (let i = 0; i < coffeeCups.length; i++) {
+          coffeeCups[i] > 1
+            ? joinCoffee.push(`${coffeeCups[i]} tazas de ${coffeeSizes[i]}`)
+            : joinCoffee.push(`${coffeeCups[i]} taza de ${coffeeSizes[i]}`);
+        } */
         }
 
         if (resDb[i].drinks.length >= 1) {
           quantityDrinks = resDb[i].drinks.flat();
-          typeDrinks = resDb[i].alcoholTypes.map((e) => e.drink).flat();
+          typeDrinks = resDb[i].alcoholTypes.map(e => e.drink).flat();
 
-          for (let i = 0; i < quantityDrinks.length; i++) {
-            quantityDrinks[i] > 1
-              ? joinDrinks.push(`${quantityDrinks[i]} ${typeDrinks[i]}s`)
-              : joinDrinks.push(`${quantityDrinks[i]} ${typeDrinks[i]}`);
-          }
+          /*  for (let i = 0; i < quantityDrinks.length; i++) {
+          quantityDrinks[i] > 1
+            ? joinDrinks.push(`${quantityDrinks[i]} ${typeDrinks[i]}s`)
+            : joinDrinks.push(`${quantityDrinks[i]} ${typeDrinks[i]}`);
+        } */
         }
 
         let obj = {
           id: resDb[i].id,
           userId: resDb[i].userId,
-          //dateMeal: resDb[i].dateMeal,
-          //timeMeal: resDb[i].timeMeal,
-          //description: resDb[i].description,
-          sleepTimeNumber: resDb[i].sleepTime,
-          // napTime: resDb[i].napTime.map(e => e),
-          //timeActivity: timeActivity,
-          //nameActivity: typeActivity,
-          //coffeeConsumption: coffeeCups,
-          //coffeSize: coffeeSizes,
-          //drinkConsumption: quantityDrinks,
-          //typeDrink: typeDrinks,
-
           dateMeal: resDb[i].dateMeal,
-          timeMeal: tConvert(resDb[i].timeMeal),
-          description:
-            resDb[i].description === "" ? "sin registro" : resDb[i].description,
-          sleepTime: `${time_convert(resDb[i].sleepTime)}`,
-          napTime:
-            resDb[i].napTime.length < 1
-              ? "sin registro"
-              : resDb[i].napTime.map((e) => `${e} min. de siesta`),
-          activities: joinActivity.length < 1 ? "sin registro" : joinActivity,
-          coffees: joinCoffee.length < 1 ? "sin registro" : joinCoffee,
-          drinks: joinDrinks.length < 1 ? "sin registro" : joinDrinks,
+          timeMeal: resDb[i].timeMeal,
+          description: resDb[i].description,
+          sleepTime: resDb[i].sleepTime,
+          napTime: resDb[i].napTime.map(e => e),
+          timeActivity: timeActivity,
+          nameActivity: typeActivity,
+          coffeeConsumption: coffeeCups,
+          coffeSize: coffeeSizes,
+          drinkConsumption: quantityDrinks,
+          typeDrink: typeDrinks,
         };
         finalResultId.push(obj);
       }
@@ -242,7 +228,7 @@ const getRecords_by_id = async (req, res) => {
 
       if (resDb[i].timeActivity.length >= 1) {
         timeActivity = resDb[i].timeActivity.flat();
-        typeActivity = resDb[i].activities.map((e) => e.activity).flat();
+        typeActivity = resDb[i].activities.map(e => e.activity).flat();
 
         for (let i = 0; i < timeActivity.length; i++) {
           joinActivity.push(`${timeActivity[i]} min de ${typeActivity[i]}`);
@@ -251,7 +237,7 @@ const getRecords_by_id = async (req, res) => {
 
       if (resDb[i].coffeeCups.length >= 1) {
         coffeeCups = resDb[i].coffeeCups.flat();
-        coffeeSizes = resDb[i].coffeeSizes.map((e) => e.size).flat();
+        coffeeSizes = resDb[i].coffeeSizes.map(e => e.size).flat();
 
         for (let i = 0; i < coffeeCups.length; i++) {
           coffeeCups[i] > 1
@@ -262,7 +248,7 @@ const getRecords_by_id = async (req, res) => {
 
       if (resDb[i].drinks.length >= 1) {
         quantityDrinks = resDb[i].drinks.flat();
-        typeDrinks = resDb[i].alcoholTypes.map((e) => e.drink).flat();
+        typeDrinks = resDb[i].alcoholTypes.map(e => e.drink).flat();
 
         for (let i = 0; i < quantityDrinks.length; i++) {
           quantityDrinks[i] > 1
@@ -282,7 +268,7 @@ const getRecords_by_id = async (req, res) => {
         napTime:
           resDb[i].napTime.length < 1
             ? "sin registro"
-            : resDb[i].napTime.map((e) => `${e} min. de siesta`),
+            : resDb[i].napTime.map(e => `${e} min. de siesta`),
         activities: joinActivity.length < 1 ? "sin registro" : joinActivity,
         coffees: joinCoffee.length < 1 ? "sin registro" : joinCoffee,
         drinks: joinDrinks.length < 1 ? "sin registro" : joinDrinks,
@@ -324,17 +310,17 @@ const getRecords_by_id_unformat = async (req, res) => {
 
       if (resDb[i].timeActivity.length >= 1) {
         timeActivity = resDb[i].timeActivity.flat();
-        typeActivity = resDb[i].activities.map((e) => e.activity).flat();
+        typeActivity = resDb[i].activities.map(e => e.activity).flat();
       }
 
       if (resDb[i].coffeeCups.length >= 1) {
         coffeeCups = resDb[i].coffeeCups.flat();
-        coffeeSizes = resDb[i].coffeeSizes.map((e) => e.size).flat();
+        coffeeSizes = resDb[i].coffeeSizes.map(e => e.size).flat();
       }
 
       if (resDb[i].drinks.length >= 1) {
         quantityDrinks = resDb[i].drinks.flat();
-        typeDrinks = resDb[i].alcoholTypes.map((e) => e.drink).flat();
+        typeDrinks = resDb[i].alcoholTypes.map(e => e.drink).flat();
       }
 
       let obj = {
@@ -344,7 +330,7 @@ const getRecords_by_id_unformat = async (req, res) => {
         timeMeal: resDb[i].timeMeal,
         description: resDb[i].description,
         sleepTime: resDb[i].sleepTime,
-        napTime: resDb[i].napTime.map((e) => e),
+        napTime: resDb[i].napTime.map(e => e),
         timeActivity: timeActivity,
         nameActivity: typeActivity,
         coffeeConsumption: coffeeCups,
@@ -393,17 +379,17 @@ const getRecords_by_id_and_date_unformat = async (req, res) => {
 
       if (resDb[i].timeActivity.length >= 1) {
         timeActivity = resDb[i].timeActivity.flat();
-        typeActivity = resDb[i].activities.map((e) => e.activity).flat();
+        typeActivity = resDb[i].activities.map(e => e.activity).flat();
       }
 
       if (resDb[i].coffeeCups.length >= 1) {
         coffeeCups = resDb[i].coffeeCups.flat();
-        coffeeSizes = resDb[i].coffeeSizes.map((e) => e.size).flat();
+        coffeeSizes = resDb[i].coffeeSizes.map(e => e.size).flat();
       }
 
       if (resDb[i].drinks.length >= 1) {
         quantityDrinks = resDb[i].drinks.flat();
-        typeDrinks = resDb[i].alcoholTypes.map((e) => e.drink).flat();
+        typeDrinks = resDb[i].alcoholTypes.map(e => e.drink).flat();
       }
 
       let obj = {
@@ -413,7 +399,7 @@ const getRecords_by_id_and_date_unformat = async (req, res) => {
         timeMeal: resDb[i].timeMeal,
         description: resDb[i].description,
         sleepTime: resDb[i].sleepTime,
-        napTime: resDb[i].napTime.map((e) => e),
+        napTime: resDb[i].napTime.map(e => e),
         timeActivity: timeActivity,
         nameActivity: typeActivity,
         coffeeConsumption: coffeeCups,

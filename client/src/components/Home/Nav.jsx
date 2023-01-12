@@ -67,7 +67,7 @@ function ResponsiveAppBar({ mode, setMode }) {
   };
   const handleBack = e => {
     e.preventDefault();
-    navigate("/private");
+    navigate("/private/home");
   };
 
   const handlerRecord = e => {

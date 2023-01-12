@@ -1,10 +1,8 @@
-const { Router } = require("express");
-const router = Router();
 const { verifyGoogleToken } = require("../controllers/googleToken.js");
-const { getUserByEmail } = require("../controllers/user");
+const { findUserByEmail } = require("../functions/user");
 const bcrypt = require("bcrypt");
 
-router.post("/", async (req, res) => {
+const login = async (req, res) => {
   try {
     if (req.body.credential) {
       const verificationResponse = await verifyGoogleToken(req.body.credential);
@@ -42,14 +40,15 @@ router.post("/", async (req, res) => {
       message: error?.message || error,
     });
   }
-});
-router.post("/manual", async (req, res) => {
+};
+
+const manualLogin = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(428).send("falta email o contraseña");
   }
   try {
-    const user = await getUserByEmail(email);
+    const user = await findUserByEmail(email);
     if (user.id === 0) {
       return res.status(204).send("contraseña o usuario incorrecto");
     } else {
@@ -67,5 +66,9 @@ router.post("/manual", async (req, res) => {
     console.log("El error middleware login post /manual es:", error.message);
     res.status(401).send("El error middleware login post /manual es");
   }
-});
-module.exports = router;
+};
+
+module.exports = {
+  login,
+  manualLogin,
+};

@@ -61,7 +61,7 @@ return (
   variant="outlined"
 >
   <CardContent>
-<ComposedChart width={730} height={250} data={data} >
+  <ComposedChart width={windowWidth - 150} height={250} data={data} >
   <XAxis dataKey="Dia"  />
   <YAxis yAxisId='left'   />
   <YAxis yAxisId='right' orientation="right" />
