@@ -393,6 +393,24 @@ const Profile = () => {
               <Grid
                 item
               >
+                <Grid
+                item
+              >
+                <Typography
+                  variant='h5'>
+                    Plan actual:
+                </Typography>
+              </Grid>
+              <Grid
+                item
+              >
+                <br/>
+                {
+                    <Button variant="contained">"{currentUser.plan.name}"</Button>
+                      
+                }
+              </Grid>
+
                 {
                   inputs.names || inputs.email || inputs.birthday || inputs.nationality ?
                     <Button

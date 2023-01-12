@@ -96,5 +96,4 @@ export default function GraphRecord() {
           </CardContent>
     </Card>
   )
-  );
 }
