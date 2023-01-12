@@ -17,6 +17,7 @@ import log from "../logi/log-.png";
 import { useAuthContext } from "../../actions/authContext";
 import { useDispatch } from "react-redux";
 import { logOutUser, cleanExpDate } from "../../actions";
+import Notification from "../Recomendation/notification";
 
 function ResponsiveAppBar() {
   const dispatch=useDispatch();
@@ -26,6 +27,7 @@ function ResponsiveAppBar() {
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
 
   async function handleLogOut(event) {
     event.preventDefault();
@@ -168,8 +170,10 @@ function ResponsiveAppBar() {
               Registrar Actividad
             </Button>
           </Box>
+          
 
           <Box sx={{ flexGrow: 0 }}>
+            { currentUser.email?  <Notification/>: <> </>}
             <Tooltip title="Settings">
               <IconButton
                 onClick={handleOpenUserMenu}
@@ -179,6 +183,7 @@ function ResponsiveAppBar() {
                   alt="Remy Sharp"
                   src="https://cdn-icons-png.flaticon.com/512/10/10915.png"
                 />
+                
               </IconButton>
             </Tooltip>
             <Menu
@@ -214,8 +219,12 @@ function ResponsiveAppBar() {
               <MenuItem key="Log Out" onClick={handleCloseUserMenu}>
                 <Button onClick={event => handleLogOut(event)}>Log Out</Button>
               </MenuItem>
+              
             </Menu>
+            
+        
           </Box>
+          
         </Toolbar>
       </Container>
     </AppBar>

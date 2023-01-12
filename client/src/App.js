@@ -25,6 +25,7 @@ import Register from "./components/Register/Register";
 import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
 
 import "./App.css";
+import Recomendation from "./components/Recomendation/Recomendation";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
 axios.defaults.baseURL = "http://localhost:3001/";
 //The following link must be un-comented on gitHub if you wanna work with on-line servers
@@ -53,6 +54,7 @@ function App() {
           <Route path="/private/team" element={<ConoceAlEquipo />} />
           <Route path="/private/fitbit" element={<Fitbit />} />
           <Route path="/private/graficas" element={<GraphWM />} />
+          <Route path="/private/notificacion" element={<Recomendation />} />
           <Route path="/private/planes" element={<Pricing />} />
           <Route path="/private/newrecord" element={<Record />} />
           <Route path="/private/dashboard/*" element={<Dashboard />} />

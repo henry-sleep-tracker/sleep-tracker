@@ -6,7 +6,7 @@ export const getRecordsQuery = (id, date) => {
     return async function (dispatch) {
       try {
         const response = await axios.get(
-          `http://localhost:3001/newrecord?id=${id}&date=${date}`
+          `http://localhost:3001/records?id=${id}&date=${date}`
         );
         dispatch({
           type: GET_RECORDS_USER_DATE,

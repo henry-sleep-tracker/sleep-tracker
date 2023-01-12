@@ -2,6 +2,7 @@ import { Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
 import { Chart } from "react-google-charts";
 import { useSelector } from "react-redux";
+
 const Collection = () => {
  
   const record = useSelector((state) => state?.record.recordsUser)

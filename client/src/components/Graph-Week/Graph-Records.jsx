@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Bar, CartesianGrid, Legend, XAxis, YAxis, Tooltip,  Line, ComposedChart } from "recharts";
+import { Bar,  Legend, XAxis, YAxis, Tooltip,  Line, ComposedChart } from "recharts";
 
 
 export default function GraphRecord(){
@@ -41,10 +41,10 @@ const data = [
       
       return {
         Dia: d?.dateMeal,
-        Cafe: d?.coffee,
+        Café: d?.coffee,
         Ejercicio: d?.timeActivity,
         Alcohol: d?.drinks,
-        Hora: d?.timeMeal
+        Merienda: d?.timeMeal.replace(':', '.').slice(0,-3)
       };
     }),
   ];
@@ -55,15 +55,37 @@ const data = [
 
 <ComposedChart width={730} height={250} data={data} >
   <XAxis dataKey="Dia"  />
-  <YAxis yAxisId='derecha' />
-  <YAxis yAxisId='izquierda'   />
+  <YAxis yAxisId='left'   />
+  <YAxis yAxisId='right' orientation="right" />
   <Tooltip />
   <Legend />
-  <CartesianGrid stroke="#f5f5f5" />
-  <Line type="monotone" dataKey="Ejercicio" fill="black" stroke="#8884d8" yAxisId='izquierda' />
-   {/* <Line type="monotone" dataKey="Hora" fill='green' stroke="#ff7300" yAxisId='izquierda' /> */}
-  <Bar type="monotone" dataKey="Alcohol" fill="red" stroke="#8884d8"  yAxisId='derecha' />
-  <Bar dataKey="Cafe" barSize={20} fill="blue" yAxisId='derecha' />
+  <Bar
+        yAxisId="right"
+        type="monotone"
+        dataKey="Ejercicio"
+        fill="black"
+        minPointSize={2}
+        unit=' min'
+      />
+   <Bar type="monotone" dataKey="Merienda" fill='green' stroke="green" yAxisId='right' unit=' Hrs' />
+   <Bar
+        yAxisId="left"
+        type="monotone"
+        dataKey="Alcohol"
+        barSize={20}
+        fill="red"
+        minPointSize={2}
+        unit=' copas'
+      />
+  <Bar
+        yAxisId="left"
+        type="monotone"
+        dataKey="Café"
+        barSize={20}
+        fill="blue"
+        minPointSize={2}
+        unit= ' tazas'
+      />
  
 </ComposedChart>
     )
