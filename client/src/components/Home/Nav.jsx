@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -17,14 +17,32 @@ import log from "../logi/log-.png";
 import { useAuthContext } from "../../actions/authContext";
 import { useDispatch } from "react-redux";
 import { logOutUser, cleanExpDate } from "../../actions";
-import { Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Switch, styled } from "@mui/material";
-import { AccountBalanceWalletSharp, AppRegistration, DarkMode, DevicesOther, Groups2, Login, QuestionMark } from "@mui/icons-material";
+import {
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Switch,
+  styled,
+} from "@mui/material";
+import {
+  AccountBalanceWalletSharp,
+  AppRegistration,
+  DarkMode,
+  DevicesOther,
+  Groups2,
+  Login,
+  QuestionMark,
+} from "@mui/icons-material";
 import Home from "./Home";
-import TimelineIcon from '@mui/icons-material/Timeline';
-import PersonIcon from '@mui/icons-material/Person';
-import LogoutIcon from '@mui/icons-material/Logout';
-import AddCommentIcon from '@mui/icons-material/AddComment';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import TimelineIcon from "@mui/icons-material/Timeline";
+import PersonIcon from "@mui/icons-material/Person";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AddCommentIcon from "@mui/icons-material/AddComment";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 
 function ResponsiveAppBar({ mode, setMode }) {
   const dispatch = useDispatch();
@@ -41,10 +59,10 @@ function ResponsiveAppBar({ mode, setMode }) {
     dispatch(cleanExpDate());
     await logout();
   }
-  const handleOpenNavMenu = event => {
+  const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = event => {
+  const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
@@ -56,40 +74,40 @@ function ResponsiveAppBar({ mode, setMode }) {
     setAnchorElUser(null);
   };
 
-  const handleConoce = e => {
+  const handleConoce = (e) => {
     e.preventDefault();
     navigate("/private/team");
   };
-  const handleGraph = e => {
+  const handleGraph = (e) => {
     e.preventDefault();
     navigate("/private/graficas");
   };
-  const handleBack = e => {
+  const handleBack = (e) => {
     e.preventDefault();
     navigate("/private/home");
   };
 
-  const handlerRecord = e => {
+  const handlerRecord = (e) => {
     e.preventDefault();
-    navigate("/private/newrecord");
+    navigate("/private/records");
   };
 
-  const handlerProfile = e => {
+  const handlerProfile = (e) => {
     e.preventDefault();
     navigate("/private/profile");
   };
 
-  const handlerPlans = e => {
+  const handlerPlans = (e) => {
     e.preventDefault();
     navigate("/private/planes");
   };
 
-  const handlerComment = e => {
+  const handlerComment = (e) => {
     e.preventDefault();
     navigate("/private/createcomment");
   };
 
-  const handlerDashboard = e => {
+  const handlerDashboard = (e) => {
     e.preventDefault();
     navigate("/private/dashboard");
   };
@@ -127,11 +145,7 @@ function ResponsiveAppBar({ mode, setMode }) {
             </IconButton>
 
             <Button onClick={handleBack}>
-              <img
-                src={log}
-                alt="logo"
-                width="200px"
-              />
+              <img src={log} alt="logo" width="200px" />
             </Button>
 
             {/* <Menu
@@ -186,22 +200,18 @@ function ResponsiveAppBar({ mode, setMode }) {
             >
               <div>
                 <List>
-
                   <ListItem disablePadding>
-                    <ListItemButton component='a'>
+                    <ListItemButton component="a">
                       <ListItemIcon>
                         <PersonIcon />
                       </ListItemIcon>
-                      <ListItemText
-                        primary="Perfil"
-                        onClick={handlerProfile}
-                      />
+                      <ListItemText primary="Perfil" onClick={handlerProfile} />
                     </ListItemButton>
                   </ListItem>
 
-                  {currentUser.isAdmin &&
+                  {currentUser.isAdmin && (
                     <ListItem disablePadding>
-                      <ListItemButton component='a'>
+                      <ListItemButton component="a">
                         <ListItemIcon>
                           <DashboardIcon />
                         </ListItemIcon>
@@ -211,24 +221,27 @@ function ResponsiveAppBar({ mode, setMode }) {
                         />
                       </ListItemButton>
                     </ListItem>
-                  }
+                  )}
 
                   <Divider />
 
                   <ListItem disablePadding>
-                    <ListItemButton component='a'>
+                    <ListItemButton component="a">
                       <ListItemIcon>
                         <DarkMode />
                       </ListItemIcon>
-                      <Switch onChange={event => setMode(mode === "light" ? "dark" : "light")} />
+                      <Switch
+                        onChange={(event) =>
+                          setMode(mode === "light" ? "dark" : "light")
+                        }
+                      />
                     </ListItemButton>
                   </ListItem>
 
                   <Divider />
 
-
                   <ListItem disablePadding>
-                    <ListItemButton component='a'>
+                    <ListItemButton component="a">
                       <ListItemIcon>
                         <Groups2 />
                       </ListItemIcon>
@@ -240,21 +253,16 @@ function ResponsiveAppBar({ mode, setMode }) {
                   </ListItem>
 
                   <ListItem disablePadding>
-                    <ListItemButton component='a'>
+                    <ListItemButton component="a">
                       <ListItemIcon>
                         <TimelineIcon />
                       </ListItemIcon>
-                      <ListItemText
-                        primary="Graficas"
-                        onClick={handleGraph}
-                      />
+                      <ListItemText primary="Graficas" onClick={handleGraph} />
                     </ListItemButton>
                   </ListItem>
 
                   <ListItem disablePadding>
-                    <ListItemButton
-                      component='a'
-                    >
+                    <ListItemButton component="a">
                       <ListItemIcon>
                         <QuestionMark />
                       </ListItemIcon>
@@ -266,52 +274,44 @@ function ResponsiveAppBar({ mode, setMode }) {
                   </ListItem>
 
                   <ListItem disablePadding>
-                    <ListItemButton
-                      component='a'
-                    >
+                    <ListItemButton component="a">
                       <ListItemIcon>
                         <AccountBalanceWalletSharp />
                       </ListItemIcon>
                       <ListItemText
                         primary="Planes de pago"
-                        onClick={handlerPlans} />
+                        onClick={handlerPlans}
+                      />
                     </ListItemButton>
                   </ListItem>
 
                   <ListItem disablePadding>
-                    <ListItemButton
-                      component='a'
-                    >
+                    <ListItemButton component="a">
                       <ListItemIcon>
                         <AddCommentIcon />
                       </ListItemIcon>
                       <ListItemText
                         primary="Dejar comentario"
-                        onClick={handlerComment} />
+                        onClick={handlerComment}
+                      />
                     </ListItemButton>
                   </ListItem>
 
                   <ListItem disablePadding>
-                    <ListItemButton
-                      component='a'
-                    >
+                    <ListItemButton component="a">
                       <ListItemIcon>
                         <LogoutIcon />
                       </ListItemIcon>
                       <ListItemText
                         primary="Cerrar sesion"
-                        onClick={event => handleLogOut(event)}
+                        onClick={(event) => handleLogOut(event)}
                       />
                     </ListItemButton>
                   </ListItem>
-
                 </List>
-
               </div>
-
             </Drawer>
           </Box>
-
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {/* <Tooltip title="Inicio">
@@ -357,7 +357,7 @@ function ResponsiveAppBar({ mode, setMode }) {
               Registrar Actividad
             </Button>
           </Box>
-{/* 
+          {/* 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Settings">
               <IconButton
@@ -411,7 +411,6 @@ function ResponsiveAppBar({ mode, setMode }) {
         </Toolbar>
       </Container>
       {/* </StyledToolbar> */}
-
     </AppBar>
   );
 }
