@@ -17,7 +17,11 @@ import AddCommentIcon from '@mui/icons-material/AddComment';
 import PaymentIcon from '@mui/icons-material/Payment';
 
 const Profile = () => {
+<<<<<<< HEAD
   const { createPassword } = useAuthContext();
+=======
+
+>>>>>>> development
   const currentUser = useSelector((state) => state.users.currentUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -125,7 +129,7 @@ const Profile = () => {
         </Typography>
       </Grid>
 
-      <Grid
+      {/* <Grid
         item
       >
         <Button
@@ -135,7 +139,7 @@ const Profile = () => {
         >
           Regresar
         </Button>
-      </Grid>
+      </Grid> */}
 
       <Grid
         item
@@ -168,7 +172,7 @@ const Profile = () => {
         {/* </Link> */}
       </Grid>
 
-      <Grid
+      {/* <Grid
         item
       >
         <Button
@@ -192,7 +196,7 @@ const Profile = () => {
         >
           Planes de pago
         </Button>
-      </Grid>
+      </Grid> */}
 
       {/* <Grid
         item
@@ -213,10 +217,19 @@ const Profile = () => {
               direction='column'
               justifyContent="center"
               alignItems="center"
-              spacing={3}
+              spacing={2}
               flex={4}
               p={2}
             >
+              <Grid
+                item
+              >
+                <Typography
+                  variant='h4'>
+                    Tu nombre:
+                </Typography>
+              </Grid>
+
               <Grid
                 item
               >
@@ -257,12 +270,21 @@ const Profile = () => {
               <Grid
                 item
               >
+                <Typography
+                  variant='h5'>
+                    Correo electronico:
+                </Typography>
+              </Grid>
+
+              <Grid
+                item
+              >
                 {
                   !editEmail ?
                     <Typography
                       variant="h6"
                     >
-                      {`Correo electronico: ${currentUser.email}`}
+                      {currentUser.email}
                     </Typography>
                     :
                     <TextField
@@ -293,14 +315,24 @@ const Profile = () => {
               <Grid
                 item
               >
+                <Typography
+                  variant='h5'>
+                    Fecha de nacimiento:
+                </Typography>
+              </Grid>
+
+              <Grid
+                item
+              >
                 {
                   !editiBirthday ?
                     <Typography
                       variant="h6"
                     >
-                      {`Fecha de nacimiento: ${currentUser.birthday}`}
+                      {currentUser.birthday}
                     </Typography>
-                    : <TextField
+                    : 
+                    <TextField
                       type="text"
                       name="birthday"
                       label="Nueva fecha de nacimiento"
@@ -329,11 +361,20 @@ const Profile = () => {
               <Grid
                 item
               >
+                <Typography
+                  variant='h5'>
+                    Nacionalidad:
+                </Typography>
+              </Grid>
+
+              <Grid
+                item
+              >
                 {!editNationality ?
                   <Typography
                     variant="h6"
                   >
-                    {`Nationality: ${currentUser.nationality}`}
+                   {currentUser.nationality}
                   </Typography>
                   : <TextField
                     type="text"

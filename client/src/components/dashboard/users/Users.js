@@ -1,8 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { styled, Box, Typography } from "@mui/material";
-import { DataGrid, GridToolbar, gridClasses, esES } from "@mui/x-data-grid";
+import { 
+  DataGrid, 
+  GridToolbarContainer, 
+  GridToolbarColumnsButton, 
+  gridClasses, 
+  esES, 
+  gridPageCountSelector,
+  gridPageSelector,
+  useGridApiContext,
+  useGridSelector
+} from "@mui/x-data-grid";
 import { grey } from "@mui/material/colors";
+import Pagination from '@mui/material/Pagination';
 
 import { getUsers } from "../../../actions/users";
 import UsersActions from "./UsersActions";
@@ -15,6 +26,34 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
+
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+    </GridToolbarContainer>
+  );
+}
+
+function CustomPagination({ totalUsers }) {
+  const apiRef = useGridApiContext();
+  const page = useGridSelector(apiRef, gridPageSelector);
+  const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Box>
+        Total de Usuarios: { totalUsers }
+      </Box>
+      <Pagination
+        color="primary"
+        count={pageCount}
+        page={page + 1}
+        onChange={(event, value) => apiRef.current.setPage(value - 1)}
+      />
+  </Box>
+  );
+};
 
 function UsersContent() {
 
@@ -30,7 +69,6 @@ function UsersContent() {
     page: 1,
     pageSize: 5
   });
-  //https://www.youtube.com/watch?v=FdISUQrdmuo&t=477s
 
   useEffect(() => {
     dispatch(getUsers(pageState.page, pageState.pageSize));
@@ -58,62 +96,30 @@ function UsersContent() {
 
   const columns = useMemo(
     () => [
-      {
-        field: "fullName",
-        headerName: "Nombre Completo",
-        width: 200,
-        valueGetter: getFullName,
-      },
-      {
-        field: "lastNames",
-        headerName: "Apellidos",
-        width: 170,
-        editable: true,
-      },
+      { field: "fullName", headerName: "Nombre Completo", width: 200, valueGetter: getFullName },
+      { field: "lastNames", headerName: "Apellidos", width: 170, editable: true },
       { field: "names", headerName: "Nombres", width: 170, editable: true },
       { field: "email", headerName: "Email", width: 170 },
-      { field: "plans", headerName: "Suscripcion", width: 170, editable: true },
-      {
-        field: "isAdmin",
-        headerName: "Admin",
-        width: 85,
-        type: "singleSelect",
-        valueOptions: ["true", "false"],
-        editable: true,
+      { field: "plan", headerName: "Suscripción", width: 125, headerAlign: 'center', align: 'center',
+          valueGetter:  params => { 
+          console.log(params);
+          return params.row.plan?.name || 'Basico';
+        }
       },
-      {
-        field: "birthday",
-        headerName: "Nacimiento",
-        type: "date",
-        editable: true,
+      { field: "isAdmin", headerName: "Admin", width: 85, headerAlign: 'center', align: 'center', 
+        type: "singleSelect", editable: true, 
+        valueOptions: [{ value: true, label: 'Si' }, { value: false, label: 'No'} ], 
+        valueFormatter: params => {
+          if(params.value === true ) return 'Si';
+          else return 'No';
+        }
       },
-      {
-        field: "nationality",
-        headerName: "Nacionalidad",
-        width: 125,
-        editable: true,
-      },
-      {
-        field: "lastConnection",
-        headerName: "Última Conexión",
-        type: "date",
-        width: 125,
-      },      {
-        field: "createdAt",
-        headerName: "Creado",
-        type: "date",
-        width: 175,
-      },
-      {
-        field: "deletedAt",
-        headerName: "Eliminado",
-        type: "date",
-        width: 175,
-      },
-      {
-        field: "actions",
-        headerName: "Acciones",
-        type: "actions",
+      { field: "birthday", headerName: "Nacimiento", type: "date", editable: true },
+      { field: "nationality", headerName: "Nacionalidad", width: 125, editable: true },
+      { field: "lastConnection", headerName: "Última Conexión", type: "date", width: 125 }, 
+      { field: "createdAt", headerName: "Creado", type: "date", width: 175 },
+      { field: "deletedAt", headerName: "Eliminado", type: "date", width: 175 },
+      { field: "actions", headerName: "Acciones", type: "actions",
         renderCell: (params) => (
           <UsersActions {...{ params, rowId, setRowId, pageState }} />
         ),
@@ -148,9 +154,7 @@ function UsersContent() {
           columns={columns}
           rows={pageState.users}
 
-          rowsPerPageOptions={[5, 10, 20]}
           pageSize={pageState.pageSize}
-          onPageSizeChange={(newPageSize) => setPageState( old => ({ ...old, pageSize: newPageSize}) ) }
 
           paginationMode="server"
           rowCount={pageState.total}
@@ -169,7 +173,14 @@ function UsersContent() {
             },
           }}
           onCellEditCommit={(params) => setRowId(params.id)}
-          components={{ Toolbar: GridToolbar }}
+          components={{ 
+            Toolbar: CustomToolbar,
+            Pagination: CustomPagination,
+          }}
+          componentsProps={{
+            pagination: { totalUsers: users.total },
+          }}
+
         />
       </Box>
 

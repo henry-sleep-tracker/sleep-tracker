@@ -1,24 +1,48 @@
-import { AppBar, styled, Typography, IconButton, Box, Drawer, ListItem, ListItemButton, ListItemIcon, Switch, ListItemText, Divider, Button } from "@mui/material";
+import {
+    AppBar,
+    styled,
+    Typography,
+    IconButton,
+    Box,
+    Drawer,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    Switch,
+    ListItemText,
+    Divider,
+    Button,
+} from "@mui/material";
 import React from "react";
-import NightShelterIcon from '@mui/icons-material/NightShelter';
-import { AccountBalanceWalletSharp, AppRegistration, DarkMode, DevicesOther, Groups2, Home, Login, /*Mail, Notifications,*/ QuestionMark } from "@mui/icons-material";
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
+import NightShelterIcon from "@mui/icons-material/NightShelter";
+import {
+    AccountBalanceWalletSharp,
+    AppRegistration,
+    DarkMode,
+    DevicesOther,
+    Groups2,
+    Home,
+    Login,
+  /*Mail, Notifications,*/ QuestionMark,
+} from "@mui/icons-material";
+import MenuIcon from "@mui/icons-material/Menu";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
 // import { Stack } from "@mui/system";
 import { theme } from "../../theme";
 import { ThemeProvider } from "@emotion/react";
-import LoginIcon from '@mui/icons-material/Login';
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import CommentIcon from '@mui/icons-material/Comment';
+import LoginIcon from "@mui/icons-material/Login";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import CommentIcon from "@mui/icons-material/Comment";
+import { useSelector } from "react-redux";
 // import { makeStyles } from "@mui/styles";
-
+import log from "../logi/log-.png";
 
 const StyledToolbar = styled(Toolbar)({
     display: "flex",
     justifyContent: "space-between",
-    alignItems: 'center',
-})
+    alignItems: "center",
+});
 
 // const Search = styled("div")(({ theme }) => ({
 //     backgroundColor: "white",
@@ -28,12 +52,12 @@ const StyledToolbar = styled(Toolbar)({
 // }));
 
 const Icons = styled("div")(({ theme }) => ({
-    display: 'none',
-    gap: '20px',
-    alignItems: 'center',
+    display: "none",
+    gap: "20px",
+    alignItems: "center",
     [theme.breakpoints.up("sm")]: {
-        display: 'flex'
-    }
+        display: "flex",
+    },
 }));
 
 // const UserBox = styled("div")(({ theme }) => ({
@@ -44,7 +68,6 @@ const Icons = styled("div")(({ theme }) => ({
 //         display: 'none'
 //     }
 // }));
-
 
 const NavegationBar = ({
     mode,
@@ -58,7 +81,6 @@ const NavegationBar = ({
     page5,
     page6,
 }) => {
-
     // const [open, setOpen] = useState(false)
 
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -69,12 +91,12 @@ const NavegationBar = ({
 
     // const classes = useStyles();
 
+    const currentComments = useSelector((state) => state.comments);
+
     return (
         <ThemeProvider theme={theme}>
-
             <AppBar position="sticky">
                 <StyledToolbar>
-
                     <IconButton
                         aria-label="open drawer"
                         edge="start"
@@ -84,7 +106,10 @@ const NavegationBar = ({
                     </IconButton>
                     <Box
                         component="nav"
-                        sx={{ width: { sm: 240 }, flexShrink: { sm: 0 } }}
+                        sx={{
+                            width: { sm: 240 },
+                            flexShrink: { sm: 0 },
+                        }}
                     >
                         <Drawer
                             variant="temporary"
@@ -96,8 +121,7 @@ const NavegationBar = ({
                         >
                             <div>
                                 <List>
-
-                                    <ListItem disablePadding>
+                                    {/* <ListItem disablePadding>
                                         <ListItemButton component='a'>
                                             <ListItemIcon>
                                                 <DarkMode />
@@ -106,21 +130,19 @@ const NavegationBar = ({
                                         </ListItemButton>
                                     </ListItem>
 
-                                    <Divider />
+                                    <Divider /> */}
 
                                     <ListItem disablePadding>
-                                        <ListItemButton component='a' href='login'>
+                                        <ListItemButton component="a" href="login">
                                             <ListItemIcon>
                                                 <Login />
                                             </ListItemIcon>
-                                            <ListItemText
-                                             primary="Iniciar sesion"
-                                             />
+                                            <ListItemText primary="Iniciar sesion" />
                                         </ListItemButton>
                                     </ListItem>
 
                                     <ListItem disablePadding>
-                                        <ListItemButton component='a' href='registro'>
+                                        <ListItemButton component="a" href="registro">
                                             <ListItemIcon>
                                                 <AppRegistration />
                                             </ListItemIcon>
@@ -132,7 +154,7 @@ const NavegationBar = ({
 
                                     <ListItem disablePadding>
                                         <ListItemButton
-                                            component='a'
+                                            component="a"
                                             onClick={() => setCurrentPage(page1)}
                                         >
                                             <ListItemIcon>
@@ -144,7 +166,7 @@ const NavegationBar = ({
 
                                     <ListItem disablePadding>
                                         <ListItemButton
-                                            component='a'
+                                            component="a"
                                             onClick={() => setCurrentPage(page2)}
                                         >
                                             <ListItemIcon>
@@ -156,7 +178,7 @@ const NavegationBar = ({
 
                                     <ListItem disablePadding>
                                         <ListItemButton
-                                            component='a'
+                                            component="a"
                                             onClick={() => setCurrentPage(page3)}
                                         >
                                             <ListItemIcon>
@@ -168,7 +190,7 @@ const NavegationBar = ({
 
                                     <ListItem disablePadding>
                                         <ListItemButton
-                                            component='a'
+                                            component="a"
                                             onClick={() => setCurrentPage(page4)}
                                         >
                                             <ListItemIcon>
@@ -177,22 +199,23 @@ const NavegationBar = ({
                                             <ListItemText primary="Planes de pago" />
                                         </ListItemButton>
                                     </ListItem>
+                                    {currentComments.data && (
+                                        <ListItem disablePadding>
+                                            <ListItemButton
+                                                component="a"
+                                                onClick={() => setCurrentPage(page6)}
+                                            >
+                                                <ListItemIcon>
+                                                    <CommentIcon />
+                                                </ListItemIcon>
+                                                <ListItemText primary="Comentarios" />
+                                            </ListItemButton>
+                                        </ListItem>
+                                    )}
 
                                     <ListItem disablePadding>
                                         <ListItemButton
-                                            component='a'
-                                            onClick={() => setCurrentPage(page6)}
-                                        >
-                                            <ListItemIcon>
-                                                <CommentIcon />
-                                            </ListItemIcon>
-                                            <ListItemText primary="Comentarios" />
-                                        </ListItemButton>
-                                    </ListItem>
-
-                                    <ListItem disablePadding>
-                                        <ListItemButton
-                                            component='a'
+                                            component="a"
                                             onClick={() => setCurrentPage(page5)}
                                         >
                                             <ListItemIcon>
@@ -201,38 +224,37 @@ const NavegationBar = ({
                                             <ListItemText primary="Conoce al equipo" />
                                         </ListItemButton>
                                     </ListItem>
-
                                 </List>
-
                             </div>
-
                         </Drawer>
+                        <img
+                            // sx={{ display: { xs: "none",md: "block", sm: "none" } }}
+                            onClick={() => setCurrentPage(page1)}
+                            src={log}
+                            alt="logo"
+                            width="200px"
+                        />
                     </Box>
 
-                    {/* <Search><InputBase 
-                placeholder="buscar..."/>
-                </Search> */}
-                    <Typography
-                        sx={{ display: { xs: "none",md: "block", sm: "none" } }}
-                        variant='h4'
-                        onClick={() => setCurrentPage(page1)}
-                    >
-                        Sleep Tracker
-                    </Typography>
-                    <NightShelterIcon
+                    {/* <NightShelterIcon
                         sx={{ display: { xs: "block", sm: "block", md: 'none' } }}
                         onClick={() => setCurrentPage(page1)}
-                    />
+                    /> */}
+                    <Button
+                        startIcon={<LoginIcon />}
+                        sx={{ display: { xs: "block", sm: "block", md: "none" } }}
+                        color='lightFont'
+                        href='login'
+                    >
+                    </Button>
 
-                    <LoginIcon
-                        sx={{ display: { xs: "block", sm: "none" } }}
-                        onClick={() => setCurrentPage(page1)}
-                    />
-
-                    <AppRegistrationIcon
-                        sx={{ display: { xs: "block", sm: "none" } }}
-                        onClick={() => setCurrentPage(page1)}
-                    />
+                    <Button
+                        startIcon={<AppRegistrationIcon />}
+                        sx={{ display: { xs: "block", sm: "block", md: "none" } }}
+                        color='lightFont'
+                        href='/registro'
+                    >
+                    </Button>
 
                     <Icons>
                         {/* <Badge badgeContent={4} color="error"><Mail /></Badge>
@@ -243,21 +265,23 @@ const NavegationBar = ({
                             onClick={event => setOpen(true)}
                         />
                     </Badge> */}
-                            <Button
-                                variant="text"
-                                color='lightFont'
-                                href='/login'
-                            >
-                                Iniciar sesion
-                            </Button>
+                        <Button
+                            sx={{ display: { xs: "none", sm: "none", md: "block" } }}
+                            variant="text"
+                            color="lightFont"
+                            href="/login"
+                        >
+                            Iniciar sesion
+                        </Button>
 
-                            <Button
-                                variant="outlined"
-                                color='lightFont'
-                                href='/registro'
-                            >
-                                Registrarse
-                            </Button>
+                        <Button
+                            sx={{ display: { xs: "none", sm: "none", md: "block" } }}
+                            variant="outlined"
+                            color="lightFont"
+                            href="/registro"
+                        >
+                            Registrarse
+                        </Button>
                     </Icons>
                     {/* <UserBox>
                     <Badge>
@@ -267,7 +291,7 @@ const NavegationBar = ({
                     </Badge>
                 </UserBox> */}
                 </StyledToolbar>
-                    {/* <Divider />
+                {/* <Divider />
                 <Menu
                     id="demo-positioned-menu"
                     aria-labelledby="demo-positioned-button"
@@ -288,13 +312,11 @@ const NavegationBar = ({
                 </Menu> */}
             </AppBar>
         </ThemeProvider>
-
-    )
-}
+    );
+};
 
 export default NavegationBar;
 
 // const useStyles = makeStyles(() => ({
-  
+
 //   }));
-  

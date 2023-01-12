@@ -26,7 +26,7 @@ import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
 
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
-axios.defaults.baseURL = "http://localhost:3001/";
+axios.defaults.baseURL = "http://localhost:3001";
 //The following link must be un-comented on gitHub if you wanna work with on-line servers
 // axios.defaults.baseURL = 'https://sleep-tracker-production.up.railway.app'
 
@@ -36,7 +36,6 @@ function App() {
       <Routes>
         <Route path="/" element={<PublicRoute />}>
           <Route index element={<LandingPage />} />{" "}
-          {/* rutas publicas- lo de indez quiere decir / */}
           <Route path="/login" element={<LogIn />} />
           <Route path="/logout" element={<LogOut />} />
           <Route path="/registro" element={<Register />} />
@@ -46,8 +45,8 @@ function App() {
             element={<ResetPassword />}
           />
           <Route path="*" element={<NotFound />} />
-          {/*deberia ser privada, pero solo es para probar*/}
         </Route>
+
         <Route path="/private" element={<PrivateRoute />}>
           <Route path="/private" element={<GeneralRoutes />}>
             <Route index path="/private/home" element={<Home />} />
@@ -65,6 +64,8 @@ function App() {
             element={<ChangePassword />}
           />
           <Route path="/private/planes" element={<Pricing />} />
+          <Route path="/private/delete-user/:id" element={<DeleteUser />} />
+          <Route path="/private/createcomment" element={<CommentCreate />} />
         </Route>
       </Routes>
     </AuthContextProvider>
