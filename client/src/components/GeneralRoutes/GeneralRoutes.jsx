@@ -10,7 +10,7 @@ export default function GeneralRoute(){
 
 
     if (isGoogleUser&&!isPasswordSetUp||planExpDate<yourDate) { //si esta autenticado que vaya a la seccion privada
-        debugger
+    
         if(isGoogleUser&&!isPasswordSetUp){
             return <Navigate to="/private/profile"/>
         }

@@ -329,6 +329,12 @@ const Profile = () => {
               </Grid>
 
               <Grid item>
+                <Typography variant="h5">Plan actual:</Typography>
+              </Grid>
+              <br/>
+              <Button variant="contained">{currentUser.plan?.name}</Button>
+      
+              <Grid item>
                 {inputs.names ||
                 inputs.email ||
                 inputs.birthday ||
