@@ -2,16 +2,17 @@ import React from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import NewUsersLastWeek from './NewUsersLastWeek';
 
-import Deposits from './Deposits';
+import NumberUsersPerPlan from './NumberUsersPerPlan';
 
 function DefaultContent() {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Grid container spacing={3}>
-        {/* Chart */}
-        <Grid item xs={12} md={8} lg={9}>
+
+        <Grid item xs={12} md={7} lg={8}>
           <Paper
             sx={{
               p: 2,
@@ -20,11 +21,11 @@ function DefaultContent() {
               height: 270,
             }}
             >
-            {/* <Chart /> */}
+            <NewUsersLastWeek />
           </Paper>
         </Grid>
-        {/* Recent Deposits */}
-        <Grid item xs={12} md={4} lg={3}>
+
+        <Grid item xs={12} md={5} lg={4}>
           <Paper
             sx={{
               p: 2,
@@ -33,15 +34,17 @@ function DefaultContent() {
               height: 270,
             }}
           >
-            <Deposits />
+            <NumberUsersPerPlan />
           </Paper>
         </Grid>
-        {/* Recent Orders */}
+
+
         <Grid item xs={12}>
           <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-            {/* <Orders /> */}
+
           </Paper>
         </Grid>
+
       </Grid>
     </Container>
   );
