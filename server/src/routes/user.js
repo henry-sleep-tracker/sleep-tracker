@@ -10,6 +10,8 @@ const {
   resetPassword,
   getUserByEmail,
   deleteUser,
+  updateProfile,
+  changeUserPassword,
 } = require("../controllers/user");
 
 //> ==================== End Points ======================== <//
@@ -20,5 +22,7 @@ router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:id/:token", resetPassword);
 router.get("/:email", getUserByEmail);
 router.delete("/:id/:password", deleteUser);
+router.put("/:id", updateProfile);
+router.put("/changepassword/:id", changeUserPassword);
 
 module.exports = router;
