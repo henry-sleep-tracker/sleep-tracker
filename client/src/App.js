@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { AuthContextProvider } from "./actions/authContext";
 import axios from "axios";
-
+import GeneralRoutes from "./components/GeneralRoutes/GeneralRoutes";
 import ChangePassword from "./components/Profile/ChangePassword.jsx";
 import CommentCreate from "./components/Comments/Comment";
 import ConoceAlEquipo from "./components/Home/ConoceAlEquipo";
@@ -31,39 +31,43 @@ axios.defaults.baseURL = "http://localhost:3001";
 // axios.defaults.baseURL = 'https://sleep-tracker-production.up.railway.app'
 
 function App() {
-
   return (
-
     <AuthContextProvider>
-
       <Routes>
-
         <Route path="/" element={<PublicRoute />}>
           <Route index element={<LandingPage />} />{" "}
           <Route path="/login" element={<LogIn />} />
           <Route path="/logout" element={<LogOut />} />
           <Route path="/registro" element={<Register />} />
           <Route path="/contrasena_olvidada" element={<ForgotPassword />} />
-          <Route path="/reiniciar_contrasena/:id/:token" element={<ResetPassword />} />
+          <Route
+            path="/reiniciar_contrasena/:id/:token"
+            element={<ResetPassword />}
+          />
           <Route path="*" element={<NotFound />} />
         </Route>
 
         <Route path="/private" element={<PrivateRoute />}>
-          <Route index element={<Home />} />
-          <Route path="/private/team" element={<ConoceAlEquipo />} />
-          <Route path="/private/fitbit" element={<Fitbit />} />
-          <Route path="/private/graficas" element={<GraphWM />} />
-          <Route path="/private/planes" element={<Pricing />} />
-          <Route path="/private/newrecord" element={<Record />} />
-          <Route path="/private/dashboard/*" element={<Dashboard />} />
+          <Route path="/private" element={<GeneralRoutes />}>
+            <Route index path="/private/home" element={<Home />} />
+            <Route path="/private/team" element={<ConoceAlEquipo />} />
+            <Route path="/private/fitbit" element={<Fitbit />} />
+            <Route path="/private/graficas" element={<GraphWM />} />
+            <Route path="/private/newrecord" element={<Record />} />
+            <Route path="/private/dashboard/*" element={<Dashboard />} />
+            <Route path="/private/delete-user/:id" element={<DeleteUser />} />
+            <Route path="/private/createcomment" element={<CommentCreate />} />
+          </Route>
           <Route path="/private/profile" element={<Profile />} />
-          <Route path="/private/change-password/:id" element={<ChangePassword />} />
+          <Route
+            path="/private/change-password/:id"
+            element={<ChangePassword />}
+          />
+          <Route path="/private/planes" element={<Pricing />} />
           <Route path="/private/delete-user/:id" element={<DeleteUser />} />
           <Route path="/private/createcomment" element={<CommentCreate />} />
         </Route>
-
       </Routes>
-
     </AuthContextProvider>
   );
 }

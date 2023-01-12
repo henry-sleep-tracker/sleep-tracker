@@ -4,6 +4,7 @@ import {
   POST_USER_WITH_GOOGLE,
   GET_CURRENT_PLAN,
 } from "./constants";
+import axios from "axios";
 const emailjs = require("emailjs-com");
 const templateId = "template_upsqgx4";
 const serviceId = "service_ts4dsnk";
@@ -45,28 +46,13 @@ export const createToken = (code, userId) => async (dispatch) => {
 export function postUser(user) {
   return async function (dispatch) {
     try {
-      const userByEmail = await fetch(
-        `http://localhost:3001/user/${user.email}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await axios.get(
+        `http://localhost:3001/user/${user.email}`
       );
-      const response = await userByEmail.json();
-      console.log("response1:", response);
-      if (response.id !== 0) {
+      if (response.data !== "") {
         alert(`El usuario ya existe`);
       } else {
-        const userPosted = await fetch("http://localhost:3001/user", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user: user }),
-        });
-        await userPosted.json();
+        await axios.post(`http://localhost:3001/user`, user);
         alert("Usuario registrado correctamente");
         window.location.href = "http://localhost:3000/login";
       }
@@ -114,6 +100,7 @@ export function sendRecoveryEmail(email) {
     }
   };
 }
+
 export function resetPassword(password, id, token) {
   return async function (dispatch) {
     try {
@@ -143,6 +130,19 @@ export function resetPassword(password, id, token) {
     }
   };
 }
+
+export const getUserById = (id) => {
+  return async function (dispatch) {
+    try {
+      const response = await fetch(`http://localhost:3001/myuser/${id}`);
+      const user = await response.json();
+      console.log("ACTIONS USER", user);
+      return dispatch({ type: "GET_USER", payload: user });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
 
 export function logInUser(email, password) {
   return async function (dispatch) {
@@ -184,6 +184,7 @@ export function logOutUser() {
     }
   };
 }
+
 export function cleanExpDate() {
   return async function (dispatch) {
     try {
@@ -201,21 +202,13 @@ export function logInUserWithGoogle(response) {
   return async function (dispatch) {
     try {
       const { email, familyName, givenName } = response.profileObj;
-      const data = await fetch(`http://localhost:3001/user/google`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          lastNames: familyName,
-          names: givenName,
-        }),
-      });
-      const userCreated = await data.json();
+      const userCreated = await axios.post(
+        `http://localhost:3001/user/google`,
+        { email, lastNames: familyName, names: givenName }
+      );
       return dispatch({
         type: POST_USER_WITH_GOOGLE,
-        payload: userCreated,
+        payload: userCreated.data,
       });
     } catch (error) {
       console.log(error);
