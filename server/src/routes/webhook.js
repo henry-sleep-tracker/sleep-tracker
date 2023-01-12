@@ -7,7 +7,7 @@ const {
   getUserByStripeCustomerId,
   createNewPlan,
 } = require("../controllers/plan");
-const { updateFreePlanUsage } = require("../controllers/user");
+const { updateFreePlanUsage } = require("../functions/user");
 
 router.post(
   "/",
