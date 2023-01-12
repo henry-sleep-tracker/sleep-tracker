@@ -40,11 +40,11 @@ const data = [
         
       
       return {
-        Dia: d.dateMeal,
-        Cafe: d.coffee,
-        Ejercicio: d.timeActivity,
-        Alcohol: d.drinks,
-        Hora: d.timeMeal
+        Dia: d?.dateMeal,
+        Cafe: d?.coffee,
+        Ejercicio: d?.timeActivity,
+        Alcohol: d?.drinks,
+        Hora: d?.timeMeal
       };
     }),
   ];
@@ -56,14 +56,15 @@ const data = [
 <ComposedChart width={730} height={250} data={data} >
   <XAxis dataKey="Dia"  />
   <YAxis yAxisId='derecha' />
-  <YAxis yAxisId='izquierda' />
+  <YAxis yAxisId='izquierda'   />
   <Tooltip />
   <Legend />
   <CartesianGrid stroke="#f5f5f5" />
-  <Line type="monotone" dataKey="Ejercicio" fill="#8884d8" stroke="#8884d8" yAxisId='izquierda' />
-  <Bar type="monotone" dataKey="Alcohol" fill="#8884d8" stroke="#8884d8"  yAxisId='derecha' />
-  <Bar dataKey="Cafe" barSize={20} fill="#413ea0" yAxisId='derecha' />
-  <Line type="monotone" dataKey="Hora" stroke="#ff7300" yAxisId='izquierda' />
+  <Line type="monotone" dataKey="Ejercicio" fill="black" stroke="#8884d8" yAxisId='izquierda' />
+   {/* <Line type="monotone" dataKey="Hora" fill='green' stroke="#ff7300" yAxisId='izquierda' /> */}
+  <Bar type="monotone" dataKey="Alcohol" fill="red" stroke="#8884d8"  yAxisId='derecha' />
+  <Bar dataKey="Cafe" barSize={20} fill="blue" yAxisId='derecha' />
+ 
 </ComposedChart>
     )
 }
