@@ -179,6 +179,48 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const updateProfile = async (req, res) => {
+  const { id } = req.params;
+  const info = req.body;
+  console.log("ID RUTA", id);
+  console.log("INFO PROFILE", info);
+  try {
+    const update = await User.update(info, {
+      where: {
+        id: id,
+      },
+    });
+    console.log("ROUTE UPDATE", update);
+    if (update) {
+      const user = await User.findOne({ where: { id: id } });
+      console.log("ROUTE UPDATE USER", user);
+      return res.status(200).jsonp(user);
+    }
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
+};
+const changeUserPassword = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { newPassword } = req.body;
+    console.log("CHANGE PASSWORD ID", id);
+    console.log("NEW PASSWORD", newPassword);
+    if (!id || !newPassword) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
+    const oldUser = await findUserById(id);
+    if (!oldUser) {
+      return res.status(202).send("el usuario no existe");
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    updatePassword(id, hashedPassword);
+    return res.status(200).send("Verificado");
+  } catch (error) {
+    res.status(400).send("Sin verificar");
+  }
+};
+
 module.exports = {
   postUser,
   postGoogleUser,
@@ -186,4 +228,6 @@ module.exports = {
   resetPassword,
   getUserByEmail,
   deleteUser,
+  updateProfile,
+  changeUserPassword,
 };
