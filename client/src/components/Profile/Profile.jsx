@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useAuthContext } from "../../actions/authContext";
 import { useNavigate } from 'react-router-dom';
 import { updateUser } from "../../actions/profileActions";
 import { Button, Card, CardContent, Grid, TextField, Typography } from '@mui/material';
@@ -16,7 +17,7 @@ import AddCommentIcon from '@mui/icons-material/AddComment';
 import PaymentIcon from '@mui/icons-material/Payment';
 
 const Profile = () => {
-  
+  const { createPassword } = useAuthContext();
   const currentUser = useSelector((state) => state.users.currentUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -31,7 +32,11 @@ const Profile = () => {
     birthday: "",
     nationality: "",
   });
-
+  useEffect(() => {
+    if (currentUser.password !== null) {
+      createPassword()
+    }
+  }, [currentUser]);
   const handleInputs = (e) => {
     e.preventDefault();
     setInputs({
