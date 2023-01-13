@@ -342,10 +342,11 @@ h2 {
   margin-top: 1rem;
   margin-right: 0.5rem;
   width: fit-content;
-  border: solid black 0.15rem;
+  /* border: solid black 0.15rem; */
   border-radius: 0.3rem;
   padding: 0.3rem;
-  background-color: darkslategray;
+  background-color: rgb(33, 150, 243);
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   color: white
 }
 
@@ -878,36 +879,64 @@ input {
   opacity: 0;
 }
 
-/*************************** Pop Up Add New Item to List ***************************/
-
-/* .div_map {
-  position: relative;
-  display: inline-block;
-  box-sizing: border-box;
-  border: none;
-  border-radius: 4px;
-  padding: 0 16px;
-  min-width: 64px;
-  height: 36px;
-  vertical-align: middle;
-  text-align: center;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
-  background-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  font-family: var(--pure-material-font, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 36px;
-  overflow: hidden;
-  outline: none;
-  cursor: pointer;
-  transition: box-shadow 0.2s;
-  margin-bottom: 2rem;
+/*************************** Style Modal ***************************/
+.modal {
+  position: absolute;
+  z-index: 1;
+  left: 40%;
+  top: 0;
+  width: 20%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
- */
-/* Hover, Focus */
-/* .div_map:hover {
-  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
-} */
+
+/* Modal Content */
+.modal-content {
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: #fefefe;
+}
+
+.modal-text {
+  margin-left: 14px;
+  font-size: 24px;
+}
+
+/* Create the circle loader with pure CSS */
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 8px solid #ddd;
+  border-top: 8px solid #2196f3;
+  border-bottom: 8px solid #2196f3;
+  border-radius: 50%;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

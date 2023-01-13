@@ -75,7 +75,7 @@ const Record = props => {
   //! ============ TimeOut for check Sync Sleep Record ========== !//
   setTimeout(() => {
     if (check.length >= 1) {
-      if (check[0].dateMeal === currentDay.current.value) {
+      if (check[0].dateMeal === currentDay.current?.value) {
         setSync(true);
       } else {
         setSync(false);
@@ -129,6 +129,7 @@ const Record = props => {
   /******************** Local States Section *********************/
 
   //! ================== Main Local States ================= !//
+  const [loading, setLoading] = useState(false);
 
   const [record, setRecord] = useState({
     dateMeal: date_maker(),
@@ -202,6 +203,7 @@ const Record = props => {
     setRecord({ ...record, [e.target.name]: e.target.value });
     if (e.target.name === "dateMeal") {
       dispatch(getRecordByIdDate(userId, e.target.value));
+      setLoading(false);
       refresh();
     }
   };
@@ -664,31 +666,36 @@ const Record = props => {
   };
 
   // Mount/Unmount Component
+
   useEffect(
     () => {
       //const fetchData = async () => {};
-      dispatch(getRecordByIdDate(userId, currentDay.current.value));
-      dispatch(getSleepStage(currentDay.current.value));
-      dispatch(getActivitiesByUser(userId));
-      dispatch(getCoffeeSizesByUser(userId));
-      dispatch(getDrinksByUser(userId));
 
-      //fetchData().catch(console.error);
+      setTimeout(() => {
+        setLoading(true);
+        dispatch(getRecordByIdDate(userId, currentDay.current?.value));
+        dispatch(getSleepStage(currentDay.current?.value));
+        dispatch(getActivitiesByUser(userId));
+        dispatch(getCoffeeSizesByUser(userId));
+        dispatch(getDrinksByUser(userId));
 
-      if (!recordStatus) {
-        return;
-      } else {
-        if (recordStatus.status === 200) {
-          message.success(
-            `${nameUser} tu registro se creo correctamente!!`,
-            2500
-          );
-          dispatch(setStatusNewRecord());
+        //fetchData().catch(console.error);
+
+        if (!recordStatus) {
+          return;
         } else {
-          message.error(`Error: al intentar crear el registro`, 2500);
-          dispatch(setStatusNewRecord());
+          if (recordStatus.status === 200) {
+            message.success(
+              `${nameUser} tu registro se creo correctamente!!`,
+              2500
+            );
+            dispatch(setStatusNewRecord());
+          } else {
+            message.error(`Error: al intentar crear el registro`, 2500);
+            dispatch(setStatusNewRecord());
+          }
         }
-      }
+      }, 500);
     },
     [value, sync, recordStatus] /* [(value, recordStatus, sync)] */
   );
@@ -925,197 +932,205 @@ const Record = props => {
 
   // Render Main Elements
   return (
-    <div>
-      <div className="nav_bar"></div>
-      <div className="form_container">
-        <form onSubmit={handlerOnSubmit}>
-          <div className="main_container">
-            <div className="x_container">
-              <Link to="/private/home" className="link">
-                <div className="x">X</div>
-              </Link>
-            </div>
-            <div className="div_head">
-              <h2>
-                Nuevo Registro de {nameUser}
-                <img src={memo} alt="" className="memo" />
-              </h2>
-            </div>
-            <div className="general_info_container">
-              <div className="date_record_container">
-                <h5 className="h5_head">Fecha</h5>
-                <div>
-                  <img src={calendar} alt="" className="main_ico" />
-                  <input
-                    type="date"
-                    name="dateMeal"
-                    value={record.dateMeal}
-                    onChange={handlerOnChange}
-                    ref={currentDay}
-                  />
-                </div>
+    <div className="master">
+      {!loading ? (
+        <div style={{ display: !loading ? "flex" : "none" }} className="modal">
+          <div className="modal-content">
+            <div className="loader"></div>
+            <div className="modal-text">Cargando...</div>
+          </div>
+        </div>
+      ) : (
+        <div className="form_container">
+          <form onSubmit={handlerOnSubmit}>
+            <div className="main_container">
+              <div className="x_container">
+                <Link to="/private/home" className="link">
+                  <div className="x">X</div>
+                </Link>
               </div>
-              <div className="time_meal_container">
-                <h5 className="h5_head">Hora de tu cena</h5>
-                <div>
-                  <img src={timeIco} alt="" className="main_ico" />
-                  <input
-                    type="time"
-                    name="timeMeal"
-                    value={record.timeMeal}
-                    onChange={handlerOnChange}
-                  />
-                </div>
-              </div>
-              <div
-                id="test_div"
-                className="meal_section"
-                hidden={record.timeMeal.length > 0 ? false : true}
-              >
-                <h5>
-                  Descripcion de tu cena{" "}
-                  <img
-                    src={checkImg}
-                    alt=""
-                    hidden={
-                      record.timeMeal.length > 0 &&
-                      record.description.length > 0
-                        ? false
-                        : true
-                    }
-                    className="img_ok"
-                  />
-                </h5>
-                <textarea
-                  name="description"
-                  id=""
-                  cols="70"
-                  rows="5"
-                  placeholder="Ingresa breve descripcion"
-                  value={record.description}
-                  onChange={handlerOnChange}
-                  required={record.timeMeal.length > 0 ? true : false}
-                ></textarea>
-              </div>
-            </div>
-            <div className="sleep_container" hidden={sync ? true : false}>
-              <div>
+              <div className="div_head">
                 <h2>
-                  <img src={personBed} alt="" className="person_bed" />
-                  Tiempo de Sueño{" "}
-                  <img
-                    src={checkImg}
-                    alt=""
-                    hidden={
-                      time.startTime.length > 0 && time.endTime.length > 0
-                        ? false
-                        : true
-                    }
-                    className="img_ok"
-                  />
+                  Nuevo Registro de {nameUser}
+                  <img src={memo} alt="" className="memo" />
                 </h2>
               </div>
-              {temp.length > 0 ? (
-                <div className="sync_div_true">
-                  {/* <h3>El dia {sleepSync}</h3> */}
-                  <h3>
-                    El dia{" "}
-                    {dateStringToDate(
-                      currentDay.current?.value.replace("-", "")
-                    )}
-                  </h3>
-                  <h4>Dormiste: {sleepTime12Format}</h4>
-                  <span
-                    className="sync"
-                    hidden={sleepTime.length > 0 ? false : true}
-                    onClick={handlerSync}
-                  >
-                    sincronizar
-                  </span>
-                </div>
-              ) : (
-                <div className="sleep_section">
-                  <label>Dormiste </label>
-                  <input
-                    className="sleep_section_input"
-                    type="time"
-                    name="startTime"
-                    id=""
-                    value={time.startTime}
-                    onChange={handlerSleepTimeChange}
-                  />
-                  <label> Despertaste </label>
-                  <input
-                    type="time"
-                    name="endTime"
-                    id=""
-                    value={time.endTime}
-                    onChange={handlerSleepTimeChange}
-                  />
-                  <div
-                    className="sleep_result"
-                    hidden={st && et ? false : true}
-                  >
-                    <h4>
-                      Dormiste:{" "}
-                      {sleepTime12Format ? sleepTime12Format : finalHours}
-                    </h4>
+              <div className="general_info_container">
+                <div className="date_record_container">
+                  <h5 className="h5_head">Fecha</h5>
+                  <div>
+                    <img src={calendar} alt="" className="main_ico" />
+                    <input
+                      type="date"
+                      name="dateMeal"
+                      value={record.dateMeal}
+                      onChange={handlerOnChange}
+                      ref={currentDay}
+                    />
                   </div>
                 </div>
-              )}
-              {/* <label>Siesta</label>
+                <div className="time_meal_container">
+                  <h5 className="h5_head">Hora de tu cena</h5>
+                  <div>
+                    <img src={timeIco} alt="" className="main_ico" />
+                    <input
+                      type="time"
+                      name="timeMeal"
+                      value={record.timeMeal}
+                      onChange={handlerOnChange}
+                    />
+                  </div>
+                </div>
+                <div
+                  id="test_div"
+                  className="meal_section"
+                  hidden={record.timeMeal.length > 0 ? false : true}
+                >
+                  <h5>
+                    Descripcion de tu cena{" "}
+                    <img
+                      src={checkImg}
+                      alt=""
+                      hidden={
+                        record.timeMeal.length > 0 &&
+                        record.description.length > 0
+                          ? false
+                          : true
+                      }
+                      className="img_ok"
+                    />
+                  </h5>
+                  <textarea
+                    name="description"
+                    id=""
+                    cols="70"
+                    rows="5"
+                    placeholder="Ingresa breve descripcion"
+                    value={record.description}
+                    onChange={handlerOnChange}
+                    required={record.timeMeal.length > 0 ? true : false}
+                  ></textarea>
+                </div>
+              </div>
+              <div className="sleep_container" hidden={sync ? true : false}>
+                <div>
+                  <h2>
+                    <img src={personBed} alt="" className="person_bed" />
+                    Tiempo de Sueño{" "}
+                    <img
+                      src={checkImg}
+                      alt=""
+                      hidden={
+                        time.startTime.length > 0 && time.endTime.length > 0
+                          ? false
+                          : true
+                      }
+                      className="img_ok"
+                    />
+                  </h2>
+                </div>
+                {temp.length > 0 ? (
+                  <div className="sync_div_true">
+                    {/* <h3>El dia {sleepSync}</h3> */}
+                    <h3>
+                      El dia{" "}
+                      {dateStringToDate(
+                        currentDay.current?.value.replace("-", "")
+                      )}
+                    </h3>
+                    <h4>Dormiste: {sleepTime12Format}</h4>
+                    <span
+                      className="sync"
+                      hidden={sleepTime.length > 0 ? false : true}
+                      onClick={handlerSync}
+                    >
+                      sincronizar
+                    </span>
+                  </div>
+                ) : (
+                  <div className="sleep_section">
+                    <label>Dormiste </label>
+                    <input
+                      className="sleep_section_input"
+                      type="time"
+                      name="startTime"
+                      id=""
+                      value={time.startTime}
+                      onChange={handlerSleepTimeChange}
+                    />
+                    <label> Despertaste </label>
+                    <input
+                      type="time"
+                      name="endTime"
+                      id=""
+                      value={time.endTime}
+                      onChange={handlerSleepTimeChange}
+                    />
+                    <div
+                      className="sleep_result"
+                      hidden={st && et ? false : true}
+                    >
+                      <h4>
+                        Dormiste:{" "}
+                        {sleepTime12Format ? sleepTime12Format : finalHours}
+                      </h4>
+                    </div>
+                  </div>
+                )}
+                {/* <label>Siesta</label>
               <input className="input_number" type="number" step="1" min="0" />
               <span>min.</span>
               <button className="add_button">Agregar</button> */}
-            </div>
-            <br />
-
-            <div className="reg_container">
-              <div className="reg_head_container">
-                <h2>Registrar</h2>
               </div>
-              <div className="popup_container">
-                <div className="div_popup">
-                  <div
-                    className="div_ok"
-                    hidden={activity.length > 0 ? false : true}
-                  >
-                    {activity.length}
-                  </div>
-                  {PopupActivity()}
+              <br />
+
+              <div className="reg_container">
+                <div className="reg_head_container">
+                  <h2>Registrar</h2>
                 </div>
-                <div className="div_popup">
-                  <div
-                    className="div_ok"
-                    hidden={coffee.length > 0 ? false : true}
-                  >
-                    {coffee.length}
+                <div className="popup_container">
+                  <div className="div_popup">
+                    <div
+                      className="div_ok"
+                      hidden={activity.length > 0 ? false : true}
+                    >
+                      {activity.length}
+                    </div>
+                    {PopupActivity()}
                   </div>
-                  {PopupCoffee()}
-                </div>
-                <div className="div_popup">
-                  <div
-                    className="div_ok"
-                    hidden={drink.length > 0 ? false : true}
-                  >
-                    {drink.length}
+                  <div className="div_popup">
+                    <div
+                      className="div_ok"
+                      hidden={coffee.length > 0 ? false : true}
+                    >
+                      {coffee.length}
+                    </div>
+                    {PopupCoffee()}
                   </div>
-                  {PopupDrink()}
+                  <div className="div_popup">
+                    <div
+                      className="div_ok"
+                      hidden={drink.length > 0 ? false : true}
+                    >
+                      {drink.length}
+                    </div>
+                    {PopupDrink()}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* ====================== BUTTONS SECTION ======================= */}
+              {/* ====================== BUTTONS SECTION ======================= */}
 
-            <div className="button_container">
-              <button className="bottom_buttons">Guardar</button>
-              <button className="bottom_buttons" onClick={handlerOnClear}>
-                Limpiar
-              </button>
+              <div className="button_container">
+                <button className="bottom_buttons">Guardar</button>
+                <button className="bottom_buttons" onClick={handlerOnClear}>
+                  Limpiar
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };
