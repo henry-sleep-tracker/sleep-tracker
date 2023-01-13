@@ -3,7 +3,7 @@ import { GET_SLEEP_STAGE, GET_SLEEP_SESSION, GET_STEPS } from "./constants";
 export const getSleepStage = (date) => async (dispatch) => {
   try {
     const getDate = await fetch(
-      `http://localhost:3001/sleep/date?date=${date}`
+      `${process.env.REACT_APP_DEFAULT_URL}/sleep/date?date=${date}`
     );
     const response = await getDate.json();
 
@@ -16,7 +16,7 @@ export const getSleepStage = (date) => async (dispatch) => {
 export const getSleepSession = (startDate, endDate) => async (dispatch) => {
   try {
     const getRange = await fetch(
-      `http://localhost:3001/sleep/range?startDate=${startDate}&endDate=${endDate}`
+      `${process.env.REACT_APP_DEFAULT_URL}/sleep/range?startDate=${startDate}&endDate=${endDate}`
     );
     const response = await getRange.json();
 
@@ -29,7 +29,7 @@ export const getSleepSession = (startDate, endDate) => async (dispatch) => {
 export const getSteps = (startDate, endDate) => async (dispatch) => {
   try {
     const getSteps = await fetch(
-      `localhost:3001/steps?startDate=${startDate}&endDate=${endDate}`
+      `${process.env.REACT_APP_DEFAULT_URL}/steps?startDate=${startDate}&endDate=${endDate}`
     );
     const response = await getSteps.json();
     dispatch({ type: GET_STEPS, payload: response });

@@ -8,7 +8,7 @@ export default function NewUsersLastWeek(){
 
   useEffect(() => {
     const fn = async () => {
-      await fetch('http://localhost:3001/users/newUsersLastWeek')
+      await fetch(`${process.env.REACT_APP_DEFAULT_URL}/users/newUsersLastWeek`)
         .then((r) => r.json())
         .then( r => setNewUsersLastWeek( r ));
     };
