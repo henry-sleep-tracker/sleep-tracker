@@ -23,7 +23,7 @@ export default function NumberUsersPerPlan() {
 
   useEffect(() => {
     const fn = async () => {
-      await fetch('http://localhost:3001/users/numberUsersPerPlan')
+      await fetch(`${process.env.REACT_APP_DEFAULT_URL}/users/numberUsersPerPlan`)
         .then((r) => r.json())
         .then( r => setNumberUsersPerPlan( r ));
     };

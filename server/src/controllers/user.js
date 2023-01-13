@@ -200,6 +200,27 @@ const updateProfile = async (req, res) => {
     return res.status(400).send(error.message);
   }
 };
+const getUserInfoById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("id:", id);
+    if (!id) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
+    const user = await findUserById(id);
+    console.log("user:", user);
+    if (user.id === 0) {
+      return res.status(204).send(nullUser);
+    } else {
+      return res.status(200).send(user);
+    }
+  } catch (error) {
+    console.log("El error controllers user getUserInfoById es:", error.message);
+    res
+      .status(401)
+      .send("El error controllers user getUserInfoById es:", error.message);
+  }
+};
 const changeUserPassword = async (req, res) => {
   try {
     const { id } = req.params;
@@ -230,4 +251,5 @@ module.exports = {
   deleteUser,
   updateProfile,
   changeUserPassword,
+  getUserInfoById,
 };

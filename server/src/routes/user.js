@@ -12,6 +12,7 @@ const {
   deleteUser,
   updateProfile,
   changeUserPassword,
+  getUserInfoById,
 } = require("../controllers/user");
 
 //> ==================== End Points ======================== <//
@@ -23,6 +24,7 @@ router.post("/reset-password/:id/:token", resetPassword);
 router.get("/:email", getUserByEmail);
 router.delete("/:id/:password", deleteUser);
 router.put("/:id", updateProfile);
+router.get("/userId/:id", getUserInfoById);
 router.put("/changepassword/:id", changeUserPassword);
 
 module.exports = router;

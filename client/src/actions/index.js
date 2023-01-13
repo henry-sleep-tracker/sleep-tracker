@@ -9,7 +9,10 @@ const emailjs = require("emailjs-com");
 const templateId = "template_upsqgx4";
 const serviceId = "service_ts4dsnk";
 const Public_Key = "DkkyjnDmwCqT4qOL1";
+
 const getUsersPlanExpDate = require("./plan");
+
+// require("dotenv").config();
 
 const nullUser = {
   id: 0,
@@ -26,14 +29,17 @@ const nullUser = {
 
 export const createToken = (code, userId) => async (dispatch) => {
   try {
-    const sendCode = await fetch("http://localhost:3001/fitbit", {
-      // The default URL for backEnd is written on "app.js", just write "/*yourBackenRoute*"
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ code: code, userId: userId }),
-    });
+    const sendCode = await fetch(
+      `${process.env.REACT_APP_DEFAULT_URL}/fitbit`,
+      {
+        // The default URL for backEnd is written on "app.js", just write "/*yourBackenRoute*"
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ code: code, userId: userId }),
+      }
+    );
 
     const response = await sendCode.json();
 
@@ -47,12 +53,12 @@ export function postUser(user) {
   return async function (dispatch) {
     try {
       const response = await axios.get(
-        `http://localhost:3001/user/${user.email}`
+        `${process.env.REACT_APP_DEFAULT_URL}/user/${user.email}`
       );
       if (response.data !== "") {
         alert(`El usuario ya existe`);
       } else {
-        await axios.post(`http://localhost:3001/user`, user);
+        await axios.post(`${process.env.REACT_APP_DEFAULT_URL}/user`, user);
         alert("Usuario registrado correctamente");
         window.location.href = "http://localhost:3000/login";
       }
@@ -67,7 +73,7 @@ export function sendRecoveryEmail(email) {
   return async function (dispatch) {
     try {
       const userByEmail = await fetch(
-        `http://localhost:3001/user/forgot-password`,
+        `${process.env.REACT_APP_DEFAULT_URL}/user/forgot-password`,
         {
           method: "POST",
           headers: {
@@ -105,7 +111,7 @@ export function resetPassword(password, id, token) {
   return async function (dispatch) {
     try {
       const response = await fetch(
-        `http://localhost:3001/user/reset-password/${id}/${token}`,
+        `${process.env.REACT_APP_DEFAULT_URL}/user/reset-password/${id}/${token}`,
         {
           method: "POST",
           headers: {
@@ -134,10 +140,11 @@ export function resetPassword(password, id, token) {
 export const getUserById = (id) => {
   return async function (dispatch) {
     try {
-      const response = await fetch(`http://localhost:3001/myuser/${id}`);
-      const user = await response.json();
-      console.log("ACTIONS USER", user);
-      return dispatch({ type: "GET_USER", payload: user });
+      const response = await axios.get(
+        `${process.env.REACT_APP_DEFAULT_URL}/user/userId/${id}`
+      );
+
+      return dispatch({ type: GET_CURRENT_USER, payload: response.data });
     } catch (error) {
       console.log(error);
     }
@@ -147,13 +154,16 @@ export const getUserById = (id) => {
 export function logInUser(email, password) {
   return async function (dispatch) {
     try {
-      const response = await fetch(`http://localhost:3001/login/manual`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: email, password: password }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_DEFAULT_URL}/login/manual`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: email, password: password }),
+        }
+      );
       if (response.status === 204) {
         return dispatch({
           type: GET_CURRENT_USER,
@@ -203,7 +213,7 @@ export function logInUserWithGoogle(response) {
     try {
       const { email, familyName, givenName } = response.profileObj;
       const userCreated = await axios.post(
-        `http://localhost:3001/user/google`,
+        `${process.env.REACT_APP_DEFAULT_URL}/user/google`,
         { email, lastNames: familyName, names: givenName }
       );
       return dispatch({

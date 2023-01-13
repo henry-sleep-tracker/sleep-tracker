@@ -7,12 +7,21 @@ import GraphTime from "./Graph-Time";
 import { Button, Grid } from "@mui/material";
 import CollapsibleTableEfficiency from "./CollapsibleTableEfficiency";
 import GraphRecord from "./Graph-Records";
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print"
 
 const GraphWM = () => {
+
+  const componentPdf =  useRef()
+    const handlePrint = useReactToPrint({
+        content: () => componentPdf.current,
+        onAfterPrint: () => alert('print success')
+    })
 
   return (
     <Grid
       container
+      ref={componentPdf} style={{width:"100%"}}
       justifyContent="center"
       alignItems="center"
       direction="column"
@@ -27,8 +36,9 @@ const GraphWM = () => {
         <Button
           variant="outlined"
           key="pdf"
-          download="pdf"
-          href="/pdf"
+          /* download="pdf"
+          href="/pdf" */
+          onClick={handlePrint}
         >
           Reporte PDF
         </Button>

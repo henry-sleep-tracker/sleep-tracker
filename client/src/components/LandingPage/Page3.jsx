@@ -1,9 +1,10 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
 import { Box, Card, CardContent, Divider, Grid, Paper, Typography } from "@mui/material";
-import xiaomiBand5 from "./Images/xiaomiBand5.jpg";
-import xiaomiBand6 from "./Images/xiaomiBand6.jpg";
-import samsungGalaxyFit2 from "./Images/samsungGalaxyFit2.jpg";
+// import xiaomiBand5 from "./Images/xiaomiBand5.jpg";
+// import xiaomiBand6 from "./Images/xiaomiBand6.jpg";
+// import samsungGalaxyFit2 from "./Images/samsungGalaxyFit2.jpg";
+import DevicesCarousel from "./DevicesCarousel";
 
 const Page3 = () => {
   const classes = useStyles();
@@ -34,7 +35,7 @@ const Page3 = () => {
           md={3}
         >
 
-          <Card 
+          {/* <Card 
           className={classes.card}
             elevation={20}
           >
@@ -161,9 +162,14 @@ const Page3 = () => {
                 Dispositivo Android
               </Typography>
             </CardContent>
-          </Card>
+          </Card> */}
+
+          <DevicesCarousel/>
+
         </Grid>
+
       </Grid>
+      
     </Paper>
   );
 };
