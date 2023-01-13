@@ -8,6 +8,7 @@ import "./Record.css";
 import "reactjs-popup/dist/index.css";
 
 // Import Components
+import "./Loading";
 
 // Hooks Imports
 import { useState, useRef } from "react";
@@ -18,12 +19,6 @@ import { useNavigate } from "react-router-dom";
 
 // Actions Imports
 import {
-  //getCoffeeSizes,
-  //getActivities,
-  //getDrinks,
-  //getLastIdActivity,
-  //getLastIdCoffeSize,
-  //getLastIdDrink,
   getRecordByIdDate,
   getActivitiesByUser,
   getCoffeeSizesByUser,
@@ -57,6 +52,7 @@ import { time_convert } from "../../helpers/time_convert";
 import { formatingDate } from "../../helpers/date_formating";
 import { timeToMinutes } from "../../helpers/time_to_minutes";
 import { dateStringToDate } from "../../helpers/string_to_date";
+import Loading from "./Loading";
 
 //>======================>//
 //> Starts Component
@@ -129,7 +125,7 @@ const Record = props => {
   /******************** Local States Section *********************/
 
   //! ================== Main Local States ================= !//
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [record, setRecord] = useState({
     dateMeal: date_maker(),
@@ -203,8 +199,8 @@ const Record = props => {
     setRecord({ ...record, [e.target.name]: e.target.value });
     if (e.target.name === "dateMeal") {
       dispatch(getRecordByIdDate(userId, e.target.value));
-      setLoading(false);
-      refresh();
+      setLoading(true);
+      //refresh();
     }
   };
 
@@ -667,38 +663,33 @@ const Record = props => {
 
   // Mount/Unmount Component
 
-  useEffect(
-    () => {
-      setTimeout(() => {
-        setLoading(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+      if (currentDay.current?.value) {
+        dispatch(getSleepStage(currentDay.current.value));
+        dispatch(getRecordByIdDate(userId, currentDay.current.value));
+      }
+      dispatch(getActivitiesByUser(userId));
+      dispatch(getCoffeeSizesByUser(userId));
+      dispatch(getDrinksByUser(userId));
 
-        if (currentDay.current?.value) {
-          dispatch(getRecordByIdDate(userId, currentDay.current?.value));
-          dispatch(getSleepStage(currentDay.current?.value));
-        }
-
-        dispatch(getActivitiesByUser(userId));
-        dispatch(getCoffeeSizesByUser(userId));
-        dispatch(getDrinksByUser(userId));
-
-        if (!recordStatus) {
-          return;
+      if (!recordStatus) {
+        return;
+      } else {
+        if (recordStatus.status === 200) {
+          message.success(
+            `${nameUser} tu registro se creo correctamente!!`,
+            2500
+          );
+          dispatch(setStatusNewRecord());
         } else {
-          if (recordStatus.status === 200) {
-            message.success(
-              `${nameUser} tu registro se creo correctamente!!`,
-              2500
-            );
-            dispatch(setStatusNewRecord());
-          } else {
-            message.error(`Error: al intentar crear el registro`, 2500);
-            dispatch(setStatusNewRecord());
-          }
+          message.error(`Error: al intentar crear el registro`, 2500);
+          dispatch(setStatusNewRecord());
         }
-      }, 1000);
-    },
-    [value, sync, recordStatus] /* [(value, recordStatus, sync)] */
-  );
+      }
+    }, 500);
+  }, [value, sync, recordStatus, loading]);
 
   const PopupActivity = () => (
     <Popup
@@ -722,7 +713,7 @@ const Record = props => {
             ref={timeRef}
             defaultValue="0"
           />
-          {/*  <span className="sync">sincronizar</span> */}
+
           <label>Actividad</label>
           <select ref={activityRef} onChange={handlerSetActivity}>
             <option value="default">Selecciona...</option>
@@ -933,12 +924,9 @@ const Record = props => {
   // Render Main Elements
   return (
     <div className="master">
-      {!loading ? (
-        <div style={{ display: !loading ? "flex" : "none" }} className="modal">
-          <div className="modal-content">
-            <div className="loader"></div>
-            <div className="modal-text">Cargando...</div>
-          </div>
+      {loading ? (
+        <div style={{ display: loading ? "flex" : "none" }} className="modal">
+          <Loading />
         </div>
       ) : (
         <div className="form_container">
@@ -1029,54 +1017,53 @@ const Record = props => {
                     />
                   </h2>
                 </div>
-                {temp.length > 0 ? (
-                  <div className="sync_div_true">
-                    {/* <h3>El dia {sleepSync}</h3> */}
-                    <h3>
-                      El dia{" "}
-                      {dateStringToDate(
-                        currentDay.current?.value.replace("-", "")
-                      )}
-                    </h3>
-                    <h4>Dormiste: {sleepTime12Format}</h4>
-                    <span
-                      className="sync"
-                      hidden={sleepTime.length > 0 ? false : true}
-                      onClick={handlerSync}
-                    >
-                      sincronizar
-                    </span>
+
+                <div className="sync_div_true" hidden={temp.length < 1}>
+                  <h3>
+                    El dia{" "}
+                    {dateStringToDate(
+                      currentDay.current?.value.replace("-", "")
+                    )}
+                  </h3>
+                  <h4>Dormiste: {sleepTime12Format}</h4>
+                  <span
+                    className="sync"
+                    hidden={sleepTime.length > 0 ? false : true}
+                    onClick={handlerSync}
+                  >
+                    sincronizar
+                  </span>
+                </div>
+
+                <div className="sleep_section" hidden={temp.length > 0}>
+                  <label>Dormiste </label>
+                  <input
+                    className="sleep_section_input"
+                    type="time"
+                    name="startTime"
+                    id=""
+                    value={time.startTime}
+                    onChange={handlerSleepTimeChange}
+                  />
+                  <label> Despertaste </label>
+                  <input
+                    type="time"
+                    name="endTime"
+                    id=""
+                    value={time.endTime}
+                    onChange={handlerSleepTimeChange}
+                  />
+                  <div
+                    className="sleep_result"
+                    hidden={st && et ? false : true}
+                  >
+                    <h4>
+                      Dormiste:{" "}
+                      {sleepTime12Format ? sleepTime12Format : finalHours}
+                    </h4>
                   </div>
-                ) : (
-                  <div className="sleep_section">
-                    <label>Dormiste </label>
-                    <input
-                      className="sleep_section_input"
-                      type="time"
-                      name="startTime"
-                      id=""
-                      value={time.startTime}
-                      onChange={handlerSleepTimeChange}
-                    />
-                    <label> Despertaste </label>
-                    <input
-                      type="time"
-                      name="endTime"
-                      id=""
-                      value={time.endTime}
-                      onChange={handlerSleepTimeChange}
-                    />
-                    <div
-                      className="sleep_result"
-                      hidden={st && et ? false : true}
-                    >
-                      <h4>
-                        Dormiste:{" "}
-                        {sleepTime12Format ? sleepTime12Format : finalHours}
-                      </h4>
-                    </div>
-                  </div>
-                )}
+                </div>
+
                 {/* <label>Siesta</label>
               <input className="input_number" type="number" step="1" min="0" />
               <span>min.</span>
