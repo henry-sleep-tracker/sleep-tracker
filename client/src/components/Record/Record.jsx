@@ -669,17 +669,17 @@ const Record = props => {
 
   useEffect(
     () => {
-      //const fetchData = async () => {};
-
       setTimeout(() => {
         setLoading(true);
-        dispatch(getRecordByIdDate(userId, currentDay.current?.value));
-        dispatch(getSleepStage(currentDay.current?.value));
+
+        if (currentDay.current?.value) {
+          dispatch(getRecordByIdDate(userId, currentDay.current?.value));
+          dispatch(getSleepStage(currentDay.current?.value));
+        }
+
         dispatch(getActivitiesByUser(userId));
         dispatch(getCoffeeSizesByUser(userId));
         dispatch(getDrinksByUser(userId));
-
-        //fetchData().catch(console.error);
 
         if (!recordStatus) {
           return;
@@ -695,7 +695,7 @@ const Record = props => {
             dispatch(setStatusNewRecord());
           }
         }
-      }, 500);
+      }, 1000);
     },
     [value, sync, recordStatus] /* [(value, recordStatus, sync)] */
   );
