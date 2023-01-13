@@ -8,9 +8,11 @@ const server = express();
 server.name = "API";
 
 server.use(express.urlencoded({ extended: false }));
-// server.use(express.json());
 server.use((req, res, next) => {
   if (req.originalUrl === "/webhook") {
+    next();
+  } else if (req.originalUrl.slice(0, 12) === "/changeimage") {
+    express.json({ limit: "50mb" });
     next();
   } else {
     express.json()(req, res, next);

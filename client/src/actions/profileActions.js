@@ -26,6 +26,33 @@ export const updateUser = (id, info) => {
   };
 };
 
+export const updateImage = (id, file) => {
+  return async function (dispatch) {
+    try {
+      console.log(file);
+      const response = await fetch(`http://localhost:3001/changeimage/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ data: file }),
+        }
+      );
+      if (response.status === 200) {
+        const user = await response.json();
+        return dispatch({ type: "GET_PROFILE", payload: user });
+      } else {
+        alert(
+          `Hubo un error al cambiar la imagen del perfil. Intentelo nuevamente.`
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 export const changePassword = (id, newPassword) => {
   return async function () {
     try {

@@ -37,10 +37,10 @@ export default function GraphRecord() {
     ...auxRecords.map((d) => {
       return {
         Dia: d?.dateMeal,
-        Café: d?.coffee,
+        Cafe: d?.coffee,
         Ejercicio: d?.timeActivity,
         Alcohol: d?.drinks,
-        Merienda: d?.timeMeal.replace(':', '.').slice(0,-3)
+        Hora: d?.timeMeal,
       };
     }),
   ];
@@ -56,48 +56,44 @@ export default function GraphRecord() {
     window.addEventListener('resize', handleResize)
   }, [])
 
-return (
-  <Card
-  variant="outlined"
->
-  <CardContent>
-  <ComposedChart width={windowWidth - 150} height={250} data={data} >
-  <XAxis dataKey="Dia"  />
-  <YAxis yAxisId='left'   />
-  <YAxis yAxisId='right' orientation="right" />
-  <Tooltip />
-  <Legend />
-  <Bar
+  return (
+    <Card
+      variant="outlined"
+    >
+      <CardContent>
+    <ComposedChart width={730} height={300} data={data}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="Dia" />
+      <YAxis yAxisId="left" />
+      <YAxis yAxisId="right" orientation="right" />
+      <Tooltip />
+      <Legend />
+      <Bar
         yAxisId="right"
         type="monotone"
         dataKey="Ejercicio"
-        fill="black"
+        fill="#ff7300"
         minPointSize={2}
-        unit=' min'
       />
-   <Bar type="monotone" dataKey="Merienda" fill='green' stroke="green" yAxisId='right' unit=' Hrs' />
-   <Bar
-        yAxisId="left"
+      {/* <Line yAxisId="left" type="monotone" dataKey="Hora" stroke="#ff7300" /> */}
+      <Bar
+        yAxisId="right"
         type="monotone"
         dataKey="Alcohol"
         barSize={20}
-        fill="red"
+        fill="#8884d8"
         minPointSize={2}
-        unit=' copas'
       />
-  <Bar
-        yAxisId="left"
+      <Bar
+        yAxisId="right"
         type="monotone"
-        dataKey="Café"
+        dataKey="Cafe"
         barSize={20}
-        fill="blue"
+        fill="#413ea0"
         minPointSize={2}
-        unit= ' tazas'
       />
- 
-</ComposedChart>
-</CardContent>
-</Card>
-      
-    )
+    </ComposedChart>
+          </CardContent>
+    </Card>
+  );
 }

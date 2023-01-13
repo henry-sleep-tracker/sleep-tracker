@@ -8,6 +8,7 @@ import "./Record.css";
 import "reactjs-popup/dist/index.css";
 
 // Import Components
+import "./Loading";
 
 // Hooks Imports
 import { useState, useRef } from "react";
@@ -18,12 +19,6 @@ import { useNavigate } from "react-router-dom";
 
 // Actions Imports
 import {
-  //getCoffeeSizes,
-  //getActivities,
-  //getDrinks,
-  //getLastIdActivity,
-  //getLastIdCoffeSize,
-  //getLastIdDrink,
   getRecordByIdDate,
   getActivitiesByUser,
   getCoffeeSizesByUser,
@@ -57,6 +52,7 @@ import { time_convert } from "../../helpers/time_convert";
 import { formatingDate } from "../../helpers/date_formating";
 import { timeToMinutes } from "../../helpers/time_to_minutes";
 import { dateStringToDate } from "../../helpers/string_to_date";
+import Loading from "./Loading";
 
 //>======================>//
 //> Starts Component
@@ -75,7 +71,7 @@ const Record = props => {
   //! ============ TimeOut for check Sync Sleep Record ========== !//
   setTimeout(() => {
     if (check.length >= 1) {
-      if (check[0].dateMeal === currentDay.current.value) {
+      if (check[0].dateMeal === currentDay.current?.value) {
         setSync(true);
       } else {
         setSync(false);
@@ -129,6 +125,7 @@ const Record = props => {
   /******************** Local States Section *********************/
 
   //! ================== Main Local States ================= !//
+  const [loading, setLoading] = useState(true);
 
   const [record, setRecord] = useState({
     dateMeal: date_maker(),
@@ -202,7 +199,8 @@ const Record = props => {
     setRecord({ ...record, [e.target.name]: e.target.value });
     if (e.target.name === "dateMeal") {
       dispatch(getRecordByIdDate(userId, e.target.value));
-      refresh();
+      setLoading(true);
+      //refresh();
     }
   };
 
@@ -220,6 +218,7 @@ const Record = props => {
     }
 
     if (record.timeMeal.length > 0 && record.description.length < 1) {
+      message.warn(`Ingresa una breve descripcion de tu cena`);
       message.warn(`Ingresa una breve descripcion de tu cena`);
       return;
     }
@@ -350,7 +349,9 @@ const Record = props => {
     const nameActivity = filter[0].activity;
 
     if (!timeSelected || !activitySelected || timeSelected < 1) {
-      return message.warning("Ingresa los minutos", 2500);
+      message.warning("Ingresa los minutos", 2500);
+      message.warning("Ingresa los minutos", 2500);
+      return;
     }
 
     setRecord({
@@ -387,7 +388,10 @@ const Record = props => {
         `La actividad ${addActivity.activity} no puede duplicarse`,
         2500
       );
-      //alert(`La actividad ${addActivity.activity} no puede duplicarse`);
+      message.error(
+        `La actividad ${addActivity.activity} no puede duplicarse`,
+        2500
+      );
       nameActivity.current.value = "";
       return;
     }
@@ -395,6 +399,7 @@ const Record = props => {
     dispatch(createNewActivity(addActivity));
 
     if (activityStat === null) {
+      message.success("Actividad creada exitosamente", 2500);
       message.success("Actividad creada exitosamente", 2500);
       setAddActivity({
         activity: "",
@@ -457,7 +462,9 @@ const Record = props => {
     const size = filter[0].size;
 
     if (!quantityCoffee || !cup || quantityCoffee < 1) {
-      return message.warning("Ingresa el numero de tazas", 2500);
+      message.warning("Ingresa el numero de tazas", 2500);
+      message.warning("Ingresa el numero de tazas", 2500);
+      return;
     }
 
     setRecord({
@@ -489,6 +496,7 @@ const Record = props => {
 
     if (duplicated.length > 0) {
       message.error(`La medida ${addCoffeSize.size} no puede duplicarse`, 2500);
+      message.error(`La medida ${addCoffeSize.size} no puede duplicarse`, 2500);
       nameCoffee.current.value = "";
       return;
     }
@@ -496,6 +504,7 @@ const Record = props => {
     dispatch(createNewCoffeeSize(addCoffeSize));
 
     if (coffeeStat === null) {
+      message.success("Nueva porcion creada exitosamente", 2500);
       message.success("Nueva porcion creada exitosamente", 2500);
       setAddCoffeSize({
         size: "",
@@ -558,7 +567,9 @@ const Record = props => {
     const typeDrinkss = filter[0].drink;
 
     if (!quantityDrinks || !typeDrinks || quantityDrinks < 1) {
-      return message.warning("Ingresa el numero de bebidas", 2500);
+      message.warning("Ingresa el numero de bebidas", 2500);
+      message.warning("Ingresa el numero de bebidas", 2500);
+      return;
     }
 
     setRecord({
@@ -590,6 +601,7 @@ const Record = props => {
 
     if (duplicated.length > 0) {
       message.error(`La bebida ${addNewDrink.drink} no puede duplicarse`, 2500);
+      message.error(`La bebida ${addNewDrink.drink} no puede duplicarse`, 2500);
       nameDrink.current.value = "";
       return;
     }
@@ -597,6 +609,7 @@ const Record = props => {
     dispatch(createNewDrink(addNewDrink));
 
     if (drinkStat === null) {
+      message.success("Nueva bebida creada exitosamente", 2500);
       message.success("Nueva bebida creada exitosamente", 2500);
       setAddNewDrink({
         drink: "",
@@ -649,32 +662,34 @@ const Record = props => {
   };
 
   // Mount/Unmount Component
+
   useEffect(() => {
-    const fetchData = async () => {
-      dispatch(getActivitiesByUser(userId));
-      dispatch(getRecordByIdDate(userId, currentDay.current.value));
-      const three = await dispatch(getCoffeeSizesByUser(userId));
-      const four = await dispatch(getDrinksByUser(userId));
-      const five = await dispatch(getSleepStage(currentDay.current.value));
-    };
-
-    fetchData().catch(console.error);
-
-    if (!recordStatus) {
-      return;
-    } else {
-      if (recordStatus.status === 200) {
-        message.success(
-          `${nameUser} tu registro se creo correctamente!!`,
-          2500
-        );
-        dispatch(setStatusNewRecord());
-      } else {
-        message.error(`Error: al intentar crear el registro`, 2500);
-        dispatch(setStatusNewRecord());
+    setTimeout(() => {
+      setLoading(false);
+      if (currentDay.current?.value) {
+        dispatch(getSleepStage(currentDay.current.value));
+        dispatch(getRecordByIdDate(userId, currentDay.current.value));
       }
-    }
-  }, [value, recordStatus, sync]);
+      dispatch(getActivitiesByUser(userId));
+      dispatch(getCoffeeSizesByUser(userId));
+      dispatch(getDrinksByUser(userId));
+
+      if (!recordStatus) {
+        return;
+      } else {
+        if (recordStatus.status === 200) {
+          message.success(
+            `${nameUser} tu registro se creo correctamente!!`,
+            2500
+          );
+          dispatch(setStatusNewRecord());
+        } else {
+          message.error(`Error: al intentar crear el registro`, 2500);
+          dispatch(setStatusNewRecord());
+        }
+      }
+    }, 500);
+  }, [value, sync, recordStatus, loading]);
 
   const PopupActivity = () => (
     <Popup
@@ -698,7 +713,7 @@ const Record = props => {
             ref={timeRef}
             defaultValue="0"
           />
-          {/*  <span className="sync">sincronizar</span> */}
+
           <label>Actividad</label>
           <select ref={activityRef} onChange={handlerSetActivity}>
             <option value="default">Selecciona...</option>
@@ -908,99 +923,102 @@ const Record = props => {
 
   // Render Main Elements
   return (
-    <div>
-      <div className="nav_bar"></div>
-      <div className="form_container">
-        <form onSubmit={handlerOnSubmit}>
-          <div className="main_container">
-            <div className="x_container">
-              <Link to="/private" className="link">
-                <div className="x">X</div>
-              </Link>
-            </div>
-            <div className="div_head">
-              <h2>
-                Nuevo Registro de {nameUser}
-                <img src={memo} alt="" className="memo" />
-              </h2>
-            </div>
-            <div className="general_info_container">
-              <div className="date_record_container">
-                <h5 className="h5_head">Fecha</h5>
-                <div>
-                  <img src={calendar} alt="" className="main_ico" />
-                  <input
-                    type="date"
-                    name="dateMeal"
-                    value={record.dateMeal}
-                    onChange={handlerOnChange}
-                    ref={currentDay}
-                  />
-                </div>
+    <div className="master">
+      {loading ? (
+        <div style={{ display: loading ? "flex" : "none" }} className="modal">
+          <Loading />
+        </div>
+      ) : (
+        <div className="form_container">
+          <form onSubmit={handlerOnSubmit}>
+            <div className="main_container">
+              <div className="x_container">
+                <Link to="/private/home" className="link">
+                  <div className="x">X</div>
+                </Link>
               </div>
-              <div className="time_meal_container">
-                <h5 className="h5_head">Hora de tu cena</h5>
-                <div>
-                  <img src={timeIco} alt="" className="main_ico" />
-                  <input
-                    type="time"
-                    name="timeMeal"
-                    value={record.timeMeal}
-                    onChange={handlerOnChange}
-                  />
-                </div>
-              </div>
-              <div
-                id="test_div"
-                className="meal_section"
-                hidden={record.timeMeal.length > 0 ? false : true}
-              >
-                <h5>
-                  Descripcion de tu cena{" "}
-                  <img
-                    src={checkImg}
-                    alt=""
-                    hidden={
-                      record.timeMeal.length > 0 &&
-                      record.description.length > 0
-                        ? false
-                        : true
-                    }
-                    className="img_ok"
-                  />
-                </h5>
-                <textarea
-                  name="description"
-                  id=""
-                  cols="70"
-                  rows="5"
-                  placeholder="Ingresa breve descripcion"
-                  value={record.description}
-                  onChange={handlerOnChange}
-                  required={record.timeMeal.length > 0 ? true : false}
-                ></textarea>
-              </div>
-            </div>
-            <div className="sleep_container" hidden={sync ? true : false}>
-              <div>
+              <div className="div_head">
                 <h2>
-                  <img src={personBed} alt="" className="person_bed" />
-                  Tiempo de Sueño{" "}
-                  <img
-                    src={checkImg}
-                    alt=""
-                    hidden={
-                      time.startTime.length > 0 && time.endTime.length > 0
-                        ? false
-                        : true
-                    }
-                    className="img_ok"
-                  />
+                  Nuevo Registro de {nameUser}
+                  <img src={memo} alt="" className="memo" />
                 </h2>
               </div>
-              {temp.length > 0 ? (
-                <div className="sync_div_true">
-                  {/* <h3>El dia {sleepSync}</h3> */}
+              <div className="general_info_container">
+                <div className="date_record_container">
+                  <h5 className="h5_head">Fecha</h5>
+                  <div>
+                    <img src={calendar} alt="" className="main_ico" />
+                    <input
+                      type="date"
+                      name="dateMeal"
+                      value={record.dateMeal}
+                      onChange={handlerOnChange}
+                      ref={currentDay}
+                    />
+                  </div>
+                </div>
+                <div className="time_meal_container">
+                  <h5 className="h5_head">Hora de tu cena</h5>
+                  <div>
+                    <img src={timeIco} alt="" className="main_ico" />
+                    <input
+                      type="time"
+                      name="timeMeal"
+                      value={record.timeMeal}
+                      onChange={handlerOnChange}
+                    />
+                  </div>
+                </div>
+                <div
+                  id="test_div"
+                  className="meal_section"
+                  hidden={record.timeMeal.length > 0 ? false : true}
+                >
+                  <h5>
+                    Descripcion de tu cena{" "}
+                    <img
+                      src={checkImg}
+                      alt=""
+                      hidden={
+                        record.timeMeal.length > 0 &&
+                        record.description.length > 0
+                          ? false
+                          : true
+                      }
+                      className="img_ok"
+                    />
+                  </h5>
+                  <textarea
+                    name="description"
+                    id=""
+                    cols="70"
+                    rows="5"
+                    placeholder="Ingresa breve descripcion"
+                    value={record.description}
+                    onChange={handlerOnChange}
+                    required={record.timeMeal.length > 0 ? true : false}
+                  ></textarea>
+                </div>
+              </div>
+              <div className="sleep_container" hidden={sync ? true : false}>
+                <div>
+                  <h2>
+                    <img src={personBed} alt="" className="person_bed" />
+                    Tiempo de Sueño{" "}
+                    <img
+                      src={checkImg}
+                      alt=""
+                      hidden={
+                        time.startTime.length > 0 && time.endTime.length > 0
+                          ? false
+                          : true
+                      }
+                      className="img_ok"
+                    />
+                  </h2>
+                </div>
+
+                <div className="sync_div_true" hidden={temp.length < 1}>
                   <h3>
                     El dia{" "}
                     {dateStringToDate(
@@ -1016,8 +1034,8 @@ const Record = props => {
                     sincronizar
                   </span>
                 </div>
-              ) : (
-                <div className="sleep_section">
+
+                <div className="sleep_section" hidden={temp.length > 0}>
                   <label>Dormiste </label>
                   <input
                     className="sleep_section_input"
@@ -1045,60 +1063,61 @@ const Record = props => {
                     </h4>
                   </div>
                 </div>
-              )}
-              {/* <label>Siesta</label>
+
+                {/* <label>Siesta</label>
               <input className="input_number" type="number" step="1" min="0" />
               <span>min.</span>
               <button className="add_button">Agregar</button> */}
-            </div>
-            <br />
-
-            <div className="reg_container">
-              <div className="reg_head_container">
-                <h2>Registrar</h2>
               </div>
-              <div className="popup_container">
-                <div className="div_popup">
-                  <div
-                    className="div_ok"
-                    hidden={activity.length > 0 ? false : true}
-                  >
-                    {activity.length}
-                  </div>
-                  {PopupActivity()}
+              <br />
+
+              <div className="reg_container">
+                <div className="reg_head_container">
+                  <h2>Registrar</h2>
                 </div>
-                <div className="div_popup">
-                  <div
-                    className="div_ok"
-                    hidden={coffee.length > 0 ? false : true}
-                  >
-                    {coffee.length}
+                <div className="popup_container">
+                  <div className="div_popup">
+                    <div
+                      className="div_ok"
+                      hidden={activity.length > 0 ? false : true}
+                    >
+                      {activity.length}
+                    </div>
+                    {PopupActivity()}
                   </div>
-                  {PopupCoffee()}
-                </div>
-                <div className="div_popup">
-                  <div
-                    className="div_ok"
-                    hidden={drink.length > 0 ? false : true}
-                  >
-                    {drink.length}
+                  <div className="div_popup">
+                    <div
+                      className="div_ok"
+                      hidden={coffee.length > 0 ? false : true}
+                    >
+                      {coffee.length}
+                    </div>
+                    {PopupCoffee()}
                   </div>
-                  {PopupDrink()}
+                  <div className="div_popup">
+                    <div
+                      className="div_ok"
+                      hidden={drink.length > 0 ? false : true}
+                    >
+                      {drink.length}
+                    </div>
+                    {PopupDrink()}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* ====================== BUTTONS SECTION ======================= */}
+              {/* ====================== BUTTONS SECTION ======================= */}
 
-            <div className="button_container">
-              <button className="bottom_buttons">Guardar</button>
-              <button className="bottom_buttons" onClick={handlerOnClear}>
-                Limpiar
-              </button>
+              <div className="button_container">
+                <button className="bottom_buttons">Guardar</button>
+                <button className="bottom_buttons" onClick={handlerOnClear}>
+                  Limpiar
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };
