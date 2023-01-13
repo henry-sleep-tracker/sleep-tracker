@@ -1,25 +1,36 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const routes = require("./routes/index.js");
-
+const routes = require("./index.js");
+const session = require("express-session"); //esto permite crear sesiones con un tiempo de
 require("./db.js");
-
 const server = express();
-
 server.name = "API";
 
-server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
-server.use(bodyParser.json({ limit: "50mb" }));
+server.use(express.urlencoded({ extended: false }));
+server.use((req, res, next) => {
+  if (req.originalUrl === "/webhook") {
+    next();
+  } else if (req.originalUrl.slice(0, 12) === "/changeimage") {
+    express.json({ limit: "50mb" });
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
+server.use(express.text());
 server.use(cookieParser());
+
 server.use(morgan("dev"));
 server.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+  //Choose the line below to test with local server
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  //Choose the line below to use with gitHub
+  //  res.header("Access-Control-Allow-Origin", "https://sleep-tracker-two.vercel.app"); https://sleep-tracker-two.vercel.app
   res.header("Access-Control-Allow-Credentials", "true");
   res.header(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
+    "Origin, X-Requested-With, ContentType, Content-Type, Accept"
   );
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
   next();

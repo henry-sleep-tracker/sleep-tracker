@@ -10,13 +10,16 @@ module.exports = (sequelize) => {
         primaryKey: true,
         allowNull: false,
       },
-      dateTime: {
-        type: DataTypes.DATE,
-      },
-      stage: {
+      date: {
         type: DataTypes.STRING,
       },
-      durationSeconds: {
+      time: {
+        type: DataTypes.STRING,
+      },
+      level: {
+        type: DataTypes.STRING,
+      },
+      seconds: {
         type: DataTypes.INTEGER,
       },
     },
