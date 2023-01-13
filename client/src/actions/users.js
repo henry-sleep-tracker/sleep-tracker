@@ -7,7 +7,7 @@ export function getUsersResponse(users) {
 
 export function getUsers(page, size) {
   return function (dispatch) {
-    fetch(`http://localhost:3001/users?page=${page}&limit=${size}`)
+    fetch(`${process.env.REACT_APP_DEFAULT_URL}/users?page=${page}&limit=${size}`)
       .then((r) => r.json())
       .then((users) => dispatch(getUsersResponse(users)))
       .catch((error) => console.log(error));
@@ -16,7 +16,7 @@ export function getUsers(page, size) {
 
 export async function updateUsers(updatedFields, id) {
   try {
-    let result = await fetch(`http://localhost:3001/users/update/${id}`, {
+    let result = await fetch(`${process.env.REACT_APP_DEFAULT_URL}/users/update/${id}`, {
       headers: {
         "Content-Type": "application/json",
       },
