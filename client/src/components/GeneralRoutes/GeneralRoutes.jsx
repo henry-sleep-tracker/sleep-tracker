@@ -17,8 +17,10 @@ const planExpirationDate = useSelector(
 );
 const dispatch = useDispatch();
 useEffect(() => {
-    dispatch(getUsersPlanExpDate(currentUser.id));
-    dispatch(getUserById(currentUser.id));
+    if(currentUser.plan===null){
+        dispatch(getUsersPlanExpDate(currentUser.id));
+        dispatch(getUserById(currentUser.id));
+    }
 }, [dispatch, currentUser]);
 
 if(planExpirationDate>yourDate){
