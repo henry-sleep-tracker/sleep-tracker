@@ -7,7 +7,8 @@ const sequelize = new Sequelize(
   // `postgresql://postgres:WrpAbk2oBdKzw2PgQQNg@containers-us-west-153.railway.app:7381/railway`,
   // `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
   //"postgres://postgres:1234@localhost/sleeptracker"
-  CURRENT_DB,
+  //CURRENT_DB,
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
   {
     logging: false, // set to console.log to see the raw SQL queries
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
