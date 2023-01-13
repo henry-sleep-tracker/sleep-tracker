@@ -1,4 +1,3 @@
-
 import {
   CREATE_TOKEN,
   GET_CURRENT_USER,
@@ -15,8 +14,6 @@ const getUsersPlanExpDate = require("./plan");
 
 // require("dotenv").config();
 
-
-
 const nullUser = {
   id: 0,
   isAdmin: false,
@@ -32,14 +29,17 @@ const nullUser = {
 
 export const createToken = (code, userId) => async (dispatch) => {
   try {
-    const sendCode = await fetch(`${process.env.REACT_APP_DEFAULT_URL}/fitbit`, {
-      // The default URL for backEnd is written on "app.js", just write "/*yourBackenRoute*"
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ code: code, userId: userId }),
-    });
+    const sendCode = await fetch(
+      `${process.env.REACT_APP_DEFAULT_URL}/fitbit`,
+      {
+        // The default URL for backEnd is written on "app.js", just write "/*yourBackenRoute*"
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ code: code, userId: userId }),
+      }
+    );
 
     const response = await sendCode.json();
 
@@ -137,38 +137,33 @@ export function resetPassword(password, id, token) {
   };
 }
 
-// export function logInUser(email, password) {
-//   return async (dispatch) => {
-//     try {
-//       const response = await axios.post(`${process.env.REACT_APP_DEFAULT_URL}/login/manual`, {email: email, password:password});
-//       if (response.status === 204) {
-//         return dispatch({
-//           type: GET_CURRENT_USER,
-//           payload: nullUser,
-//         });
-//       } else {
-//         const userFound = await response;
-//         return dispatch({
-//           type: GET_CURRENT_USER,
-//           payload: userFound,
-//         });
-//       }
-//       // return response
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-// }
+export const getUserById = (id) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_DEFAULT_URL}/user/userId/${id}`
+      );
+
+      return dispatch({ type: GET_CURRENT_USER, payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 export function logInUser(email, password) {
   return async function (dispatch) {
     try {
-      const response = await fetch(`${process.env.REACT_APP_DEFAULT_URL}/login/manual`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: email, password: password }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_DEFAULT_URL}/login/manual`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: email, password: password }),
+        }
+      );
       if (response.status === 204) {
         return dispatch({
           type: GET_CURRENT_USER,
@@ -230,16 +225,3 @@ export function logInUserWithGoogle(response) {
     }
   };
 }
-
-export const getUserById = (id) => {
-  return async function (dispatch) {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_DEFAULT_URL}/myuser/${id}`);
-      const user = await response.json();
-      console.log("ACTIONS USER", user);
-      return dispatch({ type: "GET_USER", payload: user });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
