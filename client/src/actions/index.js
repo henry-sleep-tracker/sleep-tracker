@@ -134,10 +134,11 @@ export function resetPassword(password, id, token) {
 export const getUserById = (id) => {
   return async function (dispatch) {
     try {
-      const response = await fetch(`http://localhost:3001/myuser/${id}`);
-      const user = await response.json();
-      console.log("ACTIONS USER", user);
-      return dispatch({ type: "GET_USER", payload: user });
+      const response = await axios.get(
+        `http://localhost:3001/user/userId/${id}`
+      );
+
+      return dispatch({ type: GET_CURRENT_USER, payload: response.data });
     } catch (error) {
       console.log(error);
     }
