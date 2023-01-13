@@ -12,6 +12,7 @@ import {
   CardContent,
   FormControl,
   Grid,
+  Link,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -26,6 +27,7 @@ import { Helmet } from "react-helmet";
 import log from "../logi/log-.png";
 import wakeup from "../../images/Signup/zen-balancing.jpg";
 import styles from "./Login.module.css";
+import { style } from "@mui/system";
 
 export default function LogIn() {
   const clientId =
@@ -95,81 +97,79 @@ export default function LogIn() {
   };
 
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="center"
-      columns={16}
-      className={styles.bg}
-    >
-      <Grid item xs={8}>
-        <img src={wakeup} alt="wakeup login" width="100%" />
-      </Grid>
-      <Grid item xs={8}>
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          spacing={3}
-          flex={4}
-          p={2}
-        >
-          <Helmet>
-            <title>Iniciar sesion | Sleep Tracker</title>
-          </Helmet>
+    <Grid container width="100%">
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        width="100%"
+        columns={16}
+        className={styles.inner}
+      >
+        <Grid item xs={6}>
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+            flex={4}
+            p={2}
+          >
+            <Helmet>
+              <title>Iniciar sesion | Sleep Tracker</title>
+            </Helmet>
 
-          <Grid item>
-            <img src={log} alt="logo" width="200px" />
-          </Grid>
+            <Grid item className={styles.backButton}>
+              <Button
+                variant="outlined"
+                startIcon={<ArrowBackIosNewIcon />}
+                href="/"
+              >
+                Regresar
+              </Button>
+            </Grid>
 
-          <Grid item>
-            <Typography variant="h2">Iniciar sesion</Typography>
-          </Grid>
+            <Grid item>
+              <img src={log} alt="logo" width="200px" />
+            </Grid>
 
-          <Grid item>
-            <Button
-              variant="outlined"
-              startIcon={<ArrowBackIosNewIcon />}
-              href="/"
-            >
-              Regresar
-            </Button>
-          </Grid>
+            <Grid item>
+              <Card
+                className="titleresume"
+                variant="outlined"
+                elevation={20}
+                sx={{ minWidth: 500 }}
+              >
+                <CardContent>
+                  <Grid
+                    container
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={3}
+                    flex={4}
+                    p={2}
+                  >
+                    <Grid item>
+                      <Typography variant="h4">Inicia sesion</Typography>
+                    </Grid>
 
-          <Grid item>
-            <Card
-              className="titleresume"
-              variant="outlined"
-              elevation={20}
-              sx={{ maxWidth: 300 }}
-            >
-              <CardContent>
-                <Grid
-                  container
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  spacing={3}
-                  flex={4}
-                  p={2}
-                >
-                  <Grid item></Grid>
+                    <Grid item>
+                      <TextField
+                        label="Correo electronico"
+                        variant="outlined"
+                        type="email"
+                        name="email"
+                        value={input.email}
+                        onChange={(event) => handleChange(event)}
+                        required
+                        style={{ width: 400 }}
+                      />
+                    </Grid>
 
-                  <Grid item>
-                    <TextField
-                      label="Correo electronico"
-                      variant="outlined"
-                      type="email"
-                      name="email"
-                      value={input.email}
-                      onChange={(event) => handleChange(event)}
-                      required
-                    />
-                  </Grid>
-
-                  {/* <Grid
+                    {/* <Grid
                 item
               >
                 <Typography
@@ -196,95 +196,112 @@ export default function LogIn() {
               </Grid>
  */}
 
-                  <Grid item>
-                    <FormControl
-                      sx={{ m: 1, width: "25ch" }}
-                      variant="outlined"
-                    >
-                      <InputLabel htmlFor="outlined-adornment-password">
-                        Contraseña *
-                      </InputLabel>
-                      <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={showPassword ? "text" : "password"}
-                        label="Contraseña"
-                        variant="outlined"
-                        name="password"
-                        value={input.password}
-                        onChange={(event) => handleChange(event)}
-                        required
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              edge="end"
-                            >
-                              {showPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                      />
-                    </FormControl>
-                  </Grid>
+                    <Grid item>
+                      <FormControl sx={{ m: 1, width: 400 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">
+                          Contraseña *
+                        </InputLabel>
+                        <OutlinedInput
+                          id="outlined-adornment-password"
+                          type={showPassword ? "text" : "password"}
+                          label="Contraseña"
+                          variant="outlined"
+                          name="password"
+                          value={input.password}
+                          onChange={(event) => handleChange(event)}
+                          required
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                        />
+                      </FormControl>
+                    </Grid>
 
-                  <Grid item></Grid>
+                    <Grid item></Grid>
 
-                  <Grid item>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      size="large"
-                      onClick={(event) => handleSubmit(event)}
-                    >
-                      Iniciar Sesion
-                    </Button>
-                  </Grid>
+                    <Grid item>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        sx={{ width: 400, height: 40 }}
+                        onClick={(event) => handleSubmit(event)}
+                      >
+                        Iniciar Sesion
+                      </Button>
+                    </Grid>
 
-                  <Grid item>
-                    <Typography variant="h5">Ó ingresa con Google</Typography>
-                  </Grid>
+                    {/* <Grid item>
+                      <Typography variant="h5">Ó ingresa con Google</Typography>
+                    </Grid>
+                    <Divider>Ingresa sesión con Google</Divider> */}
 
-                  <Grid item>
-                    <LogInGoogleButton />
-                  </Grid>
+                    <Grid item>
+                      <LogInGoogleButton />
+                    </Grid>
 
-                  <Grid item>
-                    <Typography variant="h5">¿No tienes cuenta?</Typography>
-                  </Grid>
+                    <Grid container>
+                      <Grid item sx={{ marginTop: 5, marginLeft: 5 }}>
+                        <Link href="#" variant="body2">
+                          ¿Olvidaste tu contraseña?
+                        </Link>
+                      </Grid>
+                      <Grid item sx={{ marginTop: 5, marginLeft: 3 }}>
+                        <Link href="#" variant="body2">
+                          {"¿No tienes una cuenta? Registrate"}
+                        </Link>
+                      </Grid>
+                    </Grid>
 
-                  <Grid item>
-                    <Button variant="contained" size="large">
+                    {/* <Grid item>
+                      <Typography variant="h5">¿No tienes cuenta?</Typography>
+                    </Grid>
+
+                    <Grid item>
+                      <Button variant="contained" size="large">
+                        <a
+                          href="/registro"
+                          style={{
+                            color: "white",
+                            textDecoration: "none",
+                          }}
+                        >
+                          registrate
+                        </a>
+                      </Button>
+                    </Grid>
+
+                    <Grid item>
                       <a
-                        href="/registro"
+                        href="/contrasena_olvidada"
                         style={{
-                          color: "white",
                           textDecoration: "none",
                         }}
                       >
-                        registrate
+                        ¿Olvidaste tu contraseña?
                       </a>
-                    </Button>
+                    </Grid> */}
                   </Grid>
-
-                  <Grid item>
-                    <a
-                      href="/contrasena_olvidada"
-                      style={{
-                        textDecoration: "none",
-                      }}
-                    >
-                      ¿Olvidaste tu contraseña?
-                    </a>
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={10}>
+          <Grid>
+            <img src={wakeup} alt="wakeup login" className={styles.zenImage} />
           </Grid>
         </Grid>
       </Grid>

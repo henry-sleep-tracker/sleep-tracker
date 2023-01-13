@@ -1,8 +1,10 @@
-.bg {
-  background: url(https://www.freepik.com/free-photo/zen-balancing-pebbles-misty-lake_18416496.htm#query=relaxing&position=1&from_view=search&track=sph)
-    no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+.zenImage {
+  width: 100%;
+  min-height: 100vh;
+}
+
+@media only screen and (max-width: 600px) {
+  .zenImage {
+    display: none;
+  }
 }
