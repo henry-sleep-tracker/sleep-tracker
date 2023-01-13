@@ -5,9 +5,16 @@ export function getUsersResponse(users) {
   };
 }
 
-export function getUsers(page, size) {
+export function getUsers(page, size, filters) {
+
+  let nationality = '';
+  let plan = '';
+
+  if(filters.nationality) { nationality = `&nationality=${filters.nationality}`;}
+  if(filters.plan) { plan = `&name=${filters.plan}`;} //en el back, Liz llama 'name' a plan
+
   return function (dispatch) {
-    fetch(`http://localhost:3001/users?page=${page}&limit=${size}`)
+    fetch(`http://localhost:3001/users?page=${page}&limit=${size}${nationality}${plan}`)
       .then((r) => r.json())
       .then((users) => dispatch(getUsersResponse(users)))
       .catch((error) => console.log(error));
