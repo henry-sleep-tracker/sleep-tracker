@@ -17,7 +17,6 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 // Actions Imports
-import { getRecordsQuery } from "../../actions/records_data";
 import {
   //getCoffeeSizes,
   //getActivities,
@@ -25,6 +24,7 @@ import {
   //getLastIdActivity,
   //getLastIdCoffeSize,
   //getLastIdDrink,
+  getRecordByIdDate,
   getActivitiesByUser,
   getCoffeeSizesByUser,
   getDrinksByUser,
@@ -35,13 +35,10 @@ import {
   setStatusNewRecord,
 } from "../../actions/records";
 
-import {
-  getSleepStage,
-  getSleepSession,
-} from "../../actions/getUserHealthData";
+import { getSleepStage } from "../../actions/getUserHealthData";
 
 // Import images
-import check from "../../images/check-mark-button_2705.png";
+import checkImg from "../../images/check-mark-button_2705.png";
 import memo from "../../images/memo2.png";
 import personBed from "../../images/person-in-bed.png";
 import runingShoe from "../../images/running-shoe.png";
@@ -73,7 +70,21 @@ const Record = (props) => {
   let sleepTime12Format = "";
   let check = "";
 
+  /******************** Set Timeouts Section *********************/
+
+  //! ============ TimeOut for check Sync Sleep Record ========== !//
+  setTimeout(() => {
+    if (check.length >= 1) {
+      if (check[0].dateMeal === currentDay.current.value) {
+        setSync(true);
+      } else {
+        setSync(false);
+      }
+    }
+  }, 1);
+
   // useRef Hook
+  const currentDay = useRef();
   const timeRef = useRef();
   const activityRef = useRef();
   const cups = useRef();
@@ -88,7 +99,9 @@ const Record = (props) => {
 
   const userId = useSelector((state) => state.users.currentUser.id);
   const nameUser = useSelector((state) => state.users.currentUser.names);
-  const recordsUserRedux = useSelector((state) => state.recordsUser);
+  const recordsUserRedux = useSelector(
+    (state) => state.record.recordsByUserAndDate
+  );
   const recordStatus = useSelector((state) => state.record.statusNewRecord);
   const activityStat = useSelector((state) => state.record.statusNewActivity);
   const coffeeStat = useSelector((state) => state.record.statusNewCoffeeSize);
@@ -109,23 +122,9 @@ const Record = (props) => {
     sleepTime12Format = time_convert(sleepTimeMinutes);
   }
 
-  const [sleepSync, setSleepSync] = useState(
-    dateStringToDate(sleepTime[0]?.date.replace("-", ""))
-  );
-
-  const [sleepRedux, setSleepRedux] = useState();
-  /* recordsUserRedux.length < 1
-      ? "No existen registros"
-      : recordsUserRedux.hasOwnProperty("message")
-      ? recordsUserRedux.message
-      : recordsUserRedux[0].sleepTimeNumber */
-
-  console.log(`sleepTime in Minutes ${sleepRedux}`);
-  console.log(`console.log de temp: ${temp.length}`);
-  if (recordsUserRedux.length) {
-    check = recordsUserRedux?.map((e) => e.sleepTimeNumber);
+  if (recordsUserRedux?.length >= 1) {
+    check = recordsUserRedux?.filter((e) => e.sleepTime > 0);
   }
-  console.log(`console.log de check: ${check.length}`);
 
   /******************** Local States Section *********************/
 
@@ -163,7 +162,7 @@ const Record = (props) => {
 
   const finalHours = formatingDate(st, et);
 
-  const [sync, setSync] = useState(false);
+  const [sync, setSync] = useState(false); //--> 61
 
   //! ================== Activity States ================= !//
 
@@ -202,7 +201,8 @@ const Record = (props) => {
   const handlerOnChange = (e) => {
     setRecord({ ...record, [e.target.name]: e.target.value });
     if (e.target.name === "dateMeal") {
-      dispatch(getRecordsQuery(userId, e.target.value));
+      dispatch(getRecordByIdDate(userId, e.target.value));
+      refresh();
     }
   };
 
@@ -245,11 +245,12 @@ const Record = (props) => {
     setRecord((record.coffeeCups = floorCoffeeCups));
     setRecord((record.drinks = floorDrinks));
     dispatch(createNewRecord(record));
+    message.success(`${nameUser} tu registro se creo correctamente!!`, 2500);
 
     // After Dispatch //
 
     setRecord({
-      dateMeal: date_maker(),
+      dateMeal: currentDay.current.value,
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -269,13 +270,13 @@ const Record = (props) => {
     setCoffeeStatus(false);
     setDrinkStatus(false);
     setTime({ startTime: "", endTime: "" });
-    //setSync(false);
+    refresh();
   };
 
   const handlerOnClear = (e) => {
     e.preventDefault();
     setRecord({
-      dateMeal: date_maker(),
+      dateMeal: currentDay.current.value,
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -296,7 +297,6 @@ const Record = (props) => {
     setCoffeeStatus(false);
     setDrinkStatus(false);
     setTime({ startTime: "", endTime: "" });
-    //setSync(false);
   };
 
   //! ================== SleepTime Handlers ================= !//
@@ -313,11 +313,11 @@ const Record = (props) => {
       setRecord((record.timeMeal = time));
     }
     dispatch(createNewRecord(record));
-    //message.success(`Se sincronizo tu sueño correctamente`, 2500);
+    message.success(`Se sincronizo tu sueño correctamente`, 2500);
 
     setSync(true);
     setRecord({
-      dateMeal: date_maker(),
+      dateMeal: currentDay.current.value,
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -387,6 +387,7 @@ const Record = (props) => {
         `La actividad ${addActivity.activity} no puede duplicarse`,
         2500
       );
+      //alert(`La actividad ${addActivity.activity} no puede duplicarse`);
       nameActivity.current.value = "";
       return;
     }
@@ -652,25 +653,12 @@ const Record = (props) => {
   // Mount/Unmount Component
   useEffect(() => {
     const fetchData = async () => {
-      /* if (sleepTime[0]) {
-        const getRecords = await dispatch(
-          getRecordsQuery(userId, sleepTime[0]?.date)
-        );
-      } */
-      // eslint-disable-next-line no-unused-vars
-      const dataActivitiy = await dispatch(getActivitiesByUser(userId));
-      // eslint-disable-next-line no-unused-vars
-      const dataCoffeSize = await dispatch(getCoffeeSizesByUser(userId));
-      // eslint-disable-next-line no-unused-vars
-      const dataDrinks = await dispatch(getDrinksByUser(userId));
-      const getSleepRecord = await dispatch(getSleepStage("2023-01-10"));
-      const getSleepRangeRecord = await dispatch(
-        getSleepSession("2023-01-01", "2023-01-10")
-      );
+      dispatch(getActivitiesByUser(userId));
+      dispatch(getRecordByIdDate(userId, currentDay.current.value));
+      const three = await dispatch(getCoffeeSizesByUser(userId));
+      const four = await dispatch(getDrinksByUser(userId));
+      const five = await dispatch(getSleepStage(currentDay.current.value));
     };
-    if (check) {
-      setSync(true);
-    }
 
     fetchData().catch(console.error);
 
@@ -678,15 +666,17 @@ const Record = (props) => {
       return;
     } else {
       if (recordStatus.status === 200) {
-        message.success(`${nameUser} tu registro se creo correctamente!!`);
+        message.success(
+          `${nameUser} tu registro se creo correctamente!!`,
+          2500
+        );
         dispatch(setStatusNewRecord());
-      }
-      if (recordStatus) {
-        message.error(`Error: al intentar crear el registro`, record);
+      } else {
+        message.error(`Error: al intentar crear el registro`, 2500);
         dispatch(setStatusNewRecord());
       }
     }
-  }, [value, recordStatus]);
+  }, [value, recordStatus, sync]);
 
   const PopupActivity = () => (
     <Popup
@@ -946,6 +936,7 @@ const Record = (props) => {
                     name="dateMeal"
                     value={record.dateMeal}
                     onChange={handlerOnChange}
+                    ref={currentDay}
                   />
                 </div>
               </div>
@@ -969,7 +960,7 @@ const Record = (props) => {
                 <h5>
                   Descripcion de tu cena{" "}
                   <img
-                    src={check}
+                    src={checkImg}
                     alt=""
                     hidden={
                       record.timeMeal.length > 0 &&
@@ -998,7 +989,7 @@ const Record = (props) => {
                   <img src={personBed} alt="" className="person_bed" />
                   Tiempo de Sueño{" "}
                   <img
-                    src={check}
+                    src={checkImg}
                     alt=""
                     hidden={
                       time.startTime.length > 0 && time.endTime.length > 0
@@ -1011,7 +1002,13 @@ const Record = (props) => {
               </div>
               {temp.length > 0 ? (
                 <div className="sync_div_true">
-                  <h3>El dia {sleepSync}</h3>
+                  {/* <h3>El dia {sleepSync}</h3> */}
+                  <h3>
+                    El dia{" "}
+                    {dateStringToDate(
+                      currentDay.current?.value.replace("-", "")
+                    )}
+                  </h3>
                   <h4>Dormiste: {sleepTime12Format}</h4>
                   <span
                     className="sync"

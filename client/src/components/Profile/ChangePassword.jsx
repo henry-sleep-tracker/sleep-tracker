@@ -63,7 +63,7 @@ export default function ChangePassword() {
           password: "",
           confirmPassword: "",
         });
-        navigate("/");
+        navigate("/private/profile");
       }
     } catch (error) {
       console.log("el error es:", error);

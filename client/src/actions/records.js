@@ -1,7 +1,8 @@
 import axios from "axios";
 
-export const GET_COFFEE_SIZES = "GET_COFFEE_SIZES";
+export const GET_RECORDS_BY_ID_AND_DATE = "GET_RECORDS_BY_ID_AND_DATE";
 export const GET_ACTIVITIES = "GET_ACTIVITIES";
+export const GET_COFFEE_SIZES = "GET_COFFEE_SIZES";
 export const GET_DRINKS = "GET_DRINKS";
 export const NEW_RECORD = "NEW_RECORD";
 export const STATUS_NEW_RECORD = "STATUS_NEW_RECORD";
@@ -21,9 +22,23 @@ export const GET_ACTIVITIES_BY_USER = "GET_ACTIVITIES_BY_USER";
 export const GET_COFFEE_SIZE_BY_USER = "GET_COFFEE_SIZE_BY_USER";
 export const GET_DRINKS_BY_USER = "GET_DRINKS_BY_USER";
 
-
 /* ====================== GET'S SECTION ======================= */
 
+export const getRecordByIdDate = (id, date) => {
+  return async function (dispatch) {
+    try {
+      const resRecord = await axios.get(
+        `http://localhost:3001/records?id=${id}&date=${date}`
+      );
+      dispatch({
+        type: GET_RECORDS_BY_ID_AND_DATE,
+        payload: resRecord.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
 
 export const getActivities = () => {
   return async function (dispatch) {
