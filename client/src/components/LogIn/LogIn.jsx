@@ -105,9 +105,9 @@ export default function LogIn() {
         alignItems="center"
         width="100%"
         columns={16}
-        className={styles.inner}
+        sx={{ backgroundColor: "#ecefef" }}
       >
-        <Grid item xs={6}>
+        <Grid item xs={8} height="100%" paddingTop={10}>
           <Grid
             container
             direction="column"
@@ -299,7 +299,7 @@ export default function LogIn() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={8}>
           <Grid>
             <img src={wakeup} alt="wakeup login" className={styles.zenImage} />
           </Grid>
