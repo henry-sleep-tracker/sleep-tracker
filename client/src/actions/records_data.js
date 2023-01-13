@@ -1,12 +1,12 @@
 import axios from "axios";
 export const GET_RECORDS_USER_DATE = "GET_RECORDS_USER_DATE";
-export const GET_RECORDS_RANGE = "GET_RECORDS_RANGE"
+export const GET_RECORDS_RANGE = "GET_RECORDS_RANGE" 
 
-export const getRecordsQuery = (id, date) => {
+export const getRecordsQuery = (id, date) => { 
     return async function (dispatch) {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_DEFAULT_URL}/newrecord?id=${id}&date=${date}`
+          `${process.env.REACT_APP_DEFAULT_URL}/records?id=${id}&date=${date}`
         );
         dispatch({
           type: GET_RECORDS_USER_DATE,
