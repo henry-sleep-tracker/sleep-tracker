@@ -8,7 +8,7 @@ const server = express();
 server.name = "API";
 
 server.use(express.urlencoded({ extended: false }));
-// server.use(express.json());
+server.use(express.json({ limit: "50mb"}));
 server.use((req, res, next) => {
   if (req.originalUrl === "/webhook") {
     next();
