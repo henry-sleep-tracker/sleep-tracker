@@ -8,8 +8,6 @@ export default function GraphRecord() {
   const records = useSelector((state) => state?.record.recordsRange)
 
 
-  console.log('records antes', records);
-
   let auxRecords = []
   let auxRecord = records[0]
 
@@ -28,9 +26,6 @@ export default function GraphRecord() {
   }
 
   auxRecords.push(auxRecord);
-
-  console.log("records", records);
-  console.log("AAAUUXXXrecords", auxRecords);
 
   const data = [
     ...auxRecords.map((d) => {
