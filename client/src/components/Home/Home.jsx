@@ -15,9 +15,11 @@ import { getUsersPlanExpDate } from "../../actions/plan";
 import { useAuthContext } from "../../actions/authContext";
 import { Helmet } from "react-helmet";
 
+
 const Home = () => {
   const { payPlan } = useAuthContext();
   const currentUser = useSelector((state) => state?.users.currentUser);
+
   const planExpirationDate = useSelector(
     (state) => state?.users.planExpirationDate
   );
@@ -63,7 +65,7 @@ const Home = () => {
       spacing={3}
       flex={4}
       p={2}
-    // maxWidth='100vw'
+      // maxWidth='100vw'
     >
       <Helmet>
         <title>Inicio | Sleep Tracker</title>
@@ -75,9 +77,7 @@ const Home = () => {
         </Typography>
       </Grid>
 
-      <Grid
-        item
-      >
+      <Grid item>
         <Fitbit />
       </Grid>
 
@@ -86,42 +86,29 @@ const Home = () => {
       >
         <Typography variant="h6">{Date()}</Typography>
       </Grid> */}
-      <Grid
-        item
-      >
+      <Grid item>
         <Calendario />
       </Grid>
 
-      <Grid
-        item
-      >
+      <Grid item>
         <GraphHome />
       </Grid>
 
-      <Grid
-        item
-      >
+      <Grid item>
         <CollapsibleTable />
       </Grid>
 
-      <Grid className={classes.Collection}
-        item
-      >
+      <Grid className={classes.Collection} item>
         <Collection />
       </Grid>
 
-      <Grid className={classes.calc}
-        item
-      >
+      <Grid className={classes.calc} item>
         <Calc />
       </Grid>
 
-      <Grid className={classes.swipeableHome}
-        item
-      >
+      <Grid className={classes.swipeableHome} item>
         <Swipeable className={classes.swipeable} />
       </Grid>
-
     </Grid>
   );
 };
