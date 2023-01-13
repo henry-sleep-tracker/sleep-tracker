@@ -9,13 +9,15 @@ import CollapsibleTableEfficiency from "./CollapsibleTableEfficiency";
 import GraphRecord from "./Graph-Records";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print"
+import { message } from "react-message-popup";
 
 const GraphWM = () => {
 
   const componentPdf =  useRef()
     const handlePrint = useReactToPrint({
         content: () => componentPdf.current,
-        onAfterPrint: () => alert('print success')
+        //onAfterPrint: () => alert('print success')
+        onAfterPrint: () => message.success('print success',2500)
     })
 
   return (

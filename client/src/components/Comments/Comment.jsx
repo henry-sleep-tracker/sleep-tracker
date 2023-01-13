@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Helmet } from 'react-helmet';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { message } from "react-message-popup";
 
 
 
@@ -58,7 +59,10 @@ const CreateComment = () => {
                 comment: "",
                 id: currentUser.id,
             })
-        } catch (error) { alert("Fatal Error.") }
+        } catch (error) {
+          //alert("Fatal Error.")
+          message.error("Fatal Error.",2500);
+        }
         navigate('/private');
 
     }
