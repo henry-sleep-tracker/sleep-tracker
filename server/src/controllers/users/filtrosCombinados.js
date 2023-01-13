@@ -4,7 +4,27 @@ const { User, Plan } = require("../../db.js");
 const getFilters = async (req, res) => {
   const { nationality, name, isAdmin, page, limit } = req.query;
 
- 
+ if (!nationality && !name && !isAdmin) {
+  
+  try {
+    const responseNat = await User.findAll({
+      include: [
+        {
+          model: Plan,
+        },
+      ], 
+
+      order: [["names", "ASC"]],
+    });
+
+    return res.status(200).json({
+      users: responseNat.slice((page - 1) * limit, page * limit),
+      total: responseNat.length,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+ }
 
   if (nationality && !name && !isAdmin) {
     try {
