@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthContext } from "../../actions/authContext";
-import { useNavigate } from "react-router-dom";
-import { updateUser } from "../../actions/profileActions";
+import { updateUser, updateImage } from "../../actions/profileActions";
 import {
   Button,
   Card,
@@ -20,18 +19,21 @@ import EmailIcon from "@mui/icons-material/Email";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Helmet } from "react-helmet";
+import IconButton from '@mui/material/IconButton';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import Avatar from '@mui/material/Avatar';
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import PaymentIcon from "@mui/icons-material/Payment";
 
 const Profile = () => {
   const { createPassword } = useAuthContext();
   const currentUser = useSelector((state) => state.users.currentUser);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [editNames, setEditNames] = useState(false);
   const [editEmail, setEditEmail] = useState(false);
   const [editiBirthday, setEditBirthday] = useState(false);
   const [editNationality, setEditNationality] = useState(false);
+  const [image, setImage] = useState("");
   const [inputs, setInputs] = useState({
     names: "",
     lastNames: "",
@@ -39,11 +41,22 @@ const Profile = () => {
     birthday: "",
     nationality: "",
   });
+
   useEffect(() => {
     if (currentUser.password !== null) {
       createPassword();
     }
   }, [currentUser]);
+
+  const convertirBase64 = async (e) =>{
+    let reader = new FileReader();
+     reader.readAsDataURL(e.target.files[0]);
+     reader.onload = function(){
+      let base64 = reader.result;
+      setImage(base64)
+    }
+  };
+
   const handleInputs = (e) => {
     e.preventDefault();
     setInputs({
@@ -85,6 +98,16 @@ const Profile = () => {
     }
   };
 
+  const handleImage = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(updateImage(currentUser.id, image))
+      setImage("");
+    } catch (error) {
+      console.log("el error es:", error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -96,7 +119,10 @@ const Profile = () => {
         birthday: "",
         nationality: "",
       });
-      navigate("/home");
+      setEditNames(false);
+      setEditEmail(false);
+      setEditBirthday(false);
+      setEditNationality(false);
     } catch (error) {
       console.log("el error es:", error);
     }
@@ -190,6 +216,28 @@ const Profile = () => {
       >
         <img src="https://upload.wikimedia.org/wikipedia/en/4/4c/Team_8_logo.png" alt="Imagen aqui" />
       </Grid> */}
+
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        flex={3}
+        p={2}
+      >
+          <Avatar 
+            alt = "Not found"
+            srcSet={currentUser.image}
+            sx={{ width: 200, height: 200 }}
+          />
+          {!image ?  
+            <IconButton color="primary" aria-label="upload picture" component="label">
+              <input hidden accept="image/*" type="file" onChange = {(e) => convertirBase64(e)}/>
+              <PhotoCamera />
+            </IconButton>
+            : <Button onClick={handleImage}>Confirmar</Button>}
+         
+      </Grid>
 
       <Grid item>
         <Card variant="outlined">
