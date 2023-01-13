@@ -7,6 +7,7 @@ import {
   Card,
   CardContent,
   Grid,
+  Link,
   TextField,
   Typography,
 } from "@mui/material";
@@ -380,8 +381,9 @@ const Profile = () => {
                 <Typography variant="h5">Plan actual:</Typography>
               </Grid>
               <br/>
-              <Button variant="contained">{currentUser.plan?.name}</Button>
-      
+              
+              <Button variant="contained" href="/private/planes">{currentUser.plan?.name}</Button>
+            
               <Grid item>
                 {inputs.names ||
                 inputs.email ||
