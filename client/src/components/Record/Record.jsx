@@ -8,6 +8,7 @@ import "./Record.css";
 import "reactjs-popup/dist/index.css";
 
 // Import Components
+import "./Loading";
 
 // Hooks Imports
 import { useState, useRef } from "react";
@@ -17,14 +18,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 // Actions Imports
-import { getRecordsQuery } from "../../actions/records_data";
 import {
-  //getCoffeeSizes,
-  //getActivities,
-  //getDrinks,
-  //getLastIdActivity,
-  //getLastIdCoffeSize,
-  //getLastIdDrink,
+  getRecordByIdDate,
   getActivitiesByUser,
   getCoffeeSizesByUser,
   getDrinksByUser,
@@ -35,8 +30,10 @@ import {
   setStatusNewRecord,
 } from "../../actions/records";
 
+import { getSleepStage } from "../../actions/getUserHealthData";
+
 // Import images
-import check from "../../images/check-mark-button_2705.png";
+import checkImg from "../../images/check-mark-button_2705.png";
 import memo from "../../images/memo2.png";
 import personBed from "../../images/person-in-bed.png";
 import runingShoe from "../../images/running-shoe.png";
@@ -55,19 +52,35 @@ import { time_convert } from "../../helpers/time_convert";
 import { formatingDate } from "../../helpers/date_formating";
 import { timeToMinutes } from "../../helpers/time_to_minutes";
 import { dateStringToDate } from "../../helpers/string_to_date";
+import Loading from "./Loading";
 
 //>======================>//
 //> Starts Component
 //>======================>//
 
-const Record = (props) => {
+const Record = props => {
   const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
   let sleepTimeMinutes = "";
   let sleepTime12Format = "";
+  let check = "";
+
+  /******************** Set Timeouts Section *********************/
+
+  //! ============ TimeOut for check Sync Sleep Record ========== !//
+  setTimeout(() => {
+    if (check.length >= 1) {
+      if (check[0].dateMeal === currentDay.current?.value) {
+        setSync(true);
+      } else {
+        setSync(false);
+      }
+    }
+  }, 1);
 
   // useRef Hook
+  const currentDay = useRef();
   const timeRef = useRef();
   const activityRef = useRef();
   const cups = useRef();
@@ -80,39 +93,39 @@ const Record = (props) => {
 
   /******************** Redux States Section *********************/
 
-  const userId = useSelector((state) => state.users.currentUser.id);
-  const nameUser = useSelector((state) => state.users.currentUser.names);
-  const recordsUserRedux = useSelector((state) => state.recordsUser);
-  const recordStatus = useSelector((state) => state.record.statusNewRecord);
-  const activityStat = useSelector((state) => state.record.statusNewActivity);
-  const coffeeStat = useSelector((state) => state.record.statusNewCoffeeSize);
-  const drinkStat = useSelector((state) => state.record.statusNewDrink);
-  const activitiesRedux = useSelector((state) => state.record.activities);
-  const coffeeSizesRedux = useSelector((state) => state.record.coffeeSizes);
-  const drinksRedux = useSelector((state) => state.record.drinks);
-  const sleepTime = useSelector((state) => state.stage);
+  const userId = useSelector(state => state.users.currentUser.id);
+  const nameUser = useSelector(state => state.users.currentUser.names);
+  const recordsUserRedux = useSelector(
+    state => state.record.recordsByUserAndDate
+  );
+  const recordStatus = useSelector(state => state.record.statusNewRecord);
+  const activityStat = useSelector(state => state.record.statusNewActivity);
+  const coffeeStat = useSelector(state => state.record.statusNewCoffeeSize);
+  const drinkStat = useSelector(state => state.record.statusNewDrink);
+  const activitiesRedux = useSelector(state => state.record.activities);
+  const coffeeSizesRedux = useSelector(state => state.record.coffeeSizes);
+  const drinksRedux = useSelector(state => state.record.drinks);
+  const sleepTime = useSelector(state => state.stage); //--> Estado global que guarda los segundos de suenio
 
   /******************** Functions Before load component *********************/
 
-  const temp = sleepTime?.filter((e) => e.level !== 1);
+  const temp = sleepTime?.filter(e => e.level !== 1);
   if (temp.length > 0) {
     sleepTimeMinutes = Math.floor(
-      temp.map((e) => e.seconds).reduce((acc, e) => acc + e, 0) / 60
+      temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
     );
     // eslint-disable-next-line no-unused-vars
     sleepTime12Format = time_convert(sleepTimeMinutes);
   }
-  const [sleepSync, setSleepSync] = useState(
-    dateStringToDate(sleepTime[0]?.date.replace("-", ""))
-  );
 
-  const [sleepRedux, setSleepRedux] = useState(
-    recordsUserRedux?.map((e) => e.sleepTime)
-  );
+  if (recordsUserRedux?.length >= 1) {
+    check = recordsUserRedux?.filter(e => e.sleepTime > 0);
+  }
 
   /******************** Local States Section *********************/
 
   //! ================== Main Local States ================= !//
+  const [loading, setLoading] = useState(true);
 
   const [record, setRecord] = useState({
     dateMeal: date_maker(),
@@ -146,7 +159,7 @@ const Record = (props) => {
 
   const finalHours = formatingDate(st, et);
 
-  const [sync, setSync] = useState(false);
+  const [sync, setSync] = useState(false); //--> 61
 
   //! ================== Activity States ================= !//
 
@@ -182,11 +195,16 @@ const Record = (props) => {
 
   //! ================== Main Handlers ================= !//
 
-  const handlerOnChange = (e) => {
+  const handlerOnChange = e => {
     setRecord({ ...record, [e.target.name]: e.target.value });
+    if (e.target.name === "dateMeal") {
+      dispatch(getRecordByIdDate(userId, e.target.value));
+      setLoading(true);
+      //refresh();
+    }
   };
 
-  const handlerOnSubmit = (e) => {
+  const handlerOnSubmit = e => {
     e.preventDefault();
     let date = "";
     let time = "";
@@ -200,6 +218,7 @@ const Record = (props) => {
     }
 
     if (record.timeMeal.length > 0 && record.description.length < 1) {
+      message.warn(`Ingresa una breve descripcion de tu cena`);
       message.warn(`Ingresa una breve descripcion de tu cena`);
       return;
     }
@@ -218,18 +237,19 @@ const Record = (props) => {
       setRecord((record.sleepTime = "0"));
     }
 
-    const floorTimeActivity = record.timeActivity.map((e) => Math.floor(e));
-    const floorCoffeeCups = record.coffeeCups.map((e) => Math.floor(e));
-    const floorDrinks = record.drinks.map((e) => Math.floor(e));
+    const floorTimeActivity = record.timeActivity.map(e => Math.floor(e));
+    const floorCoffeeCups = record.coffeeCups.map(e => Math.floor(e));
+    const floorDrinks = record.drinks.map(e => Math.floor(e));
     setRecord((record.timeActivity = floorTimeActivity));
     setRecord((record.coffeeCups = floorCoffeeCups));
     setRecord((record.drinks = floorDrinks));
     dispatch(createNewRecord(record));
+    message.success(`${nameUser} tu registro se creo correctamente!!`, 2500);
 
     // After Dispatch //
 
     setRecord({
-      dateMeal: date_maker(),
+      dateMeal: currentDay.current.value,
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -249,13 +269,13 @@ const Record = (props) => {
     setCoffeeStatus(false);
     setDrinkStatus(false);
     setTime({ startTime: "", endTime: "" });
-    setSync(false);
+    refresh();
   };
 
-  const handlerOnClear = (e) => {
+  const handlerOnClear = e => {
     e.preventDefault();
     setRecord({
-      dateMeal: date_maker(),
+      dateMeal: currentDay.current.value,
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -276,32 +296,62 @@ const Record = (props) => {
     setCoffeeStatus(false);
     setDrinkStatus(false);
     setTime({ startTime: "", endTime: "" });
-    setSync(false);
   };
 
   //! ================== SleepTime Handlers ================= !//
 
-  const handlerSleepTimeChange = (e) => {
+  const handlerSleepTimeChange = e => {
     setTime({ ...time, [e.target.name]: e.target.value });
   };
 
-  const handlerSync = (e) => {
+  const handlerSync = e => {
     e.preventDefault();
+    setRecord((record.sleepTime = sleepTimeMinutes));
+    if (record.timeMeal === "") {
+      let time = time_maker();
+      setRecord((record.timeMeal = time));
+    }
+    dispatch(createNewRecord(record));
+    message.success(`Se sincronizo tu sueño correctamente`, 2500);
+
     setSync(true);
+    setRecord({
+      dateMeal: currentDay.current.value,
+      timeMeal: "",
+      description: "",
+      sleepTime: "",
+      napTime: [],
+      timeActivity: [],
+      coffeeCups: [],
+      drinks: [],
+      coffee: [],
+      drink: [],
+      activity: [],
+      userId: userId,
+    });
+    setActivity([]);
+    setCoffee([]);
+    setDrink([]);
+    setActivityStatus(false);
+    setCoffeeStatus(false);
+    setDrinkStatus(false);
+    setTime({ startTime: "", endTime: "" });
   };
 
   //! ================== Activity Handlers ================= !//
 
-  const handlerActivity = (e) => {
+  const handlerActivity = e => {
     e.preventDefault();
     const timeSelected = parseInt(timeRef.current.value) + Math.random();
     const activitySelected = activityRef.current.value;
     const timeSelectedText = timeRef.current.value;
-    const filter = activitiesRedux.filter((e) => e.id === activitySelected);
+    const filter = activitiesRedux.filter(e => e.id === activitySelected);
     const nameActivity = filter[0].activity;
 
     if (!timeSelected || !activitySelected || timeSelected < 1) {
-      return message.warning("Ingresa los minutos", 2500);
+      message.warning("Ingresa los minutos", 2500);
+      message.warning("Ingresa los minutos", 2500);
+      return;
     }
 
     setRecord({
@@ -315,7 +365,7 @@ const Record = (props) => {
     timeRef.current.value = "0";
   };
 
-  const handlerOnChangeActivity = (e) => {
+  const handlerOnChangeActivity = e => {
     e.preventDefault();
     setAddActivity({
       ...addActivity,
@@ -323,17 +373,21 @@ const Record = (props) => {
     });
   };
 
-  const handlerAddActivity = (e) => {
+  const handlerAddActivity = e => {
     e.preventDefault();
     let duplicated = "";
 
     if (activitiesRedux.length > 0) {
       duplicated = activitiesRedux.filter(
-        (e) => e.activity === addActivity.activity
+        e => e.activity === addActivity.activity
       );
     }
 
     if (duplicated.length > 0) {
+      message.error(
+        `La actividad ${addActivity.activity} no puede duplicarse`,
+        2500
+      );
       message.error(
         `La actividad ${addActivity.activity} no puede duplicarse`,
         2500
@@ -345,6 +399,7 @@ const Record = (props) => {
     dispatch(createNewActivity(addActivity));
 
     if (activityStat === null) {
+      message.success("Actividad creada exitosamente", 2500);
       message.success("Actividad creada exitosamente", 2500);
       setAddActivity({
         activity: "",
@@ -359,7 +414,7 @@ const Record = (props) => {
     }
   };
 
-  const handlerSetActivity = (e) => {
+  const handlerSetActivity = e => {
     e.preventDefault();
     if (e.target.value !== "default" && e.target.value !== "add_activity")
       setActivityStatus(true);
@@ -373,19 +428,17 @@ const Record = (props) => {
     }
   };
 
-  const eraseActivity = (e) => {
+  const eraseActivity = e => {
     e.preventDefault();
     const activityToErase = e.target.innerText;
-    const activityFilter = activity.filter((e) => e !== activityToErase);
+    const activityFilter = activity.filter(e => e !== activityToErase);
     const indexToErase = e.target.id;
     setActivity(activityFilter);
 
     const valueToRemoveTA = record.timeActivity[indexToErase];
     const valueToRemoveA = record.activity[indexToErase];
-    const timeActivity = record.timeActivity.filter(
-      (e) => e !== valueToRemoveTA
-    );
-    const activity2 = record.activity.filter((e) => e !== valueToRemoveA);
+    const timeActivity = record.timeActivity.filter(e => e !== valueToRemoveTA);
+    const activity2 = record.activity.filter(e => e !== valueToRemoveA);
     setRecord({
       ...record,
       timeActivity: timeActivity,
@@ -400,16 +453,18 @@ const Record = (props) => {
 
   //! ================== Coffee Handlers ================= !//
 
-  const handlerCoffee = (e) => {
+  const handlerCoffee = e => {
     e.preventDefault();
     const quantityCoffee = parseInt(cups.current.value) + Math.random();
     const cup = sizeCup.current.value;
     const coffees = cups.current.value;
-    const filter = coffeeSizesRedux.filter((e) => e.id === cup);
+    const filter = coffeeSizesRedux.filter(e => e.id === cup);
     const size = filter[0].size;
 
     if (!quantityCoffee || !cup || quantityCoffee < 1) {
-      return message.warning("Ingresa el numero de tazas", 2500);
+      message.warning("Ingresa el numero de tazas", 2500);
+      message.warning("Ingresa el numero de tazas", 2500);
+      return;
     }
 
     setRecord({
@@ -423,7 +478,7 @@ const Record = (props) => {
     cups.current.value = "0";
   };
 
-  const handlerOnChangeCoffeSize = (e) => {
+  const handlerOnChangeCoffeSize = e => {
     e.preventDefault();
     setAddCoffeSize({
       ...addCoffeSize,
@@ -431,15 +486,16 @@ const Record = (props) => {
     });
   };
 
-  const handlerAddSizeCoffee = (e) => {
+  const handlerAddSizeCoffee = e => {
     e.preventDefault();
     let duplicated = "";
 
     if (coffeeSizesRedux.length > 0) {
-      duplicated = coffeeSizesRedux.filter((e) => e.size === addCoffeSize.size);
+      duplicated = coffeeSizesRedux.filter(e => e.size === addCoffeSize.size);
     }
 
     if (duplicated.length > 0) {
+      message.error(`La medida ${addCoffeSize.size} no puede duplicarse`, 2500);
       message.error(`La medida ${addCoffeSize.size} no puede duplicarse`, 2500);
       nameCoffee.current.value = "";
       return;
@@ -448,6 +504,7 @@ const Record = (props) => {
     dispatch(createNewCoffeeSize(addCoffeSize));
 
     if (coffeeStat === null) {
+      message.success("Nueva porcion creada exitosamente", 2500);
       message.success("Nueva porcion creada exitosamente", 2500);
       setAddCoffeSize({
         size: "",
@@ -462,7 +519,7 @@ const Record = (props) => {
     }
   };
 
-  const handlerSetCoffee = (e) => {
+  const handlerSetCoffee = e => {
     e.preventDefault();
     if (e.target.value !== "default" && e.target.value !== "add_coffee_size")
       setCoffeeStatus(true);
@@ -476,17 +533,17 @@ const Record = (props) => {
     }
   };
 
-  const eraseCoffee = (e) => {
+  const eraseCoffee = e => {
     e.preventDefault();
     const coffeeToErase = e.target.innerText;
-    const coffeeFilter = coffee.filter((e) => e !== coffeeToErase);
+    const coffeeFilter = coffee.filter(e => e !== coffeeToErase);
     const indexToErase = e.target.id;
     setCoffee(coffeeFilter);
 
     const valueToRemoveC = record.coffeeCups[indexToErase];
     const valueToRemoveCS = record.coffee[indexToErase];
-    const coffees = record.coffeeCups.filter((e) => e !== valueToRemoveC);
-    const sizeCoffees = record.coffee.filter((e) => e !== valueToRemoveCS);
+    const coffees = record.coffeeCups.filter(e => e !== valueToRemoveC);
+    const sizeCoffees = record.coffee.filter(e => e !== valueToRemoveCS);
     setRecord({
       ...record,
       coffeeCups: coffees,
@@ -501,16 +558,18 @@ const Record = (props) => {
 
   //! ================== Drinks Handlers ================= !//
 
-  const handlerDrinks = (e) => {
+  const handlerDrinks = e => {
     e.preventDefault();
     const quantityDrinks = parseInt(drinks.current.value) + Math.random();
     const typeDrinks = typeDrink.current.value;
     const drinkss = drinks.current.value;
-    const filter = drinksRedux.filter((e) => e.id === typeDrinks);
+    const filter = drinksRedux.filter(e => e.id === typeDrinks);
     const typeDrinkss = filter[0].drink;
 
     if (!quantityDrinks || !typeDrinks || quantityDrinks < 1) {
-      return message.warning("Ingresa el numero de bebidas", 2500);
+      message.warning("Ingresa el numero de bebidas", 2500);
+      message.warning("Ingresa el numero de bebidas", 2500);
+      return;
     }
 
     setRecord({
@@ -524,7 +583,7 @@ const Record = (props) => {
     drinks.current.value = "0";
   };
 
-  const handlerOnChangeDrink = (e) => {
+  const handlerOnChangeDrink = e => {
     e.preventDefault();
     setAddNewDrink({
       ...addNewDrink,
@@ -532,15 +591,16 @@ const Record = (props) => {
     });
   };
 
-  const handlerAddDrink = (e) => {
+  const handlerAddDrink = e => {
     e.preventDefault();
     let duplicated = "";
 
     if (drinksRedux.length > 0) {
-      duplicated = drinksRedux.filter((e) => e.drink === addNewDrink.drink);
+      duplicated = drinksRedux.filter(e => e.drink === addNewDrink.drink);
     }
 
     if (duplicated.length > 0) {
+      message.error(`La bebida ${addNewDrink.drink} no puede duplicarse`, 2500);
       message.error(`La bebida ${addNewDrink.drink} no puede duplicarse`, 2500);
       nameDrink.current.value = "";
       return;
@@ -549,6 +609,7 @@ const Record = (props) => {
     dispatch(createNewDrink(addNewDrink));
 
     if (drinkStat === null) {
+      message.success("Nueva bebida creada exitosamente", 2500);
       message.success("Nueva bebida creada exitosamente", 2500);
       setAddNewDrink({
         drink: "",
@@ -563,7 +624,7 @@ const Record = (props) => {
     }
   };
 
-  const handlerSetDrink = (e) => {
+  const handlerSetDrink = e => {
     e.preventDefault();
     if (e.target.value !== "default" && e.target.value !== "add_drink")
       setDrinkStatus(true);
@@ -577,17 +638,17 @@ const Record = (props) => {
     }
   };
 
-  const eraseDrink = (e) => {
+  const eraseDrink = e => {
     e.preventDefault();
     const drinkToErase = e.target.innerText;
-    const drinkFilter = drink.filter((e) => e !== drinkToErase);
+    const drinkFilter = drink.filter(e => e !== drinkToErase);
     const indexToErase = e.target.id;
     setDrink(drinkFilter);
 
     const valueToRemoveD = record.drinks[indexToErase];
     const valueToRemoveDT = record.drink[indexToErase];
-    const drinks2 = record.drinks.filter((e) => e !== valueToRemoveD);
-    const typeDrinks = record.drink.filter((e) => e !== valueToRemoveDT);
+    const drinks2 = record.drinks.filter(e => e !== valueToRemoveD);
+    const typeDrinks = record.drink.filter(e => e !== valueToRemoveDT);
     setRecord({
       ...record,
       drinks: drinks2,
@@ -599,40 +660,36 @@ const Record = (props) => {
 
     setDrinkStatus(false);
   };
-  setTimeout(() => {
-    console.log(sleepRedux);
-  }, 3000);
 
   // Mount/Unmount Component
-  useEffect(() => {
-    const fetchData = async () => {
-      if (sleepTime[0]) {
-        const getRecords = await dispatch(
-          getRecordsQuery(userId, sleepTime[0]?.date)
-        );
-      }
-      // eslint-disable-next-line no-unused-vars
-      const dataActivitiy = await dispatch(getActivitiesByUser(userId));
-      // eslint-disable-next-line no-unused-vars
-      const dataCoffeSize = await dispatch(getCoffeeSizesByUser(userId));
-      // eslint-disable-next-line no-unused-vars
-      const dataDrinks = await dispatch(getDrinksByUser(userId));
-    };
 
-    fetchData().catch(console.error);
-    if (!recordStatus) {
-      return;
-    } else {
-      if (recordStatus.status === 200) {
-        message.success(`${nameUser} tu registro se creo correctamente!!`);
-        dispatch(setStatusNewRecord());
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+      if (currentDay.current?.value) {
+        dispatch(getSleepStage(currentDay.current.value));
+        dispatch(getRecordByIdDate(userId, currentDay.current.value));
       }
-      if (recordStatus) {
-        message.error(`Error: al intentar crear el registro`, record);
-        dispatch(setStatusNewRecord());
+      dispatch(getActivitiesByUser(userId));
+      dispatch(getCoffeeSizesByUser(userId));
+      dispatch(getDrinksByUser(userId));
+
+      if (!recordStatus) {
+        return;
+      } else {
+        if (recordStatus.status === 200) {
+          message.success(
+            `${nameUser} tu registro se creo correctamente!!`,
+            2500
+          );
+          dispatch(setStatusNewRecord());
+        } else {
+          message.error(`Error: al intentar crear el registro`, 2500);
+          dispatch(setStatusNewRecord());
+        }
       }
-    }
-  }, [value, recordStatus]);
+    }, 500);
+  }, [value, sync, recordStatus, loading]);
 
   const PopupActivity = () => (
     <Popup
@@ -656,7 +713,7 @@ const Record = (props) => {
             ref={timeRef}
             defaultValue="0"
           />
-          {/*  <span className="sync">sincronizar</span> */}
+
           <label>Actividad</label>
           <select ref={activityRef} onChange={handlerSetActivity}>
             <option value="default">Selecciona...</option>
@@ -866,111 +923,119 @@ const Record = (props) => {
 
   // Render Main Elements
   return (
-    <div>
-      <div className="nav_bar"></div>
-      <div className="form_container">
-        <form onSubmit={handlerOnSubmit}>
-          <div className="main_container">
-            <div className="x_container">
-              <Link to="/private" className="link">
-                <div className="x">X</div>
-              </Link>
-            </div>
-            <div className="div_head">
-              <h2>
-                Nuevo Registro de {nameUser}
-                <img src={memo} alt="" className="memo" />
-              </h2>
-            </div>
-            <div className="general_info_container">
-              <div className="date_record_container">
-                <h5 className="h5_head">Fecha</h5>
-                <div>
-                  <img src={calendar} alt="" className="main_ico" />
-                  <input
-                    type="date"
-                    name="dateMeal"
-                    value={record.dateMeal}
-                    onChange={handlerOnChange}
-                  />
-                </div>
+    <div className="master">
+      {loading ? (
+        <div style={{ display: loading ? "flex" : "none" }} className="modal">
+          <Loading />
+        </div>
+      ) : (
+        <div className="form_container">
+          <form onSubmit={handlerOnSubmit}>
+            <div className="main_container">
+              <div className="x_container">
+                <Link to="/private/home" className="link">
+                  <div className="x">X</div>
+                </Link>
               </div>
-              <div className="time_meal_container">
-                <h5 className="h5_head">Hora de tu cena</h5>
-                <div>
-                  <img src={timeIco} alt="" className="main_ico" />
-                  <input
-                    type="time"
-                    name="timeMeal"
-                    value={record.timeMeal}
-                    onChange={handlerOnChange}
-                  />
-                </div>
-              </div>
-              <div
-                id="test_div"
-                className="meal_section"
-                hidden={record.timeMeal.length > 0 ? false : true}
-              >
-                <h5>
-                  Descripcion de tu cena{" "}
-                  <img
-                    src={check}
-                    alt=""
-                    hidden={
-                      record.timeMeal.length > 0 &&
-                      record.description.length > 0
-                        ? false
-                        : true
-                    }
-                    className="img_ok"
-                  />
-                </h5>
-                <textarea
-                  name="description"
-                  id=""
-                  cols="70"
-                  rows="5"
-                  placeholder="Ingresa breve descripcion"
-                  value={record.description}
-                  onChange={handlerOnChange}
-                  required={record.timeMeal.length > 0 ? true : false}
-                ></textarea>
-              </div>
-            </div>
-
-            <div className="sleep_container">
-              <div>
+              <div className="div_head">
                 <h2>
-                  <img src={personBed} alt="" className="person_bed" />
-                  Tiempo de Sueño
-                  <img
-                    src={check}
-                    alt=""
-                    hidden={
-                      time.startTime.length > 0 && time.endTime.length > 0
-                        ? false
-                        : true
-                    }
-                    className="img_ok"
-                  />
+                  Nuevo Registro de {nameUser}
+                  <img src={memo} alt="" className="memo" />
                 </h2>
               </div>
-              {sync ? (
-                <div>
-                  <h3>El dia {sleepSync}</h3>
-                  <h4>Dormiste: {sleepTime12Format}</h4>
+              <div className="general_info_container">
+                <div className="date_record_container">
+                  <h5 className="h5_head">Fecha</h5>
+                  <div>
+                    <img src={calendar} alt="" className="main_ico" />
+                    <input
+                      type="date"
+                      name="dateMeal"
+                      value={record.dateMeal}
+                      onChange={handlerOnChange}
+                      ref={currentDay}
+                    />
+                  </div>
                 </div>
-              ) : sleepTime12Format ? (
-                <span
-                  className="sync"
-                  hidden={sleepTime.length > 0 ? false : true}
-                  onClick={handlerSync}
+                <div className="time_meal_container">
+                  <h5 className="h5_head">Hora de tu cena</h5>
+                  <div>
+                    <img src={timeIco} alt="" className="main_ico" />
+                    <input
+                      type="time"
+                      name="timeMeal"
+                      value={record.timeMeal}
+                      onChange={handlerOnChange}
+                    />
+                  </div>
+                </div>
+                <div
+                  id="test_div"
+                  className="meal_section"
+                  hidden={record.timeMeal.length > 0 ? false : true}
                 >
-                  sincronizar
-                </span>
-              ) : (
-                <div className="sleep_section">
+                  <h5>
+                    Descripcion de tu cena{" "}
+                    <img
+                      src={checkImg}
+                      alt=""
+                      hidden={
+                        record.timeMeal.length > 0 &&
+                        record.description.length > 0
+                          ? false
+                          : true
+                      }
+                      className="img_ok"
+                    />
+                  </h5>
+                  <textarea
+                    name="description"
+                    id=""
+                    cols="70"
+                    rows="5"
+                    placeholder="Ingresa breve descripcion"
+                    value={record.description}
+                    onChange={handlerOnChange}
+                    required={record.timeMeal.length > 0 ? true : false}
+                  ></textarea>
+                </div>
+              </div>
+              <div className="sleep_container" hidden={sync ? true : false}>
+                <div>
+                  <h2>
+                    <img src={personBed} alt="" className="person_bed" />
+                    Tiempo de Sueño{" "}
+                    <img
+                      src={checkImg}
+                      alt=""
+                      hidden={
+                        time.startTime.length > 0 && time.endTime.length > 0
+                          ? false
+                          : true
+                      }
+                      className="img_ok"
+                    />
+                  </h2>
+                </div>
+
+                <div className="sync_div_true" hidden={temp.length < 1}>
+                  <h3>
+                    El dia{" "}
+                    {dateStringToDate(
+                      currentDay.current?.value.replace("-", "")
+                    )}
+                  </h3>
+                  <h4>Dormiste: {sleepTime12Format}</h4>
+                  <span
+                    className="sync"
+                    hidden={sleepTime.length > 0 ? false : true}
+                    onClick={handlerSync}
+                  >
+                    sincronizar
+                  </span>
+                </div>
+
+                <div className="sleep_section" hidden={temp.length > 0}>
                   <label>Dormiste </label>
                   <input
                     className="sleep_section_input"
@@ -998,60 +1063,61 @@ const Record = (props) => {
                     </h4>
                   </div>
                 </div>
-              )}
-              {/* <label>Siesta</label>
+
+                {/* <label>Siesta</label>
               <input className="input_number" type="number" step="1" min="0" />
               <span>min.</span>
               <button className="add_button">Agregar</button> */}
-            </div>
-            <br />
-
-            <div className="reg_container">
-              <div className="reg_head_container">
-                <h2>Registrar</h2>
               </div>
-              <div className="popup_container">
-                <div className="div_popup">
-                  <div
-                    className="div_ok"
-                    hidden={activity.length > 0 ? false : true}
-                  >
-                    {activity.length}
-                  </div>
-                  {PopupActivity()}
+              <br />
+
+              <div className="reg_container">
+                <div className="reg_head_container">
+                  <h2>Registrar</h2>
                 </div>
-                <div className="div_popup">
-                  <div
-                    className="div_ok"
-                    hidden={coffee.length > 0 ? false : true}
-                  >
-                    {coffee.length}
+                <div className="popup_container">
+                  <div className="div_popup">
+                    <div
+                      className="div_ok"
+                      hidden={activity.length > 0 ? false : true}
+                    >
+                      {activity.length}
+                    </div>
+                    {PopupActivity()}
                   </div>
-                  {PopupCoffee()}
-                </div>
-                <div className="div_popup">
-                  <div
-                    className="div_ok"
-                    hidden={drink.length > 0 ? false : true}
-                  >
-                    {drink.length}
+                  <div className="div_popup">
+                    <div
+                      className="div_ok"
+                      hidden={coffee.length > 0 ? false : true}
+                    >
+                      {coffee.length}
+                    </div>
+                    {PopupCoffee()}
                   </div>
-                  {PopupDrink()}
+                  <div className="div_popup">
+                    <div
+                      className="div_ok"
+                      hidden={drink.length > 0 ? false : true}
+                    >
+                      {drink.length}
+                    </div>
+                    {PopupDrink()}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* ====================== BUTTONS SECTION ======================= */}
+              {/* ====================== BUTTONS SECTION ======================= */}
 
-            <div className="button_container">
-              <button className="bottom_buttons">Guardar</button>
-              <button className="bottom_buttons" onClick={handlerOnClear}>
-                Limpiar
-              </button>
+              <div className="button_container">
+                <button className="bottom_buttons">Guardar</button>
+                <button className="bottom_buttons" onClick={handlerOnClear}>
+                  Limpiar
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

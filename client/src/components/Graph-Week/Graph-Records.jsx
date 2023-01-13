@@ -95,6 +95,5 @@ export default function GraphRecord() {
     </ComposedChart>
           </CardContent>
     </Card>
-  )
   );
 }

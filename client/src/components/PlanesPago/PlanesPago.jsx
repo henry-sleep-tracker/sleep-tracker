@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector} from "react-redux";
-import { getUser } from "../../actions/getUser";
+import { getUserById } from "../../actions/index";
 
 const Pricing = () => {
   const USER_ID = "USER_ID";
@@ -13,7 +13,7 @@ const Pricing = () => {
   useEffect(() => {
     fetchPrices();
     if(currentUser ===""){
-    dispatch(getUser(userId));
+    dispatch(getUserById(userId));
     }
   }, [dispatch, currentUser, userId]);
 
