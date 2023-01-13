@@ -16,7 +16,7 @@ const findUserByEmail = async (email) => {
   try {
     const userFound = await User.findOne({
       where: { email: email },
-      include : {model:Plan,attributes:['id','name','price','endTime']},
+      include: { model: Plan, attributes: ["id", "name", "price", "endTime"] },
     });
     if (userFound !== null) {
       return userFound.dataValues;
@@ -33,7 +33,10 @@ const findUserByEmail = async (email) => {
 
 const findUserById = async (id) => {
   try {
-    const userFound = await User.findOne({ where: { id: id } });
+    const userFound = await User.findOne({
+      where: { id: id },
+      include: { model: Plan, attributes: ["id", "name", "price", "endTime"] },
+    });
     if (userFound !== null) {
       return userFound.dataValues;
     } else {
