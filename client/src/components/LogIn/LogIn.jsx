@@ -97,17 +97,15 @@ export default function LogIn() {
   };
 
   return (
-    <Grid container width="100%">
+    <Grid container>
       <Grid
         container
         direction="row"
         justifyContent="center"
         alignItems="center"
-        width="100%"
         columns={16}
-        className={styles.bg}
       >
-        <Grid item xs={7} height="100%" paddingTop={10}>
+        <Grid item xs={7} paddingTop={10} className={styles.outerCard}>
           <Grid
             container
             direction="column"
@@ -129,7 +127,6 @@ export default function LogIn() {
               <Card
                 className="titleresume"
                 variant="outlined"
-                elevation={20}
                 sx={{ minWidth: "30rem" }}
               >
                 <CardContent>
@@ -141,6 +138,7 @@ export default function LogIn() {
                     spacing={3}
                     flex={4}
                     p={2}
+                    clasName={styles.card}
                   >
                     <Grid item>
                       <Typography variant="h4">Inicia sesión</Typography>
@@ -242,6 +240,8 @@ export default function LogIn() {
           >
             <Button
               variant="outlined"
+              size="medium"
+              sx={{ background: "white", opacity: 0.6 }}
               startIcon={<ArrowBackIosNewIcon />}
               href="/"
             >
