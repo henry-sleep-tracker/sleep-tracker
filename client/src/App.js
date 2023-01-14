@@ -23,6 +23,7 @@ import PublicRoute from "./components/PublicRoute/PublicRoute";
 import Record from "./components/Record/Record.jsx";
 import Register from "./components/Register/Register";
 import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
+import LoadingPayment from "./components/PlanesPago/LoadingPayment";
 
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
@@ -64,6 +65,7 @@ function App() {
             element={<ChangePassword />}
           />
           <Route path="/private/planes" element={<Pricing />} />
+          <Route path="/private/loadingpayment" element={<LoadingPayment />} />
           <Route path="/private/delete-user/:id" element={<DeleteUser />} />
           <Route path="/private/createcomment" element={<CommentCreate />} />
         </Route>
