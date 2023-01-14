@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken");
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2020-08-27",
 });
-const { User } = require("../db.js");
+const { User, Plan } = require("../db.js");
 const nullUser = {
   dataValues: "",
 };
@@ -192,7 +192,7 @@ const updateProfile = async (req, res) => {
     });
     console.log("ROUTE UPDATE", update);
     if (update) {
-      const user = await User.findOne({ where: { id: id } });
+      const user = await User.findOne({ where: { id: id }, include: { model: Plan, attributes: ["id", "name", "price", "endTime"] }, });
       console.log("ROUTE UPDATE USER", user);
       return res.status(200).jsonp(user);
     }
