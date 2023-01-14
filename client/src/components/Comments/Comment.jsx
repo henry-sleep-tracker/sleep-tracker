@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, Grid, TextField, Typography } from '@mui/material';
+import { Button, Card, CardContent, Grid, Rating, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from "react";
 import CheckIcon from '@mui/icons-material/Check';
 import { postComment } from '../../actions/Comments/postComment';
@@ -40,12 +40,21 @@ const CreateComment = () => {
 
     })
 
-    function handleChange(element) {
+    function handleChangeComment(element) {
 
         setInput({
             ...input,
             [element.target.id]: element.target.value
         })
+    }
+
+    function handleChangeRate(element) {
+
+        setInput({
+            ...input,
+            rate: element.target.defaultValue
+        })
+        console.log(input)
     }
 
     function handleSubmit(element) {
@@ -169,14 +178,27 @@ const CreateComment = () => {
                             <Grid
                                 item
                             >
-                                <TextField
+                                <Typography
+                                    variant='h5'
+                                >
+                                    Puntuacion:
+                                </Typography>
+                                <Rating
+                                    id='rate'
+                                    // value={input.rate}
+                                    size="large"
+                                    name="simple-controlled"
+                                    // value={element}
+                                    onChange={element=>handleChangeRate(element)}
+                                />
+                                {/* <TextField
                                     value={(input.objetivos)}
                                     id='rate'
                                     label="Puntuacion"
                                     type='text'
                                     variant="outlined"
                                     onChange={(element) => handleChange(element)}
-                                />
+                                /> */}
 
                             </Grid>
 
@@ -184,12 +206,12 @@ const CreateComment = () => {
                                 item
                             >
                                 <TextField
-                                    value={(input.objetivosGenerales)}
+                                    // value={(input.objetivosGenerales)}
                                     id='comment'
                                     label="Comentario"
                                     type='text'
                                     variant="outlined"
-                                    onChange={(element) => handleChange(element)}
+                                    onChange={(element) => handleChangeComment(element)}
                                 />
 
                             </Grid>
