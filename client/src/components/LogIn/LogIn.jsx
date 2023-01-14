@@ -27,7 +27,6 @@ import { Helmet } from "react-helmet";
 import log from "../logi/log-.png";
 import wakeup from "../../images/Signup/zen-balancing.jpg";
 import styles from "./Login.module.css";
-import { style } from "@mui/system";
 
 export default function LogIn() {
   const clientId =
@@ -98,181 +97,164 @@ export default function LogIn() {
   };
 
   return (
-    // <Grid container width="100%">
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="center"
-      width="100%"
-      columns={16}
-      sx={{ backgroundColor: "#ecefef" }}
-    >
+    <Grid container width="100%">
       <Grid
-        item
-        xs={16}
-        height="100%"
-      // paddingTop={10}
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        width="100%"
+        columns={16}
+        className={styles.bg}
       >
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          spacing={2}
-          flex={4}
-          p={2}
-        >
-          <Helmet>
-            <title>Iniciar sesion | Sleep Tracker</title>
-          </Helmet>
-
+        <Grid item xs={7} height="100%" paddingTop={10}>
           <Grid
-            item
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+            flex={4}
+            p={2}
           >
-            <Grid
-              container
-              direction="row"
-              justifyContent="flex-start"
-              alignItems="center"
+            <Helmet>
+              <title>Iniciar sesion | Sleep Tracker</title>
+            </Helmet>
 
-            >
-
-              <Grid
-                item
-              >
-                <Button
-                  variant="outlined"
-                  startIcon={<ArrowBackIosNewIcon />}
-                  href="/"
-                >
-                  Regresar
-                </Button>
-
-              </Grid>
+            <Grid item>
+              <img src={log} alt="logo" width="300vw" />
             </Grid>
-          </Grid>
 
-          <Grid item>
-            <img src={log} alt="logo" width="200px" />
-          </Grid>
+            <Grid item>
+              <Card
+                className="titleresume"
+                variant="outlined"
+                elevation={20}
+                sx={{ minWidth: "30rem" }}
+              >
+                <CardContent>
+                  <Grid
+                    container
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={3}
+                    flex={4}
+                    p={2}
+                  >
+                    <Grid item>
+                      <Typography variant="h4">Inicia sesión</Typography>
+                    </Grid>
 
-          <Grid
-            item
-            sx={{ marginTop: 5, marginLeft: 3 }}
-          >
-            <Card
-              className="titleresume"
-              variant="outlined"
-              elevation={20}
-              sx={{ minWidth: 500 }}
-            >
-              <CardContent>
-                <Grid
-                  container
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  spacing={3}
-                  flex={4}
-                  p={2}
-                >
-                  <Grid item>
-                    <Typography variant="h4">Inicia sesion</Typography>
-                  </Grid>
-
-                  <Grid item>
-                    <TextField
-                      label="Correo electronico"
-                      variant="outlined"
-                      type="email"
-                      name="email"
-                      value={input.email}
-                      onChange={(event) => handleChange(event)}
-                      required
-                      style={{ width: 400 }}
-                    />
-                  </Grid>
-
-                  <Grid item>
-                    <FormControl sx={{ m: 1, width: 400 }} variant="outlined">
-                      <InputLabel htmlFor="outlined-adornment-password">
-                        Contraseña *
-                      </InputLabel>
-                      <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={showPassword ? "text" : "password"}
-                        label="Contraseña"
+                    <Grid item>
+                      <TextField
+                        label="Correo electronico"
                         variant="outlined"
-                        name="password"
-                        value={input.password}
+                        type="email"
+                        name="email"
+                        value={input.email}
                         onChange={(event) => handleChange(event)}
                         required
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              edge="end"
-                            >
-                              {showPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
+                        sx={{ width: "22rem" }}
                       />
-                    </FormControl>
+                    </Grid>
+
+                    <Grid item>
+                      <FormControl
+                        sx={{ m: 1, width: "22rem" }}
+                        variant="outlined"
+                      >
+                        <InputLabel htmlFor="outlined-adornment-password">
+                          Contraseña *
+                        </InputLabel>
+                        <OutlinedInput
+                          id="outlined-adornment-password"
+                          type={showPassword ? "text" : "password"}
+                          label="Contraseña"
+                          variant="outlined"
+                          name="password"
+                          value={input.password}
+                          onChange={(event) => handleChange(event)}
+                          required
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                        />
+                      </FormControl>
+                    </Grid>
+
+                    <Grid item></Grid>
+
+                    <Grid item>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        sx={{ width: "22rem", height: 40 }}
+                        onClick={(event) => handleSubmit(event)}
+                      >
+                        Iniciar Sesion
+                      </Button>
+                    </Grid>
+
+                    <Grid item>
+                      <LogInGoogleButton />
+                    </Grid>
+
+                    <Grid container>
+                      <Grid item sx={{ marginTop: 5, marginLeft: 3 }}>
+                        <Link href="/contrasena_olvidada" variant="body2">
+                          ¿Olvidaste tu contraseña?
+                        </Link>
+                      </Grid>
+                      <Grid item sx={{ marginTop: 5, marginLeft: 3 }}>
+                        <Link href="/registro" variant="body2">
+                          {"¿No tienes una cuenta? Registrate"}
+                        </Link>
+                      </Grid>
+                    </Grid>
                   </Grid>
-
-                  <Grid item></Grid>
-
-                  <Grid item>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      sx={{ width: 400, height: 40 }}
-                      onClick={(event) => handleSubmit(event)}
-                    >
-                      Iniciar Sesion
-                    </Button>
-                  </Grid>
-
-                  <Grid item>
-                    <LogInGoogleButton />
-                  </Grid>
-
-                  <Grid item sx={{ marginTop: 5, marginLeft: 5 }}>
-                    <Link href='/contrasena_olvidada' variant="body2">
-                      ¿Olvidaste tu contraseña?
-                    </Link>
-                  </Grid>
-
-                  <Grid item sx={{ marginTop: 5, marginLeft: 3 }}>
-                    <Link href="/registro" variant="body2">
-                      ¿No tienes una cuenta? Registrate
-                    </Link>
-                  </Grid>
-
-                </Grid>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              marginTop: "4vh",
+              marginLeft: "7vw",
+            }}
+          >
+            <Button
+              variant="outlined"
+              startIcon={<ArrowBackIosNewIcon />}
+              href="/"
+            >
+              Regresar
+            </Button>
           </Grid>
         </Grid>
-      </Grid>
-      <Grid item xs={8}>
-
-        <Grid
-          item
-          sx={{ display: { sm: 'none', md: 'none', lg: 'block' } }}
-        >
-          <img src={wakeup} alt="wakeup login" className={styles.zenImage} />
+        <Grid item xs={9}>
+          <Grid>
+            <img src={wakeup} alt="wakeup login" className={styles.zenImage} />
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
-    // </Grid>
   );
 }
