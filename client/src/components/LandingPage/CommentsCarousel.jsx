@@ -104,7 +104,9 @@ function SwipeableTextMobileStepper({ commentsState }) {
                   {currentComments.data[activeStep].name}
                 </Typography>
                 :
-                <Typography>Cargando</Typography>
+                <Typography>
+                  {allComments[activeStep].name}
+                </Typography>
             }
 
           </Paper>
@@ -118,10 +120,12 @@ function SwipeableTextMobileStepper({ commentsState }) {
               <Typography
                 variant='h5'
               >
-                Puntuacion: {currentComments.data[activeStep].rate}
+                {currentComments.data[activeStep].rate}
               </Typography>
               :
-              <Typography>Cargando</Typography>
+              <Typography>
+                {allComments[activeStep].rate}
+              </Typography>
           }
         </Grid>
 
@@ -140,13 +144,19 @@ function SwipeableTextMobileStepper({ commentsState }) {
               >
                 {currentComments.data?.map((step, index) => (
                   <div key={step.name}>
-                    {Math.abs(activeStep - index) <= 2 ? (
+                    {Math.abs(activeStep - index) <= 2 ?
                       <Typography
                         variant='h5'
                       >
                         {currentComments.data[activeStep].comment}
                       </Typography>
-                    ) : null}
+                      :
+                      <Typography
+                        variant='h5'
+                      >
+                        {allComments[activeStep].comment}
+                      </Typography>
+                    }
                   </div>
                 ))}
               </AutoPlaySwipeableViews>
