@@ -9,9 +9,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { changePassword } from "../../actions/profileActions";
 // import style from "./ChangePassword.module.css";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useAuthContext } from "../../actions/authContext";
 
 export default function ChangePassword() {
-
+  const { createPassword } = useAuthContext();
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -59,6 +60,7 @@ export default function ChangePassword() {
         alert(`La contraseña no se confirmo correctamente`)
       } else {
         dispatch(changePassword(id, input.password));
+        createPassword();
         setInput({
           password: "",
           confirmPassword: "",
