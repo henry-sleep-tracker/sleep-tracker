@@ -8,6 +8,9 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .bg {
+    background-color: white;
+  }
   .zenImage {
     display: none;
   }
