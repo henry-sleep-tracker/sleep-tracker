@@ -2,13 +2,13 @@ const { Op } = require("sequelize");
 const { User, Plan } = require("../../db.js");
 
 const getUsers = async (req, res) => {
-  const { nationality, name, isAdmin, page, limit } = req.query;
+  let { nationality, name, isAdmin, page, limit } = req.query;
 
   if (!page) {
-    let page = 1;
+    page = 1;
   };
   if (!limit) {
-    let limit = 5;
+    limit = 5;
   };
   page = parseInt(page);
   limit = parseInt(limit);
@@ -24,7 +24,6 @@ const getUsers = async (req, res) => {
       ], 
       order: [["lastNames", "ASC"]],
       paranoid: false,
-      raw: true
     });
 
     return res.status(200).json({
@@ -50,7 +49,6 @@ const getUsers = async (req, res) => {
 
         order: [["lastNames", "ASC"]],
         paranoid: false,
-        raw: true
       });
 
       return res.status(200).json({
@@ -75,7 +73,6 @@ const getUsers = async (req, res) => {
 
         order: [["lastNames", "ASC"]],
         paranoid: false,
-        raw: true
       });
 
       return res.status(200).json({
@@ -105,7 +102,6 @@ const getUsers = async (req, res) => {
 
         order: [["lastNames", "ASC"]],
         paranoid: false,
-        raw: true
       });
 
       return res.status(200).json({
@@ -117,27 +113,50 @@ const getUsers = async (req, res) => {
     }
   }
   if (!nationality && name && !isAdmin) {
-    try {
-      const responseAd = await User.findAll({
-        include: [
-          {
-            model: Plan,
-            where: {
-              name: name,
+    if(name === 'Basico'){
+      try {
+        const responseAd = await User.findAll({
+          include: [
+            {
+              model: Plan,
             },
-          },
-        ],
-        order: [["lastNames", "ASC"]],
-        paranoid: false,
-        raw: true
-      });
-      return res.status(200).json({
-        users: responseAd.slice((page - 1) * limit, page * limit),
-        total: responseAd.length,
-      });
-    } catch (error) {
-      console.log(error);
+          ],
+          order: [["lastNames", "ASC"]],
+          paranoid: false,
+        });
+
+        const users = responseAd.filter( user => user.plan === null )
+
+        return res.status(200).json({
+          users: users.slice((page - 1) * limit, page * limit),
+          total: users.length,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const responseAd = await User.findAll({
+          include: [
+            {
+              model: Plan,
+              where: {
+                name: name,
+              },
+            },
+          ],
+          order: [["lastNames", "ASC"]],
+          paranoid: false,
+        });
+        return res.status(200).json({
+          users: responseAd.slice((page - 1) * limit, page * limit),
+          total: responseAd.length,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
+
   }
   if (!nationality && name && isAdmin) {
     try {
@@ -155,7 +174,6 @@ const getUsers = async (req, res) => {
 
         order: [["lastNames", "ASC"]],
         paranoid: false,
-        raw: true
       });
       return res.status(200).json({
         users: responseAd.slice((page - 1) * limit, page * limit),
@@ -166,29 +184,51 @@ const getUsers = async (req, res) => {
     }
   }
   if (nationality && name && !isAdmin) {
-    try {
-      const responseAd = await User.findAll({
-        include: [
-          {
-            model: Plan,
-            where: {
-              name: name,
+    if(name === 'Basico'){
+      try {
+        const responseAd = await User.findAll({
+          include: [
+            {
+              model: Plan,
             },
-          },
-        ],
+          ],
+          order: [["lastNames", "ASC"]],
+          paranoid: false,
+        });
 
-        where: { nationality: nationality },
+        const users = responseAd.filter( user => user.plan === null )
 
-        order: [["lastNames", "ASC"]],
-        paranoid: false,
-        raw: true
-      });
-      return res.status(200).json({
-        users: responseAd.slice((page - 1) * limit, page * limit),
-        total: responseAd.length,
-      });
-    } catch (error) {
-      console.log(error);
+        return res.status(200).json({
+          users: users.slice((page - 1) * limit, page * limit),
+          total: users.length,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const responseAd = await User.findAll({
+          include: [
+            {
+              model: Plan,
+              where: {
+                name: name,
+              },
+            },
+          ],
+
+          where: { nationality: nationality },
+
+          order: [["lastNames", "ASC"]],
+          paranoid: false,
+        });
+        return res.status(200).json({
+          users: responseAd.slice((page - 1) * limit, page * limit),
+          total: responseAd.length,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
@@ -215,7 +255,6 @@ const getUsers = async (req, res) => {
 
         order: [["lastNames", "ASC"]],
         paranoid: false,
-        raw: true
       });
       return res.status(200).json({
         users: responseAd.slice((page - 1) * limit, page * limit),
