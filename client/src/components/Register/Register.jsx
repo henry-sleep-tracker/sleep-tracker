@@ -11,6 +11,7 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
+  Input,
   MenuItem,
   OutlinedInput,
   TextField,
@@ -378,45 +379,56 @@ export default function Register() {
                     spacing={3}
                   >
                     <Grid item>
-                      <Typography variant="h4">Registro</Typography>
+                      <Typography variant="h4" sx={{ margin: 2 }}>
+                        Registro
+                      </Typography>
                     </Grid>
                     <Grid item>
                       <TextField
-                        id="outlined-basic"
+                        id="standard-start-adornment"
                         label="Nombre"
-                        variant="outlined"
+                        variant="standard"
                         type="text"
                         name="names"
                         maxLength="50"
+                        InputProps={{
+                          startAdornment: <InputAdornment></InputAdornment>,
+                        }}
                         onChange={(event) => handleChange(event)}
                         required
-                        sx={{ width: "11rem", marginRight: 1 }}
+                        sx={{ width: "10rem", marginRight: 5 }}
                       />
                       <TextField
-                        id="outlined-basic"
+                        id="standard-start-adornment"
                         label="Apellido"
-                        variant="outlined"
+                        variant="standard"
                         type="text"
                         name="lastNames"
                         maxLength="50"
+                        InputProps={{
+                          startAdornment: <InputAdornment></InputAdornment>,
+                        }}
                         onChange={(event) => handleChange(event)}
                         required
-                        sx={{ width: "11rem" }}
+                        sx={{ width: "10rem" }}
                       />
                     </Grid>
 
                     <Grid item>
                       <TextField
-                        sx={{ width: "11rem", marginRight: 1 }}
                         required
-                        id="outlined-select-currency"
+                        id="standard-start-adornment"
                         select
                         label="Nacionalidad"
                         defaultValue=""
-                        helperText="Seleccione su nacionalidad"
                         name="select"
+                        variant="standard"
                         value={input.nationality}
+                        InputProps={{
+                          startAdornment: <InputAdornment></InputAdornment>,
+                        }}
                         onChange={(event) => handleSelect(event)}
+                        sx={{ width: "10rem", marginRight: 5 }}
                       >
                         {nationalities?.map((nationality, index) => (
                           <MenuItem key={`nat-${index}`} value={nationality}>
@@ -426,31 +438,37 @@ export default function Register() {
                       </TextField>
 
                       <TextField
-                        id="outlined-basic"
-                        variant="outlined"
-                        helperText="Fecha de nacimiento"
+                        id="standard-start-adornment"
+                        variant="standard"
+                        label="Fecha de nacimiento"
                         type="date"
                         name="birthday"
                         placeholder=""
                         min="1900-01-01"
                         max={yourDate}
+                        InputProps={{
+                          startAdornment: <InputAdornment></InputAdornment>,
+                        }}
                         onChange={(event) => handleChange(event)}
                         required
-                        sx={{ width: "11rem" }}
+                        sx={{ width: "10rem" }}
                       />
                     </Grid>
 
                     <Grid item>
                       <TextField
-                        id="outlined-basic"
+                        id="standard-start-adornment"
                         label="Correo electronico"
-                        variant="outlined"
+                        variant="standard"
                         type="email"
                         name="email"
-                        placeholder="Correo electronico"
+                        // placeholder="Correo electronico"
                         maxLength="256"
                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                         title={`El correo debe contener @ y .`}
+                        // InputProps={{
+                        //   startAdornment: <InputAdornment></InputAdornment>,
+                        // }}
                         onChange={(event) => handleChange(event)}
                         required
                         sx={{ width: "23rem" }}
@@ -458,12 +476,12 @@ export default function Register() {
                     </Grid>
 
                     <Grid item>
-                      <FormControl sx={{ width: "23rem" }} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">
+                      <FormControl sx={{ width: "23rem" }} variant="standard">
+                        <InputLabel htmlFor="standard-adornment-password">
                           Contraseña *
                         </InputLabel>
-                        <OutlinedInput
-                          id="outlined-adornment-password"
+                        <Input
+                          id="standard-adornment-password"
                           type={showPassword ? "text" : "password"}
                           label="Contraseña"
                           name="password"
@@ -493,12 +511,12 @@ export default function Register() {
                     </Grid>
 
                     <Grid item>
-                      <FormControl sx={{ width: "23rem" }} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">
+                      <FormControl sx={{ width: "23rem" }} variant="standar">
+                        <InputLabel htmlFor="standard-adornment-password">
                           Confirmar contraseña *
                         </InputLabel>
-                        <OutlinedInput
-                          id="outlined-adornment-password"
+                        <Input
+                          id="standard-adornment-password"
                           type={showPassword2 ? "text" : "password"}
                           label="Confirmar contraseña"
                           name="confirmPassword"
@@ -531,7 +549,7 @@ export default function Register() {
                       <Button
                         type="submit"
                         variant="contained"
-                        sx={{ width: "23rem", height: 50 }}
+                        sx={{ width: "23rem", height: 50, margin: 2 }}
                         onClick={(event) => handleSubmit(event)}
                       >
                         Registrarse
