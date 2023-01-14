@@ -243,9 +243,14 @@ const Record = (props) => {
     setRecord((record.timeActivity = floorTimeActivity));
     setRecord((record.coffeeCups = floorCoffeeCups));
     setRecord((record.drinks = floorDrinks));
+    //dispatch(createNewRecord(record));
+    if((record.sleepTime === "0")){
+      console.log(record.sleepTime.length);
+      dispatch(createNewRecord(record));
+    //message.success(`${nameUser} tu registro se creo correctamente!!`, 2500);
+    }
     dispatch(createNewRecord(record));
-    message.success(`${nameUser} tu registro se creo correctamente!!`, 2500);
-
+    
     // After Dispatch //
 
     setRecord({

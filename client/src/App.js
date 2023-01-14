@@ -23,6 +23,10 @@ import PublicRoute from "./components/PublicRoute/PublicRoute";
 import Record from "./components/Record/Record.jsx";
 import Register from "./components/Register/Register";
 import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
+import NewUserSuccess from "./components/Loading/NewUserSuccess";
+import UserExist from "./components/Loading/UserExist";
+import ChangePasswordOk from "./components/Loading/ChangePasswordOk";
+import ChangePasswordError from "./components/Loading/ChangePasswordError";
 
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
@@ -43,6 +47,22 @@ function App() {
           <Route
             path="/reiniciar_contrasena/:id/:token"
             element={<ResetPassword />}
+          />
+          <Route
+            path="/8f26c6520d61588a9757bc182157c4497628e871"
+            element={<NewUserSuccess />}
+          />
+          <Route
+            path="/4b19bb28098dae39a259f67d30a0a8b932a6b925"
+            element={<UserExist />}
+          />
+          <Route
+            path="/50ff4e65285ea9c7145fa1ca00766e9c38a44748"
+            element={<ChangePasswordOk />}
+          />
+          <Route
+            path="/12bc2f45940ab508152184813fa70aec73d0da87"
+            element={<ChangePasswordError />}
           />
           <Route path="*" element={<NotFound />} />
         </Route>
