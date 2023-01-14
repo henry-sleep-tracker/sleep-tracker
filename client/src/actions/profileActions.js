@@ -30,7 +30,7 @@ export const updateImage = (id, file) => {
   return async function (dispatch) {
     try {
       console.log(file);
-      const response = await fetch(`http://localhost:3001/changeimage/${id}`,
+      const response = await fetch(`${process.env.REACT_APP_DEFAULT_URL}/changeimage/${id}`,
         {
           method: "PUT",
           headers: {
