@@ -143,7 +143,7 @@ export default function LogIn() {
                     p={2}
                   >
                     <Grid item>
-                      <Typography variant="h4">Inicia sesion</Typography>
+                      <Typography variant="h4">Inicia sesión</Typography>
                     </Grid>
 
                     <Grid item>
@@ -155,7 +155,7 @@ export default function LogIn() {
                         value={input.email}
                         onChange={(event) => handleChange(event)}
                         required
-                        style={{ width: "22rem" }}
+                        sx={{ width: "22rem" }}
                       />
                     </Grid>
 

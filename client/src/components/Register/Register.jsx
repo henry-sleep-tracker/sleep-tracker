@@ -21,6 +21,8 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Helmet } from "react-helmet";
 import log from "../logi/log-.png";
+import wakeup from "../../images/Signup/zen-balancing.jpg";
+import styles from "./Register.module.css";
 
 let nationalities = [
   "Afganistan",
@@ -331,249 +333,239 @@ export default function Register() {
     event.preventDefault();
   };
 
-  /* <Grid
-        item
-      >
-        <label htmlFor="nationality">{`Nacionalidad*:`} </label>
-        <select name="select" value={input.nationality} onChange={(event) => handleSelect(event)}>
-          {nationalities?.map((nationality) => (
-            <option key={keyNationalities++}
-              value={nationality}
-            >
-              {nationality}
-            </option>
-          ))}
-        </select>
-      </Grid> */
-
   return (
-    <Grid
-      container
-      justifyContent="center"
-      direction="column"
-      alignItems="center"
-      spacing={3}
-    >
-      <Helmet>
-        <title>Registro | Sleep Tracker</title>
-      </Helmet>
-
-      <Grid item></Grid>
-
-      <Grid item>
-        <img src={log} alt="logo" width="200px" />
-      </Grid>
-
-      <Grid item>
-        <Typography variant="h2">Registro</Typography>
-      </Grid>
-
-      <Grid item>
-        <Button variant="outlined" startIcon={<ArrowBackIosNewIcon />} href="/">
-          Regresar
-        </Button>
-      </Grid>
-
-      <Grid item>
-        <Card variant="outlined">
-          <CardContent>
-            <Grid
-              container
-              justifyContent="center"
-              direction="column"
-              alignItems="center"
-              spacing={3}
-            >
-              <Grid item>
-                {/* <label htmlFor="names">{`Nombre(s)*:`} </label> */}
-                <TextField
-                  id="outlined-basic"
-                  label="Nombre"
-                  variant="outlined"
-                  type="text"
-                  name="names"
-                  // placeholder="Nombre(s)"
-                  maxLength="50"
-                  onChange={(event) => handleChange(event)}
-                  required
-                />
-                {/* <input
-          
-        /> */}
-              </Grid>
-
-              <Grid item>
-                {/* <label htmlFor="lastNames">{`Apellido(s)*:`} </label> */}
-                <TextField
-                  id="outlined-basic"
-                  label="Apellido"
-                  variant="outlined"
-                  type="text"
-                  name="lastNames"
-                  maxLength="50"
-                  onChange={(event) => handleChange(event)}
-                  required
-                />
-              </Grid>
-
-              <Grid item>
-                <TextField
-                  required
-                  id="outlined-select-currency"
-                  select
-                  label="Nacionalidad"
-                  defaultValue=""
-                  helperText="Seleccione su nacionalidad"
-                  name="select"
-                  value={input.nationality}
-                  onChange={(event) => handleSelect(event)}
-                >
-                  {nationalities?.map((nationality, index) => (
-                    <MenuItem key={`nat-${index}`} value={nationality}>
-                      {nationality}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-
-              <Grid item>
-                {/* <label htmlFor="birthday">{`Cumpleaños*:`} </label> */}
-                <TextField
-                  id="outlined-basic"
-                  variant="outlined"
-                  helperText="Fecha de nacimiento"
-                  type="date"
-                  name="birthday"
-                  placeholder=""
-                  min="1900-01-01"
-                  max={yourDate}
-                  onChange={(event) => handleChange(event)}
-                  required
-                />
-              </Grid>
-
-              <Grid item>
-                {/* <label htmlFor="email">{`Correo electronico*:`} </label> */}
-                <TextField
-                  id="outlined-basic"
-                  label="Correo electronico"
-                  variant="outlined"
-                  type="email"
-                  name="email"
-                  placeholder="Correo electronico"
-                  maxLength="256"
-                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                  title={`El correo debe contener @ y .`}
-                  onChange={(event) => handleChange(event)}
-                  required
-                />
-              </Grid>
-
-              {/* <Grid
-        item
-      > */}
-              {/* <label htmlFor="password">{`Contraseña*:`} </label> */}
-              {/* <TextField id="outlined-basic" label="Contraseña" variant="outlined"
-          type="password"
-          name="password"
-          placeholder="Contraseña"
-          maxLength="32"
-          pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
-          onChange={(event) => handleChange(event)}
-          required
-        />
-      </Grid> */}
-
-              <Grid item>
-                <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">
-                    Contraseña *
-                  </InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-password"
-                    type={showPassword ? "text" : "password"}
-                    label="Contraseña"
-                    name="password"
-                    maxLength="32"
-                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
-                    title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
-                    onChange={(event) => handleChange(event)}
-                    required
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </Grid>
-
-              {/* <Grid
-        item
+    <Grid container width="100%">
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        width="100%"
+        columns={16}
+        className={styles.bg}
       >
-        <label htmlFor="confirmPassword">{`Confirmar contraseña*:`} </label>
-        <TextField id="outlined-basic" label="Confirmar contraseña" variant="outlined"
-          type="password"
-          name="confirmPassword"
-          placeholder="Contraseña"
-          maxLength="32"
-          pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
-          onChange={(event) => handleChange(event)}
-          required
-        />
-      </Grid> */}
+        <Grid item xs={8} height="100%" paddingTop={3}>
+          <Grid
+            container
+            justifyContent="center"
+            direction="column"
+            alignItems="center"
+            spacing={3}
+          >
+            <Helmet>
+              <title>Registro | Sleep Tracker</title>
+            </Helmet>
 
-              <Grid item>
-                <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">
-                    Confirmar contraseña *
-                  </InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-password"
-                    type={showPassword2 ? "text" : "password"}
-                    label="Confirmar contraseña"
-                    name="confirmPassword"
-                    maxLength="32"
-                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
-                    title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
-                    onChange={(event) => handleChange(event)}
-                    required
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword2}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword2 ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </Grid>
+            <Grid item></Grid>
 
-              <Grid item>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="success"
-                  onClick={(event) => handleSubmit(event)}
-                >
-                  Registrarse
-                </Button>
-              </Grid>
+            <Grid item>
+              <img src={log} alt="logo" width="300vw" />
             </Grid>
-          </CardContent>
-        </Card>
+
+            <Grid item>
+              <Card
+                className="titleresume"
+                variant="outlined"
+                elevation={20}
+                sx={{ minWidth: "30rem" }}
+              >
+                <CardContent>
+                  <Grid
+                    container
+                    justifyContent="center"
+                    direction="column"
+                    alignItems="center"
+                    spacing={3}
+                  >
+                    <Grid item>
+                      <Typography variant="h4">Registro</Typography>
+                    </Grid>
+                    <Grid item>
+                      <TextField
+                        id="outlined-basic"
+                        label="Nombre"
+                        variant="outlined"
+                        type="text"
+                        name="names"
+                        maxLength="50"
+                        onChange={(event) => handleChange(event)}
+                        required
+                        sx={{ width: "10rem", marginRight: 5 }}
+                      />
+                      <TextField
+                        id="outlined-basic"
+                        label="Apellido"
+                        variant="outlined"
+                        type="text"
+                        name="lastNames"
+                        maxLength="50"
+                        onChange={(event) => handleChange(event)}
+                        required
+                        sx={{ width: "10rem" }}
+                      />
+                    </Grid>
+
+                    <Grid item>
+                      <TextField
+                        sx={{ width: "10rem", marginRight: 5 }}
+                        required
+                        id="outlined-select-currency"
+                        select
+                        label="Nacionalidad"
+                        defaultValue=""
+                        helperText="Seleccione su nacionalidad"
+                        name="select"
+                        value={input.nationality}
+                        onChange={(event) => handleSelect(event)}
+                      >
+                        {nationalities?.map((nationality, index) => (
+                          <MenuItem key={`nat-${index}`} value={nationality}>
+                            {nationality}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+
+                      <TextField
+                        id="outlined-basic"
+                        variant="outlined"
+                        helperText="Fecha de nacimiento"
+                        type="date"
+                        name="birthday"
+                        placeholder=""
+                        min="1900-01-01"
+                        max={yourDate}
+                        onChange={(event) => handleChange(event)}
+                        required
+                        sx={{ width: "10rem" }}
+                      />
+                    </Grid>
+
+                    <Grid item>
+                      <TextField
+                        id="outlined-basic"
+                        label="Correo electronico"
+                        variant="outlined"
+                        type="email"
+                        name="email"
+                        placeholder="Correo electronico"
+                        maxLength="256"
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                        title={`El correo debe contener @ y .`}
+                        onChange={(event) => handleChange(event)}
+                        required
+                        sx={{ width: "22rem" }}
+                      />
+                    </Grid>
+
+                    <Grid item>
+                      <FormControl sx={{ width: "22rem" }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">
+                          Contraseña *
+                        </InputLabel>
+                        <OutlinedInput
+                          id="outlined-adornment-password"
+                          type={showPassword ? "text" : "password"}
+                          label="Contraseña"
+                          name="password"
+                          maxLength="32"
+                          pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
+                          title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
+                          onChange={(event) => handleChange(event)}
+                          required
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                        />
+                      </FormControl>
+                    </Grid>
+
+                    <Grid item>
+                      <FormControl sx={{ width: "22rem" }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">
+                          Confirmar contraseña *
+                        </InputLabel>
+                        <OutlinedInput
+                          id="outlined-adornment-password"
+                          type={showPassword2 ? "text" : "password"}
+                          label="Confirmar contraseña"
+                          name="confirmPassword"
+                          maxLength="32"
+                          pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
+                          title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
+                          onChange={(event) => handleChange(event)}
+                          required
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword2}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {showPassword2 ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                        />
+                      </FormControl>
+                    </Grid>
+
+                    <Grid item>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        sx={{ width: "22rem", height: 40 }}
+                        onClick={(event) => handleSubmit(event)}
+                      >
+                        Registrarse
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              marginTop: "4vh",
+              marginLeft: "7vw",
+            }}
+          >
+            <Button
+              variant="outlined"
+              startIcon={<ArrowBackIosNewIcon />}
+              href="/"
+            >
+              Regresar
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid item xs={8}>
+          <Grid>
+            <img src={wakeup} alt="wakeup login" className={styles.zenImage} />
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

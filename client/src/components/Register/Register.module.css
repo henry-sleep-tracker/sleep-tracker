@@ -1,0 +1,17 @@
+.bg {
+  background-color: #ecefef;
+}
+
+.zenImage {
+  width: 100%;
+  min-height: 100vh;
+}
+
+@media only screen and (max-width: 600px) {
+  .bg {
+    background-color: white;
+  }
+  .zenImage {
+    display: none;
+  }
+}
