@@ -1,6 +1,6 @@
 import "./Loading.css";
 
-const Loading = props => {
+const Loading = (props) => {
   return (
     <div className="modal-content">
       <div className="loader"></div>
