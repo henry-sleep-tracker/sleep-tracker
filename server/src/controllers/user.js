@@ -98,7 +98,7 @@ const forgotPassword = async (req, res) => {
     const token = jwt.sign({ email: oldUser.email, id: oldUser.id }, secret, {
       expiresIn: "50m",
     });
-    const link = `${basicURL}/reiniciar_contrasena/${oldUser.id}/${token}`;
+    const link = `${process.env.REACT_APP_BASE_FRONT_URL}/reiniciar_contrasena/${oldUser.id}/${token}`;
     console.log("el link es:", link);
     res.status(200).json(link); //201 es que fue creado
   } catch (error) {

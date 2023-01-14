@@ -9,6 +9,7 @@
 
 # production
 /build
+/package-lock.json
 
 # misc
 .env
