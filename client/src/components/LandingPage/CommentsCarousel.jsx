@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import { useSelector } from 'react-redux';
-import { Grid } from '@mui/material';
+import { Grid, Rating } from '@mui/material';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -120,7 +120,12 @@ function SwipeableTextMobileStepper({ commentsState }) {
               <Typography
                 variant='h5'
               >
-                {currentComments.data[activeStep].rate}
+                <Rating
+                  name="read-only"
+                  value={currentComments.data[activeStep].rate}
+                  readOnly
+                  size="large"
+                />
               </Typography>
               :
               <Typography>
