@@ -390,7 +390,7 @@ export default function Register() {
                         maxLength="50"
                         onChange={(event) => handleChange(event)}
                         required
-                        sx={{ width: "10rem", marginRight: 5 }}
+                        sx={{ width: "11rem", marginRight: 1 }}
                       />
                       <TextField
                         id="outlined-basic"
@@ -401,13 +401,13 @@ export default function Register() {
                         maxLength="50"
                         onChange={(event) => handleChange(event)}
                         required
-                        sx={{ width: "10rem" }}
+                        sx={{ width: "11rem" }}
                       />
                     </Grid>
 
                     <Grid item>
                       <TextField
-                        sx={{ width: "10rem", marginRight: 5 }}
+                        sx={{ width: "11rem", marginRight: 1 }}
                         required
                         id="outlined-select-currency"
                         select
@@ -436,7 +436,7 @@ export default function Register() {
                         max={yourDate}
                         onChange={(event) => handleChange(event)}
                         required
-                        sx={{ width: "10rem" }}
+                        sx={{ width: "11rem" }}
                       />
                     </Grid>
 
@@ -453,12 +453,12 @@ export default function Register() {
                         title={`El correo debe contener @ y .`}
                         onChange={(event) => handleChange(event)}
                         required
-                        sx={{ width: "22rem" }}
+                        sx={{ width: "23rem" }}
                       />
                     </Grid>
 
                     <Grid item>
-                      <FormControl sx={{ width: "22rem" }} variant="outlined">
+                      <FormControl sx={{ width: "23rem" }} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">
                           Contraseña *
                         </InputLabel>
@@ -493,7 +493,7 @@ export default function Register() {
                     </Grid>
 
                     <Grid item>
-                      <FormControl sx={{ width: "22rem" }} variant="outlined">
+                      <FormControl sx={{ width: "23rem" }} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">
                           Confirmar contraseña *
                         </InputLabel>
@@ -531,7 +531,7 @@ export default function Register() {
                       <Button
                         type="submit"
                         variant="contained"
-                        sx={{ width: "22rem", height: 40 }}
+                        sx={{ width: "23rem", height: 50 }}
                         onClick={(event) => handleSubmit(event)}
                       >
                         Registrarse
@@ -549,7 +549,7 @@ export default function Register() {
               flexDirection: "row",
               justifyContent: "flex-start",
               marginTop: "4vh",
-              marginLeft: "7vw",
+              marginLeft: "10.5vw",
             }}
           >
             <Button
