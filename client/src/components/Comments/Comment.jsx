@@ -1,106 +1,99 @@
-import { Button, Card, CardContent, Grid, TextField, Typography } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
-import CheckIcon from '@mui/icons-material/Check';
-import { postComment } from '../../actions/Comments/postComment';
-import { deleteComment } from '../../actions/Comments/deleteComment';
-import { getCurrentComment } from '../../actions/Comments/getCurrentComment';
-import { useNavigate } from 'react-router-dom';
+import CheckIcon from "@mui/icons-material/Check";
+import { postComment } from "../../actions/Comments/postComment";
+import { deleteComment } from "../../actions/Comments/deleteComment";
+import { getCurrentComment } from "../../actions/Comments/getCurrentComment";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Helmet } from 'react-helmet';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Helmet } from "react-helmet";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { message } from "react-message-popup";
 
-
-
 const CreateComment = () => {
+  const currentUser = useSelector((state) => state?.users.currentUser);
 
-    const currentUser = useSelector((state) => state?.users.currentUser);
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
+  let navigate = useNavigate();
 
-    let navigate = useNavigate();
+  /* eslint-disable */
+  useEffect(() => {
+    dispatch(getCurrentComment(currentUser.id));
+  }, [dispatch]);
+  /* eslint-disable */
 
-    /* eslint-disable */
-    useEffect(() => {
-        dispatch(getCurrentComment(currentUser.id))
-    }, [dispatch])
-    /* eslint-disable */
+  let currentComment = useSelector((state) => state.currentComment);
 
-    let currentComment = useSelector((state) => state.currentComment);
+  let [currentCommentState, setCurrentCommentState] = useState(
+    "Opine sobre su experiencia con la aplicacion:"
+  );
 
-    let [currentCommentState, setCurrentCommentState] = useState('Opine sobre su experiencia con la aplicacion:')
+  // const [currentCommentState, setCurrentCommentState] = useState('')
 
-    // const [currentCommentState, setCurrentCommentState] = useState('')
+  const [input, setInput] = useState({
+    name: currentUser.names,
+    rate: "",
+    comment: "",
+    id: currentUser.id,
+  });
 
-    const [input, setInput] = useState({
+  function handleChange(element) {
+    setInput({
+      ...input,
+      [element.target.id]: element.target.value,
+    });
+  }
+
+  function handleSubmit(element) {
+    try {
+      element.preventDefault();
+      dispatch(postComment(input));
+      setInput({
         name: currentUser.names,
         rate: "",
         comment: "",
-        id: currentUser.id
-
-    })
-
-    function handleChange(element) {
-
-        setInput({
-            ...input,
-            [element.target.id]: element.target.value
-        })
+        id: currentUser.id,
+      });
+    } catch (error) {
+      message.error("Fatal Error.", 2500);
     }
+    navigate("/private");
+  }
 
-    function handleSubmit(element) {
-        try {
-            element.preventDefault();
-            dispatch(postComment(input))
-            setInput({
-                name: currentUser.names,
-                rate: "",
-                comment: "",
-                id: currentUser.id,
-            })
-        } catch (error) {
-          //alert("Fatal Error.")
-          message.error("Fatal Error.",2500);
-        }
-        navigate('/private');
+  function handleDelete(element) {
+    try {
+      dispatch(deleteComment(element));
+      setCurrentCommentState("Opine sobre su experiencia con la aplicacion:");
+    } catch (error) {}
+    navigate("/private/home");
+  }
 
-    }
+  return (
+    <Grid
+      container
+      justifyContent="center"
+      direction="column"
+      alignItems="center"
+      spacing={3}
+    >
+      <Helmet>
+        <title>Comentario | Sleep Tracker</title>
+      </Helmet>
 
-    function handleDelete(element) {
-        try {
-            dispatch(deleteComment(element))
-            setCurrentCommentState('Opine sobre su experiencia con la aplicacion:')
-        } catch (error) { }
-        navigate('/private');
+      <Grid item>
+        <Typography variant="h4">Registrar comentario</Typography>
+      </Grid>
 
-    }
-
-    return (
-
-        <Grid
-            container
-            justifyContent='center'
-            direction='column'
-            alignItems='center'
-            spacing={3}
-        >
-
-            <Helmet>
-                <title>Comentario | Sleep Tracker</title>
-            </Helmet>
-
-            <Grid
-                item
-            >
-                <Typography
-                    variant='h4'
-                >
-                    Registrar comentario
-                </Typography>
-            </Grid>
-
-            {/* <Grid
+      {/* <Grid
                 item
             >
                 <Button
@@ -112,110 +105,80 @@ const CreateComment = () => {
                 </Button>
             </Grid> */}
 
+      <Grid item>
+        {currentComment.data ? (
+          <Typography variant="h5">{currentComment.data.comment}</Typography>
+        ) : (
+          <Typography variant="h5">{currentCommentState}</Typography>
+        )}
+      </Grid>
+
+      <Grid item>
+        {!currentComment.data ? (
+          <Button variant="outlined" disabled>
+            Eliminar comentario previo
+          </Button>
+        ) : (
+          <Button
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+            color="error"
+            onClick={() => handleDelete(currentUser.id)}
+            // href='/private'
+          >
+            Eliminar comentario previo
+          </Button>
+        )}
+      </Grid>
+
+      <Grid item>
+        <Card variant="outlined">
+          <CardContent>
             <Grid
-                item
+              container
+              justifyContent="center"
+              direction="column"
+              alignItems="center"
+              spacing={3}
             >
-                {
-                    (currentComment.data) ?
-                        <Typography
-                            variant='h5'
-                        >
-                            {currentComment.data.comment}
-                        </Typography>
-                        :
-                        <Typography
-                            variant='h5'
-                        >
-                            {currentCommentState}
-                        </Typography>
-                }
-            </Grid>
+              <Grid item>
+                <TextField
+                  value={input.objetivos}
+                  id="rate"
+                  label="Puntuacion"
+                  type="text"
+                  variant="outlined"
+                  onChange={(element) => handleChange(element)}
+                />
+              </Grid>
 
+              <Grid item>
+                <TextField
+                  value={input.objetivosGenerales}
+                  id="comment"
+                  label="Comentario"
+                  type="text"
+                  variant="outlined"
+                  onChange={(element) => handleChange(element)}
+                />
+              </Grid>
 
-            <Grid
-                item
-            >
-                {
-                    !currentComment.data ?
-                        <Button variant="outlined" disabled>
-                            Eliminar comentario previo
-                        </Button>
-                        :
-                        <Button
-                            variant="outlined"
-                            startIcon={<DeleteIcon />}
-                            color='error'
-                            onClick={() => handleDelete(currentUser.id)}
-                        // href='/private'
-                        >
-                            Eliminar comentario previo
-                        </Button>
-
-                }
-            </Grid>
-
-            <Grid
-                item
-            >
-
-                <Card
-                    variant='outlined'
+              <Grid item>
+                <Button
+                  variant="contained"
+                  startIcon={<CheckIcon />}
+                  types="submit"
+                  onClick={(element) => handleSubmit(element)}
                 >
-                    <CardContent>
-
-                        <Grid
-                            container
-                            justifyContent='center'
-                            direction='column'
-                            alignItems='center'
-                            spacing={3}
-                        >
-                            <Grid
-                                item
-                            >
-                                <TextField
-                                    value={(input.objetivos)}
-                                    id='rate'
-                                    label="Puntuacion"
-                                    type='text'
-                                    variant="outlined"
-                                    onChange={(element) => handleChange(element)}
-                                />
-
-                            </Grid>
-
-                            <Grid
-                                item
-                            >
-                                <TextField
-                                    value={(input.objetivosGenerales)}
-                                    id='comment'
-                                    label="Comentario"
-                                    type='text'
-                                    variant="outlined"
-                                    onChange={(element) => handleChange(element)}
-                                />
-
-                            </Grid>
-
-                            <Grid
-                                item
-                            >
-                                <Button
-                                    variant="contained"
-                                    startIcon={<CheckIcon />}
-                                    types='submit'
-                                    onClick={(element) => handleSubmit(element)}
-                                >
-                                    Enviar
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </CardContent>
-                </Card>
+                  Enviar
+                </Button>
+              </Grid>
             </Grid>
-        </Grid>
-    )
-}
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
+  );
+};
 
 export default CreateComment;

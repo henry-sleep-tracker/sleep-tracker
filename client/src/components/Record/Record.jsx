@@ -58,7 +58,7 @@ import Loading from "./Loading";
 //> Starts Component
 //>======================>//
 
-const Record = props => {
+const Record = (props) => {
   const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
@@ -93,33 +93,33 @@ const Record = props => {
 
   /******************** Redux States Section *********************/
 
-  const userId = useSelector(state => state.users.currentUser.id);
-  const nameUser = useSelector(state => state.users.currentUser.names);
+  const userId = useSelector((state) => state.users.currentUser.id);
+  const nameUser = useSelector((state) => state.users.currentUser.names);
   const recordsUserRedux = useSelector(
-    state => state.record.recordsByUserAndDate
+    (state) => state.record.recordsByUserAndDate
   );
-  const recordStatus = useSelector(state => state.record.statusNewRecord);
-  const activityStat = useSelector(state => state.record.statusNewActivity);
-  const coffeeStat = useSelector(state => state.record.statusNewCoffeeSize);
-  const drinkStat = useSelector(state => state.record.statusNewDrink);
-  const activitiesRedux = useSelector(state => state.record.activities);
-  const coffeeSizesRedux = useSelector(state => state.record.coffeeSizes);
-  const drinksRedux = useSelector(state => state.record.drinks);
-  const sleepTime = useSelector(state => state.stage); //--> Estado global que guarda los segundos de suenio
+  const recordStatus = useSelector((state) => state.record.statusNewRecord);
+  const activityStat = useSelector((state) => state.record.statusNewActivity);
+  const coffeeStat = useSelector((state) => state.record.statusNewCoffeeSize);
+  const drinkStat = useSelector((state) => state.record.statusNewDrink);
+  const activitiesRedux = useSelector((state) => state.record.activities);
+  const coffeeSizesRedux = useSelector((state) => state.record.coffeeSizes);
+  const drinksRedux = useSelector((state) => state.record.drinks);
+  const sleepTime = useSelector((state) => state.stage); //--> Estado global que guarda los segundos de suenio
 
   /******************** Functions Before load component *********************/
 
-  const temp = sleepTime?.filter(e => e.level !== 1);
+  const temp = sleepTime?.filter((e) => e.level !== 1);
   if (temp.length > 0) {
     sleepTimeMinutes = Math.floor(
-      temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
+      temp.map((e) => e.seconds).reduce((acc, e) => acc + e, 0) / 60
     );
     // eslint-disable-next-line no-unused-vars
     sleepTime12Format = time_convert(sleepTimeMinutes);
   }
 
   if (recordsUserRedux?.length >= 1) {
-    check = recordsUserRedux?.filter(e => e.sleepTime > 0);
+    check = recordsUserRedux?.filter((e) => e.sleepTime > 0);
   }
 
   /******************** Local States Section *********************/
@@ -195,7 +195,7 @@ const Record = props => {
 
   //! ================== Main Handlers ================= !//
 
-  const handlerOnChange = e => {
+  const handlerOnChange = (e) => {
     setRecord({ ...record, [e.target.name]: e.target.value });
     if (e.target.name === "dateMeal") {
       dispatch(getRecordByIdDate(userId, e.target.value));
@@ -204,7 +204,7 @@ const Record = props => {
     }
   };
 
-  const handlerOnSubmit = e => {
+  const handlerOnSubmit = (e) => {
     e.preventDefault();
     let date = "";
     let time = "";
@@ -237,9 +237,9 @@ const Record = props => {
       setRecord((record.sleepTime = "0"));
     }
 
-    const floorTimeActivity = record.timeActivity.map(e => Math.floor(e));
-    const floorCoffeeCups = record.coffeeCups.map(e => Math.floor(e));
-    const floorDrinks = record.drinks.map(e => Math.floor(e));
+    const floorTimeActivity = record.timeActivity.map((e) => Math.floor(e));
+    const floorCoffeeCups = record.coffeeCups.map((e) => Math.floor(e));
+    const floorDrinks = record.drinks.map((e) => Math.floor(e));
     setRecord((record.timeActivity = floorTimeActivity));
     setRecord((record.coffeeCups = floorCoffeeCups));
     setRecord((record.drinks = floorDrinks));
@@ -272,7 +272,7 @@ const Record = props => {
     refresh();
   };
 
-  const handlerOnClear = e => {
+  const handlerOnClear = (e) => {
     e.preventDefault();
     setRecord({
       dateMeal: currentDay.current.value,
@@ -300,11 +300,11 @@ const Record = props => {
 
   //! ================== SleepTime Handlers ================= !//
 
-  const handlerSleepTimeChange = e => {
+  const handlerSleepTimeChange = (e) => {
     setTime({ ...time, [e.target.name]: e.target.value });
   };
 
-  const handlerSync = e => {
+  const handlerSync = (e) => {
     e.preventDefault();
     setRecord((record.sleepTime = sleepTimeMinutes));
     if (record.timeMeal === "") {
@@ -340,12 +340,12 @@ const Record = props => {
 
   //! ================== Activity Handlers ================= !//
 
-  const handlerActivity = e => {
+  const handlerActivity = (e) => {
     e.preventDefault();
     const timeSelected = parseInt(timeRef.current.value) + Math.random();
     const activitySelected = activityRef.current.value;
     const timeSelectedText = timeRef.current.value;
-    const filter = activitiesRedux.filter(e => e.id === activitySelected);
+    const filter = activitiesRedux.filter((e) => e.id === activitySelected);
     const nameActivity = filter[0].activity;
 
     if (!timeSelected || !activitySelected || timeSelected < 1) {
@@ -365,7 +365,7 @@ const Record = props => {
     timeRef.current.value = "0";
   };
 
-  const handlerOnChangeActivity = e => {
+  const handlerOnChangeActivity = (e) => {
     e.preventDefault();
     setAddActivity({
       ...addActivity,
@@ -373,13 +373,13 @@ const Record = props => {
     });
   };
 
-  const handlerAddActivity = e => {
+  const handlerAddActivity = (e) => {
     e.preventDefault();
     let duplicated = "";
 
     if (activitiesRedux.length > 0) {
       duplicated = activitiesRedux.filter(
-        e => e.activity === addActivity.activity
+        (e) => e.activity === addActivity.activity
       );
     }
 
@@ -414,7 +414,7 @@ const Record = props => {
     }
   };
 
-  const handlerSetActivity = e => {
+  const handlerSetActivity = (e) => {
     e.preventDefault();
     if (e.target.value !== "default" && e.target.value !== "add_activity")
       setActivityStatus(true);
@@ -428,17 +428,19 @@ const Record = props => {
     }
   };
 
-  const eraseActivity = e => {
+  const eraseActivity = (e) => {
     e.preventDefault();
     const activityToErase = e.target.innerText;
-    const activityFilter = activity.filter(e => e !== activityToErase);
+    const activityFilter = activity.filter((e) => e !== activityToErase);
     const indexToErase = e.target.id;
     setActivity(activityFilter);
 
     const valueToRemoveTA = record.timeActivity[indexToErase];
     const valueToRemoveA = record.activity[indexToErase];
-    const timeActivity = record.timeActivity.filter(e => e !== valueToRemoveTA);
-    const activity2 = record.activity.filter(e => e !== valueToRemoveA);
+    const timeActivity = record.timeActivity.filter(
+      (e) => e !== valueToRemoveTA
+    );
+    const activity2 = record.activity.filter((e) => e !== valueToRemoveA);
     setRecord({
       ...record,
       timeActivity: timeActivity,
@@ -453,12 +455,12 @@ const Record = props => {
 
   //! ================== Coffee Handlers ================= !//
 
-  const handlerCoffee = e => {
+  const handlerCoffee = (e) => {
     e.preventDefault();
     const quantityCoffee = parseInt(cups.current.value) + Math.random();
     const cup = sizeCup.current.value;
     const coffees = cups.current.value;
-    const filter = coffeeSizesRedux.filter(e => e.id === cup);
+    const filter = coffeeSizesRedux.filter((e) => e.id === cup);
     const size = filter[0].size;
 
     if (!quantityCoffee || !cup || quantityCoffee < 1) {
@@ -478,7 +480,7 @@ const Record = props => {
     cups.current.value = "0";
   };
 
-  const handlerOnChangeCoffeSize = e => {
+  const handlerOnChangeCoffeSize = (e) => {
     e.preventDefault();
     setAddCoffeSize({
       ...addCoffeSize,
@@ -486,12 +488,12 @@ const Record = props => {
     });
   };
 
-  const handlerAddSizeCoffee = e => {
+  const handlerAddSizeCoffee = (e) => {
     e.preventDefault();
     let duplicated = "";
 
     if (coffeeSizesRedux.length > 0) {
-      duplicated = coffeeSizesRedux.filter(e => e.size === addCoffeSize.size);
+      duplicated = coffeeSizesRedux.filter((e) => e.size === addCoffeSize.size);
     }
 
     if (duplicated.length > 0) {
@@ -519,7 +521,7 @@ const Record = props => {
     }
   };
 
-  const handlerSetCoffee = e => {
+  const handlerSetCoffee = (e) => {
     e.preventDefault();
     if (e.target.value !== "default" && e.target.value !== "add_coffee_size")
       setCoffeeStatus(true);
@@ -533,17 +535,17 @@ const Record = props => {
     }
   };
 
-  const eraseCoffee = e => {
+  const eraseCoffee = (e) => {
     e.preventDefault();
     const coffeeToErase = e.target.innerText;
-    const coffeeFilter = coffee.filter(e => e !== coffeeToErase);
+    const coffeeFilter = coffee.filter((e) => e !== coffeeToErase);
     const indexToErase = e.target.id;
     setCoffee(coffeeFilter);
 
     const valueToRemoveC = record.coffeeCups[indexToErase];
     const valueToRemoveCS = record.coffee[indexToErase];
-    const coffees = record.coffeeCups.filter(e => e !== valueToRemoveC);
-    const sizeCoffees = record.coffee.filter(e => e !== valueToRemoveCS);
+    const coffees = record.coffeeCups.filter((e) => e !== valueToRemoveC);
+    const sizeCoffees = record.coffee.filter((e) => e !== valueToRemoveCS);
     setRecord({
       ...record,
       coffeeCups: coffees,
@@ -558,12 +560,12 @@ const Record = props => {
 
   //! ================== Drinks Handlers ================= !//
 
-  const handlerDrinks = e => {
+  const handlerDrinks = (e) => {
     e.preventDefault();
     const quantityDrinks = parseInt(drinks.current.value) + Math.random();
     const typeDrinks = typeDrink.current.value;
     const drinkss = drinks.current.value;
-    const filter = drinksRedux.filter(e => e.id === typeDrinks);
+    const filter = drinksRedux.filter((e) => e.id === typeDrinks);
     const typeDrinkss = filter[0].drink;
 
     if (!quantityDrinks || !typeDrinks || quantityDrinks < 1) {
@@ -583,7 +585,7 @@ const Record = props => {
     drinks.current.value = "0";
   };
 
-  const handlerOnChangeDrink = e => {
+  const handlerOnChangeDrink = (e) => {
     e.preventDefault();
     setAddNewDrink({
       ...addNewDrink,
@@ -591,12 +593,12 @@ const Record = props => {
     });
   };
 
-  const handlerAddDrink = e => {
+  const handlerAddDrink = (e) => {
     e.preventDefault();
     let duplicated = "";
 
     if (drinksRedux.length > 0) {
-      duplicated = drinksRedux.filter(e => e.drink === addNewDrink.drink);
+      duplicated = drinksRedux.filter((e) => e.drink === addNewDrink.drink);
     }
 
     if (duplicated.length > 0) {
@@ -624,7 +626,7 @@ const Record = props => {
     }
   };
 
-  const handlerSetDrink = e => {
+  const handlerSetDrink = (e) => {
     e.preventDefault();
     if (e.target.value !== "default" && e.target.value !== "add_drink")
       setDrinkStatus(true);
@@ -638,17 +640,17 @@ const Record = props => {
     }
   };
 
-  const eraseDrink = e => {
+  const eraseDrink = (e) => {
     e.preventDefault();
     const drinkToErase = e.target.innerText;
-    const drinkFilter = drink.filter(e => e !== drinkToErase);
+    const drinkFilter = drink.filter((e) => e !== drinkToErase);
     const indexToErase = e.target.id;
     setDrink(drinkFilter);
 
     const valueToRemoveD = record.drinks[indexToErase];
     const valueToRemoveDT = record.drink[indexToErase];
-    const drinks2 = record.drinks.filter(e => e !== valueToRemoveD);
-    const typeDrinks = record.drink.filter(e => e !== valueToRemoveDT);
+    const drinks2 = record.drinks.filter((e) => e !== valueToRemoveD);
+    const typeDrinks = record.drink.filter((e) => e !== valueToRemoveDT);
     setRecord({
       ...record,
       drinks: drinks2,
@@ -721,7 +723,7 @@ const Record = props => {
               ? activitiesRedux.map((e, i) => {
                   return (
                     <option
-                      key={i}
+                      key={e.id}
                       value={e.id}
                       disabled={record.activity.includes(e.id) ? true : false}
                     >
@@ -743,7 +745,12 @@ const Record = props => {
         <div className="div_map_container">
           {activity.map((e, i) => {
             return (
-              <div className="div_map" key={i} onClick={eraseActivity} id={i}>
+              <div
+                className="div_map"
+                key={`act-${i}`}
+                onClick={eraseActivity}
+                id={i}
+              >
                 {e}
               </div>
             );
@@ -797,7 +804,7 @@ const Record = props => {
               ? coffeeSizesRedux.map((e, i) => {
                   return (
                     <option
-                      key={i}
+                      key={`coffee-${i}`}
                       value={e.id}
                       disabled={record.coffee.includes(e.id) ? true : false}
                     >
@@ -819,7 +826,12 @@ const Record = props => {
         <div className="div_map_container">
           {coffee.map((e, i) => {
             return (
-              <div className="div_map" key={i} onClick={eraseCoffee} id={i}>
+              <div
+                className="div_map"
+                key={`coff-${i}`}
+                onClick={eraseCoffee}
+                id={i}
+              >
                 {e}
               </div>
             );
@@ -873,7 +885,7 @@ const Record = props => {
               ? drinksRedux.map((e, i) => {
                   return (
                     <option
-                      key={i}
+                      key={`drinksRe-${i}`}
                       value={e.id}
                       disabled={record.drink.includes(e.id) ? true : false}
                     >
@@ -895,7 +907,12 @@ const Record = props => {
         <div className="div_map_container">
           {drink.map((e, i) => {
             return (
-              <div className="div_map" key={i} onClick={eraseDrink} id={i}>
+              <div
+                className="div_map"
+                key={`drink-${i}`}
+                onClick={eraseDrink}
+                id={i}
+              >
                 {e}
               </div>
             );

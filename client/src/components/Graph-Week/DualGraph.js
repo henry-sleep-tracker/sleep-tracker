@@ -75,10 +75,12 @@ export default function DualGraph() {
         "efficiency",
       ].includes(item)
     );
+    console.log("uniqueKeys", uniqueKeys);
 
-    return uniqueKeys.map((k) => {
+    return uniqueKeys.map((k, index) => {
       return (
         <Line
+          key={`line-${index}`}
           connectNulls
           type="monotone"
           stroke={getColor(k)}
@@ -92,15 +94,15 @@ export default function DualGraph() {
     });
   };
 
-  const [windowWidth, setwindowWidth] = useState(window.innerWidth)
+  const [windowWidth, setwindowWidth] = useState(window.innerWidth);
 
   const handleResize = () => {
-    setwindowWidth(window.innerWidth)
-  }
+    setwindowWidth(window.innerWidth);
+  };
 
   useEffect(() => {
-    window.addEventListener('resize', handleResize)
-  }, [])
+    window.addEventListener("resize", handleResize);
+  }, []);
 
   return (
     <Grid
@@ -112,12 +114,8 @@ export default function DualGraph() {
       flex={4}
       p={2}
     >
-      <Grid
-        item
-      >
-        <Card
-          variant="outlined"
-        >
+      <Grid item>
+        <Card variant="outlined">
           <CardContent>
             <Grid
               container
@@ -128,11 +126,7 @@ export default function DualGraph() {
               flex={4}
               p={2}
             >
-
-              <ResponsiveContainer
-                width={windowWidth - 150}
-                height={500}
-              >
+              <ResponsiveContainer width={windowWidth - 150} height={500}>
                 <LineChart
                   width={500}
                   height={400}
@@ -148,7 +142,10 @@ export default function DualGraph() {
                   <XAxis dataKey="date" />
                   <YAxis />
                   <Tooltip
-                    itemStyle={{ textTransform: "capitalize", textAlign: "left" }}
+                    itemStyle={{
+                      textTransform: "capitalize",
+                      textAlign: "left",
+                    }}
                     content={"efficiency"}
                   />
                   <Legend onClick={handleClick} />
@@ -156,24 +153,15 @@ export default function DualGraph() {
                 </LineChart>
               </ResponsiveContainer>
 
-              <Grid
-                item
-              >
-                <Button
-                  onClick={handleReset}
-                  variant='outlined'
-                >
+              <Grid item>
+                <Button onClick={handleReset} variant="outlined">
                   Reiniciar grafica
                 </Button>
               </Grid>
-
             </Grid>
-
           </CardContent>
         </Card>
-
       </Grid>
-
     </Grid>
   );
 }

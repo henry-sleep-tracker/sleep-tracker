@@ -10,9 +10,10 @@ import { changePassword } from "../../actions/profileActions";
 import { message } from "react-message-popup";
 // import style from "./ChangePassword.module.css";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useAuthContext } from "../../actions/authContext";
 
 export default function ChangePassword() {
-
+  const { createPassword } = useAuthContext();
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -64,6 +65,7 @@ export default function ChangePassword() {
         message.error(`La contraseña no se confirmo correctamente`,2500)
       } else {
         dispatch(changePassword(id, input.password));
+        createPassword();
         setInput({
           password: "",
           confirmPassword: "",

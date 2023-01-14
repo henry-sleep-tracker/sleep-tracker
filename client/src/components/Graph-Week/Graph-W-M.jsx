@@ -8,22 +8,21 @@ import { Button, Grid } from "@mui/material";
 import CollapsibleTableEfficiency from "./CollapsibleTableEfficiency";
 import GraphRecord from "./Graph-Records";
 import { useRef } from "react";
-import { useReactToPrint } from "react-to-print"
+import { useReactToPrint } from "react-to-print";
 import { message } from "react-message-popup";
 
 const GraphWM = () => {
-
-  const componentPdf =  useRef()
-    const handlePrint = useReactToPrint({
-        content: () => componentPdf.current,
-        //onAfterPrint: () => alert('print success')
-        onAfterPrint: () => message.success('print success',2500)
-    })
+  const componentPdf = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentPdf.current,
+    onAfterPrint: () => message.success("print success", 2500),
+  });
 
   return (
     <Grid
       container
-      ref={componentPdf} style={{width:"100%"}}
+      ref={componentPdf}
+      style={{ width: "100%" }}
       justifyContent="center"
       alignItems="center"
       direction="column"
@@ -31,64 +30,39 @@ const GraphWM = () => {
       flex={4}
       p={1}
     >
-
-      <Grid
-        item
-      >
-        <Button
-          variant="outlined"
-          key="pdf"
-          /* download="pdf"
-          href="/pdf" */
-          onClick={handlePrint}
-        >
+      <Grid item>
+        <Button variant="outlined" key="pdf" onClick={handlePrint}>
           Reporte PDF
         </Button>
       </Grid>
 
-      <Grid
-        item
-      >
+      <Grid item>
         <RangeCalendar />
       </Grid>
 
-      <Grid
-        item
-      >
+      <Grid item>
         <DualGraph />
       </Grid>
 
-      <Grid
-        item
-      >
-        {/* <h4>{options1.title}</h4> */}
+      <Grid item>
         <GraphEff />
       </Grid>
 
-      <Grid
-        item
-      >
+      <Grid item>
         <CollapsibleTableEfficiency />
       </Grid>
 
-      <Grid
-        item
-      >
+      <Grid item>
         <GraphTime />
       </Grid>
 
-      <Grid
-        item
-      >
+      <Grid item>
         <CollapsibleTableTime />
       </Grid>
 
-      <Grid
-        item
-      >
+      <Grid item>
         <GraphRecord />
       </Grid>
-
     </Grid>
   );
 };

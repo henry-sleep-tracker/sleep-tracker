@@ -20,9 +20,9 @@ import EmailIcon from "@mui/icons-material/Email";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Helmet } from "react-helmet";
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import Avatar from '@mui/material/Avatar';
+import IconButton from "@mui/material/IconButton";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import Avatar from "@mui/material/Avatar";
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import PaymentIcon from "@mui/icons-material/Payment";
 
@@ -44,18 +44,18 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    if (currentUser.password !== null) {
+    if (currentUser.hashedPassword!== null) {
       createPassword();
     }
   }, [currentUser]);
 
-  const convertirBase64 = async (e) =>{
+  const convertirBase64 = async (e) => {
     let reader = new FileReader();
-     reader.readAsDataURL(e.target.files[0]);
-     reader.onload = function(){
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = function () {
       let base64 = reader.result;
-      setImage(base64)
-    }
+      setImage(base64);
+    };
   };
 
   const handleInputs = (e) => {
@@ -102,7 +102,7 @@ const Profile = () => {
   const handleImage = async (e) => {
     e.preventDefault();
     try {
-      dispatch(updateImage(currentUser.id, image))
+      dispatch(updateImage(currentUser.id, image));
       setImage("");
     } catch (error) {
       console.log("el error es:", error);
@@ -226,18 +226,28 @@ const Profile = () => {
         flex={3}
         p={2}
       >
-          <Avatar 
-            alt = "Not found"
-            srcSet={currentUser.image}
-            sx={{ width: 200, height: 200 }}
-          />
-          {!image ?  
-            <IconButton color="primary" aria-label="upload picture" component="label">
-              <input hidden accept="image/*" type="file" onChange = {(e) => convertirBase64(e)}/>
-              <PhotoCamera />
-            </IconButton>
-            : <Button onClick={handleImage}>Confirmar</Button>}
-         
+        <Avatar
+          alt="Not found"
+          srcSet={currentUser.image}
+          sx={{ width: 200, height: 200 }}
+        />
+        {!image ? (
+          <IconButton
+            color="primary"
+            aria-label="upload picture"
+            component="label"
+          >
+            <input
+              hidden
+              accept="image/*"
+              type="file"
+              onChange={(e) => convertirBase64(e)}
+            />
+            <PhotoCamera />
+          </IconButton>
+        ) : (
+          <Button onClick={handleImage}>Confirmar</Button>
+        )}
       </Grid>
 
       <Grid item>
@@ -380,10 +390,12 @@ const Profile = () => {
               <Grid item>
                 <Typography variant="h5">Plan actual:</Typography>
               </Grid>
-              <br/>
-              
-              <Button variant="contained" href="/private/planes">{currentUser.plan?.name}</Button>
-            
+              <br />
+
+              <Button variant="contained" href="/private/planes">
+                {currentUser.plan?.name}
+              </Button>
+
               <Grid item>
                 {inputs.names ||
                 inputs.email ||
