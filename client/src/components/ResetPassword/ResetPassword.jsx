@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { useParams, useNavigate } from 'react-router-dom';
 import { resetPassword } from "../../actions";
 import log from "../logi/log-.png";
+import { message } from "react-message-popup";
 
 export default function ResetPassword() {
   const navigate = useNavigate();
@@ -45,9 +46,13 @@ export default function ResetPassword() {
     event.preventDefault();
     try {
       if (Object.keys(errorsEmptiness).length !== 0) {
-        alert(`Todos los campos obligatorios deben ser llenados para poder registrarse`)
+        //alert(`Todos los campos obligatorios deben ser llenados para poder registrarse`)
+        message.warn(
+          `Todos los campos obligatorios deben ser llenados para poder registrarse`,2500
+        );
       } else if (input.password !== input.confirmPassword) {
-        alert(`La contraseña no se confirmo correctamente`)
+        //alert(`La contraseña no se confirmo correctamente`)
+        message.error(`La contraseña no se confirmo correctamente`,2500);
       } else {
         dispatch(resetPassword(input.password, id, token));
         setInput({

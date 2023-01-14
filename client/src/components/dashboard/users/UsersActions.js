@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import Check from '@mui/icons-material/Check';
 import Save from '@mui/icons-material/Save';
 import { green } from '@mui/material/colors';
+import { message } from "react-message-popup";
 
 import { updateUsers, getUsers } from '../../../actions/users';
 
@@ -28,7 +29,8 @@ const UsersActions = ({ params, rowId, setRowId, pageState }) => {
         dispatch(getUsers(pageState.page, pageState.pageSize));
       }
     } else {
-      alert('Nombre y Apellidos son requeridos');
+      //alert('Nombre y Apellidos son requeridos');
+      message.warn('Nombre y Apellidos son requeridos',2500);
     }
     setLoading(false);
   };

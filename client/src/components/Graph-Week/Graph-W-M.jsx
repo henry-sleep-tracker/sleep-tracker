@@ -9,12 +9,13 @@ import CollapsibleTableEfficiency from "./CollapsibleTableEfficiency";
 import GraphRecord from "./Graph-Records";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import { message } from "react-message-popup";
 
 const GraphWM = () => {
   const componentPdf = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentPdf.current,
-    onAfterPrint: () => alert("print success"),
+    onAfterPrint: () => message.success("print success", 2500),
   });
 
   return (
@@ -30,13 +31,7 @@ const GraphWM = () => {
       p={1}
     >
       <Grid item>
-        <Button
-          variant="outlined"
-          key="pdf"
-          /* download="pdf"
-          href="/pdf" */
-          onClick={handlePrint}
-        >
+        <Button variant="outlined" key="pdf" onClick={handlePrint}>
           Reporte PDF
         </Button>
       </Grid>
@@ -50,7 +45,6 @@ const GraphWM = () => {
       </Grid>
 
       <Grid item>
-        {/* <h4>{options1.title}</h4> */}
         <GraphEff />
       </Grid>
 

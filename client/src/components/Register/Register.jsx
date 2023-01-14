@@ -11,6 +11,7 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
+  Input,
   MenuItem,
   OutlinedInput,
   TextField,
@@ -21,6 +22,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Helmet } from "react-helmet";
 import log from "../logi/log-.png";
+import { message } from "react-message-popup";
 import wakeup from "../../images/Signup/zen-balancing.jpg";
 import styles from "./Register.module.css";
 
@@ -275,21 +277,27 @@ export default function Register() {
     try {
       event.preventDefault();
       if (Object.keys(errorsEmptiness).length !== 0) {
-        alert(
-          `Todos los campos obligatorios deben ser llenados para poder registrarse`
+        message.warn(
+          `Todos los campos obligatorios deben ser llenados para poder registrarse`,
+          2500
         );
       } else if (input.names.length > 50) {
-        alert(`La longitud de los nombres no puede ser mayor a 50 caracteres`);
+        message.warn(
+          `La longitud de los nombres no puede ser mayor a 50 caracteres`,
+          2500
+        );
       } else if (input.lastNames.length > 50) {
-        alert(
-          `La longitud de los apellidos no puede ser mayor a 50 caracteres`
+        message.warn(
+          `La longitud de los apellidos no puede ser mayor a 50 caracteres`,
+          2500
         );
       } else if (!nationalities.includes(input.nationality)) {
-        alert(
-          `La nacionalidad debe ser una de las que se encuentran en la lista y debe estar exactamente igual a como esta en la lista`
+        message.warn(
+          `La nacionalidad debe ser una de las que se encuentran en la lista y debe estar exactamente igual a como esta en la lista`,
+          2500
         );
       } else if (input.password !== input.confirmPassword) {
-        alert(`La contraseña no se confirmo correctamente`);
+        message.warn(`La contraseña no se confirmo correctamente`, 2500);
       } else {
         dispatch(postUser(input));
         // setInput({
@@ -304,7 +312,7 @@ export default function Register() {
       }
     } catch (error) {
       console.log("el error es:", error.message);
-      alert("El usuario no pudo ser registrado");
+      message.error("El usuario no pudo ser registrado", 2500);
     }
   }
 
@@ -378,45 +386,56 @@ export default function Register() {
                     spacing={3}
                   >
                     <Grid item>
-                      <Typography variant="h4">Registro</Typography>
+                      <Typography variant="h4" sx={{ margin: 2 }}>
+                        Registro
+                      </Typography>
                     </Grid>
                     <Grid item>
                       <TextField
-                        id="outlined-basic"
+                        id="standard-start-adornment"
                         label="Nombre"
-                        variant="outlined"
+                        variant="standard"
                         type="text"
                         name="names"
-                        maxLength="50"
+                        inputProps={{ maxLength: 50 }}
+                        InputProps={{
+                          startAdornment: <InputAdornment></InputAdornment>,
+                        }}
                         onChange={(event) => handleChange(event)}
                         required
-                        sx={{ width: "11rem", marginRight: 1 }}
+                        sx={{ width: "10rem", marginRight: 5 }}
                       />
                       <TextField
-                        id="outlined-basic"
+                        id="standard-start-adornment"
                         label="Apellido"
-                        variant="outlined"
+                        variant="standard"
                         type="text"
                         name="lastNames"
-                        maxLength="50"
+                        inputProps={{ maxLength: 50 }}
+                        InputProps={{
+                          startAdornment: <InputAdornment></InputAdornment>,
+                        }}
                         onChange={(event) => handleChange(event)}
                         required
-                        sx={{ width: "11rem" }}
+                        sx={{ width: "10rem" }}
                       />
                     </Grid>
 
                     <Grid item>
                       <TextField
-                        sx={{ width: "11rem", marginRight: 1 }}
                         required
-                        id="outlined-select-currency"
+                        id="standard-start-adornment"
                         select
                         label="Nacionalidad"
                         defaultValue=""
-                        helperText="Seleccione su nacionalidad"
                         name="select"
+                        variant="standard"
                         value={input.nationality}
+                        InputProps={{
+                          startAdornment: <InputAdornment></InputAdornment>,
+                        }}
                         onChange={(event) => handleSelect(event)}
+                        sx={{ width: "10rem", marginRight: 5 }}
                       >
                         {nationalities?.map((nationality, index) => (
                           <MenuItem key={`nat-${index}`} value={nationality}>
@@ -426,29 +445,31 @@ export default function Register() {
                       </TextField>
 
                       <TextField
-                        id="outlined-basic"
-                        variant="outlined"
-                        helperText="Fecha de nacimiento"
+                        id="standard-start-adornment"
+                        variant="standard"
+                        label="Fecha de nacimiento"
                         type="date"
                         name="birthday"
                         placeholder=""
                         min="1900-01-01"
                         max={yourDate}
+                        InputProps={{
+                          startAdornment: <InputAdornment></InputAdornment>,
+                        }}
                         onChange={(event) => handleChange(event)}
                         required
-                        sx={{ width: "11rem" }}
+                        sx={{ width: "10rem" }}
                       />
                     </Grid>
 
                     <Grid item>
                       <TextField
-                        id="outlined-basic"
+                        id="standard-start-adornment"
                         label="Correo electronico"
-                        variant="outlined"
+                        variant="standard"
                         type="email"
                         name="email"
-                        placeholder="Correo electronico"
-                        maxLength="256"
+                        inputProps={{ maxLength: 256 }}
                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                         title={`El correo debe contener @ y .`}
                         onChange={(event) => handleChange(event)}
@@ -458,12 +479,12 @@ export default function Register() {
                     </Grid>
 
                     <Grid item>
-                      <FormControl sx={{ width: "23rem" }} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">
+                      <FormControl sx={{ width: "23rem" }} variant="standard">
+                        <InputLabel htmlFor="standard-adornment-password">
                           Contraseña *
                         </InputLabel>
-                        <OutlinedInput
-                          id="outlined-adornment-password"
+                        <Input
+                          id="standard-adornment-password"
                           type={showPassword ? "text" : "password"}
                           label="Contraseña"
                           name="password"
@@ -493,12 +514,12 @@ export default function Register() {
                     </Grid>
 
                     <Grid item>
-                      <FormControl sx={{ width: "23rem" }} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">
+                      <FormControl sx={{ width: "23rem" }} variant="standar">
+                        <InputLabel htmlFor="standard-adornment-password">
                           Confirmar contraseña *
                         </InputLabel>
-                        <OutlinedInput
-                          id="outlined-adornment-password"
+                        <Input
+                          id="standard-adornment-password"
                           type={showPassword2 ? "text" : "password"}
                           label="Confirmar contraseña"
                           name="confirmPassword"
@@ -531,7 +552,7 @@ export default function Register() {
                       <Button
                         type="submit"
                         variant="contained"
-                        sx={{ width: "23rem", height: 50 }}
+                        sx={{ width: "23rem", height: 50, margin: 2 }}
                         onClick={(event) => handleSubmit(event)}
                       >
                         Registrarse
