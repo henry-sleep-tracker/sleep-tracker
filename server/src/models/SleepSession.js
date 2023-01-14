@@ -1,3 +1,4 @@
+const { User } = require("./User");
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
@@ -8,31 +9,35 @@ module.exports = (sequelize) => {
       primaryKey: true,
       allowNull: false,
     },
-    logId: {
-      type: DataTypes.INTEGER,
+    log_id: {
+      type: DataTypes.BIGINT,
+      unique: true,
     },
-    startTime: {
-      type: DataTypes.DATE,
+    date: {
+      type: DataTypes.STRING,
     },
-    endTime: {
-      type: DataTypes.DATE,
+    start_time: {
+      type: DataTypes.STRING,
+    },
+    end_time: {
+      type: DataTypes.STRING,
     },
     duration: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
     },
     efficiency: {
       type: DataTypes.INTEGER,
     },
-    minutesAsleep: {
+    summary_deep_min: {
       type: DataTypes.INTEGER,
     },
-    minutesAwake: {
+    summary_light_min: {
       type: DataTypes.INTEGER,
     },
-    minutesToFallAsleep: {
+    summary_rem_min: {
       type: DataTypes.INTEGER,
     },
-    minutesRestless: {
+    summary_awake_min: {
       type: DataTypes.INTEGER,
     },
   });

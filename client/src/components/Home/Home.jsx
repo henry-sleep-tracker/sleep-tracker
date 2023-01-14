@@ -1,90 +1,118 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Collection from "./resume";
-<<<<<<< HEAD:client/src/components/Home.jsx
-import GraphD from "./Graph-Day";
+import Calc from "./calc";
+import Swipeable from "./tips";
+import { Grid, Typography } from "@mui/material";
+import Calendario from "../Calendario/Calendario";
+import { makeStyles } from "@mui/styles";
+import Fitbit from "../SignUp/Fitbit";
+import { getSleepStage } from "../../actions/getUserHealthData";
+import { getRecordsQuery } from "../../actions/records_data";
+import GraphHome from "../Graphs/Graph-home";
+import CollapsibleTable from "../Graph-Week/CollapsibleTable";
+import { getUsersPlanExpDate } from "../../actions/plan";
+import { useAuthContext } from "../../actions/authContext";
+import { Helmet } from "react-helmet";
 
-
-=======
-import Graph from "../Graphs/Dream-Graph";
->>>>>>> 20f8fd4e71b46c467eeb73ded8410c9f651054c5:client/src/components/Home/Home.jsx
 
 const Home = () => {
-  let user = {
-    name: "Juan",
-    sueño: [1, 3, 2, 4, 5, 1, 3, 2, 1, 5, 3, 4],
-    consumo: {
-      cafeina: "",
-      alcohol: "2 cervezas, 3 mojitos",
-      comida: "19:00 pm",
-      ejercicio: "30 min de caminata",
-    },
-  };
-  const consumed = user.consumo;
-  const dream = user.sueño;
+  const { payPlan } = useAuthContext();
+  const currentUser = useSelector((state) => state?.users.currentUser);
 
-  let prueba = [["horas de sueño", "profundidad de sueño"]];
-  for (let i = 0; i < dream.length; i++) {
-    prueba.push([i + 1, dream[i]]);
-  }
+  const planExpirationDate = useSelector(
+    (state) => state?.users.planExpirationDate
+  );
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const yesterday = new Date(Date.now() - 28800000)
+      .toISOString()
+      .split("T")[0];
+    dispatch(getSleepStage(yesterday));
+    let id = currentUser.id;
+    let date = yesterday;
+    dispatch(getRecordsQuery(id, date));
+    dispatch(getUsersPlanExpDate(id));
+    payPlan(planExpirationDate);
+  }, [dispatch, currentUser, planExpirationDate, payPlan]);
+
+  let user = {
+    name: currentUser.names ? currentUser.names : "🥰",
+  };
 
   const greet = () => {
     var text = "";
     var now = new Date();
     var time = now.getHours();
     if (time >= 5 && time < 13) {
-      text = "Buenos días";
+      text = "Buenos días!  ";
     } else if (time >= 13 && time < 21) {
-      text = "Buenas tardes";
+      text = "Buenas tardes! ";
     } else {
-      text = "Buenas noches";
+      text = "Buenas noches!  ";
     }
     return text;
   };
 
+  const classes = useStyles();
+
   return (
-    <div>
-      <nav>
-        <ul>
-          <Link to="/perfil">
-            <li>Perfil</li>
-          </Link>
-          <Link to="/desarrolladores">
-            <li>Conoce al equipo</li>
-          </Link>
-          <Link to="/">
-            <li>Salir</li>
-          </Link>
-        </ul>
-      </nav>
-      <div>
-        <p>
-          ¡Hola {user.name} {greet()}!{" "}
-        </p>
-      </div>
-      <div>
-        GRAFICA:
-        <GraphD prueba={prueba} />
-        <Link to='/graficas' ><p>Ver Más</p></Link>
-      </div>
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      direction="column"
+      spacing={3}
+      flex={4}
+      p={2}
+      // maxWidth='100vw'
+    >
+      <Helmet>
+        <title>Inicio | Sleep Tracker</title>
+      </Helmet>
 
-      <div>
-        <span> Registro del dia: </span>
+      <Grid item>
+        <Typography className={classes.saludo} variant="h4">
+          ¡Hola {user.name} {greet()}
+        </Typography>
+      </Grid>
 
-        <Collection arg={consumed} />
-      </div>
+      <Grid item>
+        <Fitbit />
+      </Grid>
 
-      <Link to="/actividad">
-        <input type="button" value="Nueva Actividad" />
-      </Link>
-      <button>
-        <a href="/pdf" download={"pdf"}>
-          Descargar Historial
-        </a>
-      </button>
+      {/* <Grid
+        item
+      >
+        <Typography variant="h6">{Date()}</Typography>
+      </Grid> */}
+      <Grid item>
+        <Calendario />
+      </Grid>
 
-    </div>
+      <Grid item>
+        <GraphHome />
+      </Grid>
+
+      <Grid item>
+        <CollapsibleTable />
+      </Grid>
+
+      <Grid className={classes.Collection} item>
+        <Collection />
+      </Grid>
+
+      <Grid className={classes.calc} item>
+        <Calc />
+      </Grid>
+
+      <Grid className={classes.swipeableHome} item>
+        <Swipeable className={classes.swipeable} />
+      </Grid>
+    </Grid>
   );
 };
 
 export default Home;
+
+const useStyles = makeStyles(() => ({}));
