@@ -59,7 +59,7 @@ const CreateComment = () => {
                 id: currentUser.id,
             })
         } catch (error) { alert("Fatal Error.") }
-        navigate('/private');
+        navigate('/private/home');
 
     }
 
@@ -68,7 +68,7 @@ const CreateComment = () => {
             dispatch(deleteComment(element))
             setCurrentCommentState('Opine sobre su experiencia con la aplicacion:')
         } catch (error) { }
-        navigate('/private');
+        navigate('/private/home');
 
     }
 
