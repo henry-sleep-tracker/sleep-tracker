@@ -22,6 +22,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Helmet } from "react-helmet";
 import log from "../logi/log-.png";
+import { message } from "react-message-popup";
 import wakeup from "../../images/Signup/zen-balancing.jpg";
 import styles from "./Register.module.css";
 
@@ -276,21 +277,27 @@ export default function Register() {
     try {
       event.preventDefault();
       if (Object.keys(errorsEmptiness).length !== 0) {
-        alert(
-          `Todos los campos obligatorios deben ser llenados para poder registrarse`
+        message.warn(
+          `Todos los campos obligatorios deben ser llenados para poder registrarse`,
+          2500
         );
       } else if (input.names.length > 50) {
-        alert(`La longitud de los nombres no puede ser mayor a 50 caracteres`);
+        message.warn(
+          `La longitud de los nombres no puede ser mayor a 50 caracteres`,
+          2500
+        );
       } else if (input.lastNames.length > 50) {
-        alert(
-          `La longitud de los apellidos no puede ser mayor a 50 caracteres`
+        message.warn(
+          `La longitud de los apellidos no puede ser mayor a 50 caracteres`,
+          2500
         );
       } else if (!nationalities.includes(input.nationality)) {
-        alert(
-          `La nacionalidad debe ser una de las que se encuentran en la lista y debe estar exactamente igual a como esta en la lista`
+        message.warn(
+          `La nacionalidad debe ser una de las que se encuentran en la lista y debe estar exactamente igual a como esta en la lista`,
+          2500
         );
       } else if (input.password !== input.confirmPassword) {
-        alert(`La contraseña no se confirmo correctamente`);
+        message.warn(`La contraseña no se confirmo correctamente`, 2500);
       } else {
         dispatch(postUser(input));
         // setInput({
@@ -305,7 +312,7 @@ export default function Register() {
       }
     } catch (error) {
       console.log("el error es:", error.message);
-      alert("El usuario no pudo ser registrado");
+      message.error("El usuario no pudo ser registrado", 2500);
     }
   }
 
@@ -460,13 +467,9 @@ export default function Register() {
                         variant="standard"
                         type="email"
                         name="email"
-                        // placeholder="Correo electronico"
                         maxLength="256"
                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                         title={`El correo debe contener @ y .`}
-                        // InputProps={{
-                        //   startAdornment: <InputAdornment></InputAdornment>,
-                        // }}
                         onChange={(event) => handleChange(event)}
                         required
                         sx={{ width: "23rem" }}

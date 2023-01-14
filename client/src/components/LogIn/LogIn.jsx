@@ -27,6 +27,8 @@ import { Helmet } from "react-helmet";
 import log from "../logi/log-.png";
 import wakeup from "../../images/Signup/zen-balancing.jpg";
 import styles from "./Login.module.css";
+import { message } from "react-message-popup";
+import { style } from "@mui/system";
 
 export default function LogIn() {
   const clientId =
@@ -56,7 +58,8 @@ export default function LogIn() {
         planExpirationDate !== "1900-01-01" &&
         planExpirationDate !== undefined
       ) {
-        alert("Usuario validado");
+        //alert("Usuario validado");
+        message.success("Usuario validado", 2500);
         login(
           loggedUser.id,
           loggedUser.email,
@@ -65,7 +68,8 @@ export default function LogIn() {
         );
       }
     } else if (loggedUser.id === 0) {
-      alert("El usuario o la contraseña no son correctos");
+      //alert("El usuario o la contraseña no son correctos");
+      message.error("El usuario o la contraseña no son correctos", 2500);
     }
   }, [loggedUser, login, planExpirationDate]);
 
