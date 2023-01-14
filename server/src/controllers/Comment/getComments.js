@@ -1,4 +1,4 @@
-const { Comment } = require("../db");
+const { Comment } = require("../../db");
 
 const getComments = async () => {
   let allComments = await Comment.findAll();
