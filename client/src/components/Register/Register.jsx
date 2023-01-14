@@ -397,7 +397,7 @@ export default function Register() {
                         variant="standard"
                         type="text"
                         name="names"
-                        maxLength="50"
+                        inputProps={{ maxLength: 50 }}
                         InputProps={{
                           startAdornment: <InputAdornment></InputAdornment>,
                         }}
@@ -411,7 +411,7 @@ export default function Register() {
                         variant="standard"
                         type="text"
                         name="lastNames"
-                        maxLength="50"
+                        inputProps={{ maxLength: 50 }}
                         InputProps={{
                           startAdornment: <InputAdornment></InputAdornment>,
                         }}
@@ -469,7 +469,7 @@ export default function Register() {
                         variant="standard"
                         type="email"
                         name="email"
-                        maxLength="256"
+                        inputProps={{ maxLength: 256 }}
                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                         title={`El correo debe contener @ y .`}
                         onChange={(event) => handleChange(event)}
