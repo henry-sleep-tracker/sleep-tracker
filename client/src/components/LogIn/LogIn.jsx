@@ -58,7 +58,6 @@ export default function LogIn() {
         planExpirationDate !== "1900-01-01" &&
         planExpirationDate !== undefined
       ) {
-        //alert("Usuario validado");
         message.success("Usuario validado", 2500);
         login(
           loggedUser.id,
