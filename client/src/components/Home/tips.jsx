@@ -1,17 +1,17 @@
-import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import MobileStepper from '@mui/material/MobileStepper';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
-import { Card, CardContent, Grid } from '@mui/material';
+import React, { useState } from "react";
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import MobileStepper from "@mui/material/MobileStepper";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import SwipeableViews from "react-swipeable-views";
+import { autoPlay } from "react-swipeable-views-utils";
+import { Card, CardContent, Grid } from "@mui/material";
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+// const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const tips = [
   {
@@ -56,10 +56,11 @@ const tips = [
   },
 ];
 
+const maxSteps = tips.length;
+
 function Swipeable() {
   const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = tips.length;
+  const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -74,49 +75,37 @@ function Swipeable() {
   };
 
   return (
-    <Card
-      // sx={{ 
-      //   flexGrow: 1, 
-      //   backgroundColor: 'white'
-      // }}  
-      variant='outlined'
-    >
+    <Card variant="outlined">
       <CardContent>
-
         <Grid
           container
           justifyContent="center"
           alignItems="center"
-          direction='column'
+          direction="column"
           spacing={1}
           flex={4}
           p={2}
         >
-          <Grid
-            item>
-            <Typography variant='h4'>Tips para dormir mejor</Typography>
+          <Grid item>
+            <Typography variant="h4">Tips para dormir mejor</Typography>
           </Grid>
-          <Grid
-            item
-            sx={{ width: {md:500, xs:300 }}}
-          >
-            <AutoPlaySwipeableViews
-              axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+          <Grid item sx={{ width: { md: 500, xs: 300 } }}>
+            <SwipeableViews
+              axis={theme.direction === "rtl" ? "x-reverse" : "x"}
               index={activeStep}
               onChangeIndex={handleStepChange}
               enableMouseEvents
             >
               {tips.map((step, index) => (
-                <div key={step.label}>
+                <div key={`step-${index}`}>
                   {Math.abs(activeStep - index) <= 2 ? (
                     <Box
                       component="img"
                       sx={{
-                        height: {md:250, xs:200},
-                        width: {md:400, xs: 250},
-                        display: 'block',
-                        // overflow: 'hidden',
-                        borderRadius: '4px'
+                        height: { md: 250, xs: 200 },
+                        width: { md: 400, xs: 250 },
+                        display: "block",
+                        borderRadius: "4px",
                       }}
                       src={step.im}
                       alt={step.tip}
@@ -124,35 +113,26 @@ function Swipeable() {
                   ) : null}
                 </div>
               ))}
-            </AutoPlaySwipeableViews>
+            </SwipeableViews>
           </Grid>
 
-          <Grid
-            item
-          >
+          <Grid item>
             <Paper
               square
               elevation={0}
               sx={{
-                display: 'flex',
-                alignItems: 'center',
+                display: "flex",
+                alignItems: "center",
                 height: 50,
                 pl: 2,
-                bgcolor: 'background.default',
-                alignText: 'center'
+                bgcolor: "background.default",
+                alignText: "center",
               }}
             >
-              <Typography
-                fontSize='16px'
-              >
-                {tips[activeStep].tip}
-              </Typography>
+              <Typography fontSize="16px">{tips[activeStep].tip}</Typography>
             </Paper>
           </Grid>
-          <Grid
-            item
-          >
-
+          <Grid item>
             <MobileStepper
               steps={maxSteps}
               position="static"
@@ -164,7 +144,7 @@ function Swipeable() {
                   disabled={activeStep === maxSteps - 1}
                 >
                   Next
-                  {theme.direction === 'rtl' ? (
+                  {theme.direction === "rtl" ? (
                     <KeyboardArrowLeft />
                   ) : (
                     <KeyboardArrowRight />
@@ -172,8 +152,12 @@ function Swipeable() {
                 </Button>
               }
               backButton={
-                <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                  {theme.direction === 'rtl' ? (
+                <Button
+                  size="small"
+                  onClick={handleBack}
+                  disabled={activeStep === 0}
+                >
+                  {theme.direction === "rtl" ? (
                     <KeyboardArrowRight />
                   ) : (
                     <KeyboardArrowLeft />
@@ -184,8 +168,8 @@ function Swipeable() {
             />
           </Grid>
         </Grid>
-       </CardContent>
-     </Card>
+      </CardContent>
+    </Card>
   );
 }
 
