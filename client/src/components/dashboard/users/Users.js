@@ -17,6 +17,7 @@ import Pagination from '@mui/material/Pagination';
 
 import { getUsers } from "../../../actions/users";
 import UsersActions from "./UsersActions";
+import GridToolbarFilters from './GridToolbarFilters'
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -27,10 +28,11 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-function CustomToolbar() {
+function CustomToolbar( { filters, setFilters }) {
   return (
-    <GridToolbarContainer>
+    <GridToolbarContainer sx={{ mr: 2 }}>
       <GridToolbarColumnsButton />
+      <GridToolbarFilters filters={filters} setFilters={setFilters} />
     </GridToolbarContainer>
   );
 }
@@ -61,7 +63,6 @@ function UsersContent() {
   const users = useSelector(state => state.users.users);
   
   const [rowId, setRowId] = useState(null);
-
   const [pageState, setPageState] = useState({
     isLoading: false,
     users: users.users,
@@ -70,8 +71,13 @@ function UsersContent() {
     pageSize: 5
   });
 
+  const [filters, setFilters] = useState({
+    nationality: '',
+    plan: ''
+  });
+
   useEffect(() => {
-    dispatch(getUsers(pageState.page, pageState.pageSize));
+    dispatch(getUsers(pageState.page, pageState.pageSize, filters));
     // eslint-disable-next-line
   }, []);
 
@@ -81,14 +87,20 @@ function UsersContent() {
 
   useEffect(() => {
       setPageState(old => ({ ...old, isLoading: true }));
-      dispatch(getUsers(pageState.page, pageState.pageSize));
+      dispatch(getUsers(pageState.page, pageState.pageSize, filters));
       // eslint-disable-next-line
   }, [pageState.page, pageState.pageSize]);
-  
+
   useEffect(() => {
-    console.log('users', users);
-    console.log('pageState', pageState);
-  });
+    setPageState(old => ({ ...old, isLoading: true }));
+    dispatch(getUsers(pageState.page, pageState.pageSize, filters));
+    // eslint-disable-next-line
+  }, [filters]);
+  
+  // useEffect(() => {
+  //   console.log('users', users);
+  //   console.log('pageState', pageState);
+  // });
 
   function getFullName(params) {
     return `${params.row.lastNames}, ${params.row.names}`;
@@ -102,7 +114,6 @@ function UsersContent() {
       { field: "email", headerName: "Email", width: 170 },
       { field: "plan", headerName: "Suscripción", width: 125, headerAlign: 'center', align: 'center',
           valueGetter:  params => { 
-          console.log(params);
           return params.row.plan?.name || 'Basico';
         }
       },
@@ -179,6 +190,7 @@ function UsersContent() {
           }}
           componentsProps={{
             pagination: { totalUsers: users.total },
+            toolbar: { filters: filters, setFilters: setFilters },
           }}
 
         />

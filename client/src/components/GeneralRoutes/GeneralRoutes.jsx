@@ -17,7 +17,6 @@ export default function GeneralRoute() {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("GENERAL ROUTES");
     if (currentUser?.plan === null) {
       dispatch(getUsersPlanExpDate(currentUser.id));
       dispatch(getUserById(currentUser.id));
