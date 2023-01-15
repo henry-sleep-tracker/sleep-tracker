@@ -29,8 +29,10 @@ import wakeup from "../../images/Signup/zen-balancing.jpg";
 import styles from "./Login.module.css";
 import { message } from "react-message-popup";
 import { style } from "@mui/system";
+import AlertDialog from "../Alert/Alert";
 
 export default function LogIn() {
+
   const clientId =
     "335316690432-trah7lbld3ptrek9o23jo6n0t7g30foe.apps.googleusercontent.com";
   const { login } = useAuthContext();
@@ -78,18 +80,6 @@ export default function LogIn() {
       [event.target.name]: event.target.value,
     });
   }
-  async function handleSubmit(event) {
-    event.preventDefault();
-    try {
-      dispatch(logInUser(input.email, input.password));
-      setInput({
-        email: "",
-        password: "",
-      });
-    } catch (error) {
-      console.log("el error es:", error);
-    }
-  }
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -98,9 +88,22 @@ export default function LogIn() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const [open, setOpen] = React.useState(false);
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+  async function handleSubmit(event) {
+    event.preventDefault();
+    try {
+      dispatch(logInUser(input.email, input.password,setOpen));
+    } catch (error) {
+      console.log("el error es:", error);
+    }
+  }
   return (
     <Grid container>
+      <AlertDialog open={open} handleClose={handleClose} input={input}/>
       <Grid
         container
         direction="row"
@@ -209,7 +212,7 @@ export default function LogIn() {
                         Iniciar Sesion
                       </Button>
                     </Grid>
-
+                   
                     <Grid item>
                       <LogInGoogleButton />
                     </Grid>
