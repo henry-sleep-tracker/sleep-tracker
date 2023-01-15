@@ -29,6 +29,7 @@ import ChangePasswordOk from "./components/Loading/ChangePasswordOk";
 import ChangePasswordError from "./components/Loading/ChangePasswordError";
 import Saving from "./components/Record/Saving";
 import Loading from "./components/Record/Loading";
+import LoadingPayment from "./components/PlanesPago/LoadingPayment";
 
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
@@ -79,7 +80,6 @@ function App() {
             <Route path="/private/loading" element={<Loading />} />
             <Route path="/private/saving" element={<Saving />} />
             <Route path="/private/dashboard/*" element={<Dashboard />} />
-            <Route path="/private/delete-user/:id" element={<DeleteUser />} />
             <Route path="/private/createcomment" element={<CommentCreate />} />
           </Route>
           <Route path="/private/profile" element={<Profile />} />
@@ -88,6 +88,7 @@ function App() {
             element={<ChangePassword />}
           />
           <Route path="/private/planes" element={<Pricing />} />
+          <Route path="/private/loadingpayment" element={<LoadingPayment />} />
           <Route path="/private/delete-user/:id" element={<DeleteUser />} />
           <Route path="/private/createcomment" element={<CommentCreate />} />
         </Route>

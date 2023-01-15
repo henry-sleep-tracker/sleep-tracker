@@ -44,7 +44,7 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    if (currentUser.password !== null) {
+    if (currentUser.hashedPassword!== null) {
       createPassword();
     }
   }, [currentUser]);

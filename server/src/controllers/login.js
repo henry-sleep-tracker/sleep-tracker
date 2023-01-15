@@ -51,7 +51,19 @@ const manualLogin = async (req, res) => {
     const user = await findUserByEmail(email);
     if (user.id === 0) {
       return res.status(204).send("contraseña o usuario incorrecto");
+    } else if (user.deletedAt !== null) {
+      //si el usuario fue borrado
+      function copareHash(password, hashed) {
+        return bcrypt.compareSync(password, hashed);
+      }
+      if (copareHash(password, user.hashedPassword)) {
+        console.log("usuario correcto y contraseña correcta");
+        return res.status(202).send(user);
+      } else {
+        return res.status(204).send("contraseña o usuario incorrecto");
+      }
     } else {
+      //si todo esta bien con el usuario
       function copareHash(password, hashed) {
         return bcrypt.compareSync(password, hashed);
       }

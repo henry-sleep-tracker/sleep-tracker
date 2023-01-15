@@ -98,7 +98,7 @@ const forgotPassword = async (req, res) => {
     const token = jwt.sign({ email: oldUser.email, id: oldUser.id }, secret, {
       expiresIn: "50m",
     });
-    const link = `${basicURL}/reiniciar_contrasena/${oldUser.id}/${token}`;
+    const link = `${process.env.REACT_APP_BASE_FRONT_URL}/reiniciar_contrasena/${oldUser.id}/${token}`;
     console.log("el link es:", link);
     res.status(200).json(link); //201 es que fue creado
   } catch (error) {
@@ -178,6 +178,26 @@ const deleteUser = async (req, res) => {
     return res.status(400).send("No se pudo eliminar el usuario");
   }
 };
+const restoreUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
+    const user = await findUserById(id);
+    if (!user) {
+      return res.status(202).send("el usuario no existe");
+    }
+    await User.restore({
+      where: {
+        id: id,
+      },
+    });
+    return res.status(200).send("Usuario restaurado");
+  } catch (error) {
+    return res.status(400).send("No se pudo eliminar el usuario");
+  }
+};
 
 const updateProfile = async (req, res) => {
   const { id } = req.params;
@@ -192,7 +212,13 @@ const updateProfile = async (req, res) => {
     });
     console.log("ROUTE UPDATE", update);
     if (update) {
-      const user = await User.findOne({ where: { id: id }, include: { model: Plan, attributes: ["id", "name", "price", "endTime"] }, });
+      const user = await User.findOne({
+        where: { id: id },
+        include: {
+          model: Plan,
+          attributes: ["id", "name", "price", "endTime"],
+        },
+      });
       console.log("ROUTE UPDATE USER", user);
       return res.status(200).jsonp(user);
     }
@@ -252,4 +278,5 @@ module.exports = {
   updateProfile,
   changeUserPassword,
   getUserInfoById,
+  restoreUser,
 };

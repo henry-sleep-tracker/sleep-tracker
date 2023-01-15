@@ -29,21 +29,6 @@ function SideListContent( ) {
         </ListItemButton>
       </ListItem>
 
-      <Divider sx={{ my: 1 }} />
-
-      <ListSubheader component="div" inset>
-        Reportes
-      </ListSubheader>
-
-      <ListItem disablePadding sx={{ display: 'block' }}>
-        <ListItemButton onClick={() => navigate('/private/dashboard')}>
-          <ListItemIcon>
-            <AssignmentIcon />
-          </ListItemIcon>
-          <ListItemText primary="Reporte" />
-        </ListItemButton>
-      </ListItem>
-
     </List>
   );
 };

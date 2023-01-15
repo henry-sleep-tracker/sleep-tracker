@@ -7,6 +7,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 import log from "../logi/log-.png";
+import { message } from "react-message-popup";
 
 export default function ForgotPassword() {
   const dispatch = useDispatch();
@@ -41,7 +42,10 @@ export default function ForgotPassword() {
     event.preventDefault();
     try {
       if (Object.keys(errorsEmptiness).length !== 0) {
-        alert(`Todos los campos obligatorios deben ser llenados para poder registrarse`)
+        //alert(`Todos los campos obligatorios deben ser llenados para poder registrarse`)
+        message.warn(
+          `Todos los campos obligatorios deben ser llenados para poder registrarse`,2500
+        );
       } else {
         dispatch(sendRecoveryEmail(input.email));
         setInput({

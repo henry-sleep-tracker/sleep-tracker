@@ -13,11 +13,13 @@ const {
   updateProfile,
   changeUserPassword,
   getUserInfoById,
+  restoreUser,
 } = require("../controllers/user");
 
 //> ==================== End Points ======================== <//
 
 router.post("/", postUser);
+router.post("/:id", restoreUser);
 router.post("/google", postGoogleUser);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:id/:token", resetPassword);

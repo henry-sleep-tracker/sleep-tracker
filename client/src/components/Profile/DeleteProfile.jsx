@@ -11,6 +11,7 @@ import { Button, Card, CardContent, FormControl, Grid, IconButton, InputAdornmen
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
+import { message } from "react-message-popup";
 
 export default function DeleteUser() {
   const { id } = useParams();
@@ -55,11 +56,15 @@ export default function DeleteUser() {
     e.preventDefault();
     try {
       if (Object.keys(errors).length !== 0) {
-        alert(
+       /*  alert(
           "Todos los campos obligatorios deben ser llenados para poder continuar"
+        ); */
+        message.warn(
+          "Todos los campos obligatorios deben ser llenados para poder continuar",2500
         );
       } else if (input.password !== input.confirmPassword) {
-        alert("La contraseña no se confirmo correctamente");
+        //alert("La contraseña no se confirmo correctamente");
+        message.error("La contraseña no se confirmo correctamente",2500);
       } else {
         dispatch(deleteUser(id, input.password));
         setInput({
@@ -171,7 +176,7 @@ export default function DeleteUser() {
                     label="Contraseña *"
                     variant="outlined"
                     name="password"
-                    maxLength="32"
+                    inputProps={{ maxLength: 32 }}
                     pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                     onChange={(e) => handleChange(e)}
                     required
@@ -205,7 +210,7 @@ export default function DeleteUser() {
                     label="Confirmar contraseña *"
                     variant="outlined"
                     name="confirmPassword"
-                    maxLength="32"
+                    inputProps={{ maxLength: 32 }}
                     pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                     onChange={(e) => handleChange(e)}
                     required
