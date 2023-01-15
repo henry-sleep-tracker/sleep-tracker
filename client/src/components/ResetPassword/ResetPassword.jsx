@@ -59,7 +59,7 @@ export default function ResetPassword() {
           password: "",
           confirmPassword: "",
         });
-        navigate("/login");
+        //navigate("/login");
       }
     } catch (error) {
       console.log("el error es:", error);
