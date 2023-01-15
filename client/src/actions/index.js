@@ -5,6 +5,7 @@ import {
   GET_CURRENT_PLAN,
 } from "./constants";
 import axios from "axios";
+import { message } from "react-message-popup";
 const emailjs = require("emailjs-com");
 const templateId = "template_upsqgx4";
 const serviceId = "service_ts4dsnk";
@@ -164,13 +165,25 @@ export function logInUser(email, password) {
           body: JSON.stringify({ email: email, password: password }),
         }
       );
+      const userFound = await response.json();
       if (response.status === 204) {
         return dispatch({
           type: GET_CURRENT_USER,
           payload: nullUser,
         });
+      } else if (response.status === 202) {
+        message.error(
+          "El usuario habia sido borrado. esta seguro de querer recuperar su cuenta?",
+          5000
+        );
+        await axios.post(
+          `${process.env.REACT_APP_DEFAULT_URL}/user/${userFound.id}`
+        );
+        return dispatch({
+          type: GET_CURRENT_USER,
+          payload: userFound,
+        });
       } else {
-        const userFound = await response.json();
         return dispatch({
           type: GET_CURRENT_USER,
           payload: userFound,
