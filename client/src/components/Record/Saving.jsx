@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 /* ====================== STYLE IMPORTS ======================= */
 
 import "./Saving";
@@ -11,12 +10,10 @@ import "./Saving";
 //>======================>//
 
 const Saving = () => {
-
   const navigate = useNavigate();
 
   useEffect(() => {
-
-    const delay = () => navigate("/private/records")
+    const delay = () => navigate("/private/records");
 
     setTimeout(() => {
       delay();
