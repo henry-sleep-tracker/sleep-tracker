@@ -144,7 +144,9 @@ export default function LogIn() {
                     clasName={styles.card}
                   >
                     <Grid item>
-                      <Typography variant="h4">Inicia sesión</Typography>
+                      <Typography sx={{ fontSize: 30, fontWeight: "medium" }}>
+                        Inicia sesión
+                      </Typography>
                     </Grid>
 
                     <Grid item>

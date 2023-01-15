@@ -1,4 +1,7 @@
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import React from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Button,
   Card,
@@ -7,18 +10,18 @@ import {
   Grid,
   IconButton,
   InputAdornment,
+  Input,
   InputLabel,
-  OutlinedInput,
   Typography,
 } from "@mui/material";
-import React from "react";
-import { useState } from "react";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
-import { useDispatch } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
 import { resetPassword } from "../../actions";
 import log from "../logi/log-.png";
 import { message } from "react-message-popup";
+import wakeup from "../../images/Signup/zen-balancing.jpg";
+import styles from "./ResetPassword.module.css";
 
 export default function ResetPassword() {
   const navigate = useNavigate();
@@ -92,153 +95,180 @@ export default function ResetPassword() {
   };
 
   return (
-    <Grid
-      container
-      justifyContent="center"
-      direction="column"
-      alignItems="center"
-      spacing={3}
-    >
-      <Helmet>
-        <title>Nueva contraseña | Sleep Tracker</title>
-      </Helmet>
+    <Grid container>
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        columns={16}
+      >
+        <Grid item xs={7} paddingTop={10} className={styles.outerCard}>
+          <Grid
+            container
+            justifyContent="center"
+            direction="column"
+            alignItems="center"
+            spacing={3}
+          >
+            <Helmet>
+              <title>Nueva contraseña | Sleep Tracker</title>
+            </Helmet>
 
-      <Grid item></Grid>
-
-      <Grid item>
-        <img src={log} alt="logo" width="200px" />
-      </Grid>
-
-      <Grid item>
-        <Typography variant="h2">Crear una nueva contraseña</Typography>
-      </Grid>
-
-      <Grid item>
-        <Card variant="outlined">
-          <CardContent>
-            <Grid
-              container
-              justifyContent="center"
-              direction="column"
-              alignItems="center"
-              spacing={3}
-            >
-              {/* <Grid
-                item
-              >
-                <label htmlFor="password">{`Contraseña*:`} </label>
-                <TextField
-                  type="password"
-                  name="password"
-                  placeholder="Contraseña"
-                  maxLength="32"
-                  pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
-                  onChange={(event) => handleChange(event)}
-                  required
-                />
-              </Grid>
- */}
-
-              <Grid item>
-                <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">
-                    Contraseña *
-                  </InputLabel>
-                  <OutlinedInput
-                    value={input.password}
-                    id="outlined-adornment-password"
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    label="Contraseña"
-                    maxLength="32"
-                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
-                    title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
-                    onChange={(event) => handleChange(event)}
-                    required
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </Grid>
-
-              {/* <Grid
-                item
-              >
-                <label htmlFor="confirmPassword">{`Confirmar contraseña*:`} </label>
-                <TextField
-                  type="password"
-                  name="confirmPassword"
-                  placeholder="Contraseña"
-                  maxLength="32"
-                  pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
-                  onChange={(event) => handleChange(event)}
-                  required
-                />
-              </Grid> */}
-
-              <Grid item>
-                <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">
-                    Confirmar contraseña *
-                  </InputLabel>
-                  <OutlinedInput
-                    value={input.confirmPassword}
-                    id="outlined-adornment-password"
-                    type={showPassword2 ? "text" : "password"}
-                    name="confirmPassword"
-                    label="Confirmar contraseña"
-                    maxLength="32"
-                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
-                    title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
-                    onChange={(event) => handleChange(event)}
-                    required
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword2}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword2 ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </Grid>
-
-              <Grid item>
-                {!input.password ||
-                !input.confirmPassword ||
-                input.password !== input.confirmPassword ? (
-                  <Button variant="contained" disabled>
-                    Crear nueva contraseña
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="success"
-                    type="submit"
-                    onClick={(event) => handleSubmit(event)}
-                  >
-                    Crear nueva contraseña
-                  </Button>
-                )}
-              </Grid>
+            <Grid item>
+              <img src={log} alt="logo" width="300vw" />
             </Grid>
-          </CardContent>
-        </Card>
+
+            <Grid item>
+              <Card
+                className="titleresume"
+                variant="outlined"
+                sx={{ minWidth: "30rem" }}
+              >
+                <CardContent>
+                  <Grid
+                    container
+                    justifyContent="center"
+                    direction="column"
+                    alignItems="center"
+                    spacing={3}
+                    flex={4}
+                    p={2}
+                    clasName={styles.card}
+                  >
+                    <Grid item>
+                      <Typography sx={{ fontSize: 26, fontWeight: "medium" }}>
+                        Crear una nueva contraseña
+                      </Typography>
+                    </Grid>
+
+                    <Grid item>
+                      <FormControl
+                        sx={{ m: 1, width: "22rem" }}
+                        variant="outlined"
+                      >
+                        <InputLabel htmlFor="outlined-adornment-password">
+                          Contraseña *
+                        </InputLabel>
+                        <Input
+                          value={input.password}
+                          id="outlined-adornment-password"
+                          type={showPassword ? "text" : "password"}
+                          name="password"
+                          label="Contraseña"
+                          maxLength="32"
+                          pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
+                          title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
+                          onChange={(event) => handleChange(event)}
+                          required
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                        />
+                      </FormControl>
+                    </Grid>
+
+                    <Grid item>
+                      <FormControl
+                        sx={{ m: 1, width: "22rem" }}
+                        variant="outlined"
+                      >
+                        <InputLabel htmlFor="outlined-adornment-password">
+                          Confirmar contraseña *
+                        </InputLabel>
+                        <Input
+                          value={input.confirmPassword}
+                          id="outlined-adornment-password"
+                          type={showPassword2 ? "text" : "password"}
+                          name="confirmPassword"
+                          label="Confirmar contraseña"
+                          maxLength="32"
+                          pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
+                          title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
+                          onChange={(event) => handleChange(event)}
+                          required
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword2}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {showPassword2 ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                        />
+                      </FormControl>
+                    </Grid>
+
+                    <Grid item>
+                      {!input.password ||
+                      !input.confirmPassword ||
+                      input.password !== input.confirmPassword ? (
+                        <Button variant="contained" disabled>
+                          Crear nueva contraseña
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="contained"
+                          type="submit"
+                          sx={{ width: "22rem", height: 40 }}
+                          onClick={(event) => handleSubmit(event)}
+                        >
+                          Crear nueva contraseña
+                        </Button>
+                      )}
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              marginTop: "4vh",
+              marginLeft: "7vw",
+            }}
+          >
+            <Button
+              variant="outlined"
+              size="medium"
+              sx={{ background: "white", opacity: 0.6 }}
+              startIcon={<ArrowBackIosNewIcon />}
+              href="/"
+            >
+              Regresar
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid item xs={9}>
+          <Grid>
+            <img src={wakeup} alt="wakeup login" className={styles.zenImage} />
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

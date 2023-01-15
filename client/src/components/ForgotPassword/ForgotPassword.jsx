@@ -110,7 +110,9 @@ export default function ForgotPassword() {
                     clasName={styles.card}
                   >
                     <Grid item>
-                      <Typography variant="h4">Recuperar contraseña</Typography>
+                      <Typography sx={{ fontSize: 30, fontWeight: "medium" }}>
+                        Recuperar contraseña
+                      </Typography>
                     </Grid>
                     <Grid item>
                       <TextField
