@@ -342,23 +342,21 @@ export default function Register() {
   };
 
   return (
-    <Grid container width="100%">
+    <Grid container>
       <Grid
         container
         direction="row"
         justifyContent="center"
         alignItems="center"
-        width="100%"
         columns={16}
-        className={styles.bg}
       >
-        <Grid item xs={8} height="100%" paddingTop={3}>
+        <Grid item xs={8} paddingTop={3} className={styles.outerCard}>
           <Grid
             container
             justifyContent="center"
             direction="column"
             alignItems="center"
-            spacing={3}
+            spacing={1}
           >
             <Helmet>
               <title>Registro | Sleep Tracker</title>
@@ -374,7 +372,6 @@ export default function Register() {
               <Card
                 className="titleresume"
                 variant="outlined"
-                elevation={20}
                 sx={{ minWidth: "30rem" }}
               >
                 <CardContent>
@@ -384,6 +381,7 @@ export default function Register() {
                     direction="column"
                     alignItems="center"
                     spacing={3}
+                    clasName={styles.card}
                   >
                     <Grid item>
                       <Typography variant="h4" sx={{ margin: 2 }}>
@@ -575,6 +573,8 @@ export default function Register() {
           >
             <Button
               variant="outlined"
+              size="medium"
+              sx={{ background: "white", opacity: 0.6 }}
               startIcon={<ArrowBackIosNewIcon />}
               href="/"
             >
