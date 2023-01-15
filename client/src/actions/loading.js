@@ -4,6 +4,7 @@ export const SET_STATUS_NEW_USER_ERROR = "SET_STATUS_NEW_USER_ERROR";
 export const SET_STATUS_EXISTING_USER = "SET_STATUS_EXISTING_USER";
 export const SET_STATUS_PASSWORD_UPDATE_SUCCES = "SET_STATUS_PASSWORD_UPDATE_SUCCES";
 export const SET_STATUS_PASSWORD_UPDATE_ERROR = "SET_STATUS_PASSWORD_UPDATE_ERROR";
+export const SET_DAY = "SET_DAY";
 
 /* ====================== SET STATUS FOR USER ACTIONS ======================= */
 
@@ -39,6 +40,13 @@ export const setStatusUpdatePassError = () => {
   return {
     type: SET_STATUS_PASSWORD_UPDATE_ERROR,
     payload: false,
+  };
+};
+
+export const setDay = (day) => {
+  return {
+    type: SET_DAY,
+    payload: day,
   };
 };
 

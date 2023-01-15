@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { message } from "react-message-popup";
+
 
 /* ====================== STYLE IMPORTS ======================= */
 
@@ -11,18 +11,17 @@ import "./Saving";
 //>======================>//
 
 const Saving = () => {
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    const delay = () => navigate("/login");
-    
+
+    const delay = () => navigate("/private/records")
+
     setTimeout(() => {
       delay();
-    }, 2000);
+    }, 1000);
 
-    return () => message.success("registro guardado correctamente", 2500);
-    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

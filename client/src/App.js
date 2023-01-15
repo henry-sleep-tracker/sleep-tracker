@@ -27,6 +27,7 @@ import NewUserSuccess from "./components/Loading/NewUserSuccess";
 import UserExist from "./components/Loading/UserExist";
 import ChangePasswordOk from "./components/Loading/ChangePasswordOk";
 import ChangePasswordError from "./components/Loading/ChangePasswordError";
+import Saving from "./components/Record/Saving";
 
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
@@ -74,6 +75,7 @@ function App() {
             <Route path="/private/fitbit" element={<Fitbit />} />
             <Route path="/private/graficas" element={<GraphWM />} />
             <Route path="/private/records" element={<Record />} />
+            <Route path="/private/saving" element={<Saving />} />
             <Route path="/private/dashboard/*" element={<Dashboard />} />
             <Route path="/private/delete-user/:id" element={<DeleteUser />} />
             <Route path="/private/createcomment" element={<CommentCreate />} />

@@ -4,9 +4,11 @@ import {
   SET_STATUS_EXISTING_USER,
   SET_STATUS_PASSWORD_UPDATE_SUCCES,
   SET_STATUS_PASSWORD_UPDATE_ERROR,
+  SET_DAY,
 } from "../actions/loading";
 
 const initialState = {
+  day: "",
   newUser: false,
   newUserError: false,
   existingUser: false,
@@ -16,6 +18,8 @@ const initialState = {
 
 const loadingReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_DAY:
+      return { ...state, day: action.payload };
     case SET_STATUS_NEW_USER:
       return { ...state, newUser: action.payload };
     case SET_STATUS_NEW_USER_ERROR:

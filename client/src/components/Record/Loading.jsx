@@ -1,10 +1,15 @@
 import "./Loading.css";
 
-const Loading = (props) => {
+const Loading = () => {
+
+
+
   return (
-    <div className="modal-content">
-      <div className="loader"></div>
-      <div className="modal-text">Cargando...</div>
+    <div className="modal">
+      <div className="modal-content">
+        <div className="loader"></div>
+        <div className="modal-text">Cargando...</div>
+      </div>
     </div>
   );
 };

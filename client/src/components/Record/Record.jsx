@@ -5,10 +5,12 @@ import { message } from "react-message-popup";
 
 // Styles
 import "./Record.css";
+import "./Loading";
 import "reactjs-popup/dist/index.css";
 
 // Import Components
-import "./Loading";
+
+import Saving from "./Saving";
 
 // Hooks Imports
 import { useState, useRef } from "react";
@@ -31,6 +33,8 @@ import {
 } from "../../actions/records";
 
 import { getSleepStage } from "../../actions/getUserHealthData";
+
+import { setDay } from "../../actions/loading";
 
 // Import images
 import checkImg from "../../images/check-mark-button_2705.png";
@@ -106,6 +110,7 @@ const Record = (props) => {
   const coffeeSizesRedux = useSelector((state) => state.record.coffeeSizes);
   const drinksRedux = useSelector((state) => state.record.drinks);
   const sleepTime = useSelector((state) => state.stage); //--> Estado global que guarda los segundos de suenio
+  const day = useSelector((state) => state.loading.day);
 
   /******************** Functions Before load component *********************/
 
@@ -128,7 +133,7 @@ const Record = (props) => {
   const [loading, setLoading] = useState(true);
 
   const [record, setRecord] = useState({
-    dateMeal: date_maker(),
+    dateMeal: day ? day : date_maker(),
     timeMeal: "",
     description: "",
     sleepTime: "",
@@ -244,11 +249,11 @@ const Record = (props) => {
     setRecord((record.coffeeCups = floorCoffeeCups));
     setRecord((record.drinks = floorDrinks));
     //dispatch(createNewRecord(record));
-    if((record.sleepTime === "0")){
-      console.log(record.sleepTime.length);
-      dispatch(createNewRecord(record));
+    //if((record.sleepTime === "0")){
+      //console.log(record.sleepTime.length);
+      //dispatch(createNewRecord(record));
     //message.success(`${nameUser} tu registro se creo correctamente!!`, 2500);
-    }
+    //}
     dispatch(createNewRecord(record));
     
     // After Dispatch //
@@ -275,6 +280,8 @@ const Record = (props) => {
     setDrinkStatus(false);
     setTime({ startTime: "", endTime: "" });
     refresh();
+    navigate("/private/saving");
+    dispatch(setDay(currentDay.current.value));
   };
 
   const handlerOnClear = (e) => {
@@ -683,18 +690,17 @@ const Record = (props) => {
 
       if (!recordStatus) {
         return;
-      } else {
-        if (recordStatus.status === 200) {
-          message.success(
-            `${nameUser} tu registro se creo correctamente!!`,
-            2500
-          );
-          dispatch(setStatusNewRecord());
+      }
+      if (recordStatus.statusText === "OK") {
+          message.success(`${nameUser} tu registro se guardo correctamente!!`,2500);
+          message.success(`${nameUser} tu registro se guardo correctamente!!`,2500);
+        dispatch(setStatusNewRecord());
         } else {
-          message.error(`Error: al intentar crear el registro`, 2500);
+          message.error(`Error: al guardar registro`, 2500);
+          message.error(`Error: al guardar registro`, 2500);
           dispatch(setStatusNewRecord());
         }
-      }
+      
     }, 500);
   }, [value, sync, recordStatus, loading]);
 
@@ -947,7 +953,7 @@ const Record = (props) => {
   return (
     <div className="master">
       {loading ? (
-        <div style={{ display: loading ? "flex" : "none" }} className="modal">
+        <div>
           <Loading />
         </div>
       ) : (
@@ -955,7 +961,11 @@ const Record = (props) => {
           <form onSubmit={handlerOnSubmit}>
             <div className="main_container">
               <div className="x_container">
-                <Link to="/private/home" className="link">
+                <Link
+                  to="/private/home"
+                  className="link"
+                  onClick={()=>dispatch(setDay(""))}
+                >
                   <div className="x">X</div>
                 </Link>
               </div>
