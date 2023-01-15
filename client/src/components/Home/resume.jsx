@@ -1,120 +1,74 @@
 import { Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
-// import { Chart } from "react-google-charts";
 import { useSelector } from "react-redux";
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 const Collection = () => {
+  const records = useSelector((state) => state?.record.recordsUser);
 
-  const record = useSelector((state) => state?.record.recordsUser)
+  let consumos = [];
+  let Exercise = [];
+  let Coffe = [];
+  let Drinks = [];
+  let timeEx;
+  let typeEx;
+  let cups;
+  let size;
+  let countD;
+  let typeD;
 
-  console.log(record)
-   
-  let caffeine = []
-  let drink = []
-  let activity = []
-  let mealtime = []
-  let cafe
-  let drinks
-  let meal
-  let activities
-  let title
+  for (let i = 0; i < records.length; i++) {
+    if (records[i].timeActivity.length >= 1) {
+      timeEx = records[i].timeActivity.flat();
+      typeEx = records[i].nameActivity.flat();
 
-  if (record.length) {
-    title = record[0].dateMeal
-    for (let i = 0; i < record.length; i++) {
-      if (record[i].coffees !== "sin registro") caffeine.push(record[i].coffees + ' ');
-      if (record[i].drinks !== "sin registro") drink.push(record[i].drinks + ' ');
-      if (record[i].activities !== "sin registro") activity.push(record[i].activities + ' ')
-    }
-    mealtime.push(record[record.length - 1].timeMeal)
-
-    if (!caffeine) {
-      cafe = "no hay registro";
-    } else {
-      cafe = caffeine.flat()
+      for (let i = 0; i < timeEx.length; i++) {
+        Exercise.push(`${timeEx[i]} min de ${typeEx[i]}`);
+      }
     }
 
-    if (!drink) {
-      drinks = "no hay registro";
-    } else {
-      drinks = drink.flat()
+    if (records[i].coffeeConsumption.length >= 1) {
+      cups = records[i].coffeeConsumption.flat();
+      size = records[i].coffeSize.flat();
+
+      for (let i = 0; i < cups.length; i++) {
+        cups[i] > 1
+          ? Coffe.push(`${cups[i]} tazas de ${size[i]}`)
+          : Coffe.push(`${cups[i]} taza de ${size[i]}`);
+      }
     }
 
-    if (!mealtime) {
-      meal = "no hay registro";
-    } else {
-      meal = mealtime[0]
-    }
-    if (!activity) {
-      activities = "no hay registro";
-    } else {
-      activities = activity.flat()
-    }
-  } else {
+    if (records[i].drinkConsumption.length >= 1) {
+      countD = records[i].drinkConsumption.flat();
+      typeD = records[i].typeDrink.flat();
 
-    cafe = 'No hay registros'
-    drinks = 'No hay registros'
-    meal = 'No hay registros'
-    activities = 'No hay registros'
-    title = ' No hay registros del dia seleccionado'
+      for (let i = 0; i < countD.length; i++) {
+        countD[i] > 1
+          ? Drinks.push(`${countD[i]} ${typeD[i]}s`)
+          : Drinks.push(`${countD[i]} ${typeD[i]}`);
+      }
+    }
+
+    let consumo = {
+      userId: records[0].userId,
+      Exercise: Exercise,
+      Cafe: Coffe,
+      Bebidas: Drinks,
+      Merienda:
+        records[records.length - 1].timeMeal.slice(0, -3) +
+        " " +
+        records[records.length - 1].description,
+      Date: records[0].dateMeal,
+    };
+    consumos.push(consumo);
   }
-
-  // const dataTable = [
-  //   [
-  //     'Registro de consumo',
-  //     'Especificaciones del respectivo consumo',
-  //   ],
-  //   [
-  //     'Cafe',
-  //     `${cafe.length ? cafe : 'No hay registro'}`,
-  //   ],
-  //   [
-  //     'Bebidas Alcoholicas',
-  //     `${drinks.length ? drinks : 'No hay registro'}`,
-  //   ],
-  //   [
-  //     'Horario de merienda',
-  //     `${meal.length ? meal : 'No hay registro'}`,
-  //   ],
-  //   [
-  //     'Ejercicio',
-  //     `${activities.length ? activities : 'No hay registro'}`
-  //   ]
-  // ]
-
-
-  // const optionT = {
-  //   title: ' Consumo diario:',
-  //   allowHtml: true,
-
-  // }
-
-  // const formatters = [
-  //   {
-  //     type: "ColorFormat",
-
-  //     column: 1,
-  //     ranges: [
-  //       [null, null, "black", 'rgba(0, 122, 244, 0.533)'],
-  //     ],
-  //   },
-  //   {
-  //     type: "ColorFormat",
-  //     column: 0,
-  //     ranges: [
-  //       [null, null, "black", 'rgba(0, 122, 244, 0.533)'],
-  //     ],
-  //   },
-
-  // ];
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -127,11 +81,11 @@ const Collection = () => {
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
+    "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.action.hover,
     },
     // hide last border
-    '&:last-child td, &:last-child th': {
+    "&:last-child td, &:last-child th": {
       border: 0,
     },
   }));
@@ -141,54 +95,59 @@ const Collection = () => {
   }
 
   const rows = [
-    createData('Cafe', `${cafe.length ? cafe : 'No hay registro'}`),
-    createData('Bebidas alcoholicas', `${drinks.length ? drinks : 'No hay registro'}`),
-    createData('Horario de merienda', `${meal.length ? meal : 'No hay registro'}`),
-    createData('Ejercicio', `${activities.length ? activities : 'No hay registro'}`),
+    createData(
+      "Cafe",
+      `${consumos[0].Cafe.length >= 1 ? consumos[0].Cafe : "No hay registro"}`
+    ),
+    createData(
+      "Bebidas alcoholicas",
+      `${
+        consumos[0].Bebidas.length >= 1
+          ? consumos[0].Bebidas
+          : "No hay registro"
+      }`
+    ),
+    createData(
+      "Horario de merienda",
+      `${
+        consumos[0].Merienda.length >= 1
+          ? consumos[0].Merienda
+          : "No hay registro"
+      }`
+    ),
+    createData(
+      "Ejercicio",
+      `${
+        consumos[0].Exercise.length >= 1
+          ? consumos[0].Exercise
+          : "No hay registro"
+      }`
+    ),
   ];
 
   return (
-    <Card
-      className="titleresume"
-      variant='outlined'
-    >
+    <Card className="titleresume" variant="outlined">
       <CardContent>
         <Grid
           container
           justifyContent="center"
           alignItems="center"
-          direction='column'
+          direction="column"
           spacing={1}
           flex={4}
           p={2}
         >
-          <Grid
-            item
-          >
-
-            <Typography
-              variant='h4'
-            >
+          <Grid item>
+            <Typography variant="h4">
               Registro de consumo del:
-              <p>{title}</p>
+              <p>
+                {consumos[0].Date.length >= 1
+                  ? consumos[0].Date
+                  : "No hay registro de ese día"}
+              </p>
             </Typography>
           </Grid>
-{/* 
-          <Grid
-            item
-          >
-
-            <Chart
-              chartType='Table'
-              options={optionT}
-              data={dataTable}
-              formatters={formatters}
-            />
-          </Grid> */}
-
-          <Grid
-            item
-          >
+          <Grid item>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 350 }} aria-label="customized table">
                 <TableHead>
@@ -203,19 +162,18 @@ const Collection = () => {
                       <StyledTableCell component="th" scope="row">
                         {row.name}
                       </StyledTableCell>
-                      <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                      <StyledTableCell align="right">
+                        {row.calories}
+                      </StyledTableCell>
                     </StyledTableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
           </Grid>
-
         </Grid>
-
       </CardContent>
     </Card>
-
   );
 };
 
