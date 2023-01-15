@@ -151,8 +151,33 @@ export const getUserById = (id) => {
     }
   };
 };
-
-export function logInUser(email, password) {
+export const restoreUser = (email, password) => {
+  return async function (dispatch) {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_DEFAULT_URL}/login/manual`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: email, password: password }),
+        }
+      );
+      const userFound = await response.json();
+      await axios.post(
+        `${process.env.REACT_APP_DEFAULT_URL}/user/${userFound.id}`
+      );
+      return dispatch({
+        type: GET_CURRENT_USER,
+        payload: userFound,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+export function logInUser(email, password, setOpen) {
   return async function (dispatch) {
     try {
       const response = await fetch(
@@ -172,17 +197,7 @@ export function logInUser(email, password) {
           payload: nullUser,
         });
       } else if (response.status === 202) {
-        message.error(
-          "El usuario habia sido borrado. esta seguro de querer recuperar su cuenta?",
-          5000
-        );
-        await axios.post(
-          `${process.env.REACT_APP_DEFAULT_URL}/user/${userFound.id}`
-        );
-        return dispatch({
-          type: GET_CURRENT_USER,
-          payload: userFound,
-        });
+        setOpen(true);
       } else {
         return dispatch({
           type: GET_CURRENT_USER,
