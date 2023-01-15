@@ -442,7 +442,7 @@ export default function Register() {
                         variant="standard"
                         type="text"
                         name="names"
-                        inputProps={{ maxLength: 50 }}
+                        inputProps={{ maxLength: 20 }}
                         InputProps={{
                           startAdornment: <InputAdornment></InputAdornment>,
                         }}
@@ -456,7 +456,7 @@ export default function Register() {
                         variant="standard"
                         type="text"
                         name="lastNames"
-                        inputProps={{ maxLength: 50 }}
+                        inputProps={{ maxLength: 20 }}
                         InputProps={{
                           startAdornment: <InputAdornment></InputAdornment>,
                         }}
@@ -533,7 +533,7 @@ export default function Register() {
                           type={showPassword ? "text" : "password"}
                           label="Contraseña"
                           name="password"
-                          maxLength="32"
+                          inputProps={{ maxLength: 32 }}
                           pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
                           title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                           onChange={(event) => handleChange(event)}
@@ -568,7 +568,7 @@ export default function Register() {
                           type={showPassword2 ? "text" : "password"}
                           label="Confirmar contraseña"
                           name="confirmPassword"
-                          maxLength="32"
+                          inputProps={{ maxLength: 32 }}
                           pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
                           title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                           onChange={(event) => handleChange(event)}

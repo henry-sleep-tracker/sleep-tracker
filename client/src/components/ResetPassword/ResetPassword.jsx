@@ -159,7 +159,7 @@ export default function ResetPassword() {
                     type={showPassword ? 'text' : 'password'}
                     name="password"
                     label="Contraseña"
-                    maxLength="32"
+                    inputProps={{ maxLength: 32 }}
                     pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
                     title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                     onChange={(event) => handleChange(event)}
@@ -206,7 +206,7 @@ export default function ResetPassword() {
                     type={showPassword2 ? 'text' : 'password'}
                     name="confirmPassword"
                     label="Confirmar contraseña"
-                    maxLength="32"
+                    inputProps={{ maxLength: 32 }}
                     pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
                     title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                     onChange={(event) => handleChange(event)}
