@@ -76,12 +76,20 @@ const Home = () => {
         <Fitbit />
       </Grid>
 
-      <Grid item>
-        <Calendario />
-      </Grid>
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        columns={16}
+      >
+        <Grid item xs={12}>
+          <Calendario />
+        </Grid>
 
-      <Grid item>
-        <GraphHome />
+        <Grid item xs={4}>
+          <GraphHome />
+        </Grid>
       </Grid>
 
       <Grid item>
