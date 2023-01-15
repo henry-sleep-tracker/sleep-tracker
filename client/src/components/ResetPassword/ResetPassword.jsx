@@ -1,10 +1,21 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Button, Card, CardContent, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  FormControl,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from "react-router-dom";
 import { resetPassword } from "../../actions";
 import log from "../logi/log-.png";
 import { message } from "react-message-popup";
@@ -20,15 +31,18 @@ export default function ResetPassword() {
   const [errorsEmptiness, setErrorsEmptiness] = useState({
     password: "",
     confirmPassword: "",
-  })
-  function validate(input) { //aca entra todo el estado input
-    let errors = {}
+  });
+  function validate(input) {
+    //aca entra todo el estado input
+    let errors = {};
     for (let propiedad in input) {
       if (!input[propiedad]) {
-        errors[propiedad] = `${propiedad.charAt(0).toUpperCase() + propiedad.slice(1)} es requerido`
+        errors[propiedad] = `${
+          propiedad.charAt(0).toUpperCase() + propiedad.slice(1)
+        } es requerido`;
       }
     }
-    return errors
+    return errors;
   }
   function handleChange(event) {
     setInput({
@@ -38,21 +52,20 @@ export default function ResetPassword() {
     setErrorsEmptiness(
       validate({
         ...input,
-        [event.target.name]: event.target.value
+        [event.target.name]: event.target.value,
       })
-    )
+    );
   }
   async function handleSubmit(event) {
     event.preventDefault();
     try {
       if (Object.keys(errorsEmptiness).length !== 0) {
-        //alert(`Todos los campos obligatorios deben ser llenados para poder registrarse`)
         message.warn(
-          `Todos los campos obligatorios deben ser llenados para poder registrarse`,2500
+          `Todos los campos obligatorios deben ser llenados para poder registrarse`,
+          2500
         );
       } else if (input.password !== input.confirmPassword) {
-        //alert(`La contraseña no se confirmo correctamente`)
-        message.error(`La contraseña no se confirmo correctamente`,2500);
+        message.error(`La contraseña no se confirmo correctamente`, 2500);
       } else {
         dispatch(resetPassword(input.password, id, token));
         setInput({
@@ -81,57 +94,35 @@ export default function ResetPassword() {
   return (
     <Grid
       container
-      justifyContent='center'
-      direction='column'
-      alignItems='center'
+      justifyContent="center"
+      direction="column"
+      alignItems="center"
       spacing={3}
     >
-
       <Helmet>
         <title>Nueva contraseña | Sleep Tracker</title>
       </Helmet>
 
+      <Grid item></Grid>
 
-      <Grid
-        item
-      >
+      <Grid item>
+        <img src={log} alt="logo" width="200px" />
       </Grid>
 
       <Grid item>
-        <img
-          src={log}
-          alt="logo"
-          width="200px"
-        />
+        <Typography variant="h2">Crear una nueva contraseña</Typography>
       </Grid>
 
-      <Grid
-        item
-      >
-
-        <Typography
-          variant='h2'
-        >
-          Crear una nueva contraseña
-        </Typography>
-      </Grid>
-
-      <Grid
-        item
-      >
-
-        <Card
-          variant="outlined"
-        >
+      <Grid item>
+        <Card variant="outlined">
           <CardContent>
             <Grid
               container
-              justifyContent='center'
-              direction='column'
-              alignItems='center'
+              justifyContent="center"
+              direction="column"
+              alignItems="center"
               spacing={3}
             >
-
               {/* <Grid
                 item
               >
@@ -148,15 +139,15 @@ export default function ResetPassword() {
               </Grid>
  */}
 
-              <Grid
-                item
-              >
-                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">Contraseña *</InputLabel>
+              <Grid item>
+                <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Contraseña *
+                  </InputLabel>
                   <OutlinedInput
                     value={input.password}
                     id="outlined-adornment-password"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     label="Contraseña"
                     maxLength="32"
@@ -195,15 +186,15 @@ export default function ResetPassword() {
                 />
               </Grid> */}
 
-              <Grid
-                item
-              >
-                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">Confirmar contraseña *</InputLabel>
+              <Grid item>
+                <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Confirmar contraseña *
+                  </InputLabel>
                   <OutlinedInput
                     value={input.confirmPassword}
                     id="outlined-adornment-password"
-                    type={showPassword2 ? 'text' : 'password'}
+                    type={showPassword2 ? "text" : "password"}
                     name="confirmPassword"
                     label="Confirmar contraseña"
                     maxLength="32"
@@ -227,34 +218,28 @@ export default function ResetPassword() {
                 </FormControl>
               </Grid>
 
-              <Grid
-                item>
-                {
-                  !input.password || !input.confirmPassword || input.password !== input.confirmPassword
-                  ?
-                    <Button variant="contained" disabled>
-                      Crear nueva contraseña
-                    </Button>
-                    :
-                    <Button
-                      variant='contained'
-                      color='success'
-                      type="submit"
-                      onClick={(event) => handleSubmit(event)}
-                    >
-                      Crear nueva contraseña
-                    </Button>
-                }
+              <Grid item>
+                {!input.password ||
+                !input.confirmPassword ||
+                input.password !== input.confirmPassword ? (
+                  <Button variant="contained" disabled>
+                    Crear nueva contraseña
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="success"
+                    type="submit"
+                    onClick={(event) => handleSubmit(event)}
+                  >
+                    Crear nueva contraseña
+                  </Button>
+                )}
               </Grid>
-
             </Grid>
-
           </CardContent>
-
         </Card>
-
       </Grid>
-
     </Grid>
   );
 }
