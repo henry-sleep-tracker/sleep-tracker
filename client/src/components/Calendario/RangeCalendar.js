@@ -12,8 +12,8 @@ export default function Calendario() {
 
   const [state, setState] = useState([
     {
-      startDate: new Date(),
-      endDate: new Date(Date.now() - 86400000),
+      startDate: new Date(Date.now() - 86400000),
+      endDate: new Date(Date.now() - 432000000),
       key: "selection",
     },
   ]);
