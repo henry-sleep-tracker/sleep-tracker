@@ -9,7 +9,6 @@ export default function GeneralRoute() {
   const planExpirationDate = useSelector(
     (state) => state?.users.planExpirationDate
   );
-debugger
   if (currentUser.plan && currentUser.plan !== null) {
     if ((isGoogleUser==="true" && isPasswordSetUp==="false") || planExpirationDate < yourDate) {
       //si esta autenticado que vaya a la seccion privada

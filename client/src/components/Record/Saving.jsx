@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 
 /* ====================== STYLE IMPORTS ======================= */
 
-import "./Loading.css";
+import "./Saving";
 
 //>======================>//
 //> Starts Component
 //>======================>//
 
-const Loading = () => {
+const Saving = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const Loading = () => {
 
     setTimeout(() => {
       delay();
-    }, 500);
+    }, 1000);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -26,10 +26,10 @@ const Loading = () => {
     <div className="modal">
       <div className="modal-content">
         <div className="loader"></div>
-        <div className="modal-text">Cargando...</div>
+        <div className="modal-text">Guardando...</div>
       </div>
     </div>
   );
 };
 
-export default Loading;
+export default Saving;

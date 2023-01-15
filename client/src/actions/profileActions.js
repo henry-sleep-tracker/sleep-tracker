@@ -82,7 +82,7 @@ export const deleteUser = (id, password) => {
   return async function () {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_DEFAULT_URL}/deleteuser/${id}/${password}`,
+        `${process.env.REACT_APP_DEFAULT_URL}/user/${id}/${password}`,
         {
           method: "DELETE",
           headers: {

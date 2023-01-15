@@ -1,6 +1,6 @@
 import { Button, Card, CardContent, Grid } from "@mui/material";
 import React, { useState, useCallback, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Line,
   XAxis,
@@ -11,10 +11,23 @@ import {
   LineChart,
   ResponsiveContainer,
 } from "recharts";
+import { getSleepSession } from "../../actions/getUserHealthData";
+
+const startDate = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+const endDate = new Date(Date.now() - 432000000).toISOString().split("T")[0];
 
 export default function DualGraph() {
   const ranges = useSelector((state) => state.session);
   console.log("ranges", ranges);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!ranges.length) {
+      dispatch(getSleepSession(startDate, endDate));
+    }
+  }, [dispatch, ranges.length]);
+
   const [opacity, setOpacity] = useState({
     summary_light_min: 1,
     summary_deep_min: 1,
