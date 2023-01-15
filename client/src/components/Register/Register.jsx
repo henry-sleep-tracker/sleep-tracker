@@ -24,7 +24,8 @@ import { Helmet } from "react-helmet";
 import log from "../logi/log-.png";
 import { message } from "react-message-popup";
 import wakeup from "../../images/Signup/zen-balancing.jpg";
-import styles from "./Register.module.css";
+// import styles from "./Register.module.css";
+import { makeStyles } from "@mui/styles";
 
 let nationalities = [
   "Afganistan",
@@ -252,9 +253,8 @@ export default function Register() {
     let errors = {};
     for (let propiedad in input) {
       if (!input[propiedad]) {
-        errors[propiedad] = `${
-          propiedad.charAt(0).toUpperCase() + propiedad.slice(1)
-        } es requerido`;
+        errors[propiedad] = `${propiedad.charAt(0).toUpperCase() + propiedad.slice(1)
+          } es requerido`;
       }
     }
     return errors;
@@ -341,43 +341,86 @@ export default function Register() {
     event.preventDefault();
   };
 
+  const classes = useStyles();
+
   return (
-    <Grid container width="100%">
+    <Grid container height='100vh'>
+
+      <Helmet>
+        <title>Registro | Sleep Tracker</title>
+      </Helmet>
+
       <Grid
         container
         direction="row"
         justifyContent="center"
-        alignItems="center"
+        alignItems="stretch"
         width="100%"
         columns={16}
-        className={styles.bg}
+        className={classes.bg}
+
       >
-        <Grid item xs={8} height="100%" paddingTop={3}>
+
+        <Grid
+          item
+          lg={9}
+          md={7}
+          sm={0}
+          xs={0}
+          sx={{
+            display: { lg: 'block', md: 'block', sm: 'none', xs: 'none' }
+          }}
+          height="100%"
+          paddingTop={0}
+          paddingBottom={0}
+        >
+          <img
+            src={wakeup}
+            alt="wakeup login"
+            className={classes.imageStyle}
+          />
+        </Grid>
+
+
+        <Grid
+          item
+          lg={7}
+          md={9}
+          sm={16}
+          xs={16}
+          height="100%"
+          paddingTop={3}
+          className={classes.bgImage}
+        >
           <Grid
             container
-            justifyContent="center"
-            direction="column"
-            alignItems="center"
             spacing={3}
           >
-            <Helmet>
-              <title>Registro | Sleep Tracker</title>
-            </Helmet>
 
-            <Grid item></Grid>
+            <Grid
+              container
+              marginLeft={13}
+              marginRight={13}
+              direction='column'
+            >
 
-            <Grid item>
-              <img src={log} alt="logo" width="300vw" />
-            </Grid>
+              <Grid
+                item
+                sx={{ marginLeft: 9 }}
+              >
+                <img
+                  src={log}
+                  alt="logo"
+                  width="300vw"
+                />
+              </Grid>
 
-            <Grid item>
+
               <Card
-                className="titleresume"
                 variant="outlined"
-                elevation={20}
-                sx={{ minWidth: "30rem" }}
               >
                 <CardContent>
+
                   <Grid
                     container
                     justifyContent="center"
@@ -385,11 +428,13 @@ export default function Register() {
                     alignItems="center"
                     spacing={3}
                   >
+
                     <Grid item>
                       <Typography variant="h4" sx={{ margin: 2 }}>
                         Registro
                       </Typography>
                     </Grid>
+
                     <Grid item>
                       <TextField
                         id="standard-start-adornment"
@@ -562,32 +607,49 @@ export default function Register() {
                 </CardContent>
               </Card>
             </Grid>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              marginTop: "4vh",
-              marginLeft: "10.5vw",
-            }}
-          >
-            <Button
-              variant="outlined"
-              startIcon={<ArrowBackIosNewIcon />}
-              href="/"
+
+
+            <Grid
+              item
+              sx={{
+                marginLeft: 10
+              }}
             >
-              Regresar
-            </Button>
+              <Button
+                variant="outlined"
+                startIcon={<ArrowBackIosNewIcon />}
+                href="/"
+              >
+                Inicio
+              </Button>
+            </Grid>
+
           </Grid>
+
+          <br />
+
         </Grid>
-        <Grid item xs={8}>
-          <Grid>
-            <img src={wakeup} alt="wakeup login" className={styles.zenImage} />
-          </Grid>
-        </Grid>
+
+
+
       </Grid>
+
     </Grid>
   );
 }
+
+const useStyles = makeStyles(() => ({
+  imageStyle: {
+    width: '100%',
+    minHeight: '100vh',
+    height: '100%'
+  },
+
+  bg: {
+    backgroundColor: '#ecefef'
+  },
+
+  bgImage: {
+    backgroundImage: `url(${wakeup})`
+  },
+}));
