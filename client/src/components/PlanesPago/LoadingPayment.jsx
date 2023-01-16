@@ -19,12 +19,12 @@ export default function LoadingPayment() {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    if (currentUser?.plan === null || !currentUser.plan && count1<=0) {
+    //if (currentUser?.plan === null || !currentUser.plan && count1<=0) {
   
       dispatch(getUsersPlanExpDate(currentUser.id));
       dispatch(getUserById(currentUser.id));
       count1++;
-    }
+    //}
   }, [dispatch, currentUser]);
 
   if (planExpirationDate > yourDate && count2<=0) {
