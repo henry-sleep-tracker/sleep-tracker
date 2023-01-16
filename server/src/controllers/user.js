@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const { STRIPE_SECRET_KEY } = process.env;
 const Stripe = require("stripe");
 const JWT_SECRET = "CVDF61651BV231TR894VBCX51LIK5LÑK84";
-const basicURL = "http://localhost:3000";
+// const basicURL = "http://localhost:3000";
 const jwt = require("jsonwebtoken");
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2020-08-27",
@@ -98,7 +98,7 @@ const forgotPassword = async (req, res) => {
     const token = jwt.sign({ email: oldUser.email, id: oldUser.id }, secret, {
       expiresIn: "50m",
     });
-    const link = `${process.env.REACT_APP_BASE_FRONT_URL}/reiniciar_contrasena/${oldUser.id}/${token}`;
+    const link = `${process.env.BASE_FRONT_URL}/reiniciar_contrasena/${oldUser.id}/${token}`;
     console.log("el link es:", link);
     res.status(200).json(link); //201 es que fue creado
   } catch (error) {
