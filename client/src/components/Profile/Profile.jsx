@@ -56,7 +56,7 @@ const Profile = () => {
   let yourDate = new Date();
 
   useEffect(() => {
-    if (currentUser.password !== null) {
+    if (currentUser.hashedPassword !== null) {
       createPassword();
     }
   }, [currentUser, createPassword]);
