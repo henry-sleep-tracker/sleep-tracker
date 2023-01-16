@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { Box, Card, CardContent, Divider, Grid, Paper, Typography } from "@mui/material";
 // import xiaomiBand5 from "./Images/xiaomiBand5.jpg";
@@ -8,169 +8,96 @@ import DevicesCarousel from "./DevicesCarousel";
 
 const Page3 = () => {
   const classes = useStyles();
+  const step0 = 0
+  const step1 = 1
+  const step2 = 2
+
   return (
 
-    <Paper
-      // variant="outlined"
-      // square
-      elevation={20}
-      // className={classes.mainPaper}
+    <Grid
+      container
+      className={classes.mainPaper}
+      direction='column'
+      alignItems='center'
+      spacing={5}
+      p={2}
+      paddingLeft={15}
+      paddingRight={15}
+
     >
-      <Typography variant="h4">Dispositivos soportados</Typography>
 
       <Grid
-        container
-        // direction="row"
-        justifyContent="space-evenly"
-        alignItems="center"
-        className={classes.mainPaper}
-        flex={4}
-        p={9}
+        item
+      >
 
+        <Typography
+          variant="h4"
+          fontWeight='bold'
+        >
+          Dispositivos soportados
+        </Typography>
+      </Grid>
+
+      <Grid
+        item
       >
 
         <Grid
-          item
-          xs={12}
-          md={3}
+          container
+          direction="row"
+          justifyContent="space-evenly"
+          alignItems="center"
+
         >
 
-          {/* <Card 
-          className={classes.card}
-            elevation={20}
+          <Grid
+            item
+            xs={12}
+            md={3}
           >
-            <CardContent>
-              <div className={classes.mosaic}>
-                <img
-                  src={xiaomiBand5}
-                  alt={"Imagen representativa"}
-                  height={200}
-                />
-              </div>
-              <Divider />
-              <Box
-                className={classes.title}
-                sx={{
-                  marginTop: { md: '50px', xs: '5px' },
-                  marginBottom: { md: '50px', xs: '5px' }
-                }}
-              >
-                <Typography
-                  sx={{ variant: { md: "h4", xs: 'h5' } }}
-                >
-                  Xiaomi Band 5
-                </Typography>
-              </Box>
-              <Typography
-                sx={{
-                  display: {
-                    xs: 'none',
-                    md: 'block'
-                  }
-                }}
-              >
-                Dispositivo Android
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
+            <DevicesCarousel
+              localStep={step0}
+            />
 
-        <Grid
-          item
-          xs={12}
-          md={3}
-        >
-          <Card 
-          className={classes.card}
-          elevation={20}
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            md={3}
           >
-            <CardContent>
-              <div className={classes.mosaic}>
-                <img
-                  src={samsungGalaxyFit2}
-                  alt={"Imagen representativa"}
-                  height={200}
-                />
-              </div>
-              <Divider />
-              <Box
-                className={classes.title}
-                sx={{
-                  marginTop: { md: '50px', xs: '5px' },
-                  marginBottom: { md: '50px', xs: '5px' }
-                }}
-              >
-                <Typography
-                  sx={{ variant: { md: "h4", xs: 'h5' } }}
-                >
-                  Samsung Galaxy Fit 2
-                </Typography>
-              </Box>
-              <Typography
-                sx={{
-                  display: {
-                    xs: 'none',
-                    md: 'block'
-                  }
-                }}
-              >
-                Dispositivo Android
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
+            <DevicesCarousel
+              localStep={step1}
+            />
 
-        <Grid
-          item
-          xs={12}
-          md={3}
-        >
-          <Card 
-          className={classes.card}
-          elevation={20}
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            md={3}
           >
-            <CardContent>
-              <div className={classes.mosaic}>
-                <img
-                  src={xiaomiBand6}
-                  alt={"Imagen representativa"}
-                  height={200}
-                />
-              </div>
-              <Divider />
-              <Box
-                className={classes.title}
-                sx={{
-                  marginTop: { md: '50px', xs: '5px' },
-                  marginBottom: { md: '50px', xs: '5px' }
-                }}
-              >
-                <Typography
-                  sx={{ variant: { md: "h4", xs: 'h5' } }}
-                >
-                  Xiaomi Band 6
-                </Typography>
-              </Box>
-              <Typography
-                sx={{
-                  display: {
-                    xs: 'none',
-                    md: 'block'
-                  }
-                }}
-              >
-                Dispositivo Android
-              </Typography>
-            </CardContent>
-          </Card> */}
+            <DevicesCarousel
+              localStep={step2}
+            />
 
-          <DevicesCarousel/>
+          </Grid>
 
         </Grid>
-
       </Grid>
-      
-    </Paper>
+
+      <Grid
+        item
+      >
+
+        <Typography
+          variant="h5"
+        >
+          Compatibles con FitBit
+        </Typography>
+      </Grid>
+
+    </Grid>
   );
 };
 
@@ -193,8 +120,10 @@ const useStyles = makeStyles(() => ({
 
   mainPaper: {
     height: '100vh',
-    width: '97vw',
+    width: '100vw',
+    minHeight: '100vh',
     // maxWidth: '97vw',
+    backgroundColor: '#e8eaf6'
   },
 
   card: {

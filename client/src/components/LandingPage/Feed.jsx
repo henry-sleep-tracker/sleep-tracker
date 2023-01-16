@@ -9,6 +9,8 @@ import Page3 from "./Page3";
 import Page4 from "./Page4";
 import Page5 from "./Page5";
 import Page6 from "./Page6";
+import { theme } from "../../theme";
+import { ThemeProvider } from "@emotion/react";
 
 const Feed = ({
     currentPage,
@@ -37,15 +39,16 @@ const Feed = ({
     const currentComments = useSelector((state) => state.comments);
 
     return (
+        <ThemeProvider theme={theme}>
+
         <Grid
             container
             justifyContent="center"
-            alignItems="stretch"
-            spacing={1}
+            // alignItems="stretch"
             maxWidth='100vw'
             direction="column"
-            flex={4}
-            p={2}
+            // flex={4}
+            // p={2}
         >
             <Grid
                 item
@@ -106,6 +109,8 @@ const Feed = ({
             </Grid>
 
         </Grid>
+        </ThemeProvider>
+
 
     )
 }

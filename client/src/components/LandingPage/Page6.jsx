@@ -56,7 +56,9 @@ export default Page1;
 const useStyles = makeStyles(() => ({
   mainPaper: {
     height: '100vh',
-    width: '97vw'
+    width: '97vw',
+    backgroundColor: '#ecefef',
+    minHeight: '100vh',
 
   }
 }));

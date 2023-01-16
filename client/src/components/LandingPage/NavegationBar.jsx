@@ -14,7 +14,6 @@ import {
     Button,
 } from "@mui/material";
 import React from "react";
-import NightShelterIcon from "@mui/icons-material/NightShelter";
 import {
     AccountBalanceWalletSharp,
     AppRegistration,

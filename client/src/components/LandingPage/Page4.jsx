@@ -7,7 +7,6 @@ import {
   CardContent,
   Divider,
   Grid,
-  Paper,
   Typography,
 } from "@mui/material";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -19,26 +18,26 @@ const Page4 = () => {
   const classes = useStyles();
   return (
 
-    <Paper
-    // variant="outlined"
-    // square
-    elevation={20}
-  // className={classes.mainPaper}
-  >
     <Grid
       container
       direction="column"
       justifyContent="center"
       alignItems="center"
-      // className={classes.mainPaper}
-      // flex={4}
-      // p={9}
+      className={classes.mainPaper}
+      paddingLeft={15}
+      paddingRight={15}
 
     >
       <Grid
         item
       >
-        <Typography variant="h4" sx={{ mt: 7 }}>Planes de pago</Typography>
+        <Typography
+          variant="h4"
+          fontWeight='bold'
+
+        >
+          Planes de pago
+        </Typography>
       </Grid>
 
       <Grid
@@ -46,7 +45,6 @@ const Page4 = () => {
         // direction="row"
         justifyContent="center"
         alignItems="center"
-        className={classes.mainPaper}
         flex={4}
         p={9}
         gap='10px'
@@ -69,21 +67,22 @@ const Page4 = () => {
                   marginBottom: { md: '50px', xs: '5px' }
                 }}
               >
-                <ThumbUpIcon/>
-              </Box>  
+                <ThumbUpIcon />
+              </Box>
               <Typography variant="h4" sx={{ mb: 8 }} >Prueba gratis</Typography>
               <Box
                 sx={{ display: { xs: "none", sm: "none", md: 'block' } }}
               >
-                <Typography>Registro de actividad física</Typography>
+                <Typography>- Duracion de 15 dias</Typography>
+                <Typography>- Registro de actividad física</Typography>
                 <Typography>
-                  Registra tus consumos diarios de comida y bebida.
+                  - Registra tus consumos diarios de comida y bebida.
                 </Typography>
                 <Typography>
-                  Información de sueño conseguido diario y semanal.
+                  - Información de sueño conseguido diario y semanal.
                 </Typography>
                 <Typography>
-                  Prueba gratis 30 dias
+                  - Prueba gratis 30 dias
                 </Typography>
                 <Divider />
               </Box>
@@ -94,10 +93,10 @@ const Page4 = () => {
                   marginBottom: { md: '50px', xs: '5px' }
                 }}
               >
-                <Link to={"/registro"} style={{textDecoration: "none"}}>
-                <Button variant="contained" size="large" >
-                  Gratis
-                </Button>
+                <Link to={"/registro"} style={{ textDecoration: "none" }}>
+                  <Button variant="contained" size="large" >
+                    Gratis
+                  </Button>
                 </Link>
               </Box>
             </CardContent>
@@ -122,7 +121,7 @@ const Page4 = () => {
                     marginBottom: { md: '50px', xs: '5px' }
                   }}
                 >
-                  <EmojiEmotionsIcon/>
+                  <EmojiEmotionsIcon />
                 </Box>
                 <Typography variant="h4" sx={{ mb: 8 }}>
                   Plan Estandar
@@ -130,15 +129,15 @@ const Page4 = () => {
                 <Box
                   sx={{ display: { xs: "none", sm: "none", md: 'block' } }}
                 >
-                  <Typography>Registro de actividad física</Typography>
+                  <Typography>- Registro de actividad física</Typography>
                   <Typography>
-                    Registra tus consumos diarios de comida y bebida.
+                    - Registra tus consumos diarios de comida y bebida.
                   </Typography>
                   <Typography>
-                    Información de sueño conseguido diario y semanal.
+                    - Información de sueño conseguido diario y semanal.
                   </Typography>
                   <Typography>
-                    Descarga tu información completa en formato PDF
+                    - Descarga tu información completa en formato PDF
                   </Typography>
                   <Divider />
                 </Box>
@@ -149,11 +148,11 @@ const Page4 = () => {
                     marginBottom: { md: '50px', xs: '5px' }
                   }}
                 >
-                <Link to={"/registro"} style={{textDecoration: "none"}}>
-                  <Button variant="contained" size="large">
-                    $1 USD / Mes
-                  </Button>
-                </Link>
+                  <Link to={"/registro"} style={{ textDecoration: "none" }}>
+                    <Button variant="contained" size="large">
+                      $1 USD / Mes
+                    </Button>
+                  </Link>
                 </Box>
               </Box>
             </CardContent>
@@ -176,22 +175,23 @@ const Page4 = () => {
                   marginBottom: { md: '50px', xs: '5px' }
                 }}
               >
-                <AutoAwesomeIcon/>
+                <AutoAwesomeIcon />
               </Box>
               <Typography variant="h4" sx={{ mb: 8 }}>Plan Premium</Typography>
               <Box
                 sx={{ display: { xs: "none", sm: "none", md: 'block' } }}
               >
-                <Typography>Registro de actividad física</Typography>
+                <Typography>- Descuento de $2 USD</Typography>
+                <Typography>- Registro de actividad física</Typography>
                 <Typography>
-                  Registra tus consumos diarios de comida y bebida.
+                  - Registra tus consumos diarios de comida y bebida.
                 </Typography>
                 <Typography>
-                  Información de sueño conseguido diario y semanal.
+                  - Información de sueño conseguido diario y semanal.
                 </Typography>
                 <Typography>
-                    Descarga tu información completa en formato PDF
-                  </Typography>
+                  - Descarga tu información completa en formato PDF
+                </Typography>
                 <Divider />
               </Box>
               <Box
@@ -201,10 +201,10 @@ const Page4 = () => {
                   marginBottom: { md: '50px', xs: '5px' }
                 }}
               >
-                <Link to={"/registro"} style={{textDecoration: "none"}}>
-                <Button variant="contained" size="large">
-                  $10 USD / Año
-                </Button>
+                <Link to={"/registro"} style={{ textDecoration: "none" }}>
+                  <Button variant="contained" size="large">
+                    $10 USD / Año
+                  </Button>
                 </Link>
               </Box>
             </CardContent>
@@ -213,9 +213,8 @@ const Page4 = () => {
       </Grid>
 
     </Grid>
-  </Paper>
 
- 
+
   );
 };
 
@@ -239,7 +238,10 @@ const useStyles = makeStyles(() => ({
 
   mainPaper: {
     height: '100vh',
-    width: '97vw'
+    width: '97vw',
+    backgroundColor: '#ecefef',
+    minHeight: '100vh',
+
   },
 
 }));
