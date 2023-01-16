@@ -214,6 +214,7 @@ const Record = props => {
     // Before Dispatch //
 
     if (
+      record.timeMeal.length <= 0 &&
       record.sleepTime.length <= 0 &&
       record.timeActivity.length <= 0 &&
       record.coffeeCups.length <= 0 &&
