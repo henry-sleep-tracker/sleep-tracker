@@ -1,4 +1,5 @@
-const { Comment } = require("../../db");
+// const { where } = require("sequelize");
+const { Comment } = require("../db");
 
 const getCurrentComment = async (param) => {
   try {

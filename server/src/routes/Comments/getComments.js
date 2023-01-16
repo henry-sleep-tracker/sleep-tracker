@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = Router();
-const { getComments } = require("../../controllers/Comment/getComments");
+const { getComments } = require("../../controllers/getComments");
 
 router.get("/", async (req, res) => {
   try {
