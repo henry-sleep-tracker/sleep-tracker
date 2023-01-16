@@ -5,7 +5,7 @@ import Calc from "./calc";
 import Swipeable from "./tips";
 import { Grid, Typography } from "@mui/material";
 import Calendario from "../Calendario/Calendario";
-import { makeStyles, StylesContext } from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
 import { getSleepStage } from "../../actions/getUserHealthData";
 import { getRecordsQuery } from "../../actions/records_data";
