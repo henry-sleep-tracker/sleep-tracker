@@ -24,6 +24,8 @@ const Collection = () => {
   let countD;
   let typeD;
 
+  if (!records.length) return;
+
   for (let i = 0; i < records.length; i++) {
     if (records[i].timeActivity.length >= 1) {
       timeEx = records[i].timeActivity.flat();
@@ -70,6 +72,8 @@ const Collection = () => {
     consumos.push(consumo);
   }
 
+  console.log("consumo", consumos);
+
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -97,12 +101,12 @@ const Collection = () => {
   const rows = [
     createData(
       "Cafe",
-      `${consumos[0].Cafe.length >= 1 ? consumos[0].Cafe : "No hay registro"}`
+      `${consumos[0]?.Cafe.length >= 1 ? consumos[0].Cafe : "No hay registro"}`
     ),
     createData(
       "Bebidas alcoholicas",
       `${
-        consumos[0].Bebidas.length >= 1
+        consumos[0]?.Bebidas.length >= 1
           ? consumos[0].Bebidas
           : "No hay registro"
       }`
@@ -110,7 +114,7 @@ const Collection = () => {
     createData(
       "Horario de merienda",
       `${
-        consumos[0].Merienda.length >= 1
+        consumos[0]?.Merienda.length >= 1
           ? consumos[0].Merienda
           : "No hay registro"
       }`
@@ -118,7 +122,7 @@ const Collection = () => {
     createData(
       "Ejercicio",
       `${
-        consumos[0].Exercise.length >= 1
+        consumos[0]?.Exercise.length >= 1
           ? consumos[0].Exercise
           : "No hay registro"
       }`

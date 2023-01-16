@@ -26,9 +26,10 @@ import Visibility from "@mui/icons-material/Visibility";
 import { Helmet } from "react-helmet";
 import log from "../logi/log-.png";
 import wakeup from "../../images/Signup/zen-balancing.jpg";
-import styles from "./Login.module.css";
+// import styles from "./Login.module.css";
 import { message } from "react-message-popup";
-import { style } from "@mui/system";
+// import { style } from "@mui/system";
+import { makeStyles } from "@mui/styles";
 
 export default function LogIn() {
   const clientId =
@@ -58,6 +59,7 @@ export default function LogIn() {
         planExpirationDate !== "1900-01-01" &&
         planExpirationDate !== undefined
       ) {
+        //alert("Usuario validado");
         message.success("Usuario validado", 2500);
         login(
           loggedUser.id,
@@ -99,49 +101,73 @@ export default function LogIn() {
     event.preventDefault();
   };
 
+  const classes = useStyles();
+
   return (
-    <Grid container>
+    <Grid
+      container
+      height='100vh'
+    >
+
+      <Helmet>
+        <title>Iniciar sesion | Sleep Tracker</title>
+      </Helmet>
+
       <Grid
         container
         direction="row"
         justifyContent="center"
-        alignItems="center"
+        alignItems="stretch"
+        width="100%"
         columns={16}
+        className={classes.bg}
       >
-        <Grid item xs={7} paddingTop={10} className={styles.outerCard}>
+
+        <Grid
+          item
+          lg={7}
+          md={9}
+          sm={16}
+          xs={16}
+          height="100%"
+          paddingTop={10}
+          className={classes.bgImage}
+        >
           <Grid
             container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            spacing={2}
-            flex={4}
-            p={2}
+            spacing={3}
           >
-            <Helmet>
-              <title>Iniciar sesion | Sleep Tracker</title>
-            </Helmet>
 
-            <Grid item>
-              <img src={log} alt="logo" width="300vw" />
-            </Grid>
+            <Grid
+              container
+              marginLeft={13}
+              marginRight={13}
+              direction='column'
+            >
 
-            <Grid item>
+              <Grid
+                item
+                sx={{ marginLeft: 9 }}
+              >
+                <img
+                  src={log}
+                  alt="logo"
+                  width="300vw"
+                />
+              </Grid>
+
               <Card
-                className="titleresume"
                 variant="outlined"
-                sx={{ minWidth: "30rem" }}
               >
                 <CardContent>
+
                   <Grid
                     container
-                    direction="column"
                     justifyContent="center"
+                    direction="column"
                     alignItems="center"
                     spacing={3}
-                    flex={4}
-                    p={2}
-                    clasName={styles.card}
+
                   >
                     <Grid item>
                       <Typography variant="h4">Inicia sesión</Typography>
@@ -215,49 +241,87 @@ export default function LogIn() {
                     </Grid>
 
                     <Grid container>
+
                       <Grid item sx={{ marginTop: 5, marginLeft: 3 }}>
                         <Link href="/contrasena_olvidada" variant="body2">
                           ¿Olvidaste tu contraseña?
                         </Link>
                       </Grid>
+
                       <Grid item sx={{ marginTop: 5, marginLeft: 3 }}>
                         <Link href="/registro" variant="body2">
                           {"¿No tienes una cuenta? Registrate"}
                         </Link>
                       </Grid>
+
                     </Grid>
                   </Grid>
+
                 </CardContent>
               </Card>
+
             </Grid>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              marginTop: "4vh",
-              marginLeft: "7vw",
-            }}
-          >
-            <Button
-              variant="outlined"
-              size="medium"
-              sx={{ background: "white", opacity: 0.6 }}
-              startIcon={<ArrowBackIosNewIcon />}
-              href="/"
+
+            <Grid
+              item
+              sx={{
+                marginLeft: 10,
+              }}
             >
-              Regresar
-            </Button>
+              <Button
+                variant="outlined"
+                startIcon={<ArrowBackIosNewIcon />}
+                href="/"
+              >
+                Regresar
+              </Button>
+            </Grid>
+
           </Grid>
+          <br />
         </Grid>
-        <Grid item xs={9}>
-          <Grid>
-            <img src={wakeup} alt="wakeup login" className={styles.zenImage} />
-          </Grid>
+
+        <Grid
+          item
+          lg={9}
+          md={7}
+          sm={0}
+          xs={0}
+          sx={{
+            display: { lg: 'block', md: 'block', sm: 'none', xs: 'none' }
+          }}
+          height="100%"
+          paddingTop={0}
+          paddingBottom={0}
+
+        >
+          <img
+            src={wakeup}
+            alt="wakeup login"
+            className={classes.imageStyle}
+          />
         </Grid>
+
       </Grid>
-    </Grid>
+
+    </Grid >
   );
 }
+
+const useStyles = makeStyles(() => ({
+  imageStyle: {
+    width: '100%',
+    minHeight: '100vh',
+    height: '100%'
+  },
+
+  bg: {
+    backgroundColor: '#ecefef'
+
+  },
+
+  bgImage: {
+    backgroundImage: `url(${wakeup})`
+  },
+
+}));

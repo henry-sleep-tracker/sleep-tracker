@@ -5,7 +5,7 @@ import Calc from "./calc";
 import Swipeable from "./tips";
 import { Grid, Typography } from "@mui/material";
 import Calendario from "../Calendario/Calendario";
-import { makeStyles } from "@mui/styles";
+import { makeStyles, StylesContext } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
 import { getSleepStage } from "../../actions/getUserHealthData";
 import { getRecordsQuery } from "../../actions/records_data";
@@ -14,6 +14,7 @@ import CollapsibleTable from "../Graph-Week/CollapsibleTable";
 import { getUsersPlanExpDate } from "../../actions/plan";
 import { useAuthContext } from "../../actions/authContext";
 import { Helmet } from "react-helmet";
+import styles from "./Home.module.css";
 
 const yesterday = new Date(Date.now() - 28800000).toISOString().split("T")[0];
 
@@ -67,7 +68,7 @@ const Home = () => {
       </Helmet>
 
       <Grid item>
-        <Typography className={classes.saludo} variant="h4">
+        <Typography>
           ¡Hola {user.name} {greet()}
         </Typography>
       </Grid>
@@ -76,36 +77,44 @@ const Home = () => {
         <Fitbit />
       </Grid>
 
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        columns={16}
-      >
-        <Grid item xs={12}>
-          <Calendario />
-        </Grid>
-
-        <Grid item xs={4}>
-          <GraphHome />
-        </Grid>
-      </Grid>
-
       <Grid item>
-        <CollapsibleTable />
+        <Calendario />
       </Grid>
+      <Grid>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          columns={16}
+        >
+          <Grid item xs={11} className={styles.graph}>
+            <GraphHome />
+          </Grid>
 
-      <Grid className={classes.Collection} item>
-        <Collection />
-      </Grid>
+          <Grid item xs={5}>
+            <CollapsibleTable />
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          columns={16}
+        >
+          <Grid className={classes.Collection} item>
+            <Collection />
+          </Grid>
 
-      <Grid className={classes.calc} item>
-        <Calc />
-      </Grid>
+          <Grid className={classes.calc} item>
+            <Calc />
+          </Grid>
 
-      <Grid className={classes.swipeableHome} item>
-        <Swipeable className={classes.swipeable} />
+          <Grid className={classes.swipeableHome} item>
+            <Swipeable className={classes.swipeable} />
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );
