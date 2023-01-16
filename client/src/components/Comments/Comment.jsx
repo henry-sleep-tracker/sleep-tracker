@@ -53,6 +53,7 @@ const CreateComment = () => {
             ...input,
             rate: element.target.defaultValue
         })
+        console.log(input)
     }
 
     function handleSubmit(element) {
