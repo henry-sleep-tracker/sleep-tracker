@@ -128,7 +128,7 @@ function UsersContent() {
       { field: "birthday", headerName: "Nacimiento", type: "date", editable: true },
       { field: "nationality", headerName: "Nacionalidad", width: 125, editable: true },
       { field: "lastConnection", headerName: "Última Conexión", type: "date", width: 125 }, 
-      { field: "createdAt", headerName: "Creado", type: "date", width: 175 },
+      { field: "createdAt", headerName: "Creado", type: "date", width: 175, editable: true },
       { field: "deletedAt", headerName: "Eliminado", type: "date", width: 175 },
       { field: "actions", headerName: "Acciones", type: "actions",
         renderCell: (params) => (

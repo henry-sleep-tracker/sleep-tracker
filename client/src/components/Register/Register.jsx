@@ -24,7 +24,8 @@ import { Helmet } from "react-helmet";
 import log from "../logi/log-.png";
 import { message } from "react-message-popup";
 import wakeup from "../../images/Signup/zen-balancing.jpg";
-import styles from "./Register.module.css";
+// import styles from "./Register.module.css";
+import { makeStyles } from "@mui/styles";
 
 let nationalities = [
   "Afganistan",
@@ -252,9 +253,8 @@ export default function Register() {
     let errors = {};
     for (let propiedad in input) {
       if (!input[propiedad]) {
-        errors[propiedad] = `${
-          propiedad.charAt(0).toUpperCase() + propiedad.slice(1)
-        } es requerido`;
+        errors[propiedad] = `${propiedad.charAt(0).toUpperCase() + propiedad.slice(1)
+          } es requerido`;
       }
     }
     return errors;
@@ -341,48 +341,94 @@ export default function Register() {
     event.preventDefault();
   };
 
+  const classes = useStyles();
+
   return (
-    <Grid container>
+    <Grid container height='100vh'>
+
+      <Helmet>
+        <title>Registro | Sleep Tracker</title>
+      </Helmet>
+
       <Grid
         container
         direction="row"
         justifyContent="center"
-        alignItems="center"
+        alignItems="stretch"
+        width="100%"
         columns={16}
+        className={classes.bg}
+
       >
-        <Grid item xs={8} paddingTop={3} className={styles.outerCard}>
+
+        <Grid
+          item
+          lg={9}
+          md={7}
+          sm={0}
+          xs={0}
+          sx={{
+            display: { lg: 'block', md: 'block', sm: 'none', xs: 'none' }
+          }}
+          height="100%"
+          paddingTop={0}
+          paddingBottom={0}
+        >
+          <img
+            src={wakeup}
+            alt="wakeup login"
+            className={classes.imageStyle}
+          />
+        </Grid>
+
+
+        <Grid
+          item
+          lg={7}
+          md={9}
+          sm={16}
+          xs={16}
+          height="100%"
+          paddingTop={3}
+          className={classes.bgImage}
+        >
           <Grid
             container
-            justifyContent="center"
-            direction="column"
-            alignItems="center"
-            spacing={1}
+            spacing={3}
           >
-            <Helmet>
-              <title>Registro | Sleep Tracker</title>
-            </Helmet>
 
-            <Grid item></Grid>
+            <Grid
+              container
+              marginLeft={13}
+              marginRight={13}
+              direction='column'
+            >
 
-            <Grid item>
-              <img src={log} alt="logo" width="300vw" />
-            </Grid>
+              <Grid
+                item
+                sx={{ marginLeft: 9 }}
+              >
+                <img
+                  src={log}
+                  alt="logo"
+                  width="300vw"
+                />
+              </Grid>
 
-            <Grid item>
+
               <Card
-                className="titleresume"
                 variant="outlined"
-                sx={{ minWidth: "30rem" }}
               >
                 <CardContent>
+
                   <Grid
                     container
                     justifyContent="center"
                     direction="column"
                     alignItems="center"
                     spacing={3}
-                    clasName={styles.card}
                   >
+
                     <Grid item>
                       <Typography
                         sx={{ margin: 2, fontSize: 30, fontWeight: "medium" }}
@@ -390,6 +436,7 @@ export default function Register() {
                         Registro
                       </Typography>
                     </Grid>
+
                     <Grid item>
                       <TextField
                         id="standard-start-adornment"
@@ -397,7 +444,7 @@ export default function Register() {
                         variant="standard"
                         type="text"
                         name="names"
-                        maxLength="50"
+                        inputProps={{ maxLength: 20 }}
                         InputProps={{
                           startAdornment: <InputAdornment></InputAdornment>,
                         }}
@@ -411,7 +458,7 @@ export default function Register() {
                         variant="standard"
                         type="text"
                         name="lastNames"
-                        maxLength="50"
+                        inputProps={{ maxLength: 20 }}
                         InputProps={{
                           startAdornment: <InputAdornment></InputAdornment>,
                         }}
@@ -469,7 +516,7 @@ export default function Register() {
                         variant="standard"
                         type="email"
                         name="email"
-                        maxLength="256"
+                        inputProps={{ maxLength: 256 }}
                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                         title={`El correo debe contener @ y .`}
                         onChange={(event) => handleChange(event)}
@@ -488,7 +535,7 @@ export default function Register() {
                           type={showPassword ? "text" : "password"}
                           label="Contraseña"
                           name="password"
-                          maxLength="32"
+                          inputProps={{ maxLength: 32 }}
                           pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
                           title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                           onChange={(event) => handleChange(event)}
@@ -523,7 +570,7 @@ export default function Register() {
                           type={showPassword2 ? "text" : "password"}
                           label="Confirmar contraseña"
                           name="confirmPassword"
-                          maxLength="32"
+                          inputProps={{ maxLength: 32 }}
                           pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*"
                           title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                           onChange={(event) => handleChange(event)}
@@ -562,34 +609,49 @@ export default function Register() {
                 </CardContent>
               </Card>
             </Grid>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              marginTop: "4vh",
-              marginLeft: "10.5vw",
-            }}
-          >
-            <Button
-              variant="outlined"
-              size="medium"
-              sx={{ background: "white", opacity: 0.6 }}
-              startIcon={<ArrowBackIosNewIcon />}
-              href="/"
+
+
+            <Grid
+              item
+              sx={{
+                marginLeft: 10
+              }}
             >
-              Regresar
-            </Button>
+              <Button
+                variant="outlined"
+                startIcon={<ArrowBackIosNewIcon />}
+                href="/"
+              >
+                Inicio
+              </Button>
+            </Grid>
+
           </Grid>
+
+          <br />
+
         </Grid>
-        <Grid item xs={8}>
-          <Grid>
-            <img src={wakeup} alt="wakeup login" className={styles.zenImage} />
-          </Grid>
-        </Grid>
+
+
+
       </Grid>
+
     </Grid>
   );
 }
+
+const useStyles = makeStyles(() => ({
+  imageStyle: {
+    width: '100%',
+    minHeight: '100vh',
+    height: '100%'
+  },
+
+  bg: {
+    backgroundColor: '#ecefef'
+  },
+
+  bgImage: {
+    backgroundImage: `url(${wakeup})`
+  },
+}));

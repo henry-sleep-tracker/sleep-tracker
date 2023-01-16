@@ -18,10 +18,9 @@ export default function LoadingPayment() {
     (state) => state?.users.planExpirationDate
   );
   const dispatch = useDispatch();
-  debugger
   useEffect(() => {
     if (currentUser?.plan === null || !currentUser.plan && count1<=0) {
-      debugger
+  
       dispatch(getUsersPlanExpDate(currentUser.id));
       dispatch(getUserById(currentUser.id));
       count1++;
@@ -29,13 +28,12 @@ export default function LoadingPayment() {
   }, [dispatch, currentUser]);
 
   if (planExpirationDate > yourDate && count2<=0) {
-    debugger
+
     payPlan(planExpirationDate);
     count2++
   }
-  debugger
   if (currentUser.plan && currentUser.plan !== null && planExpDate>yourDate) {
-    debugger
+
       if (isGoogleUser==="true" && isPasswordSetUp==="false") {
         return <Navigate to="/private/profile" />;
       }else{

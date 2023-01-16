@@ -1,9 +1,7 @@
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
-import AssignmentIcon from '@mui/icons-material/Assignment';
 import { useNavigate } from 'react-router-dom';
-import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
-import Divider from '@mui/material/Divider';
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
 function SideListContent( ) {
   const navigate = useNavigate();
