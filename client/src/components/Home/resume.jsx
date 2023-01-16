@@ -24,51 +24,56 @@ const Collection = () => {
   let countD;
   let typeD;
 
-  for (let i = 0; i < records.length; i++) {
-    if (records[i].timeActivity.length >= 1) {
-      timeEx = records[i].timeActivity.flat();
-      typeEx = records[i].nameActivity.flat();
+  if (!records.message) {
+    for (let i = 0; i < records.length; i++) {
+      if (records[i].timeActivity.length >= 1) {
+        timeEx = records[i].timeActivity.flat();
+        typeEx = records[i].nameActivity.flat();
 
-      for (let i = 0; i < timeEx.length; i++) {
-        Exercise.push(`${timeEx[i]} min de ${typeEx[i]}`);
+        for (let i = 0; i < timeEx.length; i++) {
+          Exercise.push(` ${timeEx[i]} min de ${typeEx[i]} `);
+        }
       }
-    }
 
-    if (records[i].coffeeConsumption.length >= 1) {
-      cups = records[i].coffeeConsumption.flat();
-      size = records[i].coffeSize.flat();
+      if (records[i].coffeeConsumption.length >= 1) {
+        cups = records[i].coffeeConsumption.flat();
+        size = records[i].coffeSize.flat();
 
-      for (let i = 0; i < cups.length; i++) {
-        cups[i] > 1
-          ? Coffe.push(`${cups[i]} tazas de ${size[i]}`)
-          : Coffe.push(`${cups[i]} taza de ${size[i]}`);
+        for (let i = 0; i < cups.length; i++) {
+          cups[i] > 1
+            ? Coffe.push(` ${cups[i]} tazas de ${size[i]} `)
+            : Coffe.push(` ${cups[i]} taza de ${size[i]} `);
+        }
       }
-    }
 
-    if (records[i].drinkConsumption.length >= 1) {
-      countD = records[i].drinkConsumption.flat();
-      typeD = records[i].typeDrink.flat();
+      if (records[i].drinkConsumption.length >= 1) {
+        countD = records[i].drinkConsumption.flat();
+        typeD = records[i].typeDrink.flat();
 
-      for (let i = 0; i < countD.length; i++) {
-        countD[i] > 1
-          ? Drinks.push(`${countD[i]} ${typeD[i]}s`)
-          : Drinks.push(`${countD[i]} ${typeD[i]}`);
+        for (let i = 0; i < countD.length; i++) {
+          countD[i] > 1
+            ? Drinks.push(` ${countD[i]} ${typeD[i]}s `)
+            : Drinks.push(` ${countD[i]} ${typeD[i]} `);
+        }
       }
-    }
 
-    let consumo = {
-      userId: records[0].userId,
-      Exercise: Exercise,
-      Cafe: Coffe,
-      Bebidas: Drinks,
-      Merienda:
-        records[records.length - 1].timeMeal.slice(0, -3) +
-        " " +
-        records[records.length - 1].description,
-      Date: records[0].dateMeal,
-    };
-    consumos.push(consumo);
+      let consumo = {
+        userId: records[0].userId,
+        Exercise: Exercise,
+        Cafe: Coffe,
+        Bebidas: Drinks,
+        Merienda:
+          records[records.length - 1].timeMeal.slice(0, -3) +
+          " " +
+          records[records.length - 1].description,
+        Date: records[0].dateMeal,
+      };
+      console.log("consumooo", consumo);
+      consumos.push(consumo);
+    }
   }
+
+  console.log("consumo", consumos);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -97,31 +102,19 @@ const Collection = () => {
   const rows = [
     createData(
       "Cafe",
-      `${consumos[0].Cafe.length >= 1 ? consumos[0].Cafe : "No hay registro"}`
+      `${consumos[0]?.Cafe ? consumos[0].Cafe : "No hay registro"}`
     ),
     createData(
       "Bebidas alcoholicas",
-      `${
-        consumos[0].Bebidas.length >= 1
-          ? consumos[0].Bebidas
-          : "No hay registro"
-      }`
+      `${consumos[0]?.Bebidas ? consumos[0].Bebidas : "No hay registro"}`
     ),
     createData(
       "Horario de merienda",
-      `${
-        consumos[0].Merienda.length >= 1
-          ? consumos[0].Merienda
-          : "No hay registro"
-      }`
+      `${consumos[0]?.Merienda ? consumos[0].Merienda : "No hay registro"}`
     ),
     createData(
       "Ejercicio",
-      `${
-        consumos[0].Exercise.length >= 1
-          ? consumos[0].Exercise
-          : "No hay registro"
-      }`
+      `${consumos[0]?.Exercise ? consumos[0].Exercise : "No hay registro"}`
     ),
   ];
 
@@ -141,7 +134,7 @@ const Collection = () => {
             <Typography variant="h4">
               Registro de consumo del:
               <p>
-                {consumos[0].Date.length >= 1
+                {consumos[0]?.Date
                   ? consumos[0].Date
                   : "No hay registro de ese día"}
               </p>

@@ -160,8 +160,7 @@ export const getUserById = (id) => {
     }
   };
 };
-
-export function logInUser(email, password) {
+export const restoreUser = (email, password) => {
   return async function (dispatch) {
     try {
       const response = await fetch(
@@ -175,23 +174,41 @@ export function logInUser(email, password) {
         }
       );
       const userFound = await response.json();
+      await axios.post(
+        `${process.env.REACT_APP_DEFAULT_URL}/user/restoreUser/${userFound.id}`
+      );
+      return dispatch({
+        type: GET_CURRENT_USER,
+        payload: userFound,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+export function logInUser(email, password, setOpen) {
+  console.log("check", email, password, setOpen);
+  return async function (dispatch) {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_DEFAULT_URL}/login/manual`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: email, password: password }),
+        }
+      );
+      const userFound = await response.json();
+      console.log("userFound", response);
       if (response.status === 204) {
         return dispatch({
           type: GET_CURRENT_USER,
           payload: nullUser,
         });
       } else if (response.status === 202) {
-        message.error(
-          "El usuario habia sido borrado. esta seguro de querer recuperar su cuenta?",
-          5000
-        );
-        await axios.post(
-          `${process.env.REACT_APP_DEFAULT_URL}/user/${userFound.id}`
-        );
-        return dispatch({
-          type: GET_CURRENT_USER,
-          payload: userFound,
-        });
+        setOpen(true);
       } else {
         return dispatch({
           type: GET_CURRENT_USER,
@@ -234,6 +251,10 @@ export function logInUserWithGoogle(response) {
   return async function (dispatch) {
     try {
       const { email, familyName, givenName } = response.profileObj;
+      console.log(
+        "process.env.REACT_APP_DEFAULT_URL:",
+        process.env.REACT_APP_DEFAULT_URL
+      );
       const userCreated = await axios.post(
         `${process.env.REACT_APP_DEFAULT_URL}/user/google`,
         { email, lastNames: familyName, names: givenName }
@@ -243,7 +264,7 @@ export function logInUserWithGoogle(response) {
         payload: userCreated.data,
       });
     } catch (error) {
-      console.log(error);
+      console.log("el error de logInUserWithGoogle es:", error.message);
     }
   };
 }

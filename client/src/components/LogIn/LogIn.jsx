@@ -28,7 +28,8 @@ import log from "../logi/log-.png";
 import wakeup from "../../images/Signup/zen-balancing.jpg";
 // import styles from "./Login.module.css";
 import { message } from "react-message-popup";
-// import { style } from "@mui/system";
+import { style } from "@mui/system";
+import AlertDialog from "../Alert/Alert";
 import { makeStyles } from "@mui/styles";
 
 export default function LogIn() {
@@ -80,18 +81,6 @@ export default function LogIn() {
       [event.target.name]: event.target.value,
     });
   }
-  async function handleSubmit(event) {
-    event.preventDefault();
-    try {
-      dispatch(logInUser(input.email, input.password));
-      setInput({
-        email: "",
-        password: "",
-      });
-    } catch (error) {
-      console.log("el error es:", error);
-    }
-  }
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -100,19 +89,27 @@ export default function LogIn() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  async function handleSubmit(event) {
+    event.preventDefault();
+    try {
+      dispatch(logInUser(input.email, input.password, setOpen));
+    } catch (error) {
+      console.log("el error es:", error);
+    }
+  }
 
   const classes = useStyles();
-
   return (
-    <Grid
-      container
-      height='100vh'
-    >
-
+    <Grid container>
+      <AlertDialog open={open} handleClose={handleClose} input={input} />
       <Helmet>
         <title>Iniciar sesion | Sleep Tracker</title>
       </Helmet>
-
       <Grid
         container
         direction="row"
@@ -122,7 +119,6 @@ export default function LogIn() {
         columns={16}
         className={classes.bg}
       >
-
         <Grid
           item
           lg={7}
@@ -133,44 +129,25 @@ export default function LogIn() {
           paddingTop={10}
           className={classes.bgImage}
         >
-          <Grid
-            container
-            spacing={3}
-          >
-
-            <Grid
-              container
-              marginLeft={13}
-              marginRight={13}
-              direction='column'
-            >
-
-              <Grid
-                item
-                sx={{ marginLeft: 9 }}
-              >
-                <img
-                  src={log}
-                  alt="logo"
-                  width="300vw"
-                />
+          <Grid container spacing={3}>
+            <Grid container marginLeft={13} marginRight={13} direction="column">
+              <Grid item sx={{ marginLeft: 9 }}>
+                <img src={log} alt="logo" width="300vw" />
               </Grid>
 
-              <Card
-                variant="outlined"
-              >
+              <Card variant="outlined">
                 <CardContent>
-
                   <Grid
                     container
                     justifyContent="center"
                     direction="column"
                     alignItems="center"
                     spacing={3}
-
                   >
                     <Grid item>
-                      <Typography variant="h4">Inicia sesión</Typography>
+                      <Typography sx={{ fontSize: 30, fontWeight: "medium" }}>
+                        Inicia sesión
+                      </Typography>
                     </Grid>
 
                     <Grid item>
@@ -241,7 +218,6 @@ export default function LogIn() {
                     </Grid>
 
                     <Grid container>
-
                       <Grid item sx={{ marginTop: 5, marginLeft: 3 }}>
                         <Link href="/contrasena_olvidada" variant="body2">
                           ¿Olvidaste tu contraseña?
@@ -253,13 +229,10 @@ export default function LogIn() {
                           {"¿No tienes una cuenta? Registrate"}
                         </Link>
                       </Grid>
-
                     </Grid>
                   </Grid>
-
                 </CardContent>
               </Card>
-
             </Grid>
 
             <Grid
@@ -276,7 +249,6 @@ export default function LogIn() {
                 Regresar
               </Button>
             </Grid>
-
           </Grid>
           <br />
         </Grid>
@@ -288,40 +260,31 @@ export default function LogIn() {
           sm={0}
           xs={0}
           sx={{
-            display: { lg: 'block', md: 'block', sm: 'none', xs: 'none' }
+            display: { lg: "block", md: "block", sm: "none", xs: "none" },
           }}
           height="100%"
           paddingTop={0}
           paddingBottom={0}
-
         >
-          <img
-            src={wakeup}
-            alt="wakeup login"
-            className={classes.imageStyle}
-          />
+          <img src={wakeup} alt="wakeup login" className={classes.imageStyle} />
         </Grid>
-
       </Grid>
-
-    </Grid >
+    </Grid>
   );
 }
 
 const useStyles = makeStyles(() => ({
   imageStyle: {
-    width: '100%',
-    minHeight: '100vh',
-    height: '100%'
+    width: "100%",
+    minHeight: "100vh",
+    height: "100%",
   },
 
   bg: {
-    backgroundColor: '#ecefef'
-
+    backgroundColor: "#ecefef",
   },
 
   bgImage: {
-    backgroundImage: `url(${wakeup})`
+    backgroundImage: `url(${wakeup})`,
   },
-
 }));

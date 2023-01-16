@@ -32,7 +32,6 @@ const rows = [
     items: [
       "- El sueño ligero sirve como punto de entrada al sueño por las noches, cuando tu cuerpo desconecta y se relaja.",
       "- Esta fase comienza normalmente a los pocos minutos de quedarse dormido, favorece la recuperación física y mental.",
-      "Durante la primera parte del sueño ligero, es posible que constantemente te despiertes y te vuelvas a dormir, la respiración y la frecuencia cardíaca normalmente disminuyen ligeramente durante esta fase.",
     ],
   },
   {
