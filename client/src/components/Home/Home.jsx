@@ -84,14 +84,14 @@ const Home = () => {
           container
           direction="row"
           justifyContent="center"
-          alignItems="center"
+          alignItems="flex-start"
           columns={16}
         >
-          <Grid item xs={11}>
+          <Grid item xs={12} sx={{ padding: 3 }}>
             <GraphHome />
           </Grid>
 
-          <Grid item xs={5}>
+          <Grid item xs={4} sx={{ padding: 3 }}>
             <CollapsibleTable />
           </Grid>
         </Grid>
@@ -102,15 +102,15 @@ const Home = () => {
           alignItems="center"
           columns={16}
         >
-          <Grid className={classes.Collection} item>
+          <Grid item xs={6} sx={{ padding: 3 }}>
             <Collection />
           </Grid>
 
-          <Grid className={classes.calc} item>
+          <Grid item xs={5} sx={{ padding: 3 }}>
             <Calc />
           </Grid>
 
-          <Grid className={classes.swipeableHome} item>
+          <Grid item xs={5} sx={{ padding: 3 }}>
             <Swipeable className={classes.swipeable} />
           </Grid>
         </Grid>
