@@ -63,11 +63,10 @@ export function postUser(user) {
       } else {
         await axios.post(`${process.env.REACT_APP_DEFAULT_URL}/user`, user);
         alert("Usuario registrado correctamente");
-        window.location.href = "http://localhost:3000/login";
-
         window.location.href =
           `${process.env.REACT_APP_BASE_FRONT_URL}/8f26c6520d61588a9757bc182157c4497628e871`;
         window.location.href = `${process.env.REACT_APP_BASE_FRONT_URL}/login`;
+
       }
     } catch (error) {
       console.log("El error client actions postUser es:", error.message);
