@@ -33,7 +33,7 @@ export function AuthContextProvider({ children }) {
     setPlanExpDate(expDate);
   }, []);
 
-  const createPassword = useCallback(function (expDate) {
+  const createPassword = useCallback(function () {
     //esto lo usa el componente log in cuando se valide la contraseña y el email
 
     window.localStorage.setItem(IS_PASSWORD_SET_UP, true);
