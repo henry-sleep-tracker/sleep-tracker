@@ -47,7 +47,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 
 function ResponsiveAppBar({ mode, setMode }) {
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state?.users.currentUser);
+  const currentUser = useSelector((state) => state?.users);
   const { logout } = useAuthContext();
   const navigate = useNavigate();
 
@@ -219,7 +219,7 @@ function ResponsiveAppBar({ mode, setMode }) {
                     </ListItemButton>
                   </ListItem>
 
-                  {currentUser.isAdmin && (
+                  {currentUser.currentUser.isAdmin && (
                     <ListItem disablePadding>
                       <ListItemButton component="a">
                         <ListItemIcon>

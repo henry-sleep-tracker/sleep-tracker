@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MobileStepper from '@mui/material/MobileStepper';
@@ -14,7 +14,8 @@ import googlePixelWatchObsidian from "./Images/google-pixel-watch-obsidian-devic
 import sense2 from "./Images/sense2-black-device-3qt.png";
 import versa2 from "./Images/versa2-3qtr-black.png";
 import versa4 from "./Images/versa4-black-device-3qtr.png";
-import { Grid } from '@mui/material';
+import { Card, CardContent, Grid } from '@mui/material';
+import { makeStyles } from "@mui/styles";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -41,10 +42,13 @@ const images = [
     },
 ];
 
-function DevicesCarousel() {
+const DevicesCarousel = ({ localStep }) => {
     const theme = useTheme();
-    const [activeStep, setActiveStep] = React.useState(0);
     const maxSteps = images.length;
+    const classes = useStyles();
+
+
+    const [activeStep, setActiveStep] = React.useState(localStep);
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -59,16 +63,16 @@ function DevicesCarousel() {
     };
 
     return (
-        // <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+
         <Grid
             container
             // justifyContent="space-evenly"
             // alignItems="center"
             // // flex={4}
             // // p={9}
-            // direction='row'
+            direction='row'
         >
-            <Grid
+            {/* <Grid
                 item
             >
                 <Button 
@@ -84,44 +88,75 @@ function DevicesCarousel() {
                     )}
                     Back
                 </Button>
-            </Grid>
+            </Grid> */}
 
             <Grid
                 item
             >
-                <Paper square>
+                <Card 
+                square
+                >
+                    <CardContent>
 
-                    <Typography>{images[activeStep].label}</Typography>
-                    <AutoPlaySwipeableViews
-                        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                        index={activeStep}
-                        onChangeIndex={handleStepChange}
-                        enableMouseEvents
-                    >
-                        {images.map((step, index) => (
-                            <div key={step.label}>
-                                {Math.abs(activeStep - index) <= 2 ? (
-                                    <Box
-                                        component="img"
-                                        sx={{
-                                            height: 500,
-                                            display: 'block',
-                                            maxWidth: 500,
-                                            overflow: 'hidden',
-                                            width: '100%',
-                                        }}
-                                        src={step.imgPath}
-                                        alt={step.label}
-                                    />
-                                ) : null}
-                            </div>
-                        ))}
-                    </AutoPlaySwipeableViews>
-                </Paper>
+                        <Grid
+                            container
+                            spacing={2}
+                            alignItems="center"
+                            direction='column'
+
+                        >
+                            <Grid
+                                item
+                                marginTop={0}
+                            >
+
+                                <Typography
+                                    variant='h5'
+                                    fontWeight='bold'
+                                >
+                                    {images[activeStep].label}
+                                </Typography>
+                            </Grid>
+
+                            <Grid
+                                item
+                            >
+
+                                <AutoPlaySwipeableViews
+                                    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                                    index={activeStep}
+                                    onChangeIndex={handleStepChange}
+                                    enableMouseEvents
+                                >
+                                    {images.map((step, index) => (
+                                        <div key={step.label}>
+                                            {Math.abs(activeStep - index) <= 2 ? (
+                                                <Box
+                                                    component="img"
+                                                    sx={{
+                                                        height: 500,
+                                                        display: 'block',
+                                                        maxWidth: 500,
+                                                        overflow: 'hidden',
+                                                        width: '100%',
+                                                    }}
+                                                    src={step.imgPath}
+                                                    alt={step.label}
+                                                />
+                                            ) : null}
+                                        </div>
+                                    ))}
+                                </AutoPlaySwipeableViews>
+                            </Grid>
+
+                        </Grid>
+                    </CardContent>
+
+                </Card>
 
             </Grid>
 
-            <Grid
+            {/* <Grid
                 item
             >
                 <Button
@@ -137,12 +172,19 @@ function DevicesCarousel() {
                         <KeyboardArrowRight />
                     )}
                 </Button>
-            </Grid>
+            </Grid> */}
 
         </Grid>
 
-        // </Box>
     );
 }
 
 export default DevicesCarousel;
+
+
+const useStyles = makeStyles(() => ({
+    bg: {
+        backgroundColor: '#e8eaf6'
+    },
+
+}));
