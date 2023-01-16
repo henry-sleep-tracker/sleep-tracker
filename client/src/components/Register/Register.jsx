@@ -430,7 +430,9 @@ export default function Register() {
                   >
 
                     <Grid item>
-                      <Typography variant="h4" sx={{ margin: 2 }}>
+                      <Typography
+                        sx={{ margin: 2, fontSize: 30, fontWeight: "medium" }}
+                      >
                         Registro
                       </Typography>
                     </Grid>

@@ -145,7 +145,9 @@ export default function LogIn() {
                     spacing={3}
                   >
                     <Grid item>
-                      <Typography variant="h4">Inicia sesión</Typography>
+                      <Typography sx={{ fontSize: 30, fontWeight: "medium" }}>
+                        Inicia sesión
+                      </Typography>
                     </Grid>
 
                     <Grid item>
