@@ -14,40 +14,35 @@ const Page1 = () => {
 
   return (
 
-    <Paper
-      elevation={20}
+    <Grid
+      container
+      // direction="row"
+      justifyContent="space-evenly"
+      alignItems="center"
+      className={classes.mainPaper}
+      flex={4}
+      p={9}
     >
+      <Grid
+        item
+        xs={12}
+        md={3}
+      >
+        <Typography
+          variant="h2"
+        >
+          Comentarios sobre Sleep Tracker
+        </Typography>
+      </Grid>
 
       <Grid
-        container
-        // direction="row"
-        justifyContent="space-evenly"
-        alignItems="center"
-        className={classes.mainPaper}
-        flex={4}
-        p={9}
+        item
+        xs={12}
+        md={3}
       >
-        <Grid
-          item
-          xs={12}
-          md={3}
-        >
-          <Typography
-            variant="h2"
-          >
-            Comentarios sobre Sleep Tracker
-          </Typography>
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          md={3}
-        >
-          <CommentsCarousel />
-        </Grid>
+        <CommentsCarousel />
       </Grid>
-    </Paper>
+    </Grid>
   );
 };
 
@@ -55,10 +50,8 @@ export default Page1;
 
 const useStyles = makeStyles(() => ({
   mainPaper: {
-    height: '100vh',
-    width: '97vw',
-    backgroundColor: '#ecefef',
-    minHeight: '100vh',
-
+    minHeight: '50vh',
+    width: '100vw',
+    backgroundColor: '#e8eaf6',
   }
 }));

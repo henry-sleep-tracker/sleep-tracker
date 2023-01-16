@@ -30,6 +30,7 @@ const Page4 = () => {
     >
       <Grid
         item
+        marginTop={5}
       >
         <Typography
           variant="h4"
@@ -237,10 +238,9 @@ const useStyles = makeStyles(() => ({
   },
 
   mainPaper: {
-    height: '100vh',
-    width: '97vw',
+    width: '100vw',
     backgroundColor: '#ecefef',
-    minHeight: '100vh',
+    minHeight: '70vh',
 
   },
 

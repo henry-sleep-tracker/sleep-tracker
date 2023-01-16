@@ -118,9 +118,8 @@ const useStyles = makeStyles(() => ({
   },
 
   mainPaper: {
-    height: '70vh',
     width: '100vw',
-    minHeight: '70vh',
+    minHeight: '60vh',
 
   },
 
