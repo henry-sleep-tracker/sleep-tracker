@@ -14,7 +14,6 @@ import CollapsibleTable from "../Graph-Week/CollapsibleTable";
 import { getUsersPlanExpDate } from "../../actions/plan";
 import { useAuthContext } from "../../actions/authContext";
 import { Helmet } from "react-helmet";
-import styles from "./Home.module.css";
 
 const yesterday = new Date(Date.now() - 28800000).toISOString().split("T")[0];
 
@@ -88,7 +87,7 @@ const Home = () => {
           alignItems="center"
           columns={16}
         >
-          <Grid item xs={11} className={styles.graph}>
+          <Grid item xs={11}>
             <GraphHome />
           </Grid>
 
