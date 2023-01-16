@@ -175,7 +175,7 @@ export const restoreUser = (email, password) => {
       );
       const userFound = await response.json();
       await axios.post(
-        `${process.env.REACT_APP_DEFAULT_URL}/user/${userFound.id}`
+        `${process.env.REACT_APP_DEFAULT_URL}/user/restoreUser/${userFound.id}`
       );
       return dispatch({
         type: GET_CURRENT_USER,
@@ -251,6 +251,10 @@ export function logInUserWithGoogle(response) {
   return async function (dispatch) {
     try {
       const { email, familyName, givenName } = response.profileObj;
+      console.log(
+        "process.env.REACT_APP_DEFAULT_URL:",
+        process.env.REACT_APP_DEFAULT_URL
+      );
       const userCreated = await axios.post(
         `${process.env.REACT_APP_DEFAULT_URL}/user/google`,
         { email, lastNames: familyName, names: givenName }
@@ -260,7 +264,7 @@ export function logInUserWithGoogle(response) {
         payload: userCreated.data,
       });
     } catch (error) {
-      console.log(error);
+      console.log("el error de logInUserWithGoogle es:", error.message);
     }
   };
 }
