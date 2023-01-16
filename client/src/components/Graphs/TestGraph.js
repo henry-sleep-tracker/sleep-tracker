@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 export default function Graph() {
   const stages = useSelector((state) => state.stage);
-  console.log("stages", stages);
 
   stages.forEach((s) => {
     if (s.level === "wake") {

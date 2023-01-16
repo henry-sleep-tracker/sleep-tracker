@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   XAxis,
   YAxis,
@@ -9,8 +9,7 @@ import {
   Area,
 } from "recharts";
 import { useSelector } from "react-redux";
-import { Card, CardContent } from "@mui/material";
-import styles from "./Graph-home.module.css";
+import { Card } from "@mui/material";
 
 export default function GraphHome() {
   const stages = useSelector((state) => state.stage);

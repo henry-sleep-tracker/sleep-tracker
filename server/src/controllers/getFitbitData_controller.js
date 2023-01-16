@@ -1,5 +1,3 @@
-const { Router } = require("express");
-const router = Router();
 const fetch = require("node-fetch");
 const { Stage, Session, Steps } = require("../db");
 const { Op } = require("sequelize");
@@ -96,7 +94,6 @@ const getFitbitData = async (req, res) => {
           obj["steps"] = s.value;
           return obj;
         });
-      console.log("steps", steps);
       await Steps.bulkCreate(steps);
       //-------------------------- STEPS ACTIVITY ----------------------------------------------------//
     } else {
@@ -163,7 +160,6 @@ const getFitbitData = async (req, res) => {
       );
 
       const getSteps = await stepsData.json();
-      console.log("stepsNORECENT", getSteps);
 
       const steps = getSteps["activities-steps"]
         ?.filter((s) => s.value !== "0")
@@ -174,7 +170,6 @@ const getFitbitData = async (req, res) => {
           obj["steps"] = s.value;
           return obj;
         });
-      console.log("steps", steps);
       await Steps.bulkCreate(steps);
     }
   } catch (error) {
