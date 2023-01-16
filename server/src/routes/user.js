@@ -19,7 +19,7 @@ const {
 //> ==================== End Points ======================== <//
 
 router.post("/", postUser);
-router.post("/:id", restoreUser);
+router.post("/restoreUser/:id", restoreUser);
 router.post("/google", postGoogleUser);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:id/:token", resetPassword);
