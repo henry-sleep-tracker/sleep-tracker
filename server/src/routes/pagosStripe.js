@@ -37,7 +37,7 @@ router.post("/session", async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: `${process.env.BASE_FRONT_URL}/private/home`, //si todo sale bien redirigira la sgt pag
+      success_url: `${process.env.BASE_FRONT_URL}/private/loadingpayment`, //si todo sale bien redirigira la sgt pag
       cancel_url: `${process.env.BASE_FRONT_URL}/private/planes`, //si todo sale mal, redirigir a otra pag
       customer: user.stripeCustomerId,
     },

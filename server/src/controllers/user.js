@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken");
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2020-08-27",
 });
-const { User } = require("../db.js");
+const { User, Plan } = require("../db.js");
 const nullUser = {
   dataValues: "",
 };
@@ -178,6 +178,26 @@ const deleteUser = async (req, res) => {
     return res.status(400).send("No se pudo eliminar el usuario");
   }
 };
+const restoreUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
+    const user = await findUserById(id);
+    if (!user) {
+      return res.status(202).send("el usuario no existe");
+    }
+    await User.restore({
+      where: {
+        id: id,
+      },
+    });
+    return res.status(200).send("Usuario restaurado");
+  } catch (error) {
+    return res.status(400).send("No se pudo eliminar el usuario");
+  }
+};
 
 const updateProfile = async (req, res) => {
   const { id } = req.params;
@@ -192,12 +212,39 @@ const updateProfile = async (req, res) => {
     });
     console.log("ROUTE UPDATE", update);
     if (update) {
-      const user = await User.findOne({ where: { id: id } });
+      const user = await User.findOne({
+        where: { id: id },
+        include: {
+          model: Plan,
+          attributes: ["id", "name", "price", "endTime"],
+        },
+      });
       console.log("ROUTE UPDATE USER", user);
       return res.status(200).jsonp(user);
     }
   } catch (error) {
     return res.status(400).send(error.message);
+  }
+};
+const getUserInfoById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("id:", id);
+    if (!id) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
+    const user = await findUserById(id);
+    console.log("user:", user);
+    if (user.id === 0) {
+      return res.status(204).send(nullUser);
+    } else {
+      return res.status(200).send(user);
+    }
+  } catch (error) {
+    console.log("El error controllers user getUserInfoById es:", error.message);
+    res
+      .status(401)
+      .send("El error controllers user getUserInfoById es:", error.message);
   }
 };
 const changeUserPassword = async (req, res) => {
@@ -230,4 +277,6 @@ module.exports = {
   deleteUser,
   updateProfile,
   changeUserPassword,
+  getUserInfoById,
+  restoreUser,
 };

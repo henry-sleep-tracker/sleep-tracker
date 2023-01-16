@@ -11,14 +11,12 @@ router.post("/", async (req, res) => {
       const commentExist = allComments.find(
         (element) => element.userId === id
       );
-      console.log(!commentExist);
       if (!commentExist) {
         const commentCreated = await Comment.create({
           name,
           rate,
           comment,
         });
-        console.log(commentCreated.dataValues);
         //relationship between comment and user:
         let userDb = await User.findOne({ where: { id: id } });
         console.log(userDb);

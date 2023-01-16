@@ -11,7 +11,7 @@ import sessionSleepReducer from "./sessionSleepReducer";
 import stepsReducer from "./stepsReducer";
 import getCommentsReducer from "./getCommentsReducer";
 import getCurrentCommentReducer from "./getCurrentCommentReducer";
-import filterReducer from "./filtersReducer";
+import loadingReducer from "./loadingReducer";
 
 const persistConfig = {
   key: "root",
@@ -34,7 +34,7 @@ const reducers = combineReducers({
   session: sessionSleepReducer,
   comments: getCommentsReducer,
   currentComment: getCurrentCommentReducer,
-  filters: filterReducer,
+  loading: loadingReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

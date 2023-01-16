@@ -5,7 +5,7 @@ import Calc from "./calc";
 import Swipeable from "./tips";
 import { Grid, Typography } from "@mui/material";
 import Calendario from "../Calendario/Calendario";
-import { makeStyles } from "@mui/styles";
+import { makeStyles, StylesContext } from "@mui/styles";
 import Fitbit from "../SignUp/Fitbit";
 import { getSleepStage } from "../../actions/getUserHealthData";
 import { getRecordsQuery } from "../../actions/records_data";
@@ -15,26 +15,22 @@ import { getUsersPlanExpDate } from "../../actions/plan";
 import { useAuthContext } from "../../actions/authContext";
 import { Helmet } from "react-helmet";
 
+const yesterday = new Date(Date.now() - 28800000).toISOString().split("T")[0];
 
 const Home = () => {
   const { payPlan } = useAuthContext();
   const currentUser = useSelector((state) => state?.users.currentUser);
-
   const planExpirationDate = useSelector(
     (state) => state?.users.planExpirationDate
   );
   const dispatch = useDispatch();
+
   useEffect(() => {
-    const yesterday = new Date(Date.now() - 28800000)
-      .toISOString()
-      .split("T")[0];
     dispatch(getSleepStage(yesterday));
-    let id = currentUser.id;
-    let date = yesterday;
-    dispatch(getRecordsQuery(id, date));
-    dispatch(getUsersPlanExpDate(id));
+    dispatch(getRecordsQuery(currentUser.id, yesterday));
+    dispatch(getUsersPlanExpDate(currentUser.id));
     payPlan(planExpirationDate);
-  }, [dispatch, currentUser, planExpirationDate, payPlan]);
+  }, [dispatch, payPlan, planExpirationDate, currentUser]);
 
   let user = {
     name: currentUser.names ? currentUser.names : "🥰",
@@ -65,14 +61,13 @@ const Home = () => {
       spacing={3}
       flex={4}
       p={2}
-      // maxWidth='100vw'
     >
       <Helmet>
         <title>Inicio | Sleep Tracker</title>
       </Helmet>
 
       <Grid item>
-        <Typography className={classes.saludo} variant="h4">
+        <Typography>
           ¡Hola {user.name} {greet()}
         </Typography>
       </Grid>
@@ -81,38 +76,48 @@ const Home = () => {
         <Fitbit />
       </Grid>
 
-      {/* <Grid
-        item
-      >
-        <Typography variant="h6">{Date()}</Typography>
-      </Grid> */}
       <Grid item>
         <Calendario />
       </Grid>
+      <Grid>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="flex-start"
+          columns={16}
+        >
+          <Grid item xs={12} sx={{ padding: 3 }}>
+            <GraphHome />
+          </Grid>
 
-      <Grid item>
-        <GraphHome />
-      </Grid>
+          <Grid item xs={4} sx={{ padding: 3 }}>
+            <CollapsibleTable />
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          columns={16}
+        >
+          <Grid item xs={6} sx={{ padding: 3 }}>
+            <Collection />
+          </Grid>
 
-      <Grid item>
-        <CollapsibleTable />
-      </Grid>
+          <Grid item xs={5} sx={{ padding: 3 }}>
+            <Calc />
+          </Grid>
 
-      <Grid className={classes.Collection} item>
-        <Collection />
-      </Grid>
-
-      <Grid className={classes.calc} item>
-        <Calc />
-      </Grid>
-
-      <Grid className={classes.swipeableHome} item>
-        <Swipeable className={classes.swipeable} />
+          <Grid item xs={5} sx={{ padding: 3 }}>
+            <Swipeable className={classes.swipeable} />
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );
 };
 
 export default Home;
-
 const useStyles = makeStyles(() => ({}));

@@ -14,6 +14,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import log from "../logi/log-.png";
+import logWhite from "../logi/log-white.png";
 import { useAuthContext } from "../../actions/authContext";
 import { useDispatch } from "react-redux";
 import { logOutUser, cleanExpDate } from "../../actions";
@@ -46,7 +47,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 
 function ResponsiveAppBar({ mode, setMode }) {
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state?.users.currentUser);
+  const currentUser = useSelector((state) => state?.users);
   const { logout } = useAuthContext();
   const navigate = useNavigate();
 
@@ -144,9 +145,18 @@ function ResponsiveAppBar({ mode, setMode }) {
               <MenuIcon />
             </IconButton>
 
-            <Button onClick={handleBack}>
-              <img src={log} alt="logo" width="200px" />
-            </Button>
+            {
+              mode == "light" ?
+                <Button onClick={handleBack}>
+                  <img src={log} alt="logo" width="200px" />
+                </Button>
+                :
+                <Button onClick={handleBack}>
+                  <img src={logWhite} alt="logo" width="200px" />
+                </Button>
+
+            }
+
 
             {/* <Menu
               id="menu-appbar"
@@ -188,7 +198,7 @@ function ResponsiveAppBar({ mode, setMode }) {
 
           <Box
             component="nav"
-            // sx={{ width: { sm: 240 }, flexShrink: { sm: 0 } }}
+          // sx={{ width: { sm: 240 }, flexShrink: { sm: 0 } }}
           >
             <Drawer
               variant="temporary"
@@ -209,7 +219,7 @@ function ResponsiveAppBar({ mode, setMode }) {
                     </ListItemButton>
                   </ListItem>
 
-                  {currentUser.isAdmin && (
+                  {currentUser.currentUser.isAdmin && (
                     <ListItem disablePadding>
                       <ListItemButton component="a">
                         <ListItemIcon>

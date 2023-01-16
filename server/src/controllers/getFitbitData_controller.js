@@ -86,7 +86,6 @@ const getFitbitData = async (req, res) => {
       );
 
       const getSteps = await stepsData.json();
-      console.log("stepsNORECENT", getSteps);
 
       const steps = getSteps["activities-steps"]
         ?.filter((s) => s.value !== "0")
@@ -107,7 +106,7 @@ const getFitbitData = async (req, res) => {
         .split("T")[0];
       const today = new Date(Date.now() - 43200000).toISOString().split("T")[0];
       const data = await fetch(
-        `https://api.fitbit.com/1.2/user/-/sleep/date/${today}/${startDate}.json`,
+        `https://api.fitbit.com/1.2/user/-/sleep/date/${startDate}/${today}.json`,
         {
           method: "GET",
           headers: {
@@ -118,7 +117,7 @@ const getFitbitData = async (req, res) => {
       );
       // ---------- Create Session Table --------------//
       const getData = await data.json();
-      const sessions = getData.sleep?.map((session) => {
+      const sessions = getData?.sleep?.map((session) => {
         let obj = {};
         obj["log_id"] = session.logId;
         obj["userId"] = userId;
@@ -135,7 +134,7 @@ const getFitbitData = async (req, res) => {
       });
       await Session.bulkCreate(sessions);
 
-      const stages = getData.sleep
+      const stages = getData?.sleep
         ?.map((session) => {
           return session?.levels?.data?.map((s) => {
             let obj = {};
@@ -153,7 +152,7 @@ const getFitbitData = async (req, res) => {
       //------------------ STEPS ACTIVITY ---------------------//
 
       const stepsData = await fetch(
-        `https://api.fitbit.com/1/user/-/activities/steps/date/${today}/${startDate}/1d.json`,
+        `https://api.fitbit.com/1/user/-/activities/steps/date/${startDate}/${today}/1d.json`,
         {
           method: "GET",
           headers: {

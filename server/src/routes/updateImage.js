@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { User } = require('../db.js');
+const { User, Plan } = require('../db.js');
 const { cloudinary }  = require("../utils/cloudinary.js");
 
 router.put('/:id', async (req, res)=>{
@@ -21,7 +21,13 @@ router.put('/:id', async (req, res)=>{
           }
         });
         if(update) {
-          const user = await User.findOne({ where: { id: id } });
+          const user = await User.findOne({
+            where: { id: id },
+            include: {
+              model: Plan,
+              attributes: ["id", "name", "price", "endTime"],
+            },
+          });
           return res.status(200).json(user);
         }
     }
@@ -37,7 +43,13 @@ router.put('/:id', async (req, res)=>{
           }
         });
         if(update){
-          const user = await User.findOne({ where: { id: id } });
+          const user = await User.findOne({
+            where: { id: id },
+            include: {
+              model: Plan,
+              attributes: ["id", "name", "price", "endTime"],
+            },
+          });
           return res.status(200).json(user);
         }
       }
@@ -55,7 +67,13 @@ router.put('/:id', async (req, res)=>{
           }
         });
         if(update){
-          const user = await User.findOne({ where: { id: id } });
+          const user = await User.findOne({
+            where: { id: id },
+            include: {
+              model: Plan,
+              attributes: ["id", "name", "price", "endTime"],
+            },
+          });
           return res.status(200).json(user);
         }
       }

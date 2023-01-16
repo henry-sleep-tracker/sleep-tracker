@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import Check from '@mui/icons-material/Check';
 import Save from '@mui/icons-material/Save';
 import { green } from '@mui/material/colors';
+import { message } from "react-message-popup";
 
 import { updateUsers, getUsers } from '../../../actions/users';
 
@@ -18,17 +19,18 @@ const UsersActions = ({ params, rowId, setRowId, pageState }) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const { isAdmin, isActive, names, lastNames, nationality, birthday, id } = params.row;
+    const { isAdmin, names, lastNames, nationality, birthday, createdAt, id } = params.row;
     //Verificar names y lastNames no estan vacios. Falta Validar
     if( names && lastNames){
-      const result = await updateUsers( { isAdmin, isActive, names, lastNames, nationality, birthday }, id);
+      const result = await updateUsers( { isAdmin, names, lastNames, nationality, birthday, createdAt }, id);
       if (result) {
         setSuccess(true);
         setRowId(null);
         dispatch(getUsers(pageState.page, pageState.pageSize));
       }
     } else {
-      alert('Nombre y Apellidos son requeridos');
+      //alert('Nombre y Apellidos son requeridos');
+      message.warn('Nombre y Apellidos son requeridos',2500);
     }
     setLoading(false);
   };
