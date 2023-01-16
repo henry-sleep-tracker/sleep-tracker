@@ -35,15 +35,17 @@ export default function LoadingPayment() {
   if (currentUser.plan && currentUser.plan !== null && planExpDate>yourDate) {
 
       if (isGoogleUser==="true" && isPasswordSetUp==="false") {
-        return <Navigate to="/private/profile" />;
+      return <Navigate to="/private/profile" />;
       }else{
-        return <Navigate to="/private/home" />;
-      }
+      return <Navigate to="/private/home" />;
     }
+  }
   return (
-    <div className="modal-content">
-      <div className="loader"></div>
-      <div className="modal-text">Cargando...</div>
+    <div className="modal">
+      <div className="modal-content">
+        <div className="loader"></div>
+        <div className="modal-text">Cargando...</div>
+      </div>
     </div>
   );
 }
