@@ -192,6 +192,9 @@ const getUsers = async (req, res) => {
               model: Plan,
             },
           ],
+
+          where: { nationality: nationality },
+          
           order: [["lastNames", "ASC"]],
           paranoid: false,
         });

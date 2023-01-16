@@ -26,9 +26,11 @@ import Visibility from "@mui/icons-material/Visibility";
 import { Helmet } from "react-helmet";
 import log from "../logi/log-.png";
 import wakeup from "../../images/Signup/zen-balancing.jpg";
-import styles from "./Login.module.css";
+// import styles from "./Login.module.css";
 import { message } from "react-message-popup";
 import { style } from "@mui/system";
+import AlertDialog from "../Alert/Alert";
+import { makeStyles } from "@mui/styles";
 
 export default function LogIn() {
   const clientId =
@@ -79,18 +81,6 @@ export default function LogIn() {
       [event.target.name]: event.target.value,
     });
   }
-  async function handleSubmit(event) {
-    event.preventDefault();
-    try {
-      dispatch(logInUser(input.email, input.password));
-      setInput({
-        email: "",
-        password: "",
-      });
-    } catch (error) {
-      console.log("el error es:", error);
-    }
-  }
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -99,52 +89,60 @@ export default function LogIn() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const [open, setOpen] = React.useState(false);
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+  async function handleSubmit(event) {
+    event.preventDefault();
+    try {
+      dispatch(logInUser(input.email, input.password, setOpen));
+    } catch (error) {
+      console.log("el error es:", error);
+    }
+  }
+
+  const classes = useStyles();
   return (
-    <Grid container width="100%">
+    <Grid container>
+      <AlertDialog open={open} handleClose={handleClose} input={input} />
+      <Helmet>
+        <title>Iniciar sesion | Sleep Tracker</title>
+      </Helmet>
       <Grid
         container
         direction="row"
         justifyContent="center"
-        alignItems="center"
+        alignItems="stretch"
         width="100%"
         columns={16}
-        className={styles.bg}
+        className={classes.bg}
       >
-        <Grid item xs={7} height="100%" paddingTop={10}>
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            spacing={2}
-            flex={4}
-            p={2}
-          >
-            <Helmet>
-              <title>Iniciar sesion | Sleep Tracker</title>
-            </Helmet>
+        <Grid
+          item
+          lg={7}
+          md={9}
+          sm={16}
+          xs={16}
+          height="100%"
+          paddingTop={10}
+          className={classes.bgImage}
+        >
+          <Grid container spacing={3}>
+            <Grid container marginLeft={13} marginRight={13} direction="column">
+              <Grid item sx={{ marginLeft: 9 }}>
+                <img src={log} alt="logo" width="300vw" />
+              </Grid>
 
-            <Grid item>
-              <img src={log} alt="logo" width="300vw" />
-            </Grid>
-
-            <Grid item>
-              <Card
-                className="titleresume"
-                variant="outlined"
-                elevation={20}
-                sx={{ minWidth: "30rem" }}
-              >
+              <Card variant="outlined">
                 <CardContent>
                   <Grid
                     container
-                    direction="column"
                     justifyContent="center"
+                    direction="column"
                     alignItems="center"
                     spacing={3}
-                    flex={4}
-                    p={2}
                   >
                     <Grid item>
                       <Typography variant="h4">Inicia sesión</Typography>
@@ -223,6 +221,7 @@ export default function LogIn() {
                           ¿Olvidaste tu contraseña?
                         </Link>
                       </Grid>
+
                       <Grid item sx={{ marginTop: 5, marginLeft: 3 }}>
                         <Link href="/registro" variant="body2">
                           {"¿No tienes una cuenta? Registrate"}
@@ -233,32 +232,57 @@ export default function LogIn() {
                 </CardContent>
               </Card>
             </Grid>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              marginTop: "4vh",
-              marginLeft: "7vw",
-            }}
-          >
-            <Button
-              variant="outlined"
-              startIcon={<ArrowBackIosNewIcon />}
-              href="/"
+
+            <Grid
+              item
+              sx={{
+                marginLeft: 10,
+              }}
             >
-              Regresar
-            </Button>
+              <Button
+                variant="outlined"
+                startIcon={<ArrowBackIosNewIcon />}
+                href="/"
+              >
+                Regresar
+              </Button>
+            </Grid>
           </Grid>
+          <br />
         </Grid>
-        <Grid item xs={9}>
-          <Grid>
-            <img src={wakeup} alt="wakeup login" className={styles.zenImage} />
-          </Grid>
+
+        <Grid
+          item
+          lg={9}
+          md={7}
+          sm={0}
+          xs={0}
+          sx={{
+            display: { lg: "block", md: "block", sm: "none", xs: "none" },
+          }}
+          height="100%"
+          paddingTop={0}
+          paddingBottom={0}
+        >
+          <img src={wakeup} alt="wakeup login" className={classes.imageStyle} />
         </Grid>
       </Grid>
     </Grid>
   );
 }
+
+const useStyles = makeStyles(() => ({
+  imageStyle: {
+    width: "100%",
+    minHeight: "100vh",
+    height: "100%",
+  },
+
+  bg: {
+    backgroundColor: "#ecefef",
+  },
+
+  bgImage: {
+    backgroundImage: `url(${wakeup})`,
+  },
+}));

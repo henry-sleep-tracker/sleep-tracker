@@ -19,10 +19,10 @@ const UsersActions = ({ params, rowId, setRowId, pageState }) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const { isAdmin, isActive, names, lastNames, nationality, birthday, id } = params.row;
+    const { isAdmin, names, lastNames, nationality, birthday, createdAt, id } = params.row;
     //Verificar names y lastNames no estan vacios. Falta Validar
     if( names && lastNames){
-      const result = await updateUsers( { isAdmin, isActive, names, lastNames, nationality, birthday }, id);
+      const result = await updateUsers( { isAdmin, names, lastNames, nationality, birthday, createdAt }, id);
       if (result) {
         setSuccess(true);
         setRowId(null);

@@ -8,7 +8,8 @@ import {
   Area,
 } from "recharts";
 import { useSelector } from "react-redux";
-import { Card, CardContent, Grid } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
+import styles from "./Graph-home.module.css";
 
 export default function GraphHome() {
   const stages = useSelector((state) => state.stage);
@@ -66,20 +67,18 @@ export default function GraphHome() {
     );
   };
 
-  const [windowWidth, setwindowWidth] = useState(window.innerWidth)
+  const [windowWidth, setwindowWidth] = useState(window.innerWidth);
 
   const handleResize = () => {
-    setwindowWidth(window.innerWidth)
-  }
+    setwindowWidth(window.innerWidth);
+  };
 
   useEffect(() => {
-    window.addEventListener('resize', handleResize)
-  }, [])
+    window.addEventListener("resize", handleResize);
+  }, []);
 
   return (
-    <Card
-      variant="outlined"
-    >
+    <Card variant="outlined">
       <CardContent>
         <AreaChart
           width={windowWidth - 150}
@@ -97,7 +96,6 @@ export default function GraphHome() {
             dataKey="Hora"
             minTickGap={50}
             tickFormatter={(value) => {
-
               if (value) {
                 const hours = value.split(":")[0];
                 return `${hours}:00 Hrs`;
@@ -115,7 +113,6 @@ export default function GraphHome() {
             fill="url(#colorUv)"
           />
         </AreaChart>
-
       </CardContent>
     </Card>
   );
