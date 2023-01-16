@@ -13,6 +13,7 @@ import Paper from "@mui/material/Paper";
 const Collection = () => {
   const records = useSelector((state) => state?.record.recordsUser);
 
+
   let consumos = [];
   let Exercise = [];
   let Coffe = [];
@@ -24,13 +25,15 @@ const Collection = () => {
   let countD;
   let typeD;
 
+  if (!records.message)  {
+
   for (let i = 0; i < records.length; i++) {
     if (records[i].timeActivity.length >= 1) {
       timeEx = records[i].timeActivity.flat();
       typeEx = records[i].nameActivity.flat();
 
       for (let i = 0; i < timeEx.length; i++) {
-        Exercise.push(`${timeEx[i]} min de ${typeEx[i]}`);
+        Exercise.push(` ${timeEx[i]} min de ${typeEx[i]} `);
       }
     }
 
@@ -40,8 +43,8 @@ const Collection = () => {
 
       for (let i = 0; i < cups.length; i++) {
         cups[i] > 1
-          ? Coffe.push(`${cups[i]} tazas de ${size[i]}`)
-          : Coffe.push(`${cups[i]} taza de ${size[i]}`);
+          ? Coffe.push(` ${cups[i]} tazas de ${size[i]} `)
+          : Coffe.push(` ${cups[i]} taza de ${size[i]} `);
       }
     }
 
@@ -51,8 +54,8 @@ const Collection = () => {
 
       for (let i = 0; i < countD.length; i++) {
         countD[i] > 1
-          ? Drinks.push(`${countD[i]} ${typeD[i]}s`)
-          : Drinks.push(`${countD[i]} ${typeD[i]}`);
+          ? Drinks.push(` ${countD[i]} ${typeD[i]}s `)
+          : Drinks.push(` ${countD[i]} ${typeD[i]} `);
       }
     }
 
@@ -67,8 +70,11 @@ const Collection = () => {
         records[records.length - 1].description,
       Date: records[0].dateMeal,
     };
-    consumos.push(consumo);
+    console.log('consumooo', consumo);
+     consumos.push(consumo);
   }
+}
+
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -96,21 +102,20 @@ const Collection = () => {
 
   const rows = [
     createData(
-      "Cafe",
-      `${consumos[0].Cafe.length >= 1 ? consumos[0].Cafe : "No hay registro"}`
+      "Cafe", `${consumos[0]?.Cafe ? consumos[0].Cafe : "No hay registro"}`
     ),
     createData(
-      "Bebidas alcoholicas",
+      "Bebidas alcoholicas", 
       `${
-        consumos[0].Bebidas.length >= 1
+        consumos[0]?.Bebidas
           ? consumos[0].Bebidas
           : "No hay registro"
       }`
     ),
     createData(
-      "Horario de merienda",
+      "Horario de merienda", 
       `${
-        consumos[0].Merienda.length >= 1
+        consumos[0]?.Merienda
           ? consumos[0].Merienda
           : "No hay registro"
       }`
@@ -118,7 +123,7 @@ const Collection = () => {
     createData(
       "Ejercicio",
       `${
-        consumos[0].Exercise.length >= 1
+        consumos[0]?.Exercise
           ? consumos[0].Exercise
           : "No hay registro"
       }`
@@ -141,7 +146,7 @@ const Collection = () => {
             <Typography variant="h4">
               Registro de consumo del:
               <p>
-                {consumos[0].Date.length >= 1
+                {consumos[0]?.Date
                   ? consumos[0].Date
                   : "No hay registro de ese día"}
               </p>
