@@ -18,7 +18,7 @@ const getUsersPlanExpDate = require("./plan");
 const nullUser = {
   id: 0,
   isAdmin: false,
-  isActive: false,
+  hasUsedFreePlan: false,
   email: "",
   hashedPassword: "",
   names: "",
@@ -26,6 +26,10 @@ const nullUser = {
   nationality: "",
   birthday: "",
   lastConnection: "",
+  stripeCustomerId: "",
+  image: "",
+  createdAt: "",
+  updatedAt: "",
 };
 
 export const createToken = (code, userId) => async (dispatch) => {
@@ -89,18 +93,25 @@ export function sendRecoveryEmail(email) {
           body: JSON.stringify({ email: email }),
         }
       );
-      const response = await userByEmail.json();
-      const data = { email: email, link: response };
-      emailjs.send(serviceId, templateId, data, Public_Key).then(
-        (result) => {
-          console.log("result", result);
-          console.log(result.text);
-        },
-        (error) => {
-          console.log("error.text:", error);
-        }
-      );
-      return response;
+      if (userByEmail.status === 202) {
+        message.error(
+          "El usuario no esta registrado en la base de datos.",
+          3000
+        );
+      } else {
+        const response = await userByEmail.json();
+        const data = { email: email, link: response };
+        emailjs.send(serviceId, templateId, data, Public_Key).then(
+          (result) => {
+            console.log("result", result);
+            console.log(result.text);
+          },
+          (error) => {
+            console.log("error.text:", error);
+          }
+        );
+        return response;
+      }
     } catch (error) {
       console.log(
         "El error client actions sendRecoveryEmail es:",
@@ -222,6 +233,15 @@ export function logInUser(email, password, setOpen) {
   };
 }
 
+export function cleanUser() {
+  return async function (dispatch) {
+    return dispatch({
+      type: GET_CURRENT_USER,
+      payload: "",
+    });
+  };
+}
+
 export function logOutUser() {
   return async function (dispatch) {
     try {
@@ -252,10 +272,6 @@ export function logInUserWithGoogle(response) {
   return async function (dispatch) {
     try {
       const { email, familyName, givenName } = response.profileObj;
-      console.log(
-        "process.env.REACT_APP_DEFAULT_URL:",
-        process.env.REACT_APP_DEFAULT_URL
-      );
       const userCreated = await axios.post(
         `${process.env.REACT_APP_DEFAULT_URL}/user/google`,
         { email, lastNames: familyName, names: givenName }
