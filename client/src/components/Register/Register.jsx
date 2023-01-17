@@ -25,8 +25,8 @@ import log from "../logi/log-.png";
 import { message } from "react-message-popup";
 import wakeup from "../../images/Signup/zen-balancing.jpg";
 import { makeStyles } from "@mui/styles";
-// import {nationalities} from "../../actions/nationalities"
-const nationalities = require("../../actions/nationalities")
+import {nationalities} from "../../actions/nationalities"
+
 let keyNationalities = 0;
 let yourDate = new Date();
 yourDate = yourDate.toISOString().split("T")[0];
