@@ -7,9 +7,11 @@ import {
 import axios from "axios";
 import { message } from "react-message-popup";
 const emailjs = require("emailjs-com");
-const templateId = "template_upsqgx4";
-const serviceId = "service_ts4dsnk";
-const Public_Key = "DkkyjnDmwCqT4qOL1";
+const { EMAILJS_TEMPLATE_ID, EMAILJS_SERVICE_ID, EMAILJS_PUBLIC_ID } =
+  process.env;
+const templateId = EMAILJS_TEMPLATE_ID;
+const serviceId = EMAILJS_SERVICE_ID;
+const Public_Key = EMAILJS_PUBLIC_ID;
 
 const getUsersPlanExpDate = require("./plan");
 
@@ -175,8 +177,6 @@ export const restoreUser = (email, password) => {
   };
 };
 export function logInUser(email, password, setOpen) {
-  console.log("check", email, password, setOpen);
-
   if (!email && !password) {
     return message.warn("Completa los campos para ingresar");
   }
@@ -262,7 +262,10 @@ export function logInUserWithGoogle(response) {
       });
     } catch (error) {
       console.log("el error de logInUserWithGoogle es:", error.message);
-      message.error("Error: al intentar ingresar con tu cuenta de Google", 2500);
+      message.error(
+        "Error: al intentar ingresar con tu cuenta de Google",
+        2500
+      );
     }
   };
 }
