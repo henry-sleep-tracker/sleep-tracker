@@ -7,10 +7,14 @@ import NavegationBar from "./NavegationBar";
 import { createTheme, ThemeProvider, Box } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet";
+import { useSelector } from "react-redux";
+import { cleanUser } from "../../actions/index";
+import { useDispatch } from "react-redux";
 
 function LandingPage() {
   const [mode, setMode] = useState("light");
-
+  const loggedUser = useSelector((state) => state?.users.currentUser);
+  debugger
   // const [pageScroll, setPageScroll] = useState('page1')
 
   const page1 = useRef(null);
@@ -19,7 +23,7 @@ function LandingPage() {
   const page4 = useRef(null);
   const page5 = useRef(null);
   const page6 = useRef(null);
-
+  const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(page1);
 
   const scrollToSection = (element) => {
@@ -30,6 +34,9 @@ function LandingPage() {
   };
 
   useEffect(() => {
+    if(loggedUser.deletedAt){
+      dispatch(cleanUser())
+    }
     scrollToSection(currentPage);
   }, [currentPage]);
 
