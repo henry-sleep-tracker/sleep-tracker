@@ -214,6 +214,7 @@ const Record = props => {
     // Before Dispatch //
 
     if (
+      record.timeMeal.length <= 0 &&
       record.sleepTime.length <= 0 &&
       record.timeActivity.length <= 0 &&
       record.coffeeCups.length <= 0 &&
@@ -331,7 +332,8 @@ const Record = props => {
       setRecord((record.timeMeal = time));
     }
     dispatch(createNewRecord(record));
-    message.success(`Se sincronizo tu sueño correctamente`, 2500);
+
+    // After Dispatch //
 
     setSync(true);
     setRecord({
@@ -355,6 +357,8 @@ const Record = props => {
     setCoffeeStatus(false);
     setDrinkStatus(false);
     setTime({ startTime: "", endTime: "" });
+    navigate("/private/saving");
+    dispatch(setDay(currentDay.current.value));
   };
 
   //! ================== Activity Handlers ================= !//
@@ -1067,7 +1071,7 @@ const Record = props => {
                   hidden={sleepTime.length > 0 ? false : true}
                   onClick={handlerSync}
                 >
-                  sincronizar
+                  Guardar Lectura de Fitbit
                 </span>
               </div>
 
