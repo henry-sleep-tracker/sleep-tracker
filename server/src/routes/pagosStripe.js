@@ -3,6 +3,7 @@ const Stripe = require("stripe");
 const router = Router();
 const { User, Plan } = require("../db.js");
 const { getPlanByUserId } = require("../controllers/plan");
+const { findUserById } = require("../functions/user");
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2020-08-27",
@@ -10,6 +11,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 
 router.get("/", async (req, res) => {
   const { userId } = req.query;
+  const userFound = await findUserById(userId);
+  if (userFound.id === 0) {
+    return res.status(404).send("El usuario no fue encontrado");
+  }
   const plan = await getPlanByUserId(userId);
   if (plan === null) {
     return res.status(200).send("1900-01-02");

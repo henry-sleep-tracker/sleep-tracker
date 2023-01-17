@@ -52,7 +52,7 @@ export default function LogIn() {
   gapi.load("client:auth2", start);
 
   useEffect(() => {
-    if (loggedUser.hasOwnProperty("id") && loggedUser.id !== 0) {
+    if (loggedUser.hasOwnProperty("id") && loggedUser.id !== 0 && !loggedUser.deletedAt) {
       dispatch(getUsersPlanExpDate(loggedUser.id));
       if (
         planExpirationDate !== "1900-01-01" &&
@@ -86,7 +86,6 @@ export default function LogIn() {
     event.preventDefault();
   };
   const [open, setOpen] = React.useState(false);
-
   const handleClose = () => {
     setOpen(false);
   };

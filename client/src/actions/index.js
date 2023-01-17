@@ -20,7 +20,7 @@ const getUsersPlanExpDate = require("./plan");
 const nullUser = {
   id: 0,
   isAdmin: false,
-  isActive: false,
+  hasUsedFreePlan: false,
   email: "",
   hashedPassword: "",
   names: "",
@@ -28,6 +28,10 @@ const nullUser = {
   nationality: "",
   birthday: "",
   lastConnection: "",
+  stripeCustomerId: "",
+  image: "",
+  createdAt: "",
+  updatedAt: "",
 };
 
 export const createToken = (code, userId) => async (dispatch) => {
@@ -84,18 +88,25 @@ export function sendRecoveryEmail(email) {
           body: JSON.stringify({ email: email }),
         }
       );
-      const response = await userByEmail.json();
-      const data = { email: email, link: response };
-      emailjs.send(serviceId, templateId, data, Public_Key).then(
-        (result) => {
-          console.log("result", result);
-          console.log(result.text);
-        },
-        (error) => {
-          console.log("error.text:", error);
-        }
-      );
-      return response;
+      if (userByEmail.status === 202) {
+        message.error(
+          "El usuario no esta registrado en la base de datos.",
+          3000
+        );
+      } else {
+        const response = await userByEmail.json();
+        const data = { email: email, link: response };
+        emailjs.send(serviceId, templateId, data, Public_Key).then(
+          (result) => {
+            console.log("result", result);
+            console.log(result.text);
+          },
+          (error) => {
+            console.log("error.text:", error);
+          }
+        );
+        return response;
+      }
     } catch (error) {
       console.log(
         "El error client actions sendRecoveryEmail es:",
@@ -176,6 +187,24 @@ export const restoreUser = (email, password) => {
     }
   };
 };
+export const restoreGoogleUser = (email) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_DEFAULT_URL}/user/${email}`
+      );
+      const restoredUser = await axios.post(
+        `${process.env.REACT_APP_DEFAULT_URL}/user/restoreGoogleUser/${email}`
+      );
+      return dispatch({
+        type: GET_CURRENT_USER,
+        payload: restoredUser.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
 export function logInUser(email, password, setOpen) {
   if (!email && !password) {
     return message.warn("Completa los campos para ingresar");
@@ -219,6 +248,36 @@ export function logInUser(email, password, setOpen) {
       console.log(error);
       message.error("correo/contraseña incorrectos", 2500);
     }
+  };
+}
+export function logInUserWithGoogle(response, setOpen) {
+  return async function (dispatch) {
+    try {
+      const { email, familyName, givenName } = response.profileObj;
+      const userCreated = await axios.post(
+        `${process.env.REACT_APP_DEFAULT_URL}/user/google`,
+        { email, lastNames: familyName, names: givenName }
+      );
+      if (userCreated.status === 203) {
+        setOpen(true);
+      } else {
+        return dispatch({
+          type: POST_USER_WITH_GOOGLE,
+          payload: userCreated.data,
+        });
+      }
+    } catch (error) {
+      console.log("el error de logInUserWithGoogle es:", error.message);
+    }
+  };
+}
+
+export function cleanUser() {
+  return async function (dispatch) {
+    return dispatch({
+      type: GET_CURRENT_USER,
+      payload: "",
+    });
   };
 }
 
@@ -269,3 +328,4 @@ export function logInUserWithGoogle(response) {
     }
   };
 }
+
