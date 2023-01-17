@@ -63,7 +63,6 @@ export default function DeleteUser() {
           "Todos los campos obligatorios deben ser llenados para poder continuar",2500
         );
       } else if (input.password !== input.confirmPassword) {
-        //alert("La contraseña no se confirmo correctamente");
         message.error("La contraseña no se confirmo correctamente",2500);
       } else {
         dispatch(deleteUser(id, input.password));

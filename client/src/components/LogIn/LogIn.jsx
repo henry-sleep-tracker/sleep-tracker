@@ -26,15 +26,13 @@ import Visibility from "@mui/icons-material/Visibility";
 import { Helmet } from "react-helmet";
 import log from "../logi/log-.png";
 import wakeup from "../../images/Signup/zen-balancing.jpg";
-// import styles from "./Login.module.css";
 import { message } from "react-message-popup";
 import { style } from "@mui/system";
 import AlertDialog from "../Alert/Alert";
 import { makeStyles } from "@mui/styles";
 
 export default function LogIn() {
-  const clientId =
-    "335316690432-trah7lbld3ptrek9o23jo6n0t7g30foe.apps.googleusercontent.com";
+  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
   const { login } = useAuthContext();
   const loggedUser = useSelector((state) => state?.users.currentUser);
   const planExpirationDate = useSelector(
@@ -69,7 +67,6 @@ export default function LogIn() {
         );
       }
     } else if (loggedUser.id === 0) {
-      //alert("El usuario o la contraseña no son correctos");
       message.error("El usuario o la contraseña no son correctos", 2500);
     }
   }, [loggedUser, login, planExpirationDate]);
