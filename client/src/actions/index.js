@@ -252,10 +252,6 @@ export function logInUserWithGoogle(response) {
   return async function (dispatch) {
     try {
       const { email, familyName, givenName } = response.profileObj;
-      console.log(
-        "process.env.REACT_APP_DEFAULT_URL:",
-        process.env.REACT_APP_DEFAULT_URL
-      );
       const userCreated = await axios.post(
         `${process.env.REACT_APP_DEFAULT_URL}/user/google`,
         { email, lastNames: familyName, names: givenName }
