@@ -5,8 +5,23 @@ export const SET_STATUS_EXISTING_USER = "SET_STATUS_EXISTING_USER";
 export const SET_STATUS_PASSWORD_UPDATE_SUCCES = "SET_STATUS_PASSWORD_UPDATE_SUCCES";
 export const SET_STATUS_PASSWORD_UPDATE_ERROR = "SET_STATUS_PASSWORD_UPDATE_ERROR";
 export const SET_DAY = "SET_DAY";
+export const SET_SYNC_FIT_BIT = "SET_SYNC_FIT_BIT";
 
 /* ====================== SET STATUS FOR USER ACTIONS ======================= */
+
+export const setDay = day => {
+  return {
+    type: SET_DAY,
+    payload: day,
+  };
+};
+
+export const setSyncFitbit = value => {
+  return {
+    type: SET_SYNC_FIT_BIT,
+    payload: value,
+  };
+};
 
 export const setStatusNewUser = () => {
   return {
@@ -40,13 +55,6 @@ export const setStatusUpdatePassError = () => {
   return {
     type: SET_STATUS_PASSWORD_UPDATE_ERROR,
     payload: false,
-  };
-};
-
-export const setDay = (day) => {
-  return {
-    type: SET_DAY,
-    payload: day,
   };
 };
 

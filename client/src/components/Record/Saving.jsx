@@ -1,5 +1,9 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+// Actions Imports
+import { getRecordByIdDate } from "../../actions/records";
 
 /* ====================== STYLE IMPORTS ======================= */
 
@@ -11,8 +15,12 @@ import "./Saving";
 
 const Saving = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const day = useSelector(state => state.loading.day);
+  const userId = useSelector(state => state.users.currentUser.id);
 
   useEffect(() => {
+    dispatch(getRecordByIdDate(userId, day));
     const delay = () => navigate("/private/records");
 
     setTimeout(() => {

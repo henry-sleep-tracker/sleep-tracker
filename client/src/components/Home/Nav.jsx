@@ -62,7 +62,7 @@ function ResponsiveAppBar({ mode, setMode }) {
 
   const handlerRecord = (e) => {
     e.preventDefault();
-    navigate("/private/records");
+    navigate("/private/loading");
   };
 
   const handlerProfile = (e) => {

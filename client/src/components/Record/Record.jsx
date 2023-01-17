@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 
 // Actions Imports
 import {
-  getRecordByIdDate,
   getActivitiesByUser,
   getCoffeeSizesByUser,
   getDrinksByUser,
@@ -42,7 +41,6 @@ import coffeeMain from "../../images/coffe2.png";
 import coffeeImg from "../../images/coffee.png";
 import drinkMain from "../../images/tropical-drink-Main.png";
 import drinkImg from "../../images/tropical-drink.png";
-import calendar from "../../images/calendar.png";
 import timeIco from "../../images/time.png";
 
 // Import helpers
@@ -52,35 +50,24 @@ import { time_convert } from "../../helpers/time_convert";
 import { formatingDate } from "../../helpers/date_formating";
 import { timeToMinutes } from "../../helpers/time_to_minutes";
 import { dateStringToDate } from "../../helpers/string_to_date";
-//import Loading from "./Loading";
+
+// Import MUI Components
+import DateSelector from "./CalendarRecord";
 
 //>======================>//
 //> Starts Component
 //>======================>//
 
 const Record = props => {
-  const dispatch = useDispatch();
-  // eslint-disable-next-line no-unused-vars
-  const navigate = useNavigate();
+  // variables
   let sleepTimeMinutes = "";
   let sleepTime12Format = "";
-  let check = "";
 
-  /******************** Set Timeouts Section *********************/
-
-  //! ============ TimeOut for check Sync Sleep Record ========== !//
-  setTimeout(() => {
-    if (check.length >= 1) {
-      if (check[0].dateMeal === currentDay.current?.value) {
-        setSync(true);
-      } else {
-        setSync(false);
-      }
-    }
-  }, 1);
+  // Hooks init
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // useRef Hook
-  const currentDay = useRef();
   const timeRef = useRef();
   const activityRef = useRef();
   const cups = useRef();
@@ -105,7 +92,7 @@ const Record = props => {
   const activitiesRedux = useSelector(state => state.record.activities);
   const coffeeSizesRedux = useSelector(state => state.record.coffeeSizes);
   const drinksRedux = useSelector(state => state.record.drinks);
-  const sleepTime = useSelector(state => state.stage); //--> Estado global que guarda los segundos de suenio
+  const sleepTime = useSelector(state => state.stage);
   const day = useSelector(state => state.loading.day);
 
   /******************** Functions Before load component *********************/
@@ -115,18 +102,12 @@ const Record = props => {
     sleepTimeMinutes = Math.floor(
       temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
     );
-    // eslint-disable-next-line no-unused-vars
     sleepTime12Format = time_convert(sleepTimeMinutes);
-  }
-
-  if (recordsUserRedux?.length >= 1) {
-    check = recordsUserRedux?.filter(e => e.sleepTime > 0);
   }
 
   /******************** Local States Section *********************/
 
   //! ================== Main Local States ================= !//
-  //const [loading, setLoading] = useState(true);
 
   const [record, setRecord] = useState({
     dateMeal: day ? day : date_maker(),
@@ -159,8 +140,6 @@ const Record = props => {
   let et = time.endTime;
 
   const finalHours = formatingDate(st, et);
-
-  const [sync, setSync] = useState(false); //--> 61
 
   //! ================== Activity States ================= !//
 
@@ -197,12 +176,7 @@ const Record = props => {
   //! ================== Main Handlers ================= !//
 
   const handlerOnChange = e => {
-    setRecord({ ...record, [e.target.name]: e.target.value });
-    if (e.target.name === "dateMeal") {
-      dispatch(getRecordByIdDate(userId, e.target.value));
-      navigate("/private/loading");
-      dispatch(setDay(currentDay.current.value));
-    }
+    setRecord({ ...record, [e.target?.name]: e.target?.value });
   };
 
   const handlerOnSubmit = e => {
@@ -267,7 +241,7 @@ const Record = props => {
     // After Dispatch //
 
     setRecord({
-      dateMeal: currentDay.current.value,
+      dateMeal: day,
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -289,13 +263,13 @@ const Record = props => {
     setTime({ startTime: "", endTime: "" });
     refresh();
     navigate("/private/saving");
-    dispatch(setDay(currentDay.current.value));
+    dispatch(setDay(day));
   };
 
   const handlerOnClear = e => {
     e.preventDefault();
     setRecord({
-      dateMeal: currentDay.current.value,
+      dateMeal: day,
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -335,9 +309,8 @@ const Record = props => {
 
     // After Dispatch //
 
-    setSync(true);
     setRecord({
-      dateMeal: currentDay.current.value,
+      dateMeal: day,
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -358,7 +331,7 @@ const Record = props => {
     setDrinkStatus(false);
     setTime({ startTime: "", endTime: "" });
     navigate("/private/saving");
-    dispatch(setDay(currentDay.current.value));
+    dispatch(setDay(day));
   };
 
   //! ================== Activity Handlers ================= !//
@@ -687,12 +660,12 @@ const Record = props => {
   // Mount/Unmount Component
 
   useEffect(() => {
-    if (day) {
-      dispatch(getSleepStage(day));
-      dispatch(getRecordByIdDate(userId, day));
-    } else {
-      dispatch(getSleepStage(date_maker()));
-      dispatch(getRecordByIdDate(userId, date_maker()));
+    if (recordsUserRedux.message) {
+      if (day) {
+        dispatch(getSleepStage(day));
+      } else {
+        dispatch(getSleepStage(date_maker()));
+      }
     }
 
     dispatch(getActivitiesByUser(userId));
@@ -717,7 +690,7 @@ const Record = props => {
       message.error(`Error: al guardar registro`, 2500);
       dispatch(setStatusNewRecord());
     }
-  }, [value, sync, recordStatus]);
+  }, [value, recordStatus]);
 
   const PopupActivity = () => (
     <Popup
@@ -987,7 +960,7 @@ const Record = props => {
             </div>
             <div className="general_info_container">
               <div className="date_record_container">
-                <h5 className="h5_head">Fecha</h5>
+                {/* <h5 className="h5_head">Fecha</h5>
                 <div>
                   <img src={calendar} alt="" className="main_ico" />
                   <input
@@ -997,7 +970,13 @@ const Record = props => {
                     onChange={handlerOnChange}
                     ref={currentDay}
                   />
-                </div>
+                </div> */}
+
+                <DateSelector
+                  text="Fecha"
+                  date={record.dateMeal}
+                  onChange={handlerOnChange}
+                />
               </div>
               <div className="time_meal_container">
                 <h5 className="h5_head">Hora de tu cena</h5>
@@ -1042,7 +1021,10 @@ const Record = props => {
                 ></textarea>
               </div>
             </div>
-            <div className="sleep_container" hidden={sync ? true : false}>
+            <div
+              className="sleep_container"
+              hidden={recordsUserRedux.length >= 1 ? true : false}
+            >
               <div>
                 <h2>
                   <img src={personBed} alt="" className="person_bed" />
@@ -1063,7 +1045,8 @@ const Record = props => {
               <div className="sync_div_true" hidden={temp.length < 1}>
                 <h3>
                   El dia{" "}
-                  {dateStringToDate(currentDay.current?.value.replace("-", ""))}
+                  {/*  {dateStringToDate(currentDay.current?.value.replace("-", ""))} */}
+                  {dateStringToDate(day.replace("-", ""))}
                 </h3>
                 <h4>Dormiste: {sleepTime12Format}</h4>
                 <span

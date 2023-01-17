@@ -1,5 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+// Actions Imports
+import { getRecordByIdDate } from "../../actions/records";
+
+// Import helpers
+import { date_maker } from "../../helpers/date_maker";
 
 /* ====================== STYLE IMPORTS ======================= */
 
@@ -10,9 +17,21 @@ import "./Loading.css";
 //>======================>//
 
 const Loading = () => {
+  // Hooks init
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  /******************** Redux States Section *********************/
+  const day = useSelector(state => state.loading.day);
+  const userId = useSelector(state => state.users.currentUser.id);
 
   useEffect(() => {
+    if (day) {
+      dispatch(getRecordByIdDate(userId, day));
+    } else {
+      dispatch(getRecordByIdDate(userId, date_maker()));
+    }
+
     const delay = () => navigate("/private/records");
 
     setTimeout(() => {
