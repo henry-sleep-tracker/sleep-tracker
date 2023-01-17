@@ -9,7 +9,7 @@ export default function PublicRoute(){
     }else if (isAuthenticated&&(planExpDate<yourDate)) {
         return <Navigate to="/private/planes"/>
     }else if(isAuthenticated&&(planExpDate>=yourDate)){
-        return <Navigate to="/private"/>
+        return <Navigate to="/private/home"/>
     }else{
         return(
             <div>

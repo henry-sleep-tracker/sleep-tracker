@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
+  ResponsiveContainer,
   AreaChart,
   Area,
 } from "recharts";
 import { useSelector } from "react-redux";
-import { Card, CardContent, Grid } from "@mui/material";
+import { Card } from "@mui/material";
 
 export default function GraphHome() {
   const stages = useSelector((state) => state.stage);
@@ -43,16 +44,16 @@ export default function GraphHome() {
 
     switch (payload.value) {
       case 1:
-        path = "Despierto 🟠";
+        path = "🟠 Despierto";
         break;
       case 2:
-        path = "Ligero 🟡";
+        path = "🟡 Ligero";
         break;
       case 3:
-        path = "Profundo 🟣";
+        path = "🟣 Profundo";
         break;
       case 4:
-        path = "R.E.M 🟢";
+        path = "🟢 R.E.M";
         break;
 
       default:
@@ -60,33 +61,16 @@ export default function GraphHome() {
     }
 
     return (
-      <text x={x} y={y} dy={12} textAnchor="end" fill="#666">
+      <text x={x} y={y} dy={12} fontSize="14px" textAnchor="end" fill="#666">
         {path}
       </text>
     );
   };
 
-  const [windowWidth, setwindowWidth] = useState(window.innerWidth)
-
-  const handleResize = () => {
-    setwindowWidth(window.innerWidth)
-  }
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize)
-  }, [])
-
   return (
-    <Card
-      variant="outlined"
-    >
-      <CardContent>
-        <AreaChart
-          width={windowWidth - 150}
-          height={250}
-          data={data}
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-        >
+    <Card>
+      <ResponsiveContainer width="95%" height={400}>
+        <AreaChart data={data}>
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#4fc3f7" stopOpacity={0.6} />
@@ -97,14 +81,13 @@ export default function GraphHome() {
             dataKey="Hora"
             minTickGap={50}
             tickFormatter={(value) => {
-
               if (value) {
                 const hours = value.split(":")[0];
                 return `${hours}:00 Hrs`;
               }
             }}
           />
-          <YAxis tick={renderCustomAxisTick} />
+          <YAxis tick={renderCustomAxisTick} width={100} />
           <CartesianGrid strokeDasharray="0 1" />
           <Tooltip />
           <Area
@@ -115,8 +98,7 @@ export default function GraphHome() {
             fill="url(#colorUv)"
           />
         </AreaChart>
-
-      </CardContent>
+      </ResponsiveContainer>
     </Card>
   );
 }

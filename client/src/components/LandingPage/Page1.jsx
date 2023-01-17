@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-import { Grid, ImageList, ImageListItem, Paper, Typography } from "@mui/material";
+import { Button, Grid, ImageList, ImageListItem, Paper, Typography } from "@mui/material";
 import page1SleepA from "./Images/page1SleepA.jpg";
 
 const Page1 = (
@@ -15,88 +15,117 @@ const Page1 = (
   const classes = useStyles();
   return (
 
-    <Paper
-      // variant="outlined"
-      // square
-      elevation={20}
-      // className={classes.mainPaper}
-    >
-      {/* <ul className={classes.ul}>
-        <li onClick={() => setCurrentPage(page2)}>Como funciona</li>
-        <li onClick={() => setCurrentPage(page3)}>Dispositivos soportados</li>
-        <li onClick={() => setCurrentPage(page4)}>Planes de pago</li>
-        <li onClick={() => setCurrentPage(page5)}>Conoce al equipo</li>
-      </ul> */}
-      {/* <div className={classes.mosaic}> */}
-
+      <Grid
+        container
+        // display='flex'
+        // direction="row"
+        justifyContent="center"
+        alignItems='stretch'
+        className={classes.mainPaper}
+        // flex={4}
+        // p={2}
+        columns={12}
+      >
         <Grid
-          container
-          // display='flex'
-          // direction="row"
-          justifyContent="center"
-          alignItems="center"
-          className={classes.mainPaper}
-          flex={4}
-          p={2}
-
+          item
+          lg={6}
+          md={6}
+          xs={12}
+          className={classes.bg}
         >
           <Grid
-            item
-            lg={6}
-            md={6}
-            xs={12}
+            container
+            direction='column'
+            justifyContent="center"
+            alignItems="center"
+            width="100%"
+            paddingTop={10}
+            spacing={4}
           >
-            <Typography
-              variant="h1"
-              display='flex'
-              flexwrap='wrap'
-            >Sleep Tracker
-            </Typography>
-            <Typography
-              variant='h6'
-              display='flex'
-              flexwrap='wrap'
+            <Grid
+              item
             >
-              Lleva el control de tu sueño con tu telefono movil y/o reloj
-              inteligente
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            lg={6}
-            md={6}
-            xs={12}
+              <Typography
+                fontWeight='bold'
+                variant="h1"
+                display='flex'
+                flexwrap='wrap'
+              >
+                Sleep Tracker
+              </Typography>
+
+            </Grid>
+            <Grid
+              item
             >
-
-            <ImageList
-              // cols={2}
-              // rowHeight={'auto'}
+              <Typography
+                variant='h4'
+                display='flex'
+                flexwrap='wrap'
               >
-              <ImageListItem 
-              sx={{ width: '400px', height: 'auto' }}  
-              // overflow='hidden'            
-              >
-                <img
-                  src={page1SleepA}
-                  alt={'imagen'}
-                  loading="lazy"
-                />
-              </ImageListItem>
-            </ImageList>
+                Lleva el control de tu sueño
+              </Typography>
 
+            </Grid>
+            <Grid
+              item
+            >
+              <Button
+                variant='contained'
+                size='large'
+                href='/registro'
+              >
+                Comienza ya
+              </Button>
+
+            </Grid>
+
+
+            <br />
           </Grid>
         </Grid>
-      {/* </div> */}
-    </Paper>
+
+        <Grid
+          item
+          lg={6}
+          md={6}
+          xs={12}
+        >
+
+          <img
+            src={page1SleepA}
+            className={classes.imageStyle}
+            alt={'imagen'}
+            loading="lazy"
+            width='400px'
+            height='100%'
+          />
+
+        </Grid>
+
+      </Grid>
+
+
   );
 };
 
 export default Page1;
 
 const useStyles = makeStyles(() => ({
-  mainPaper:{
-    height:'100vh',
-    width:'97vw'
 
-  }
+  bg: {
+    backgroundColor: '#9fa8da'
+  },
+
+  mainPaper: {
+    width: '100vw',
+    minHeight: '60vh',
+
+  },
+
+  imageStyle: {
+    width: '100%',
+    height: '100%'
+  },
+
 }));

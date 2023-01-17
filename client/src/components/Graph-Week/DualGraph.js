@@ -1,6 +1,6 @@
 import { Button, Card, CardContent, Grid } from "@mui/material";
 import React, { useState, useCallback, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Line,
   XAxis,
@@ -11,10 +11,22 @@ import {
   LineChart,
   ResponsiveContainer,
 } from "recharts";
+import { getSleepSession } from "../../actions/getUserHealthData";
+
+const startDate = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+const endDate = new Date(Date.now() - 432000000).toISOString().split("T")[0];
 
 export default function DualGraph() {
   const ranges = useSelector((state) => state.session);
-  console.log("ranges", ranges);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!ranges.length) {
+      dispatch(getSleepSession(startDate, endDate));
+    }
+  }, [dispatch, ranges.length]);
+
   const [opacity, setOpacity] = useState({
     summary_light_min: 1,
     summary_deep_min: 1,
@@ -76,9 +88,10 @@ export default function DualGraph() {
       ].includes(item)
     );
 
-    return uniqueKeys.map((k) => {
+    return uniqueKeys.map((k, index) => {
       return (
         <Line
+          key={`line-${index}`}
           connectNulls
           type="monotone"
           stroke={getColor(k)}
@@ -92,15 +105,15 @@ export default function DualGraph() {
     });
   };
 
-  const [windowWidth, setwindowWidth] = useState(window.innerWidth)
+  const [windowWidth, setwindowWidth] = useState(window.innerWidth);
 
   const handleResize = () => {
-    setwindowWidth(window.innerWidth)
-  }
+    setwindowWidth(window.innerWidth);
+  };
 
   useEffect(() => {
-    window.addEventListener('resize', handleResize)
-  }, [])
+    window.addEventListener("resize", handleResize);
+  }, []);
 
   return (
     <Grid
@@ -112,12 +125,8 @@ export default function DualGraph() {
       flex={4}
       p={2}
     >
-      <Grid
-        item
-      >
-        <Card
-          variant="outlined"
-        >
+      <Grid item>
+        <Card variant="outlined">
           <CardContent>
             <Grid
               container
@@ -128,11 +137,7 @@ export default function DualGraph() {
               flex={4}
               p={2}
             >
-
-              <ResponsiveContainer
-                width={windowWidth - 150}
-                height={500}
-              >
+              <ResponsiveContainer width={windowWidth - 150} height={500}>
                 <LineChart
                   width={500}
                   height={400}
@@ -148,7 +153,10 @@ export default function DualGraph() {
                   <XAxis dataKey="date" />
                   <YAxis />
                   <Tooltip
-                    itemStyle={{ textTransform: "capitalize", textAlign: "left" }}
+                    itemStyle={{
+                      textTransform: "capitalize",
+                      textAlign: "left",
+                    }}
                     content={"efficiency"}
                   />
                   <Legend onClick={handleClick} />
@@ -156,24 +164,15 @@ export default function DualGraph() {
                 </LineChart>
               </ResponsiveContainer>
 
-              <Grid
-                item
-              >
-                <Button
-                  onClick={handleReset}
-                  variant='outlined'
-                >
+              <Grid item>
+                <Button onClick={handleReset} variant="outlined">
                   Reiniciar grafica
                 </Button>
               </Grid>
-
             </Grid>
-
           </CardContent>
         </Card>
-
       </Grid>
-
     </Grid>
   );
 }

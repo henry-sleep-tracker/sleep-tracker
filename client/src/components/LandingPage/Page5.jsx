@@ -66,66 +66,66 @@ const Page5 = () => {
   ];
 
   return (
+    <Grid
+    container
+    className={classes.mainPaper}
+    >
 
-      <Paper
-        // variant="outlined"
-        // square
-        elevation={20}
-        // className={classes.mainPaper}
-      >
-        <Typography variant="h4">Conoce al equipo</Typography>
 
-        <ImageList 
+      <Typography variant="h4">Conoce al equipo</Typography>
+
+      <ImageList
         // sx={{ width: 1000, height: 450 }} 
         cols={1}
         rows={1}
-        // display='flex'
+      // display='flex'
+
+      >
+        <Grid
+          container
+          // direction="row"
+          justifyContent="center"
+          // alignItems="flex-start"
+          // spacing={0}
+          // display='flex'
+          flex={4}
+          p={9}
+          // height='100vh'
+          gap='10px'
 
         >
-          <Grid
-            container
-            // direction="row"
-            justifyContent="center"
-            // alignItems="flex-start"
-            // spacing={0}
-            // display='flex'
-            flex={4}
-            p={9}
-            // height='100vh'
-            gap='10px'
-            
-            >
-            {itemData.map((item) => (
-              <ImageListItem key={item.img}>
+          {itemData.map((item) => (
+            <ImageListItem key={item.img}>
               <Grid
                 item
               >
-                  <img
-                    src={`${item.img}?w=248&fit=crop&auto=format`}
-                    srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                    alt={item.name}
-                    loading="lazy"
-                  />
-                  <ImageListItemBar
-                    title={item.name}
-                    subtitle={<span>GitHub: {item.github}</span>}
-                    actionIcon={
-                      <IconButton
-                        sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-                        aria-label={`info about ${item.name}`}
-                      >
-                        <a className={classes.aTag} href={item.githubURL}>
-                          <Info />
-                        </a>
-                      </IconButton>
-                    }
-                  />
+                <img
+                  src={`${item.img}?w=248&fit=crop&auto=format`}
+                  srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                  alt={item.name}
+                  loading="lazy"
+                />
+                <ImageListItemBar
+                  title={item.name}
+                  subtitle={<span>GitHub: {item.github}</span>}
+                  actionIcon={
+                    <IconButton
+                      sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                      aria-label={`info about ${item.name}`}
+                    >
+                      <a className={classes.aTag} href={item.githubURL}>
+                        <Info />
+                      </a>
+                    </IconButton>
+                  }
+                />
               </Grid>
-                </ImageListItem>
-            ))}
-          </Grid>
-            </ImageList>
-      </Paper>
+            </ImageListItem>
+          ))}
+        </Grid>
+      </ImageList>
+
+    </Grid>
   );
 };
 
@@ -136,9 +136,10 @@ const useStyles = makeStyles(() => ({
     color: "white",
   },
 
-  mainPaper:{
-    height:'100vh',
-    width:'97vw'
+  mainPaper: {
+    height: '70vh',
+    width: '100vw',
+
   },
 
 }));

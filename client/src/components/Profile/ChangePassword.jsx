@@ -7,11 +7,13 @@ import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
 import { useParams, useNavigate } from 'react-router-dom';
 import { changePassword } from "../../actions/profileActions";
+import { message } from "react-message-popup";
 // import style from "./ChangePassword.module.css";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useAuthContext } from "../../actions/authContext";
 
 export default function ChangePassword() {
-
+  const { createPassword } = useAuthContext();
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -54,11 +56,16 @@ export default function ChangePassword() {
     e.preventDefault();
     try {
       if (Object.keys(errors).length !== 0) {
-        alert(`Todos los campos obligatorios deben ser llenados para poder registrarse`)
+        //alert(`Todos los campos obligatorios deben ser llenados para poder registrarse`)
+        message.warn(
+          `Todos los campos obligatorios deben ser llenados para poder registrarse`
+        ,2500);
       } else if (input.password !== input.confirmPassword) {
-        alert(`La contraseña no se confirmo correctamente`)
+        //alert(`La contraseña no se confirmo correctamente`)
+        message.error(`La contraseña no se confirmo correctamente`,2500)
       } else {
         dispatch(changePassword(id, input.password));
+        createPassword();
         setInput({
           password: "",
           confirmPassword: "",
@@ -158,7 +165,7 @@ export default function ChangePassword() {
                     label="Contraseña *"
                     variant="outlined"
                     name="password"
-                    maxLength="32"
+                    inputProps={{ maxLength: 32 }}
                     pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                     onChange={(e) => handleChange(e)}
                     required
@@ -192,7 +199,7 @@ export default function ChangePassword() {
                     label="Confirmar contraseña *"
                     variant="outlined"
                     name="confirmPassword"
-                    maxLength="32"
+                    inputProps={{ maxLength: 32 }}
                     pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                     onChange={(e) => handleChange(e)}
                     required
