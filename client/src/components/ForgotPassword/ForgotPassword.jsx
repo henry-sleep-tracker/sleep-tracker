@@ -68,7 +68,7 @@ export default function ForgotPassword() {
     } catch (error) {
       console.log("el error es:", error);
     }
-    navigate("/");
+    navigate("/contrasena_olvidada");
   }
 
   let navigate = useNavigate();

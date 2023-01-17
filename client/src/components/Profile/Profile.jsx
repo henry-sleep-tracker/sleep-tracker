@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthContext } from "../../actions/authContext";
 import { updateUser, updateImage } from "../../actions/profileActions";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Card,
@@ -29,8 +30,12 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import PaymentIcon from "@mui/icons-material/Payment";
+import { message } from "react-message-popup";
+
 
 const Profile = () => {
+  let navigate = useNavigate();
+  const { isGoogleUser, isPasswordSetUp} = useAuthContext();
   const { createPassword } = useAuthContext();
   const currentUser = useSelector((state) => state.users.currentUser);
   const dispatch = useDispatch();
@@ -119,7 +124,17 @@ const Profile = () => {
   };
 
   const handleClickDelete = () => {
-    setOpen(true);
+      setOpen(true);
+  };
+  const handleClickDeleteUser = () => {
+    if (isGoogleUser==="true" && isPasswordSetUp==="false") {
+      message.error(
+        "No puede eliminar el usuario hasta no haber creado una contraseña.",
+        3000
+      );
+    }else{
+      navigate(`/private/delete-user/${currentUser.id}`);
+    }
   };
 
   const handleClickConfirm = () => {
@@ -237,11 +252,11 @@ const Profile = () => {
         >
           <Grid container display= "flex" flexDirection= "column" gap={2}>
           <Button
-            href={`/private/delete-user/${currentUser.id}`}
             startIcon={<DeleteIcon />}
             variant="outlined"
             color="error"
             id="ButtonDelete"
+            onClick={handleClickDeleteUser}
           >
             Borrar usuario
           </Button>{currentUser.image ? <Button onClick={handleClickDelete}>Eliminar foto</Button>: null}
