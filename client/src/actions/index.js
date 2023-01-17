@@ -61,17 +61,10 @@ export function postUser(user) {
         `${process.env.REACT_APP_DEFAULT_URL}/user/${user.email}`
       );
       if (response.data !== "") {
-        //alert(`El usuario ya existe`);
-        window.location.href =
-          "http://localhost:3000/4b19bb28098dae39a259f67d30a0a8b932a6b925";
+        window.location.href = `${process.env.REACT_APP_BASE_FRONT_URL}/4b19bb28098dae39a259f67d30a0a8b932a6b925`;
       } else {
         await axios.post(`${process.env.REACT_APP_DEFAULT_URL}/user`, user);
-        alert("Usuario registrado correctamente");
-        window.location.href = "http://localhost:3000/login";
-
-        window.location.href =
-          "http://localhost:3000/8f26c6520d61588a9757bc182157c4497628e871";
-        window.location.href = `${process.env.REACT_APP_BASE_FRONT_URL}/login`;
+        window.location.href = `${process.env.REACT_APP_BASE_FRONT_URL}/8f26c6520d61588a9757bc182157c4497628e871`;
       }
     } catch (error) {
       console.log("El error client actions postUser es:", error.message);
@@ -139,15 +132,9 @@ export function resetPassword(password, id, token) {
         }
       );
       if (response.status === 200) {
-        //alert(`La contraseña se actualizo correctamente`);
-        window.location.href =
-          "http://localhost:3000/50ff4e65285ea9c7145fa1ca00766e9c38a44748";
+        window.location.href = `${process.env.REACT_APP_BASE_FRONT_URL}/50ff4e65285ea9c7145fa1ca00766e9c38a44748`;
       } else {
-        /*  alert(
-          `Hubo un error al actualizar la contraseña. Intentelo nuevamente.`
-        ); */
-        window.location.href =
-          "http://localhost:3000/12bc2f45940ab508152184813fa70aec73d0da87";
+        window.location.href = `${process.env.REACT_APP_BASE_FRONT_URL}/12bc2f45940ab508152184813fa70aec73d0da87`;
       }
     } catch (error) {
       console.log("El error client actions resetPassword es:", error.message);
@@ -218,6 +205,18 @@ export const restoreGoogleUser = (email) => {
 };
 export function logInUser(email, password, setOpen) {
   console.log("check", email, password, setOpen);
+
+  if (!email && !password) {
+    return message.warn("Completa los campos para ingresar");
+  }
+  if (!email) {
+    return message.warn("Ingresa correo electronico");
+  }
+
+  if (!password) {
+    return message.warn("Ingresa tu contraseña");
+  }
+
   return async function (dispatch) {
     try {
       const response = await fetch(
@@ -247,6 +246,7 @@ export function logInUser(email, password, setOpen) {
       }
     } catch (error) {
       console.log(error);
+      message.error("correo/contraseña incorrectos", 2500);
     }
   };
 }
@@ -306,3 +306,23 @@ export function cleanExpDate() {
     }
   };
 }
+
+export function logInUserWithGoogle(response) {
+  return async function (dispatch) {
+    try {
+      const { email, familyName, givenName } = response.profileObj;
+      const userCreated = await axios.post(
+        `${process.env.REACT_APP_DEFAULT_URL}/user/google`,
+        { email, lastNames: familyName, names: givenName }
+      );
+      return dispatch({
+        type: POST_USER_WITH_GOOGLE,
+        payload: userCreated.data,
+      });
+    } catch (error) {
+      console.log("el error de logInUserWithGoogle es:", error.message);
+      message.error("Error: al intentar ingresar con tu cuenta de Google", 2500);
+    }
+  };
+}
+

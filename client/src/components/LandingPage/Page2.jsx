@@ -1,11 +1,11 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-import { Card, CardContent, Grid, Paper, Typography } from "@mui/material";
+import { Card, CardContent, Grid, Typography } from "@mui/material";
 import page2A from "./Images/page2A.jpg";
-import page2B from "./Images/page2B_copy.tiff";
-import page2C from "./Images/page2C_copy.tiff";
+import page2B from "./Images/page2B.jpg";
+import page2C from "./Images/page2C.jpg";
 import page2D from "./Images/page2D.jpg";
-import page2E from "./Images/page2E_copy.tiff";
+import page2E from "./Images/page2E.jpg";
 
 const imgHeight = 300;
 

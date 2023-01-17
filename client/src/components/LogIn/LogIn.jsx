@@ -103,11 +103,16 @@ export default function LogIn() {
 
   const classes = useStyles();
   return (
-    <Grid container>
+    <Grid 
+    container
+    height='100vh'
+    >
       <AlertDialog open={open} handleClose={handleClose} input={input} />
+     
       <Helmet>
         <title>Iniciar sesion | Sleep Tracker</title>
       </Helmet>
+
       <Grid
         container
         direction="row"
@@ -273,16 +278,16 @@ export default function LogIn() {
 
 const useStyles = makeStyles(() => ({
   imageStyle: {
-    width: "100%",
-    minHeight: "100vh",
-    height: "100%",
+    width: '100%',
+    minHeight: '100vh',
+    height: '100%'
   },
 
   bg: {
-    backgroundColor: "#ecefef",
+    backgroundColor: '#ecefef'
   },
 
   bgImage: {
-    backgroundImage: `url(${wakeup})`,
+    backgroundImage: `url(${wakeup})`
   },
 }));
