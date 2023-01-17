@@ -2,11 +2,13 @@
 import { createContext, useCallback, useContext } from "react";
 import PropTypes from "prop-types";
 import { useState, useMemo } from "react";
-const MY_AUTH_APP = "MY_AUTH_APP_1";
-const USER_ID = "USER_ID";
-const PLAN_EXPIRATION_DATE = "PLAN_EXPIRATION_DATE";
-const IS_GOOGLE_USER = "IS_GOOGLE_USER";
-const IS_PASSWORD_SET_UP = "IS_PASSWORD_SET_UP";
+import {
+  MY_AUTH_APP,
+  USER_ID,
+  PLAN_EXPIRATION_DATE,
+  IS_GOOGLE_USER,
+  IS_PASSWORD_SET_UP,
+} from "./constants";
 
 export const AuthContext = createContext(); //es un objeto que adentro tiene un provider
 
