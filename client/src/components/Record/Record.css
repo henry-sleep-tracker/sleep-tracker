@@ -319,7 +319,7 @@ h2 {
 }
 
 .input_number {
-  width: 2.5rem;
+  max-width: 15%;
   margin-left: 0.4rem;
   margin-right: 0.9rem;
 }
