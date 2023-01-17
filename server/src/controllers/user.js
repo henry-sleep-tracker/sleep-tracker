@@ -7,7 +7,6 @@ const bcrypt = require("bcrypt");
 const { STRIPE_SECRET_KEY } = process.env;
 const Stripe = require("stripe");
 const JWT_SECRET = "CVDF61651BV231TR894VBCX51LIK5LÑK84";
-const basicURL = "http://localhost:3000";
 const jwt = require("jsonwebtoken");
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2020-08-27",
