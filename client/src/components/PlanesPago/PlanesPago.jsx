@@ -2,9 +2,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserById } from "../../actions/index";
+import {
+  USER_ID,
+} from "../../actions/constants";
 
 const Pricing = () => {
-  const USER_ID = "USER_ID";
   const userId = window.localStorage.getItem(USER_ID);
   const currentUser = useSelector((state) => state?.users.currentUser);
   const dispatch = useDispatch();
