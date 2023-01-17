@@ -7,11 +7,14 @@ import {
 import axios from "axios";
 import { message } from "react-message-popup";
 const emailjs = require("emailjs-com");
-const { EMAILJS_TEMPLATE_ID, EMAILJS_SERVICE_ID, EMAILJS_PUBLIC_ID } =
-  process.env;
-const templateId = EMAILJS_TEMPLATE_ID;
-const serviceId = EMAILJS_SERVICE_ID;
-const Public_Key = EMAILJS_PUBLIC_ID;
+// const { EMAILJS_TEMPLATE_ID, EMAILJS_SERVICE_ID, EMAILJS_PUBLIC_ID } =
+//   process.env;
+// const templateId = EMAILJS_TEMPLATE_ID;
+// const serviceId = EMAILJS_SERVICE_ID;
+// const Public_Key = EMAILJS_PUBLIC_ID;
+const templateId = "template_upsqgx4";
+const serviceId = "service_ts4dsnk";
+const Public_Key = "DkkyjnDmwCqT4qOL1";
 
 const getUsersPlanExpDate = require("./plan");
 
