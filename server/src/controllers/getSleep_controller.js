@@ -1,6 +1,4 @@
-const { Router } = require("express");
 const { Op } = require("sequelize");
-const router = Router();
 const { Stage, Session } = require("../db");
 
 const getSleepStage = async (req, res) => {

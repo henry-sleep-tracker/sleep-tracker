@@ -68,12 +68,10 @@ const Collection = () => {
           records[records.length - 1].description,
         Date: records[0].dateMeal,
       };
-      console.log("consumooo", consumo);
+
       consumos.push(consumo);
     }
   }
-
-  console.log("consumo", consumos);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {

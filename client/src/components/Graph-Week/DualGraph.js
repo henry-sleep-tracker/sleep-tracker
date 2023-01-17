@@ -18,7 +18,6 @@ const endDate = new Date(Date.now() - 432000000).toISOString().split("T")[0];
 
 export default function DualGraph() {
   const ranges = useSelector((state) => state.session);
-  console.log("ranges", ranges);
 
   const dispatch = useDispatch();
 
@@ -88,7 +87,6 @@ export default function DualGraph() {
         "efficiency",
       ].includes(item)
     );
-    console.log("uniqueKeys", uniqueKeys);
 
     return uniqueKeys.map((k, index) => {
       return (
