@@ -306,26 +306,3 @@ export function cleanExpDate() {
     }
   };
 }
-
-export function logInUserWithGoogle(response) {
-  return async function (dispatch) {
-    try {
-      const { email, familyName, givenName } = response.profileObj;
-      const userCreated = await axios.post(
-        `${process.env.REACT_APP_DEFAULT_URL}/user/google`,
-        { email, lastNames: familyName, names: givenName }
-      );
-      return dispatch({
-        type: POST_USER_WITH_GOOGLE,
-        payload: userCreated.data,
-      });
-    } catch (error) {
-      console.log("el error de logInUserWithGoogle es:", error.message);
-      message.error(
-        "Error: al intentar ingresar con tu cuenta de Google",
-        2500
-      );
-    }
-  };
-}
-
