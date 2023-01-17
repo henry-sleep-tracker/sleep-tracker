@@ -127,7 +127,6 @@ const Profile = () => {
       setOpen(true);
   };
   const handleClickDeleteUser = () => {
-    debugger
     if (isGoogleUser==="true" && isPasswordSetUp==="false") {
       message.error(
         "No puede eliminar el usuario hasta no haber creado una contraseña.",
