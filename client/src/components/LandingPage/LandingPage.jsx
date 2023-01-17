@@ -14,7 +14,6 @@ import { useDispatch } from "react-redux";
 function LandingPage() {
   const [mode, setMode] = useState("light");
   const loggedUser = useSelector((state) => state?.users.currentUser);
-  debugger
   // const [pageScroll, setPageScroll] = useState('page1')
 
   const page1 = useRef(null);
