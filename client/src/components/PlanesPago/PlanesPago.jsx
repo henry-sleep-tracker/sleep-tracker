@@ -5,6 +5,7 @@ import { getUserById } from "../../actions/index";
 import {
   USER_ID,
 } from "../../actions/constants";
+import "./PlanesPago.css";
 
 const Pricing = () => {
   const userId = window.localStorage.getItem(USER_ID);
