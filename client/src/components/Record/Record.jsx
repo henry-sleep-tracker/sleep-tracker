@@ -27,9 +27,7 @@ import {
   setStatusNewRecord,
 } from "../../actions/records";
 
-import { getSleepStage } from "../../actions/getUserHealthData";
-
-import { setDay } from "../../actions/loading";
+import { setDay, setStartTime, setEndTime } from "../../actions/loading";
 
 // Import images
 import checkImg from "../../images/check-mark-button_2705.png";
@@ -41,7 +39,6 @@ import coffeeMain from "../../images/coffe2.png";
 import coffeeImg from "../../images/coffee.png";
 import drinkMain from "../../images/tropical-drink-Main.png";
 import drinkImg from "../../images/tropical-drink.png";
-import timeIco from "../../images/time.png";
 
 // Import helpers
 import { date_maker } from "../../helpers/date_maker";
@@ -53,6 +50,8 @@ import { dateStringToDate } from "../../helpers/string_to_date";
 
 // Import MUI Components
 import DateSelector from "./CalendarRecord";
+import TimeMealSelector from "./Time";
+import { StartTime, EndTime } from "./Time";
 
 //>======================>//
 //> Starts Component
@@ -62,6 +61,8 @@ const Record = props => {
   // variables
   let sleepTimeMinutes = "";
   let sleepTime12Format = "";
+  let checkSleepRecord = "";
+  
 
   // Hooks init
   const dispatch = useDispatch();
@@ -94,6 +95,9 @@ const Record = props => {
   const drinksRedux = useSelector(state => state.record.drinks);
   const sleepTime = useSelector(state => state.stage);
   const day = useSelector(state => state.loading.day);
+  const timeR = useSelector(state => state.loading.time);
+  const sTime = useSelector(state => state.loading.startTime);
+  const eTime = useSelector(state => state.loading.endTime);
 
   /******************** Functions Before load component *********************/
 
@@ -105,15 +109,22 @@ const Record = props => {
     sleepTime12Format = time_convert(sleepTimeMinutes);
   }
 
+  checkSleepRecord = Array.isArray(recordsUserRedux)
+    ? recordsUserRedux.filter(e => e.sleepTime >= 1)
+    : false;
+
+  let st = sTime;
+  let et = eTime;
+
   /******************** Local States Section *********************/
 
   //! ================== Main Local States ================= !//
 
   const [record, setRecord] = useState({
     dateMeal: day ? day : date_maker(),
-    timeMeal: "",
+    timeMeal: timeR ? timeR : "",
     description: "",
-    sleepTime: "",
+    sleepTime: st && et ? timeToMinutes(st, et) : "",
     napTime: [],
     timeActivity: [],
     coffeeCups: [],
@@ -132,14 +143,11 @@ const Record = props => {
 
   //! ================== Sleep States ================= !//
   const [time, setTime] = useState({
-    startTime: "",
-    endTime: "",
+    startTime: sTime?sTime:"",
+    endTime: eTime?eTime:"",
   });
 
-  let st = time.startTime;
-  let et = time.endTime;
-
-  const finalHours = formatingDate(st, et);
+  const finalHours = formatingDate(sTime, eTime);
 
   //! ================== Activity States ================= !//
 
@@ -188,7 +196,7 @@ const Record = props => {
     // Before Dispatch //
 
     if (
-      record.timeMeal.length <= 0 &&
+      timeR.length <= 0 &&
       record.sleepTime.length <= 0 &&
       record.timeActivity.length <= 0 &&
       record.coffeeCups.length <= 0 &&
@@ -209,15 +217,29 @@ const Record = props => {
       setRecord((record.dateMeal = date));
     }
 
-    if (record.timeMeal.length > 0 && record.description.length < 1) {
+    /* if (record.timeMeal.length > 0 && record.description.length < 1) {
+      message.warn(`Ingresa una breve descripcion de tu cena`);
+      message.warn(`Ingresa una breve descripcion de tu cena`);
+      return;
+    } */
+
+    if (timeR && record.description.length < 1) {
       message.warn(`Ingresa una breve descripcion de tu cena`);
       message.warn(`Ingresa una breve descripcion de tu cena`);
       return;
     }
 
-    if (record.timeMeal === "") {
+    /* if (record.timeMeal === "") {
       time = time_maker();
       setRecord((record.timeMeal = time));
+    } */
+
+
+    if (timeR === "") {
+      time = time_maker();
+      setRecord((record.timeMeal = time));
+    } else {
+      setRecord((record.timeMeal = timeR));
     }
 
     if (st.length > 0 && et.length > 0) {
@@ -264,6 +286,8 @@ const Record = props => {
     refresh();
     navigate("/private/saving");
     dispatch(setDay(day));
+    dispatch(setStartTime(""));
+    dispatch(setEndTime(""));
   };
 
   const handlerOnClear = e => {
@@ -660,13 +684,6 @@ const Record = props => {
   // Mount/Unmount Component
 
   useEffect(() => {
-    if (recordsUserRedux.message) {
-      if (day) {
-        dispatch(getSleepStage(day));
-      } else {
-        dispatch(getSleepStage(date_maker()));
-      }
-    }
 
     dispatch(getActivitiesByUser(userId));
     dispatch(getCoffeeSizesByUser(userId));
@@ -690,7 +707,7 @@ const Record = props => {
       message.error(`Error: al guardar registro`, 2500);
       dispatch(setStatusNewRecord());
     }
-  }, [value, recordStatus]);
+  }, [value, recordStatus, /* time */]);
 
   const PopupActivity = () => (
     <Popup
@@ -960,18 +977,6 @@ const Record = props => {
             </div>
             <div className="general_info_container">
               <div className="date_record_container">
-                {/* <h5 className="h5_head">Fecha</h5>
-                <div>
-                  <img src={calendar} alt="" className="main_ico" />
-                  <input
-                    type="date"
-                    name="dateMeal"
-                    value={record.dateMeal}
-                    onChange={handlerOnChange}
-                    ref={currentDay}
-                  />
-                </div> */}
-
                 <DateSelector
                   text="Fecha"
                   date={record.dateMeal}
@@ -979,21 +984,12 @@ const Record = props => {
                 />
               </div>
               <div className="time_meal_container">
-                <h5 className="h5_head">Hora de tu cena</h5>
-                <div>
-                  <img src={timeIco} alt="" className="main_ico" />
-                  <input
-                    type="time"
-                    name="timeMeal"
-                    value={record.timeMeal}
-                    onChange={handlerOnChange}
-                  />
-                </div>
+                <TimeMealSelector text="Hora de tu cena" />
               </div>
               <div
                 id="test_div"
                 className="meal_section"
-                hidden={record.timeMeal.length > 0 ? false : true}
+                hidden={timeR ? false : true}
               >
                 <h5>
                   Descripcion de tu cena{" "}
@@ -1001,10 +997,7 @@ const Record = props => {
                     src={checkImg}
                     alt=""
                     hidden={
-                      record.timeMeal.length > 0 &&
-                      record.description.length > 0
-                        ? false
-                        : true
+                      timeR && record.description.length > 0 ? false : true
                     }
                     className="img_ok"
                   />
@@ -1023,7 +1016,13 @@ const Record = props => {
             </div>
             <div
               className="sleep_container"
-              hidden={recordsUserRedux.length >= 1 ? true : false}
+              hidden={checkSleepRecord ? false : true}
+            >
+              <h6>Este dia ya tiene registrado tu tiempo de sueño</h6>
+            </div>
+            <div
+              className="sleep_container"
+              hidden={checkSleepRecord ? true : false}
             >
               <div>
                 <h2>
@@ -1043,40 +1042,24 @@ const Record = props => {
               </div>
 
               <div className="sync_div_true" hidden={temp.length < 1}>
-                <h3>
-                  El dia{" "}
-                  {/*  {dateStringToDate(currentDay.current?.value.replace("-", ""))} */}
-                  {dateStringToDate(day.replace("-", ""))}
-                </h3>
-                <h4>Dormiste: {sleepTime12Format}</h4>
+                <h5>El dia {dateStringToDate(day.replace("-", ""))}</h5>
+                <h6>Fitbit registro {sleepTime12Format} de sueño</h6>
                 <span
                   className="sync"
                   hidden={sleepTime.length > 0 ? false : true}
                   onClick={handlerSync}
                 >
-                  Guardar Lectura de Fitbit
+                  Guardar Lectura
                 </span>
               </div>
 
-              <div className="sleep_section" hidden={temp.length > 0}>
-                <label>Dormiste </label>
-                <input
-                  className="sleep_section_input"
-                  type="time"
-                  name="startTime"
-                  id=""
-                  value={time.startTime}
-                  onChange={handlerSleepTimeChange}
-                />
-                <label> Despertaste </label>
-                <input
-                  type="time"
-                  name="endTime"
-                  id=""
-                  value={time.endTime}
-                  onChange={handlerSleepTimeChange}
-                />
-                <div className="sleep_result" hidden={st && et ? false : true}>
+              <div className="sleep_section" hidden={sleepTime.length > 0}>
+                <StartTime text="Dormiste" />
+                <EndTime text="Despertaste" />
+                <div
+                  className="sleep_result"
+                  hidden={sTime && sTime ? false : true}
+                >
                   <h4>
                     Dormiste:{" "}
                     {sleepTime12Format ? sleepTime12Format : finalHours}

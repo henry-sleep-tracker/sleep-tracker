@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 // Actions Imports
 import { getRecordByIdDate } from "../../actions/records";
+import { setTime, setStartTime, setEndTime } from "../../actions/loading";
+import { getSleepStage } from "../../actions/getUserHealthData";
 
 // Import helpers
 import { date_maker } from "../../helpers/date_maker";
@@ -28,9 +30,15 @@ const Loading = () => {
   useEffect(() => {
     if (day) {
       dispatch(getRecordByIdDate(userId, day));
+      dispatch(getSleepStage(day));
     } else {
       dispatch(getRecordByIdDate(userId, date_maker()));
+      dispatch(getSleepStage(date_maker()));
     }
+
+    dispatch(setTime(""));
+    dispatch(setStartTime(""));
+    dispatch(setEndTime(""));
 
     const delay = () => navigate("/private/records");
 

@@ -5,11 +5,17 @@ import {
   SET_STATUS_PASSWORD_UPDATE_SUCCES,
   SET_STATUS_PASSWORD_UPDATE_ERROR,
   SET_DAY,
+  SET_TIME,
+  SET_START_TIME,
+  SET_END_TIME,
   SET_SYNC_FIT_BIT,
 } from "../actions/loading";
 
 const initialState = {
   day: "",
+  time: "",
+  startTime: "",
+  endTime: "",
   syncFitbit: false,
   newUser: false,
   newUserError: false,
@@ -22,6 +28,12 @@ const loadingReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_DAY:
       return { ...state, day: action.payload };
+    case SET_TIME:
+      return { ...state, time: action.payload };
+    case SET_START_TIME:
+      return { ...state, startTime: action.payload };
+    case SET_END_TIME:
+      return { ...state, endTime: action.payload };
     case SET_SYNC_FIT_BIT:
       return { ...state, syncFitbit: action.payload };
     case SET_STATUS_NEW_USER:
