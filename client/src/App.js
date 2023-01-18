@@ -30,6 +30,7 @@ import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
 import NewUserSuccess from "./components/Loading/NewUserSuccess";
 import Saving from "./components/Record/Saving";
 import UserExist from "./components/Loading/UserExist";
+import Chat from "./components/Home/chat";
 
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
@@ -91,6 +92,7 @@ function App() {
           <Route path="/private/loadingpayment" element={<LoadingPayment />} />
           <Route path="/private/delete-user/:id" element={<DeleteUser />} />
           <Route path="/private/createcomment" element={<CommentCreate />} />
+          <Route path="/private/chat" element={<Chat />} />
         </Route>
       </Routes>
     </AuthContextProvider>
