@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import GoogleLogin from "react-google-login";
 import { useDispatch } from "react-redux";
 import { logInUserWithGoogle } from "../../actions/index";
@@ -6,10 +6,10 @@ import AlertDialog from "../Alert/Alert";
 import styles from "./GoogleLogin.module.css";
 
 export default function LogInGoogleButton() {
-  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  const clientId = `${process.env.REACT_APP_GOOGLE_CLIENT_ID}`;
   const dispatch = useDispatch();
-  const [open, setOpen] = React.useState(false);
-  let [input, setInput] = React.useState({ email: "" });
+  const [open, setOpen] = useState(false);
+  let [input, setInput] = useState({ email: "" });
   const handleClose = () => {
     setOpen(false);
   };

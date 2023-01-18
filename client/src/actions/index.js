@@ -250,27 +250,6 @@ export function logInUser(email, password, setOpen) {
     }
   };
 }
-export function logInUserWithGoogle(response, setOpen) {
-  return async function (dispatch) {
-    try {
-      const { email, familyName, givenName } = response.profileObj;
-      const userCreated = await axios.post(
-        `${process.env.REACT_APP_DEFAULT_URL}/user/google`,
-        { email, lastNames: familyName, names: givenName }
-      );
-      if (userCreated.status === 203) {
-        setOpen(true);
-      } else {
-        return dispatch({
-          type: POST_USER_WITH_GOOGLE,
-          payload: userCreated.data,
-        });
-      }
-    } catch (error) {
-      console.log("el error de logInUserWithGoogle es:", error.message);
-    }
-  };
-}
 
 export function cleanUser() {
   return async function (dispatch) {
@@ -307,7 +286,28 @@ export function cleanExpDate() {
   };
 }
 
-export function logInUserWithGoogle(response) {
+// export function logInUserWithGoogle(response) {
+//   return async function (dispatch) {
+//     try {
+//       const { email, familyName, givenName } = response.profileObj;
+//       const userCreated = await axios.post(
+//         `${process.env.REACT_APP_DEFAULT_URL}/user/google`,
+//         { email, lastNames: familyName, names: givenName }
+//       );
+//       return dispatch({
+//         type: POST_USER_WITH_GOOGLE,
+//         payload: userCreated.data,
+//       });
+//     } catch (error) {
+//       console.log("el error de logInUserWithGoogle es:", error.message);
+//       message.error(
+//         "Error: al intentar ingresar con tu cuenta de Google",
+//         2500
+//       );
+//     }
+//   };
+// }
+export function logInUserWithGoogle(response, setOpen) {
   return async function (dispatch) {
     try {
       const { email, familyName, givenName } = response.profileObj;
@@ -315,10 +315,14 @@ export function logInUserWithGoogle(response) {
         `${process.env.REACT_APP_DEFAULT_URL}/user/google`,
         { email, lastNames: familyName, names: givenName }
       );
-      return dispatch({
-        type: POST_USER_WITH_GOOGLE,
-        payload: userCreated.data,
-      });
+      if (userCreated.status === 203) {
+        setOpen(true);
+      } else {
+        return dispatch({
+          type: POST_USER_WITH_GOOGLE,
+          payload: userCreated.data,
+        });
+      }
     } catch (error) {
       console.log("el error de logInUserWithGoogle es:", error.message);
       message.error(
@@ -328,4 +332,3 @@ export function logInUserWithGoogle(response) {
     }
   };
 }
-
