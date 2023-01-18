@@ -49,8 +49,6 @@ export default function DeleteUser() {
       })
     );
   }
-  console.log("INPUT PASSWORD", input);
-  console.log("ERRORS", errors);
 
   async function handleSubmit(e) {
     e.preventDefault();
