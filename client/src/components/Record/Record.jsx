@@ -12,7 +12,6 @@ import "reactjs-popup/dist/index.css";
 import { useState, useRef } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 // Actions Imports
@@ -52,6 +51,7 @@ import { dateStringToDate } from "../../helpers/string_to_date";
 import DateSelector from "./CalendarRecord";
 import TimeMealSelector from "./Time";
 import { StartTime, EndTime } from "./Time";
+import { Button, Stack } from "@mui/material";
 
 //>======================>//
 //> Starts Component
@@ -112,7 +112,7 @@ const Record = props => {
   checkSleepRecord = Array.isArray(recordsUserRedux)
     ? recordsUserRedux.filter(e => e.sleepTime >= 1)
     : false;
-
+  
   let st = sTime;
   let et = eTime;
 
@@ -196,7 +196,7 @@ const Record = props => {
     // Before Dispatch //
 
     if (
-      timeR.length <= 0 &&
+      timeR?.length <= 0 &&
       record.sleepTime.length <= 0 &&
       record.timeActivity.length <= 0 &&
       record.coffeeCups.length <= 0 &&
@@ -217,32 +217,20 @@ const Record = props => {
       setRecord((record.dateMeal = date));
     }
 
-    /* if (record.timeMeal.length > 0 && record.description.length < 1) {
-      message.warn(`Ingresa una breve descripcion de tu cena`);
-      message.warn(`Ingresa una breve descripcion de tu cena`);
-      return;
-    } */
-
-    if (timeR && record.description.length < 1) {
+    if (timeR && record.description?.length < 1) {
       message.warn(`Ingresa una breve descripcion de tu cena`);
       message.warn(`Ingresa una breve descripcion de tu cena`);
       return;
     }
 
-    /* if (record.timeMeal === "") {
-      time = time_maker();
-      setRecord((record.timeMeal = time));
-    } */
-
-
-    if (timeR === "") {
+    if (!timeR) {
       time = time_maker();
       setRecord((record.timeMeal = time));
     } else {
       setRecord((record.timeMeal = timeR));
     }
 
-    if (st.length > 0 && et.length > 0) {
+    if (st?.length > 0 && et?.length > 0) {
       min = timeToMinutes(st, et);
       setRecord((record.sleepTime = min));
     }
@@ -316,11 +304,13 @@ const Record = props => {
     setTime({ startTime: "", endTime: "" });
   };
 
-  //! ================== SleepTime Handlers ================= !//
-
-  const handlerSleepTimeChange = e => {
-    setTime({ ...time, [e.target.name]: e.target.value });
+  const handlerHome = e => {
+    e.preventDefault();
+    navigate("/private/home");
+    dispatch(setDay(""));
   };
+
+  //! ================== SleepTime Handlers ================= !//
 
   const handlerSync = e => {
     e.preventDefault();
@@ -707,7 +697,7 @@ const Record = props => {
       message.error(`Error: al guardar registro`, 2500);
       dispatch(setStatusNewRecord());
     }
-  }, [value, recordStatus, /* time */]);
+  }, [value, recordStatus]);
 
   const PopupActivity = () => (
     <Popup
@@ -733,7 +723,7 @@ const Record = props => {
           />
 
           <label>Actividad</label>
-          <select ref={activityRef} onChange={handlerSetActivity}>
+          <select ref={activityRef} onChange={handlerSetActivity} className="select_popup">
             <option value="default">Selecciona...</option>
             {activitiesRedux.length > 0
               ? activitiesRedux.map((e, i) => {
@@ -741,7 +731,7 @@ const Record = props => {
                     <option
                       key={e.id}
                       value={e.id}
-                      disabled={record.activity.includes(e.id) ? true : false}
+                      disabled={record.activity?.includes(e.id) ? true : false}
                     >
                       {e.activity}
                     </option>
@@ -814,7 +804,11 @@ const Record = props => {
             defaultValue="0"
           />
           <label>Tamaño Taza</label>
-          <select ref={sizeCup} onChange={handlerSetCoffee}>
+          <select
+            ref={sizeCup}
+            onChange={handlerSetCoffee}
+            className="select_popup"
+          >
             <option value="default">Selecciona...</option>
             {coffeeSizesRedux.length > 0
               ? coffeeSizesRedux.map((e, i) => {
@@ -822,7 +816,7 @@ const Record = props => {
                     <option
                       key={`coffee-${i}`}
                       value={e.id}
-                      disabled={record.coffee.includes(e.id) ? true : false}
+                      disabled={record.coffee?.includes(e.id) ? true : false}
                     >
                       {e.size}
                     </option>
@@ -872,6 +866,7 @@ const Record = props => {
       </div>
     </Popup>
   );
+
   const PopupDrink = () => (
     <Popup
       trigger={<img src={drinkMain} alt="" className="popup_ico" />}
@@ -895,7 +890,11 @@ const Record = props => {
             defaultValue="0"
           />
           <label>Tipo de bebida</label>
-          <select ref={typeDrink} onChange={handlerSetDrink}>
+          <select
+            ref={typeDrink}
+            onChange={handlerSetDrink}
+            className="select_popup"
+          >
             <option value="default">Selecciona...</option>
             {drinksRedux.length > 0
               ? drinksRedux.map((e, i) => {
@@ -903,7 +902,7 @@ const Record = props => {
                     <option
                       key={`drinksRe-${i}`}
                       value={e.id}
-                      disabled={record.drink.includes(e.id) ? true : false}
+                      disabled={record.drink?.includes(e.id) ? true : false}
                     >
                       {e.drink}
                     </option>
@@ -958,16 +957,12 @@ const Record = props => {
   return (
     <div className="master">
       <div className="form_container">
-        <form onSubmit={handlerOnSubmit}>
+        <form >
           <div className="main_container">
             <div className="x_container">
-              <Link
-                to="/private/home"
-                className="link"
-                onClick={() => dispatch(setDay(""))}
-              >
-                <div className="x">X</div>
-              </Link>
+              <Button variant="contained" onClick={handlerHome}>
+                X
+              </Button>
             </div>
             <div className="div_head">
               <h2>
@@ -997,7 +992,7 @@ const Record = props => {
                     src={checkImg}
                     alt=""
                     hidden={
-                      timeR && record.description.length > 0 ? false : true
+                      timeR && record.description?.length > 0 ? false : true
                     }
                     className="img_ok"
                   />
@@ -1010,19 +1005,19 @@ const Record = props => {
                   placeholder="Ingresa breve descripcion"
                   value={record.description}
                   onChange={handlerOnChange}
-                  required={record.timeMeal.length > 0 ? true : false}
+                  required={record.timeMeal?.length > 0 ? true : false}
                 ></textarea>
               </div>
             </div>
             <div
               className="sleep_container"
-              hidden={checkSleepRecord ? false : true}
+              hidden={checkSleepRecord?.length >= 1 ? false : true}
             >
               <h6>Este dia ya tiene registrado tu tiempo de sueño</h6>
             </div>
             <div
               className="sleep_container"
-              hidden={checkSleepRecord ? true : false}
+              hidden={checkSleepRecord?.length >= 1 ? true : false}
             >
               <div>
                 <h2>
@@ -1041,16 +1036,16 @@ const Record = props => {
                 </h2>
               </div>
 
-              <div className="sync_div_true" hidden={temp.length < 1}>
-                <h5>El dia {dateStringToDate(day.replace("-", ""))}</h5>
+              <div className="sync_div_true" hidden={temp?.length < 1}>
+                <h5>El dia {dateStringToDate(day?.replace("-", ""))}</h5>
                 <h6>Fitbit registro {sleepTime12Format} de sueño</h6>
-                <span
-                  className="sync"
-                  hidden={sleepTime.length > 0 ? false : true}
+                <Button
+                  variant="contained"
                   onClick={handlerSync}
+                  sx={{ width: "200px" }}
                 >
                   Guardar Lectura
-                </span>
+                </Button>
               </div>
 
               <div className="sleep_section" hidden={sleepTime.length > 0}>
@@ -1112,10 +1107,22 @@ const Record = props => {
             {/* ====================== BUTTONS SECTION ======================= */}
 
             <div className="button_container">
-              <button className="bottom_buttons">Guardar</button>
-              <button className="bottom_buttons" onClick={handlerOnClear}>
-                Limpiar
-              </button>
+              <Stack direction="row" spacing={10}>
+                <Button
+                  variant="contained"
+                  onClick={handlerOnSubmit}
+                  sx={{ width: "150px" }}
+                >
+                  Guardar
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={handlerOnClear}
+                  sx={{ width: "150px" }}
+                >
+                  Limpiar
+                </Button>
+              </Stack>
             </div>
           </div>
         </form>

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // Actions Imports
 import { getRecordByIdDate } from "../../actions/records";
+import { setTime } from "../../actions/loading";
 
 /* ====================== STYLE IMPORTS ======================= */
 
@@ -21,11 +22,12 @@ const Saving = () => {
 
   useEffect(() => {
     dispatch(getRecordByIdDate(userId, day));
+    dispatch(setTime(null));
     const delay = () => navigate("/private/records");
 
     setTimeout(() => {
       delay();
-    }, 1000);
+    }, 500);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

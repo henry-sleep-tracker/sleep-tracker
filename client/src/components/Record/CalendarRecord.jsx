@@ -9,9 +9,13 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import TextField from "@mui/material/TextField";
 import { Box } from "@mui/material";
+import { parseISO } from "date-fns";
 
 // Actions Imports
 import { setDay } from "../../actions/loading";
+
+// Import helpers
+import { dayMaker } from "../../helpers/day_maker_loading";
 
 
 //>======================>//
@@ -27,13 +31,13 @@ const DateSelector = ({ text, date, onChange }) => {
   const day = useSelector(state => state.loading.day);
 
   /******************** Local States Section *********************/
-  const [value, setValue] = useState(new Date());
+  const [value, /* setValue */] = useState();
 
   const onChangeHandler = value => {
-    setValue(value);
-    let str = value.toISOString().slice(0, 10);
-    let regex = /"-"/i;
-    dispatch(setDay(str.replace(regex, "")));
+    let day = ("0" + value.getDate()).slice(-2);
+    let month = ("0" + (value.getMonth() + 1)).slice(-2);
+    let today = value.getFullYear() + "-" + month + "-" + day;
+    dispatch(setDay(today));
     navigate("/private/loading");
   };
 
@@ -44,7 +48,7 @@ const DateSelector = ({ text, date, onChange }) => {
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DatePicker
           label={text}
-          value={day ? day : value}
+          value={day?parseISO(day):dayMaker()}
           onChange={onChangeHandler}
           renderInput={params => <TextField {...params} />}
         />

@@ -12,10 +12,10 @@ import {
 } from "../actions/loading";
 
 const initialState = {
-  day: "",
-  time: "",
-  startTime: "",
-  endTime: "",
+  day: null,
+  time: null,
+  startTime: null,
+  endTime: null,
   syncFitbit: false,
   newUser: false,
   newUserError: false,
