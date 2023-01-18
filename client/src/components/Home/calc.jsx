@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Button,
   Card,
   CardContent,
   Divider,
@@ -8,6 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
 const Calc = () => {
   let [aproxim, setAprox] = useState("");
@@ -21,7 +21,7 @@ const Calc = () => {
     age = e.target.value;
   };
 
-  const HandleCalc = (e) => {
+  const handleCalc = (e) => {
     if (age === "1" || age === "2") {
       aproxim = "16-18 horas al día";
       tiempoDeEj = "60 minutos diarios";
@@ -30,35 +30,33 @@ const Calc = () => {
     if (age >= 3 && age <= 16) {
       aproxim = "11-12 horas al día";
       tiempoDeEj = "60 minutos diarios";
-      actividad = "Correr, saltar, natacion...";
+      actividad = "Correr, saltar, natacion";
     }
     if (age >= 17 && age <= 29) {
       aproxim = "9-10 horas al día";
       tiempoDeEj = "60 minutos diarios";
-      actividad = "Deportes en equipo, baile, natacion...";
+      actividad = "Deportes en equipo, baile, natacion, futbol";
     }
     if (age >= 30 && age <= 39) {
       aproxim = "7-8 horas al día";
       tiempoDeEj = "225 minutos a la semana";
-      actividad = "Boxeo, andar en bici, ir al gimnasio, deportes en equipo";
+      actividad = "Boxeo, bicicleta, ir al gimnasio, deportes en equipo";
     }
     if (age >= 40 && age <= 49) {
       aproxim = "7-8 horas al día";
       tiempoDeEj = "225 minutos a la semana";
-      actividad =
-        "ir al gimnasio, practicar natación o actividades como el yoga o pilates";
+      actividad = "ir al gimnasio, natación, yoga, pilates";
     }
     if (age >= 50 && age <= 65) {
       aproxim = "7-8 horas al día";
       tiempoDeEj = "225 minutos a la semana";
-      actividad =
-        "Andar en bici, hacer natación, salir a andar o trotar, practicar yoga o pilates";
+      actividad = "Bicicleta, natación, caminar, yoga, pilates";
     }
 
     if (age > 65) {
       aproxim = "7-8 horas al día";
       tiempoDeEj = "Entre media hora y cuarenta y cinco minutos al día";
-      actividad = "Aeróbicos acuáticos, baile, caminata";
+      actividad = "Aeróbicos acuáticos, bailar, caminar";
     }
     if (age === 0) {
       aproxim = "";
@@ -74,79 +72,91 @@ const Calc = () => {
   function SueñoI({ aproxim, tiempoDeEj, actividad }) {
     return (
       <div>
-        <Typography variant="h6">Dormir:</Typography>
+        <Typography sx={{ fontSize: 18, fontWeight: "medium" }}>
+          Dormir:
+        </Typography>
         {aproxim}
-        <Typography variant="h6">Tiempo de actividad:</Typography>
+        <Typography sx={{ fontSize: 18, fontWeight: "medium" }}>
+          Tiempo de actividad:
+        </Typography>
         {tiempoDeEj}
-        <Typography variant="h6">Actividad:</Typography>
+        <Typography sx={{ fontSize: 18, fontWeight: "medium" }}>
+          Actividad física:
+        </Typography>
         {actividad}
         <Divider
           sx={{
-            marginTop: "20px",
-            marginBottom: "20px",
+            marginTop: 1,
+            marginBottom: 1,
           }}
         />
 
-        <Typography variant="h6" className="recomend">
+        <Typography
+          sx={{ fontSize: 20, fontWeight: "medium" }}
+          className="recomend"
+        >
           Recuerda que no importa la actividad, lo importante es estar en
-          movimiento
+          movimiento 😊
         </Typography>
       </div>
     );
   }
 
   return (
-    <Card variant="outlined">
+    <Card sx={{ height: 442, boxShadow: 2 }}>
       <CardContent>
         <Grid
           container
           justifyContent="center"
           alignItems="center"
           direction="column"
-          spacing={1}
+          heigh={250}
           flex={4}
           p={2}
         >
-          <Grid item>
-            <Typography className="titlerecomen" variant="h4">
+          <Grid item sx={{ padding: 0 }}>
+            <Typography
+              className="titlerecomen"
+              sx={{ fontSize: 24, fontWeight: "bold" }}
+            >
               Recomendaciones por edad
             </Typography>
           </Grid>
 
-          <Grid item>
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+          >
             <TextField
               id="outlined-number"
               label="Edad"
               type="number"
+              size="small"
               InputLabelProps={{
                 shrink: true,
               }}
               onChange={handleAge}
-              min={1}
-              max={120}
               defaultValue="0"
+              sx={{ m: 1, width: "10ch" }}
             />
-          </Grid>
-
-          <Grid item>
-            <Button
+            <SearchRoundedIcon
               type="submit"
               value="Ver"
-              onClick={HandleCalc}
+              onClick={handleCalc}
               variant="outlined"
             >
               Ver
-            </Button>
+            </SearchRoundedIcon>
           </Grid>
 
           <Grid item>
-            <div>
-              <SueñoI
-                aproxim={aproxim}
-                tiempoDeEj={tiempoDeEj}
-                actividad={actividad}
-              />
-            </div>
+            <SueñoI
+              aproxim={aproxim ? aproxim : <br />}
+              tiempoDeEj={tiempoDeEj ? tiempoDeEj : <br />}
+              actividad={actividad ? actividad : <br />}
+            />
           </Grid>
         </Grid>
       </CardContent>

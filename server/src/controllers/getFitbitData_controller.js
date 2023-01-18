@@ -95,13 +95,17 @@ const getFitbitData = async (req, res) => {
           return obj;
         });
       await Steps.bulkCreate(steps);
-      //-------------------------- STEPS ACTIVITY ----------------------------------------------------//
+      //-------------------------------------------------------------------------------------//
     } else {
       // ------- if there's a recent timestamp, then adds from the past 12h to today -----------------//
+      console.log("checkkk");
       const startDate = mostRecent?.dataValues?.createdAt
         .toISOString()
         .split("T")[0];
+      console.log("startDAte", startDate);
       const today = new Date(Date.now() - 43200000).toISOString().split("T")[0];
+
+      console.log("today", today);
       const data = await fetch(
         `https://api.fitbit.com/1.2/user/-/sleep/date/${startDate}/${today}.json`,
         {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthContext } from "../../actions/authContext";
 import { updateUser, updateImage } from "../../actions/profileActions";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Card,
@@ -9,7 +10,7 @@ import {
   Grid,
   TextField,
   Typography,
-  MenuItem
+  MenuItem,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -20,17 +21,21 @@ import EmailIcon from "@mui/icons-material/Email";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Helmet } from "react-helmet";
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import Avatar from '@mui/material/Avatar';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import Avatar from "@mui/material/Avatar";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { nationalities } from "../../actions/nationalities";
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import PaymentIcon from "@mui/icons-material/Payment";
+import { message } from "react-message-popup";
 
 const Profile = () => {
+  let navigate = useNavigate();
+  const { isGoogleUser, isPasswordSetUp } = useAuthContext();
   const { createPassword } = useAuthContext();
   const currentUser = useSelector((state) => state.users.currentUser);
   const dispatch = useDispatch();
@@ -49,9 +54,7 @@ const Profile = () => {
     nationality: "",
   });
   console.log(inputs);
-  let nationalities = [
-    'Afganistan', 'Albania', 'Alemania', 'Andorra', 'Angola', 'Antigua y Barbuda', 'Arabia Saudita', 'Argelia', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaiyán', 'Bahamas', 'Bangladés', 'Barbados', 'Baréin', 'Bélgica', 'Belice', 'Bielorrusia', 'Benín', 'Birmania', 'Bolivia', 'Bosnia y Herzegovina', 'Botsuana', 'Brasil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Bután', 'Cabo Verde', 'Camboya', 'Camerún', 'Canadá', 'Catar', 'Chad', 'Chile', 'China', 'Chipre', 'Ciudad del Vaticano', 'Colombia', 'Comoras', 'Corea del Norte', 'Corea del Sur', 'Costa de Marfil', 'Costa Rica', 'Croacia', 'Cuba', 'Dinamarca', 'Dominica', 'Ecuador', 'Egipto', 'El Salvador', 'Emiratos Árabes Unidos', 'Eritrea', 'Eslovaquia', 'Eslovenia', 'España', 'Estados Unidos', 'Estonia', 'Etiopía', 'Filipinas', 'Finlandia', 'Fiyi', 'Francia', 'Gabón', 'Gambia', 'Georgia', 'Ghana', 'Granada', 'Grecia', 'Guatemala', 'Guinea', 'Guinea-Bisáu', 'Guinea Ecuatorial', 'Guyana', 'Haití', 'Honduras', 'Hungría', 'India', 'Indonesia', 'Irak', 'Irán', 'Irlanda', 'Islandia','Islas Marshall', 'Israel', 'Italia', 'Jamaica', 'Japón', 'Jordania', 'Kazajistán', 'Kenia', 'Kirguistán', 'Kiribati', 'Kuwait', 'Laos', 'Lesoto', 'Letonia', 'Líbano', 'Liberia', 'Libia', 'Liechtenstein', 'Lituania', 'Luxemburgo', 'Macedonia del Norte', 'Madagascar', 'Malasia', 'Malaui', 'MalGridas', 'Mali', 'Malta', 'Marruecos',  'Mauricio', 'Mauritania', 'México', 'Micronesia', 'Moldavia', 'Mónaco', 'Mongolia', 'Montenegro', 'Mozambique', 'Namibia', 'Nauru', 'Nepal', 'Nicaragua', 'Níger', 'Nigeria', 'Noruega', 'Nueva Zelanda', 'Omán', 'Países Bajos', 'Pakistán', 'Palaos', 'Palestina', 'Panamá', 'Papúa Nueva Guinea', 'Paraguay', 'Perú', 'Polonia', 'Portugal', 'Reino Unido', 'República Checa','República Centroafricana', 'República del Congo', 'República Democrática del Congo','República Dominicana', 'Ruanda', 'Rumania', 'Rusia', 'Islas Salomón', 'Samoa', 'San Cristóbal y Nieves', 'San Marino', 'San Vicente y las Granadinas', 'Santa Lucía', 'Santo Tomé y Príncipe', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leona', 'Singapur', 'Siria', 'Somalia', 'Sri Lanka', 'Suazilandia', 'Sudáfrica', 'Sudán', 'Sudán del Sur', 'Suecia', 'Suiza', 'Surinam', 'Tailandia', 'Tanzania', 'Tayikistán', 'Timor Oriental', 'Togo', 'Tonga', 'Trinidad y Tobago', 'Túnez', 'Turkmenistán', 'Turquía', 'Tuvalu', 'Ucrania', 'Uganda', 'Uruguay', 'Uzbekistán', 'Vanuatu', 'Venezuela', 'Vietnam', 'Yemen', 'Yibuti', 'Zambia', 'Zimbabue'
-  ];
+
   let keyNationalities = 0;
   let yourDate = new Date();
 
@@ -61,13 +64,13 @@ const Profile = () => {
     }
   }, [currentUser, createPassword]);
 
-  const convertirBase64 = async (e) =>{
+  const convertirBase64 = async (e) => {
     let reader = new FileReader();
-     reader.readAsDataURL(e.target.files[0]);
-     reader.onload = function(){
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = function () {
       let base64 = reader.result;
-      setImage(base64)
-    }
+      setImage(base64);
+    };
   };
 
   const handleInputs = (e) => {
@@ -114,12 +117,22 @@ const Profile = () => {
   const handleSelect = (event) => {
     setInputs({
       ...inputs,
-      nationality: event.target.value
+      nationality: event.target.value,
     });
   };
 
   const handleClickDelete = () => {
     setOpen(true);
+  };
+  const handleClickDeleteUser = () => {
+    if (isGoogleUser === "true" && isPasswordSetUp === "false") {
+      message.error(
+        "No puede eliminar el usuario hasta no haber creado una contraseña.",
+        3000
+      );
+    } else {
+      navigate(`/private/delete-user/${currentUser.id}`);
+    }
   };
 
   const handleClickConfirm = () => {
@@ -147,9 +160,8 @@ const Profile = () => {
     try {
       setOpen(false);
       const eliminar = "";
-      dispatch(updateImage(currentUser.id, eliminar))
+      dispatch(updateImage(currentUser.id, eliminar));
       setImage("");
-    
     } catch (error) {
       console.log("el error es:", error);
     }
@@ -158,7 +170,7 @@ const Profile = () => {
   const handleImage = async (e) => {
     e.preventDefault();
     try {
-      dispatch(updateImage(currentUser.id, image))
+      dispatch(updateImage(currentUser.id, image));
       setImage("");
     } catch (error) {
       console.log("el error es:", error);
@@ -216,13 +228,9 @@ const Profile = () => {
         </Button>
       </Grid> */}
 
-      <Grid container
-        display= "flex"
-        justifyContent="space-evenly"
-        gap={50}
-      >
+      <Grid container display="flex" justifyContent="space-evenly" gap={50}>
         <Grid item>
-        {/* <Link to={`/private/delete-user/${currentUser.id}`}> */}
+          {/* <Link to={`/private/delete-user/${currentUser.id}`}> */}
           <Button
             href={`/private/change-password/${currentUser.id}`}
             startIcon={<PasswordIcon />}
@@ -233,49 +241,63 @@ const Profile = () => {
           </Button>
         </Grid>
 
-        <Grid item
-        >
-          <Grid container display= "flex" flexDirection= "column" gap={2}>
-          <Button
-            href={`/private/delete-user/${currentUser.id}`}
-            startIcon={<DeleteIcon />}
-            variant="outlined"
-            color="error"
-            id="ButtonDelete"
-          >
-            Borrar usuario
-          </Button>{currentUser.image ? <Button onClick={handleClickDelete}>Eliminar foto</Button>: null}
+        <Grid item>
+          <Grid container display="flex" flexDirection="column" gap={2}>
+            <Button
+              startIcon={<DeleteIcon />}
+              variant="outlined"
+              color="error"
+              id="ButtonDelete"
+              onClick={handleClickDeleteUser}
+            >
+              Borrar usuario
+            </Button>
+            {currentUser.image ? (
+              <Button onClick={handleClickDelete}>Eliminar foto</Button>
+            ) : null}
           </Grid>
         </Grid>
         {/* </Link> */}
       </Grid>
 
-      <Grid
-        item
-      >
-        <Grid container direction= "column" gap={1} justifyContent= "center">
-          <Avatar 
-            alt = "Not found"
+      <Grid item>
+        <Grid container direction="column" gap={1} justifyContent="center">
+          <Avatar
+            alt="Not found"
             srcSet={currentUser.image}
             sx={{ width: 200, height: 200 }}
           />
-          {image ? 
-            <Button color="success" size="small" variant="contained" onClick={handleImage}>Confirmar foto</Button> 
-            : 
-            <Button sx={{
-              ml: 1,
-              "&.MuiButtonBase-root:hover": {
-                bgcolor: "transparent"
-              }
-            }} 
-            startIcon = {<PhotoCamera/>} 
-            color="primary" 
-            aria-label="upload picture" 
-            component="label">
-              <input hidden accept="image/*" type="file" onChange = {(e) => convertirBase64(e)}/>
-            </Button>}
-         </Grid>
-
+          {image ? (
+            <Button
+              color="success"
+              size="small"
+              variant="contained"
+              onClick={handleImage}
+            >
+              Confirmar foto
+            </Button>
+          ) : (
+            <Button
+              sx={{
+                ml: 1,
+                "&.MuiButtonBase-root:hover": {
+                  bgcolor: "transparent",
+                },
+              }}
+              startIcon={<PhotoCamera />}
+              color="primary"
+              aria-label="upload picture"
+              component="label"
+            >
+              <input
+                hidden
+                accept="image/*"
+                type="file"
+                onChange={(e) => convertirBase64(e)}
+              />
+            </Button>
+          )}
+        </Grid>
       </Grid>
 
       <Grid item>
@@ -365,7 +387,8 @@ const Profile = () => {
                     helperText="Fecha de nacimiento"
                     type="date"
                     name="birthday"
-                    min="1900-01-01" max={yourDate}
+                    min="1900-01-01"
+                    max={yourDate}
                     placeholder=""
                     value={inputs.birthday}
                     onChange={handleInputs}
@@ -396,21 +419,19 @@ const Profile = () => {
                   </Typography>
                 ) : (
                   <TextField
-                  required
-                  select
-                  label="Nacionalidad"
-                  defaultValue=""
-                  helperText="Seleccione su nacionalidad"
+                    required
+                    select
+                    label="Nacionalidad"
+                    defaultValue=""
+                    helperText="Seleccione su nacionalidad"
                     value={inputs.nationality}
                     onChange={handleSelect}
                   >
-                     {nationalities?.map((nationality) => (
-                    <MenuItem key={keyNationalities++}
-                      value={nationality}
-                    >
-                      {nationality}
-                    </MenuItem>
-                  ))}
+                    {nationalities?.map((nationality) => (
+                      <MenuItem key={keyNationalities++} value={nationality}>
+                        {nationality}
+                      </MenuItem>
+                    ))}
                   </TextField>
                 )}
               </Grid>
@@ -431,12 +452,11 @@ const Profile = () => {
                 <Typography variant="h5">Plan actual:</Typography>
               </Grid>
               <Grid item>
-              <Button variant="contained" href="/private/planes">
+                <Button variant="contained" href="/private/planes">
                   {currentUser.plan?.name}
-              </Button>
+                </Button>
               </Grid>
-              
-      
+
               <Grid item>
                 {inputs.names ||
                 inputs.email ||
@@ -459,7 +479,7 @@ const Profile = () => {
         </Card>
       </Grid>
 
-      <Grid item >
+      <Grid item>
         <Dialog
           open={open}
           onClose={handleClose}
@@ -475,34 +495,38 @@ const Profile = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={(e) => handleDelete(e)} autoFocus>Si, deseo eliminarla</Button>
-            <Button onClick={handleNo}>Cancelar</Button> 
+            <Button onClick={(e) => handleDelete(e)} autoFocus>
+              Si, deseo eliminarla
+            </Button>
+            <Button onClick={handleNo}>Cancelar</Button>
           </DialogActions>
         </Dialog>
-    </Grid>
-      
-      <Grid item >
-          <Dialog
-            open={open2}
-            onClose={handleClose2}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"¿ Desea realizar los cambios en tu perfil?"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Si continuas tus datos se modificaran con la nueva información que has colocado.
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={(e) => handleSubmit(e)} autoFocus>Si, quiero realizar los cambios</Button>
-              <Button onClick={handleNo2}>Cancelar</Button>
-            </DialogActions>
-          </Dialog>
       </Grid>
 
+      <Grid item>
+        <Dialog
+          open={open2}
+          onClose={handleClose2}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"¿ Desea realizar los cambios en tu perfil?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Si continuas tus datos se modificaran con la nueva información que
+              has colocado.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={(e) => handleSubmit(e)} autoFocus>
+              Si, quiero realizar los cambios
+            </Button>
+            <Button onClick={handleNo2}>Cancelar</Button>
+          </DialogActions>
+        </Dialog>
+      </Grid>
     </Grid>
   );
 };

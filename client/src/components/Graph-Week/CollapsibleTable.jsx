@@ -52,11 +52,15 @@ export default function CollapsibleTable() {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography variant="h6">{row.name}</Typography>
+            <Typography sx={{ fontSize: 18, padding: 0 }}>
+              {row.name}
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             {row.items?.map((item, i) => (
-              <Typography key={`detail${i}`}>{item}</Typography>
+              <Typography key={`detail${i}`} sx={{ fontSize: 16 }}>
+                {item}
+              </Typography>
             ))}
           </AccordionDetails>
         </Accordion>

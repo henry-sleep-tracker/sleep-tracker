@@ -58,6 +58,10 @@ const postUser = async (req, res) => {
 const postGoogleUser = async (req, res) => {
   try {
     const { email, names, lastNames } = req.body;
+    const user = await findUserByEmail(email);
+    if (user.deletedAt) {
+      return res.status(203).send(user);
+    }
     const customer = await stripe.customers.create(
       {
         email,
@@ -177,6 +181,7 @@ const deleteUser = async (req, res) => {
     return res.status(400).send("No se pudo eliminar el usuario");
   }
 };
+
 const restoreUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -194,7 +199,27 @@ const restoreUser = async (req, res) => {
     });
     return res.status(200).send("Usuario restaurado");
   } catch (error) {
-    return res.status(400).send("No se pudo eliminar el usuario");
+    return res.status(400).send("No se pudo restaurar el usuario");
+  }
+};
+
+const restoreGoogleUser = async (req, res) => {
+  try {
+    const { email } = req.params;
+    let user = await findUserByEmail(email);
+    if (!user) {
+      return res.status(202).send("el usuario no existe");
+    }
+    const restoredUser = await User.restore({
+      where: {
+        email: email,
+      },
+    });
+    user = await findUserByEmail(email);
+    console.log("user:", user);
+    return res.status(200).send(user);
+  } catch (error) {
+    return res.status(400).send("No se pudo restaurar el usuario");
   }
 };
 
@@ -278,4 +303,5 @@ module.exports = {
   changeUserPassword,
   getUserInfoById,
   restoreUser,
+  restoreGoogleUser,
 };
