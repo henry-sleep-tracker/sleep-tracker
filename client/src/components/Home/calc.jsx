@@ -71,28 +71,52 @@ const Calc = () => {
 
   function SueñoI({ aproxim, tiempoDeEj, actividad }) {
     return (
-      <div>
-        <Typography sx={{ fontSize: 18, fontWeight: "medium" }}>
+      <div style={{ marginTop: "20px" }}>
+        <Typography
+          sx={{ fontSize: 16, fontWeight: "medium", marginBottom: "5px" }}
+        >
           Dormir:
         </Typography>
-        {aproxim}
-        <Typography sx={{ fontSize: 18, fontWeight: "medium" }}>
+        <Typography variant="body2" color="text.secondary">
+          {aproxim}
+        </Typography>
+
+        <Typography
+          sx={{
+            fontSize: 16,
+            fontWeight: "medium",
+            marginBottom: "5px",
+            marginTop: "5px",
+          }}
+        >
           Tiempo de actividad:
         </Typography>
-        {tiempoDeEj}
-        <Typography sx={{ fontSize: 18, fontWeight: "medium" }}>
+        <Typography variant="body2" color="text.secondary">
+          {tiempoDeEj}
+        </Typography>
+
+        <Typography
+          sx={{
+            fontSize: 16,
+            fontWeight: "medium",
+            marginBottom: "5px",
+            marginTop: "5px",
+          }}
+        >
           Actividad física:
         </Typography>
-        {actividad}
+        <Typography variant="body2" color="text.secondary">
+          {actividad}
+        </Typography>
+
         <Divider
           sx={{
             marginTop: 1,
             marginBottom: 1,
           }}
         />
-
         <Typography
-          sx={{ fontSize: 20, fontWeight: "medium" }}
+          sx={{ fontSize: 16, fontWeight: "normal", marginTop: "10px" }}
           className="recomend"
         >
           Recuerda que no importa la actividad, lo importante es estar en
@@ -117,7 +141,7 @@ const Calc = () => {
           <Grid item sx={{ padding: 0 }}>
             <Typography
               className="titlerecomen"
-              sx={{ fontSize: 24, fontWeight: "bold" }}
+              sx={{ fontSize: 24, fontWeight: "bold", marginBottom: "20px" }}
             >
               Recomendaciones por edad
             </Typography>

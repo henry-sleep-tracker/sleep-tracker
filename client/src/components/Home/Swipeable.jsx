@@ -78,45 +78,61 @@ function Swipeable() {
           direction="column"
           justifyContent="center"
           alignItems="center"
-          spacing={1}
-          flex={2}
-          p={1}
         >
           <Grid item>
-            <Typography sx={{ fontSize: 24, fontWeight: "bold" }}>
+            <Typography
+              sx={{ fontSize: 24, fontWeight: "bold", padding: "0.8rem" }}
+            >
               Tips para dormir mejor
             </Typography>
           </Grid>
-          <Grid item sx={{ width: 300, height: 240 }}>
-            <SwipeableViews
-              axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-              index={activeStep}
-              onChangeIndex={handleStepChange}
-              enableMouseEvents
-            >
-              {tips.map((step, index) => (
-                <Grid key={`step-${index}`}>
-                  {Math.abs(activeStep - index) <= 2 ? (
-                    <Box
-                      component="img"
-                      sx={{
-                        height: 200,
-                        width: 350,
-                        display: "block",
-                        borderRadius: "4px",
-                      }}
-                      src={step.im}
-                      alt={step.tip}
-                    />
-                  ) : null}
-                </Grid>
-              ))}
-            </SwipeableViews>
+          <Grid>
+            <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+              <SwipeableViews
+                axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+                index={activeStep}
+                onChangeIndex={handleStepChange}
+                enableMouseEvents
+              >
+                {tips.map((step, index) => (
+                  <div
+                    key={`step-${index}`}
+                    style={{
+                      overflow: "hidden",
+                      height: "230px",
+                      maxHeight: "230px",
+                    }}
+                  >
+                    {Math.abs(activeStep - index) <= 2 ? (
+                      <Box
+                        component="img"
+                        sx={{
+                          height: "auto",
+                          display: "block",
+                          maxWidth: 400,
+                          overflow: "hidden",
+                          width: "100%",
+                        }}
+                        src={step.im}
+                        alt={step.tip}
+                      />
+                    ) : null}
+                  </div>
+                ))}
+              </SwipeableViews>
+            </Box>
           </Grid>
 
           <Grid item>
             <Typography
-              sx={{ fontSize: 16, textAlign: "center", height: "40px" }}
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                fontSize: 16,
+                textAlign: "center",
+                height: "4rem",
+                paddingTop: "20px",
+              }}
             >
               {tips[activeStep].tip}
             </Typography>

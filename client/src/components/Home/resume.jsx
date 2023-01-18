@@ -133,13 +133,22 @@ const Resume = () => {
           p={1}
         >
           <Grid item>
-            <Typography sx={{ fontSize: 24, fontWeight: "medium" }}>
+            <Typography sx={{ fontSize: 24, fontWeight: "bold" }}>
               Registro de consumo:
-              <p className={styles.title}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  fontSize: 16,
+                  textAlign: "center",
+                  height: "3rem",
+                  paddingTop: "0.6rem",
+                }}
+              >
                 {consumos[0]?.Date
                   ? consumos[0].Date
                   : "No hay registro de ese día"}
-              </p>
+              </Typography>
             </Typography>
           </Grid>
           <Grid item>
