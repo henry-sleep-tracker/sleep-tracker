@@ -53,7 +53,6 @@ const Profile = () => {
     birthday: "",
     nationality: "",
   });
-  console.log(inputs);
 
   let keyNationalities = 0;
   let yourDate = new Date();

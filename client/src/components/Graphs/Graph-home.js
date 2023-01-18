@@ -15,16 +15,16 @@ export default function GraphHome() {
   const stages = useSelector((state) => state.stage);
 
   stages.forEach((s) => {
-    if (s.level === "wake") {
+    if (s.level === "rem") {
       s.level = 1;
     }
-    if (s.level === "light") {
+    if (s.level === "deep") {
       s.level = 2;
     }
-    if (s.level === "deep") {
+    if (s.level === "light") {
       s.level = 3;
     }
-    if (s.level === "rem") {
+    if (s.level === "wake") {
       s.level = 4;
     }
   });
@@ -44,16 +44,16 @@ export default function GraphHome() {
 
     switch (payload.value) {
       case 1:
-        path = "🟠 Despierto";
+        path = "🟢 R.E.M";
         break;
       case 2:
-        path = "🟡 Ligero";
-        break;
-      case 3:
         path = "🟣 Profundo";
         break;
+      case 3:
+        path = "🟡 Ligero";
+        break;
       case 4:
-        path = "🟢 R.E.M";
+        path = "🟠 Despierto";
         break;
 
       default:
@@ -68,13 +68,13 @@ export default function GraphHome() {
   };
 
   return (
-    <Card>
+    <Card sx={{ boxShadow: 2 }}>
       <ResponsiveContainer width="95%" height={400}>
         <AreaChart data={data}>
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#4fc3f7" stopOpacity={0.6} />
-              <stop offset="95%" stopColor="#4fc3f7" stopOpacity={0} />
+              <stop offset="5%" stopColor="#3f50b5" stopOpacity={0.6} />
+              <stop offset="95%" stopColor="#3f50b5" stopOpacity={0} />
             </linearGradient>
           </defs>
           <XAxis
@@ -93,7 +93,7 @@ export default function GraphHome() {
           <Area
             type="monotone"
             dataKey="Nivel"
-            stroke="#4fc3f7"
+            stroke="#3f50b5"
             fillOpacity={1}
             fill="url(#colorUv)"
           />

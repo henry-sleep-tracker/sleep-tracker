@@ -102,7 +102,6 @@ const forgotPassword = async (req, res) => {
       expiresIn: "50m",
     });
     const link = `${process.env.REACT_APP_BASE_FRONT_URL}/reiniciar_contrasena/${oldUser.id}/${token}`;
-    console.log("el link es:", link);
     res.status(200).json(link); //201 es que fue creado
   } catch (error) {
     console.log("El error controllers user forgotPassword es:", error.message);
@@ -174,7 +173,6 @@ const deleteUser = async (req, res) => {
           id: id,
         },
       });
-      console.log("RESULT DELETE", result); // 0 es que no borro y 1 es que si borro
       return res.status(200).send("Usuario eliminado");
     }
   } catch (error) {
@@ -216,7 +214,6 @@ const restoreGoogleUser = async (req, res) => {
       },
     });
     user = await findUserByEmail(email);
-    console.log("user:", user);
     return res.status(200).send(user);
   } catch (error) {
     return res.status(400).send("No se pudo restaurar el usuario");
@@ -226,15 +223,12 @@ const restoreGoogleUser = async (req, res) => {
 const updateProfile = async (req, res) => {
   const { id } = req.params;
   const info = req.body;
-  console.log("ID RUTA", id);
-  console.log("INFO PROFILE", info);
   try {
     const update = await User.update(info, {
       where: {
         id: id,
       },
     });
-    console.log("ROUTE UPDATE", update);
     if (update) {
       const user = await User.findOne({
         where: { id: id },
@@ -243,7 +237,6 @@ const updateProfile = async (req, res) => {
           attributes: ["id", "name", "price", "endTime"],
         },
       });
-      console.log("ROUTE UPDATE USER", user);
       return res.status(200).jsonp(user);
     }
   } catch (error) {
@@ -253,12 +246,10 @@ const updateProfile = async (req, res) => {
 const getUserInfoById = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("id:", id);
     if (!id) {
       return res.status(428).send("Falta enviar datos obligatorios");
     }
     const user = await findUserById(id);
-    console.log("user:", user);
     if (user.id === 0) {
       return res.status(204).send(nullUser);
     } else {
@@ -275,8 +266,6 @@ const changeUserPassword = async (req, res) => {
   try {
     const { id } = req.params;
     const { newPassword } = req.body;
-    console.log("CHANGE PASSWORD ID", id);
-    console.log("NEW PASSWORD", newPassword);
     if (!id || !newPassword) {
       return res.status(428).send("Falta enviar datos obligatorios");
     }

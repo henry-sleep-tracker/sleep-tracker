@@ -10,7 +10,6 @@ router.get("/", async (req, res) => {
         [Sequelize.fn("AVG", Sequelize.col("duration")), "avgSleepDuration"],
       ],
     });
-    console.log("response", response);
     // res.status(200).json(response);
   } catch (error) {
     console.error(error);
