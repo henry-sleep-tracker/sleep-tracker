@@ -101,7 +101,6 @@ export function sendRecoveryEmail(email) {
         const data = { email: email, link: response };
         emailjs.send(serviceId, templateId, data, Public_Key).then(
           (result) => {
-            console.log("result", result);
             console.log(result.text);
           },
           (error) => {
@@ -233,7 +232,6 @@ export function logInUser(email, password, setOpen) {
         }
       );
       const userFound = await response.json();
-      console.log("userFound", response);
       if (response.status === 204) {
         return dispatch({
           type: GET_CURRENT_USER,
