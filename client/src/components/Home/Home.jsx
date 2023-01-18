@@ -60,14 +60,15 @@ const Home = () => {
       direction="column"
       spacing={3}
       flex={4}
-      p={2}
+      p={"2rem"}
+      sx={{ backgroundColor: "#f3f4fa" }}
     >
       <Helmet>
         <title>Inicio | Sleep Tracker</title>
       </Helmet>
 
       <Grid item>
-        <Typography sx={{ fontSize: 30, fontWeight: "bold" }}>
+        <Typography sx={{ fontSize: "3vw", fontWeight: "bold" }}>
           ¡Hola {user.name}, {greet()}
         </Typography>
       </Grid>
@@ -85,17 +86,15 @@ const Home = () => {
           direction="row"
           justifyContent="center"
           alignItems="flex-start"
+          spacing={{ xs: 4, md: 6 }}
+          p={"2rem"}
           columns={16}
         >
-          <Grid
-            item
-            xs={12}
-            sx={{ paddingLeft: 10, paddingRight: 5, paddingTop: 5 }}
-          >
+          <Grid item xs={12}>
             <GraphHome />
           </Grid>
 
-          <Grid item xs={4} sx={{ paddingRight: 5, paddingTop: 5 }}>
+          <Grid item xs={4}>
             <CollapsibleTable />
           </Grid>
         </Grid>
@@ -104,21 +103,19 @@ const Home = () => {
           direction="row"
           justifyContent="center"
           alignItems="center"
-          columns={16}
+          p={"2rem"}
+          spacing={{ xs: 4, md: 6 }}
+          columns={{ xs: 4, sm: 8, md: 15 }}
         >
-          <Grid item xs={5} sx={{ paddingLeft: 10, paddingTop: 5 }}>
+          <Grid item xs={5}>
             <Resume />
           </Grid>
 
-          <Grid
-            item
-            xs={6}
-            sx={{ paddingLeft: 12, paddingRight: 5, paddingTop: 5 }}
-          >
+          <Grid item xs={5}>
             <Swipeable className={classes.swipeable} />
           </Grid>
 
-          <Grid item xs={5} sx={{ paddingRight: 5, paddingTop: 5 }}>
+          <Grid item xs={5}>
             <Calc />
           </Grid>
         </Grid>

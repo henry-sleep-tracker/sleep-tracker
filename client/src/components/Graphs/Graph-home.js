@@ -73,8 +73,8 @@ export default function GraphHome() {
         <AreaChart data={data}>
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#4fc3f7" stopOpacity={0.6} />
-              <stop offset="95%" stopColor="#4fc3f7" stopOpacity={0} />
+              <stop offset="5%" stopColor="#3f50b5" stopOpacity={0.6} />
+              <stop offset="95%" stopColor="#3f50b5" stopOpacity={0} />
             </linearGradient>
           </defs>
           <XAxis
@@ -93,7 +93,7 @@ export default function GraphHome() {
           <Area
             type="monotone"
             dataKey="Nivel"
-            stroke="#4fc3f7"
+            stroke="#3f50b5"
             fillOpacity={1}
             fill="url(#colorUv)"
           />
