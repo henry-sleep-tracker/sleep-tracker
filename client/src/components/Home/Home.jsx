@@ -61,7 +61,7 @@ const Home = () => {
       spacing={3}
       flex={4}
       p={"2rem"}
-      sx={{ backgroundColor: "#f3f4fa" }}
+      sx={{ backgroundColor: "#f7f8fb" }}
     >
       <Helmet>
         <title>Inicio | Sleep Tracker</title>
