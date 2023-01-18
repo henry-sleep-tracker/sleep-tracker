@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Collection from "./resume";
+import Resume from "./Resume";
 import Calc from "./calc";
-import Swipeable from "./tips";
-import { Grid, Typography } from "@mui/material";
-import Calendario from "../Calendario/Calendario";
-import { makeStyles } from "@mui/styles";
-import Fitbit from "../SignUp/Fitbit";
-import { getSleepStage } from "../../actions/getUserHealthData";
-import { getRecordsQuery } from "../../actions/records_data";
-import GraphHome from "../Graphs/Graph-home";
-import CollapsibleTable from "../Graph-Week/CollapsibleTable";
+import Swipeable from "./Swipeable";
 import { getUsersPlanExpDate } from "../../actions/plan";
 import { useAuthContext } from "../../actions/authContext";
+import { getSleepStage } from "../../actions/getUserHealthData";
+import { getRecordsQuery } from "../../actions/records_data";
+import Calendario from "../Calendario/Calendario";
+import GraphHome from "../Graphs/Graph-home";
+import CollapsibleTable from "../Graph-Week/CollapsibleTable";
+import Fitbit from "../SignUp/Fitbit";
+import { Grid, Typography } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { Helmet } from "react-helmet";
 
 const yesterday = new Date(Date.now() - 28800000).toISOString().split("T")[0];
@@ -41,11 +41,11 @@ const Home = () => {
     var now = new Date();
     var time = now.getHours();
     if (time >= 5 && time < 13) {
-      text = "Buenos días!  ";
+      text = "buenos días!  ";
     } else if (time >= 13 && time < 21) {
-      text = "Buenas tardes! ";
+      text = "buenas tardes! ";
     } else {
-      text = "Buenas noches!  ";
+      text = "buenas noches!  ";
     }
     return text;
   };
@@ -67,8 +67,8 @@ const Home = () => {
       </Helmet>
 
       <Grid item>
-        <Typography>
-          ¡Hola {user.name} {greet()}
+        <Typography sx={{ fontSize: 30, fontWeight: "bold" }}>
+          ¡Hola {user.name}, {greet()}
         </Typography>
       </Grid>
 
@@ -87,11 +87,15 @@ const Home = () => {
           alignItems="flex-start"
           columns={16}
         >
-          <Grid item xs={12} sx={{ padding: 3 }}>
+          <Grid
+            item
+            xs={12}
+            sx={{ paddingLeft: 10, paddingRight: 5, paddingTop: 5 }}
+          >
             <GraphHome />
           </Grid>
 
-          <Grid item xs={4} sx={{ padding: 3 }}>
+          <Grid item xs={4} sx={{ paddingRight: 5, paddingTop: 5 }}>
             <CollapsibleTable />
           </Grid>
         </Grid>
@@ -102,16 +106,20 @@ const Home = () => {
           alignItems="center"
           columns={16}
         >
-          <Grid item xs={6} sx={{ padding: 3 }}>
-            <Collection />
+          <Grid item xs={5} sx={{ paddingLeft: 10, paddingTop: 5 }}>
+            <Resume />
           </Grid>
 
-          <Grid item xs={5} sx={{ padding: 3 }}>
-            <Calc />
-          </Grid>
-
-          <Grid item xs={5} sx={{ padding: 3 }}>
+          <Grid
+            item
+            xs={6}
+            sx={{ paddingLeft: 12, paddingRight: 5, paddingTop: 5 }}
+          >
             <Swipeable className={classes.swipeable} />
+          </Grid>
+
+          <Grid item xs={5} sx={{ paddingRight: 5, paddingTop: 5 }}>
+            <Calc />
           </Grid>
         </Grid>
       </Grid>

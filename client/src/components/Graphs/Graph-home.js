@@ -15,16 +15,16 @@ export default function GraphHome() {
   const stages = useSelector((state) => state.stage);
 
   stages.forEach((s) => {
-    if (s.level === "wake") {
+    if (s.level === "rem") {
       s.level = 1;
     }
-    if (s.level === "light") {
+    if (s.level === "deep") {
       s.level = 2;
     }
-    if (s.level === "deep") {
+    if (s.level === "light") {
       s.level = 3;
     }
-    if (s.level === "rem") {
+    if (s.level === "wake") {
       s.level = 4;
     }
   });
@@ -44,16 +44,16 @@ export default function GraphHome() {
 
     switch (payload.value) {
       case 1:
-        path = "🟠 Despierto";
+        path = "🟢 R.E.M";
         break;
       case 2:
-        path = "🟡 Ligero";
-        break;
-      case 3:
         path = "🟣 Profundo";
         break;
+      case 3:
+        path = "🟡 Ligero";
+        break;
       case 4:
-        path = "🟢 R.E.M";
+        path = "🟠 Despierto";
         break;
 
       default:
@@ -68,7 +68,7 @@ export default function GraphHome() {
   };
 
   return (
-    <Card>
+    <Card sx={{ boxShadow: 2 }}>
       <ResponsiveContainer width="95%" height={400}>
         <AreaChart data={data}>
           <defs>

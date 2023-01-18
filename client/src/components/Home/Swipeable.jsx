@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MobileStepper from "@mui/material/MobileStepper";
-import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
@@ -72,21 +71,23 @@ function Swipeable() {
   };
 
   return (
-    <Card variant="outlined">
+    <Card sx={{ boxShadow: 2 }}>
       <CardContent>
         <Grid
           container
+          direction="column"
           justifyContent="center"
           alignItems="center"
-          direction="column"
           spacing={1}
-          flex={4}
-          p={2}
+          flex={2}
+          p={1}
         >
           <Grid item>
-            <Typography variant="h4">Tips para dormir mejor</Typography>
+            <Typography sx={{ fontSize: 24, fontWeight: "bold" }}>
+              Tips para dormir mejor
+            </Typography>
           </Grid>
-          <Grid item sx={{ width: { md: 500, xs: 300 } }}>
+          <Grid item sx={{ width: 300, height: 240 }}>
             <SwipeableViews
               axis={theme.direction === "rtl" ? "x-reverse" : "x"}
               index={activeStep}
@@ -94,13 +95,13 @@ function Swipeable() {
               enableMouseEvents
             >
               {tips.map((step, index) => (
-                <div key={`step-${index}`}>
+                <Grid key={`step-${index}`}>
                   {Math.abs(activeStep - index) <= 2 ? (
                     <Box
                       component="img"
                       sx={{
-                        height: { md: 250, xs: 200 },
-                        width: { md: 400, xs: 250 },
+                        height: 200,
+                        width: 350,
                         display: "block",
                         borderRadius: "4px",
                       }}
@@ -108,26 +109,17 @@ function Swipeable() {
                       alt={step.tip}
                     />
                   ) : null}
-                </div>
+                </Grid>
               ))}
             </SwipeableViews>
           </Grid>
 
           <Grid item>
-            <Paper
-              square
-              elevation={0}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                height: 50,
-                pl: 2,
-                bgcolor: "background.default",
-                alignText: "center",
-              }}
+            <Typography
+              sx={{ fontSize: 16, textAlign: "center", height: "40px" }}
             >
-              <Typography fontSize="16px">{tips[activeStep].tip}</Typography>
-            </Paper>
+              {tips[activeStep].tip}
+            </Typography>
           </Grid>
           <Grid item>
             <MobileStepper
