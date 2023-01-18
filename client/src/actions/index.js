@@ -7,11 +7,14 @@ import {
 import axios from "axios";
 import { message } from "react-message-popup";
 const emailjs = require("emailjs-com");
-const { EMAILJS_TEMPLATE_ID, EMAILJS_SERVICE_ID, EMAILJS_PUBLIC_ID } =
-  process.env;
-const templateId = EMAILJS_TEMPLATE_ID;
-const serviceId = EMAILJS_SERVICE_ID;
-const Public_Key = EMAILJS_PUBLIC_ID;
+// const { EMAILJS_TEMPLATE_ID, EMAILJS_SERVICE_ID, EMAILJS_PUBLIC_ID } =
+//   process.env;
+// const templateId = EMAILJS_TEMPLATE_ID;
+// const serviceId = EMAILJS_SERVICE_ID;
+// const Public_Key = EMAILJS_PUBLIC_ID;
+const templateId = "template_upsqgx4";
+const serviceId = "service_ts4dsnk";
+const Public_Key = "DkkyjnDmwCqT4qOL1";
 
 const getUsersPlanExpDate = require("./plan");
 
@@ -286,27 +289,6 @@ export function cleanExpDate() {
   };
 }
 
-// export function logInUserWithGoogle(response) {
-//   return async function (dispatch) {
-//     try {
-//       const { email, familyName, givenName } = response.profileObj;
-//       const userCreated = await axios.post(
-//         `${process.env.REACT_APP_DEFAULT_URL}/user/google`,
-//         { email, lastNames: familyName, names: givenName }
-//       );
-//       return dispatch({
-//         type: POST_USER_WITH_GOOGLE,
-//         payload: userCreated.data,
-//       });
-//     } catch (error) {
-//       console.log("el error de logInUserWithGoogle es:", error.message);
-//       message.error(
-//         "Error: al intentar ingresar con tu cuenta de Google",
-//         2500
-//       );
-//     }
-//   };
-// }
 export function logInUserWithGoogle(response, setOpen) {
   return async function (dispatch) {
     try {
