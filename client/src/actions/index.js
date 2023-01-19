@@ -189,14 +189,14 @@ export const restoreUser = (email, password) => {
     }
   };
 };
-export const restoreGoogleUser = (email) => {
+export const restoreUserByJustEmail = async (email) => {
   return async function (dispatch) {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_DEFAULT_URL}/user/${email}`
       );
       const restoredUser = await axios.post(
-        `${process.env.REACT_APP_DEFAULT_URL}/user/restoreGoogleUser/${email}`
+        `${process.env.REACT_APP_DEFAULT_URL}/user/restoreUserByJustEmail/${email}`
       );
       return dispatch({
         type: GET_CURRENT_USER,
