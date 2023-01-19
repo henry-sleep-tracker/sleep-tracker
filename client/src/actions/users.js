@@ -9,12 +9,14 @@ export function getUsers(page, size, filters) {
 
   let nationality = '';
   let plan = '';
+  let lastNames = '';
 
   if(filters?.nationality) { nationality = `&nationality=${filters.nationality}`;}
   if(filters?.plan) { plan = `&name=${filters.plan}`;} //en el back, Liz llama 'name' a plan
+  if(filters?.lastNames) { lastNames = `&lastNames=${filters.lastNames}`;}
 
   return function (dispatch) {
-    fetch(`${process.env.REACT_APP_DEFAULT_URL}/users?page=${page}&limit=${size}${nationality}${plan}`)
+    fetch(`${process.env.REACT_APP_DEFAULT_URL}/users?page=${page}&limit=${size}${nationality}${plan}${lastNames}`)
       .then((r) => r.json())
       .then((users) => dispatch(getUsersResponse(users)))
       .catch((error) => console.log(error));

@@ -31,7 +31,7 @@ const GridToolbarFilters = ({filters, setFilters}) => {
 					>
 					<MenuItem value=''>Todos</MenuItem>
           { nationalities.map( nationality => (
-            <MenuItem value={nationality}>{nationality}</MenuItem>
+            <MenuItem key={nationality} value={nationality}>{nationality}</MenuItem>
           ))}
 				</Select>
 			</FormControl>
