@@ -53,20 +53,21 @@ const UsersActions = ({ params, rowId, setRowId, pageState }) => {
     setLoading(false);
   };
   const restore = async () => {
-    const result = dispatch(restoreUserByJustEmail(email));
-    if (result) {
-      setRowId(null);
-      dispatch(getUsers(pageState.page, pageState.pageSize)); //recarga el componente
-    }
+    const result = dispatch(restoreUserByJustEmail(email)).then((result) => {
+      if (result) {
+        setRowId(null);
+        dispatch(getUsers(pageState.page, pageState.pageSize));
+      }
+    });
   };
   const eliminate = async () => {
     const idAdmin = window.localStorage.getItem(USER_ID);
-    const result = await deleteUser(id, idAdmin);
-    if (result) {
-      setSuccess(true);
-      setRowId(null);
-      dispatch(getUsers(pageState.page, pageState.pageSize));
-    }
+    const result = dispatch(deleteUser(id, idAdmin)).then((result) => {
+      if (result) {
+        setRowId(null);
+        dispatch(getUsers(pageState.page, pageState.pageSize));
+      }
+    });
   };
 
   useEffect(() => {
