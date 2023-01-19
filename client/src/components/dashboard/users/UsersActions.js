@@ -10,6 +10,7 @@ import { message } from "react-message-popup";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { updateUsers, getUsers } from "../../../actions/users";
 import { restoreUserByJustEmail } from "../../../actions/index";
+import { deleteUser } from "../../../actions/profileActions";
 import { USER_ID } from "../../../actions/constants";
 
 const UsersActions = ({ params, rowId, setRowId, pageState }) => {
@@ -59,8 +60,8 @@ const UsersActions = ({ params, rowId, setRowId, pageState }) => {
     }
   };
   const eliminate = async () => {
-    const adminId = window.localStorage.getItem(USER_ID);
-    const result = await updateUsers(id, adminId);
+    const idAdmin = window.localStorage.getItem(USER_ID);
+    const result = await deleteUser(id, idAdmin);
     if (result) {
       setSuccess(true);
       setRowId(null);

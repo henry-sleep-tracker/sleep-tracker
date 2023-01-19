@@ -25,7 +25,7 @@ router.post("/restoreUserByJustEmail/:email", restoreUserByJustEmail);
 router.post("/google", postGoogleUser);
 router.post("/forgot-password", forgotPassswordValdiator, forgotPassword);
 router.post("/reset-password/:id/:token", resetPassword);
-router.delete("/:id/:password", deleteUser);
+router.delete("/:id/:idAdmin/:password", deleteUser);
 router.put("/:id", updateProfile);
 router.get("/userId/:id", getUserInfoById);
 router.get("/:email", getUserByEmail);
