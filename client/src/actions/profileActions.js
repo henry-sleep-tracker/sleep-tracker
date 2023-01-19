@@ -70,9 +70,9 @@ export const changePassword = (id, newPassword) => {
         }
       );
       if (response.status === 200) {
-        alert(`La contraseña se cambio correctamente`);
+        //alert(`La contraseña se cambio correctamente`);
       } else {
-        alert(`Hubo un error al cambiar la contraseña. Intentelo nuevamente.`);
+        //alert(`Hubo un error al cambiar la contraseña. Intentelo nuevamente.`);
       }
     } catch (error) {
       console.log(error);

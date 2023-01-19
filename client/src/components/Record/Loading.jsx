@@ -4,12 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 
 // Actions Imports
 import { getRecordByIdDate } from "../../actions/records";
-import { setTime, setStartTime, setEndTime, setDay } from "../../actions/loading";
+import {
+  setTime,
+  setStartTime,
+  setEndTime,
+  setDay,
+} from "../../actions/loading";
 import { getSleepStage } from "../../actions/getUserHealthData";
 
 // Import helpers
 import { date_maker } from "../../helpers/date_maker";
-//import { dayMaker } from "../../helpers/day_maker_loading";
 
 /* ====================== STYLE IMPORTS ======================= */
 

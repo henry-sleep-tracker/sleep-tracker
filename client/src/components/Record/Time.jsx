@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 // MUI Imports
@@ -7,7 +7,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import TextField from "@mui/material/TextField";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 
 // Actions Imports
 
@@ -18,7 +18,7 @@ import { setTime, setStartTime, setEndTime } from "../../actions/loading";
 //>======================>//
 
 
-const TimeMealSelector = ({ text }) => {
+const TimeMealSelector = ({ text, clean }) => {
   
   const dispatch = useDispatch()
 
@@ -36,8 +36,7 @@ const TimeMealSelector = ({ text }) => {
 
   return (
     <Box>
-      {/*  <Typography variant="h6" color="white">
-        Fecha */}
+      
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <TimePicker
           componentsProps={{
@@ -47,17 +46,17 @@ const TimeMealSelector = ({ text }) => {
             },
           }}
           label={text}
-          value={value}
+          value={clean?null:value}
           onChange={onChangeHandler}
           renderInput={props => <TextField {...props} />}
         />
       </LocalizationProvider>
-      {/* </Typography> */}
+    
     </Box>
   );
 }
 
-const StartTime = ({ text }) => {
+const StartTime = ({ text, clean }) => {
   const dispatch = useDispatch();
 
   const [value, setValue] = useState(null);
@@ -72,8 +71,6 @@ const StartTime = ({ text }) => {
 
   return (
     <Box>
-      {/*  <Typography variant="h6" color="white">
-        Fecha */}
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <TimePicker
           componentsProps={{
@@ -83,17 +80,16 @@ const StartTime = ({ text }) => {
             },
           }}
           label={text}
-          value={value}
+          value={clean ? null : value}
           onChange={onChangeHandler}
           renderInput={props => <TextField {...props} />}
         />
       </LocalizationProvider>
-      {/* </Typography> */}
     </Box>
   );
 };
 
-const EndTime = ({ text }) => {
+const EndTime = ({ text, clean }) => {
   const dispatch = useDispatch();
 
   const [value, setValue] = useState(null);
@@ -108,8 +104,6 @@ const EndTime = ({ text }) => {
 
   return (
     <Box>
-      {/*  <Typography variant="h6" color="white">
-        Fecha */}
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <TimePicker
           componentsProps={{
@@ -119,12 +113,11 @@ const EndTime = ({ text }) => {
             },
           }}
           label={text}
-          value={value}
+          value={clean ? null : value}
           onChange={onChangeHandler}
           renderInput={props => <TextField {...props} />}
         />
       </LocalizationProvider>
-      {/* </Typography> */}
     </Box>
   );
 };
