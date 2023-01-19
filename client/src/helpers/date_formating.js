@@ -10,7 +10,7 @@ const formatingDate = (start, end) => {
   }
 
   diff = diff / 1000;
-  let sec = Math.floor(diff % 60);
+  //let sec = Math.floor(diff % 60);
   diff = diff / 60;
   let min = Math.floor(diff % 60);
   diff = diff / 60;
