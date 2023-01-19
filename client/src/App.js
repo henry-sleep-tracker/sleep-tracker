@@ -31,6 +31,7 @@ import NewUserSuccess from "./components/Loading/NewUserSuccess";
 import Saving from "./components/Record/Saving";
 import UserExist from "./components/Loading/UserExist";
 import Chat from "./components/Home/chat";
+import {ChangePasswordOkProfile, ChangePasswordErrorProfile} from "./components/Loading/ChangePasswordProfile"
 
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
@@ -87,6 +88,14 @@ function App() {
           <Route
             path="/private/change-password/:id"
             element={<ChangePassword />}
+          />
+          <Route
+            path="/private/changepasswordok"
+            element={<ChangePasswordOkProfile />}
+          />
+          <Route
+            path="/private/changepassworderror"
+            element={<ChangePasswordErrorProfile />}
           />
           <Route path="/private/planes" element={<Pricing />} />
           <Route path="/private/loadingpayment" element={<LoadingPayment />} />
