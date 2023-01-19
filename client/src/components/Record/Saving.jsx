@@ -21,13 +21,17 @@ const Saving = () => {
   const userId = useSelector(state => state.users.currentUser.id);
 
   useEffect(() => {
-    dispatch(getRecordByIdDate(userId, day));
     dispatch(setTime(null));
+
     const delay = () => navigate("/private/records");
 
     setTimeout(() => {
       delay();
     }, 500);
+
+    return () => {
+      dispatch(getRecordByIdDate(userId, day));
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

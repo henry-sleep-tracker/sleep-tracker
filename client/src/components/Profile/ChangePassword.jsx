@@ -70,10 +70,11 @@ export default function ChangePassword() {
           password: "",
           confirmPassword: "",
         });
-        navigate("/private/profile");
+        navigate("/private/changepasswordok");
       }
     } catch (error) {
-      console.log("el error es:", error);
+      //console.log("el error es:", error);
+      navigate("/private/changepassworderror");
     }
   }
 
