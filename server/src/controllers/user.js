@@ -201,7 +201,7 @@ const restoreUser = async (req, res) => {
   }
 };
 
-const restoreGoogleUser = async (req, res) => {
+const restoreUserByJustEmail = async (req, res) => {
   try {
     const { email } = req.params;
     let user = await findUserByEmail(email);
@@ -292,5 +292,5 @@ module.exports = {
   changeUserPassword,
   getUserInfoById,
   restoreUser,
-  restoreGoogleUser,
+  restoreUserByJustEmail,
 };
