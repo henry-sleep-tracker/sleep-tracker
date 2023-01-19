@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Resume from "./resume"
+import Resume from "./resume";
 import Calc from "./calc";
 import Swipeable from "./Swipeable";
 import { getUsersPlanExpDate } from "../../actions/plan";

@@ -9,7 +9,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import styles from "./Resume.module.css";
 
 const Resume = () => {
   const records = useSelector((state) => state?.record.recordsUser);
@@ -118,10 +117,7 @@ const Resume = () => {
   ];
 
   return (
-    <Card
-      className="titleresume"
-      sx={{ width: "30rem", height: 442, boxShadow: 2 }}
-    >
+    <Card sx={{ width: "30rem", height: 442, boxShadow: 2 }}>
       <CardContent>
         <Grid
           container
@@ -135,20 +131,20 @@ const Resume = () => {
           <Grid item>
             <Typography sx={{ fontSize: 24, fontWeight: "bold" }}>
               Registro de consumo:
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  fontSize: 16,
-                  textAlign: "center",
-                  height: "3rem",
-                  paddingTop: "0.6rem",
-                }}
-              >
-                {consumos[0]?.Date
-                  ? consumos[0].Date
-                  : "No hay registro de ese día"}
-              </Typography>
+            </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                fontSize: 16,
+                textAlign: "center",
+                height: "3rem",
+                paddingTop: "0.6rem",
+              }}
+            >
+              {consumos[0]?.Date
+                ? consumos[0].Date
+                : "No hay registro de ese día"}
             </Typography>
           </Grid>
           <Grid item>

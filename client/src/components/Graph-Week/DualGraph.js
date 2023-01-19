@@ -1,6 +1,5 @@
-import { Button, Card, CardContent, Grid } from "@mui/material";
 import React, { useState, useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   Line,
   XAxis,
@@ -11,21 +10,10 @@ import {
   LineChart,
   ResponsiveContainer,
 } from "recharts";
-import { getSleepSession } from "../../actions/getUserHealthData";
-
-const startDate = new Date(Date.now() - 86400000).toISOString().split("T")[0];
-const endDate = new Date(Date.now() - 432000000).toISOString().split("T")[0];
+import { Button, Card, CardContent, Grid } from "@mui/material";
 
 export default function DualGraph() {
   const ranges = useSelector((state) => state.session);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!ranges.length) {
-      dispatch(getSleepSession(startDate, endDate));
-    }
-  }, [dispatch, ranges.length]);
 
   const [opacity, setOpacity] = useState({
     summary_light_min: 1,
@@ -55,25 +43,20 @@ export default function DualGraph() {
   }, [setOpacity]);
 
   const getColor = (k) => {
-    const green = "#58C0A1";
-    const teal = "#53C2E2";
-    const blue = "#5597DE";
-    const orange = "#F2B35B";
-    const red = "#F16D64";
     if (k === "efficiency") {
-      return green;
+      return "#62757f";
     }
     if (k === "summary_deep_min") {
-      return teal;
+      return "#ff3d00";
     }
     if (k === "summary_light_min") {
-      return blue;
+      return "#ff8a65";
     }
     if (k === "summary_rem_min") {
-      return orange;
+      return "#870000";
     }
     if (k === "summary_awake_min") {
-      return red;
+      return "#ffca28";
     }
   };
 

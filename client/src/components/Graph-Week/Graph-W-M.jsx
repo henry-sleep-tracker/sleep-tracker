@@ -1,22 +1,34 @@
-import React from "react";
-import RangeCalendar from "../Calendario/RangeCalendar";
+import React, { useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CollapsibleTableTime from "./CollapsibleTableTime";
-import DualGraph from "./DualGraph";
-import GraphEff from "./Graph-efficiency";
-import GraphTime from "./Graph-Time";
-import { Button, Grid } from "@mui/material";
-import CollapsibleTableEfficiency from "./CollapsibleTableEfficiency";
 import GraphRecord from "./Graph-Records";
-import { useRef } from "react";
+import DualGraph from "./DualGraph";
+import GraphTime from "./Graph-Time";
+import CombinedGraph from "./CombinedGraph";
+import RangeCalendar from "../Calendario/RangeCalendar";
+import { getSleepSession } from "../../actions/getUserHealthData";
+import { getRecordsRange } from "../../actions/records_data";
+import { Button, Grid } from "@mui/material";
 import { useReactToPrint } from "react-to-print";
 import { message } from "react-message-popup";
 
+const yesterday = new Date(Date.now() - 28800000).toISOString().split("T")[0];
+const fiveDaysAgo = new Date(Date.now() - 432000000)
+  .toISOString()
+  .split("T")[0];
+
 const GraphWM = () => {
+  const currentUser = useSelector((state) => state?.users.currentUser);
   const componentPdf = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentPdf.current,
     onAfterPrint: () => message.success("print success", 2500),
   });
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getSleepSession(fiveDaysAgo, yesterday));
+    dispatch(getRecordsRange(currentUser.id, fiveDaysAgo, yesterday));
+  }, [dispatch]);
 
   return (
     <Grid
@@ -31,7 +43,7 @@ const GraphWM = () => {
       p={1}
     >
       <Grid item>
-        <Button variant="outlined" key="pdf" onClick={handlePrint}>
+        <Button variant="contained" key="pdf" onClick={handlePrint}>
           Reporte PDF
         </Button>
       </Grid>
@@ -41,15 +53,15 @@ const GraphWM = () => {
       </Grid>
 
       <Grid item>
+        <CombinedGraph />
+      </Grid>
+
+      <Grid item>
         <DualGraph />
       </Grid>
 
       <Grid item>
-        <GraphEff />
-      </Grid>
-
-      <Grid item>
-        <CollapsibleTableEfficiency />
+        <GraphRecord />
       </Grid>
 
       <Grid item>
@@ -58,10 +70,6 @@ const GraphWM = () => {
 
       <Grid item>
         <CollapsibleTableTime />
-      </Grid>
-
-      <Grid item>
-        <GraphRecord />
       </Grid>
     </Grid>
   );
