@@ -26,7 +26,13 @@ import {
   setStatusNewRecord,
 } from "../../actions/records";
 
-import { setDay, setStartTime, setEndTime } from "../../actions/loading";
+import {
+  setDay,
+  setStartTime,
+  setEndTime,
+  setSyncFitbit,
+  setTime as setTime2,
+} from "../../actions/loading";
 
 // Import images
 import checkImg from "../../images/check-mark-button_2705.png";
@@ -98,6 +104,7 @@ const Record = props => {
   const timeR = useSelector(state => state.loading.time);
   const sTime = useSelector(state => state.loading.startTime);
   const eTime = useSelector(state => state.loading.endTime);
+  const syncFitbit = useSelector(state => state.loading.syncFitbit);
 
   /******************** Functions Before load component *********************/
 
@@ -196,7 +203,7 @@ const Record = props => {
     // Before Dispatch //
 
     if (
-      timeR?.length <= 0 &&
+      (timeR === null || timeR?.length <= 0 || time === undefined) &&
       record.sleepTime.length <= 0 &&
       record.timeActivity.length <= 0 &&
       record.coffeeCups.length <= 0 &&
@@ -204,8 +211,8 @@ const Record = props => {
       record.coffee.length <= 0 &&
       record.drink.length <= 0 &&
       record.activity.length <= 0 &&
-      st.length <= 0 &&
-      et.length <= 0
+      st?.length <= 0 &&
+      et?.length <= 0
     ) {
       message.warn(`No se ingreso informacion`);
       message.warn(`No se ingreso informacion`);
@@ -302,6 +309,9 @@ const Record = props => {
     setCoffeeStatus(false);
     setDrinkStatus(false);
     setTime({ startTime: "", endTime: "" });
+    dispatch(setTime2(null));
+    dispatch(setStartTime(null));
+    dispatch(setEndTime(null));
   };
 
   const handlerHome = e => {
@@ -320,6 +330,7 @@ const Record = props => {
       setRecord((record.timeMeal = time));
     }
     dispatch(createNewRecord(record));
+    dispatch(setSyncFitbit(true));
 
     // After Dispatch //
 
@@ -674,7 +685,14 @@ const Record = props => {
   // Mount/Unmount Component
 
   useEffect(() => {
+    if (checkSleepRecord?.length >= 1) {
+      dispatch(setSyncFitbit(true));
+    } else {
+      dispatch(setSyncFitbit(false));
+    }
+  });
 
+  useEffect(() => {
     dispatch(getActivitiesByUser(userId));
     dispatch(getCoffeeSizesByUser(userId));
     dispatch(getDrinksByUser(userId));
@@ -957,7 +975,7 @@ const Record = props => {
   return (
     <div className="master">
       <div className="form_container">
-        <form >
+        <form>
           <div className="main_container">
             <div className="x_container">
               <Button variant="contained" onClick={handlerHome}>
@@ -970,16 +988,21 @@ const Record = props => {
                 <img src={memo} alt="" className="memo" />
               </h2>
             </div>
-            <div className="general_info_container">
-              <div className="date_record_container">
-                <DateSelector
-                  text="Fecha"
-                  date={record.dateMeal}
-                  onChange={handlerOnChange}
-                />
-              </div>
-              <div className="time_meal_container">
-                <TimeMealSelector text="Hora de tu cena" />
+            <div className="date_time_section">
+              <div className="general_info_container">
+                <div className="date_record_container">
+                  <DateSelector
+                    text="Fecha"
+                    date={record.dateMeal}
+                    onChange={handlerOnChange}
+                  />
+                </div>
+                <div className="time_meal_container">
+                  <TimeMealSelector
+                    text="Hora de tu cena"
+                    clean={timeR === null ? true : false}
+                  />
+                </div>
               </div>
               <div
                 id="test_div"
@@ -999,8 +1022,7 @@ const Record = props => {
                 </h5>
                 <textarea
                   name="description"
-                  id=""
-                  cols="70"
+                  cols={57}
                   rows="5"
                   placeholder="Ingresa breve descripcion"
                   value={record.description}
@@ -1011,13 +1033,15 @@ const Record = props => {
             </div>
             <div
               className="sleep_container"
-              hidden={checkSleepRecord?.length >= 1 ? false : true}
+              //hidden={checkSleepRecord?.length >= 1 ? false : true}
+              hidden={!syncFitbit}
             >
               <h6>Este dia ya tiene registrado tu tiempo de sueño</h6>
             </div>
             <div
               className="sleep_container"
-              hidden={checkSleepRecord?.length >= 1 ? true : false}
+              /* hidden={checkSleepRecord?.length >= 1 ? true : false} */
+              hidden={syncFitbit}
             >
               <div>
                 <h2>
@@ -1027,7 +1051,7 @@ const Record = props => {
                     src={checkImg}
                     alt=""
                     hidden={
-                      time.startTime.length > 0 && time.endTime.length > 0
+                      time?.startTime.length > 0 && time?.endTime.length > 0
                         ? false
                         : true
                     }
@@ -1049,11 +1073,17 @@ const Record = props => {
               </div>
 
               <div className="sleep_section" hidden={sleepTime.length > 0}>
-                <StartTime text="Dormiste" />
-                <EndTime text="Despertaste" />
+                <StartTime
+                  text="Dormiste"
+                  clean={sTime === null ? true : false}
+                />
+                <EndTime
+                  text="Despertaste"
+                  clean={eTime === null ? true : false}
+                />
                 <div
                   className="sleep_result"
-                  hidden={sTime && sTime ? false : true}
+                  hidden={sTime && eTime ? false : true}
                 >
                   <h4>
                     Dormiste:{" "}
