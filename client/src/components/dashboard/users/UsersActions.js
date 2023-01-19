@@ -31,8 +31,6 @@ const UsersActions = ({ params, rowId, setRowId, pageState }) => {
     email,
   } = params.row;
 
-  debugger;
-
   const handleSubmit = async () => {
     setLoading(true);
     //Verificar names y lastNames no estan vacios. Falta Validar
@@ -54,9 +52,8 @@ const UsersActions = ({ params, rowId, setRowId, pageState }) => {
     setLoading(false);
   };
   const restore = async () => {
-    const result = await restoreUserByJustEmail(email);
+    const result = dispatch(restoreUserByJustEmail(email));
     if (result) {
-      setSuccess(true);
       setRowId(null);
       dispatch(getUsers(pageState.page, pageState.pageSize)); //recarga el componente
     }
