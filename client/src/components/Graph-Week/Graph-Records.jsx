@@ -1,4 +1,3 @@
-import { Card, CardContent } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -10,6 +9,7 @@ import {
   Tooltip,
   ComposedChart,
 } from "recharts";
+import { Card, CardContent } from "@mui/material";
 
 export default function GraphRecord() {
   const records = useSelector((state) => state?.record.recordsRange);
@@ -36,11 +36,11 @@ export default function GraphRecord() {
   const data = [
     ...auxRecords.map((d) => {
       return {
-        Dia: d?.dateMeal,
-        Café: d?.coffee,
-        Ejercicio: d?.timeActivity,
-        Alcohol: d?.drinks,
-        Merienda: d?.timeMeal.replace(":", ".").slice(0, -3),
+        date: d?.dateMeal,
+        café: d?.coffee,
+        ejercicio: d?.timeActivity,
+        alcohol: d?.drinks,
+        merienda: d?.timeMeal.replace(":", ".").slice(0, -3),
       };
     }),
   ];
@@ -60,7 +60,7 @@ export default function GraphRecord() {
       <CardContent>
         <ComposedChart width={windowWidth - 150} height={250} data={data}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="Dia" />
+          <XAxis dataKey="date" />
           <YAxis yAxisId="left" />
           <YAxis yAxisId="right" orientation="right" />
           <Tooltip />
@@ -68,34 +68,37 @@ export default function GraphRecord() {
           <Bar
             yAxisId="right"
             type="monotone"
-            dataKey="Ejercicio"
-            fill="#f06292"
+            dataKey="ejercicio"
+            name="Ejercicio"
+            fill="#3f51b5"
             minPointSize={2}
             unit=" min"
           />
           <Bar
             type="monotone"
-            dataKey="Merienda"
-            fill="#ab47bc"
-            stroke="#ab47bc"
+            dataKey="merienda"
+            name="Hora de cena"
+            fill="#4db6ac"
             yAxisId="right"
             unit=" Hrs"
           />
           <Bar
             yAxisId="left"
             type="monotone"
-            dataKey="Alcohol"
+            dataKey="alcohol"
+            name="Alcohol"
             barSize={20}
-            fill="#42a5f5"
+            fill="#757de8"
             minPointSize={2}
             unit=" copas"
           />
           <Bar
             yAxisId="left"
             type="monotone"
-            dataKey="Café"
+            dataKey="café"
+            name="Ejercicio"
             barSize={20}
-            fill="#ffca28"
+            fill="#90caf9"
             minPointSize={2}
             unit=" tazas"
           />
