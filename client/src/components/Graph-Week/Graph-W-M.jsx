@@ -38,13 +38,14 @@ const GraphWM = () => {
       justifyContent="center"
       alignItems="center"
       direction="column"
-      spacing={3}
+      spacing={5}
       flex={4}
       p={1}
+      sx={{ backgroundColor: "#f7f8fb" }}
     >
       <Grid item>
         <Button variant="contained" key="pdf" onClick={handlePrint}>
-          Reporte PDF
+          Descargar reporte
         </Button>
       </Grid>
 
