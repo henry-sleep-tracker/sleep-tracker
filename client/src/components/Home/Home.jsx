@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Collection from "./resume";
+import Collection from "./Resume";
 import Calc from "./calc";
 import Swipeable from "./tips";
 import { Grid, Typography } from "@mui/material";

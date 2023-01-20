@@ -21,8 +21,8 @@ const Page3 = () => {
       alignItems='center'
       spacing={5}
       p={2}
-      paddingLeft={15}
-      paddingRight={15}
+    // paddingLeft={15}
+    // paddingRight={15}
 
     >
 
@@ -31,7 +31,7 @@ const Page3 = () => {
       >
 
         <Typography
-          variant="h4"
+          variant="h2"
           fontWeight='bold'
         >
           Dispositivos soportados
@@ -45,15 +45,18 @@ const Page3 = () => {
         <Grid
           container
           direction="row"
-          justifyContent="space-evenly"
+          justifyContent="center"
           alignItems="center"
-
+          spacing={5}
         >
 
           <Grid
             item
-            xs={12}
-            md={3}
+            lg={3}
+            md={4}
+            sx={{
+              display: { lg: "block", md: "block", sm: "none", xs: "none" },
+            }}
           >
             <DevicesCarousel
               localStep={step0}
@@ -63,8 +66,11 @@ const Page3 = () => {
 
           <Grid
             item
-            xs={12}
-            md={3}
+            sx={{
+              display: { lg: "block", md: "block", sm: "none", xs: "none" },
+            }}
+            lg={3}
+            md={4}
           >
             <DevicesCarousel
               localStep={step1}
@@ -74,8 +80,9 @@ const Page3 = () => {
 
           <Grid
             item
-            xs={12}
-            md={3}
+            lg={3}
+            md={4}
+            xs={6}
           >
             <DevicesCarousel
               localStep={step2}
@@ -84,17 +91,7 @@ const Page3 = () => {
           </Grid>
 
         </Grid>
-      </Grid>
 
-      <Grid
-        item
-      >
-
-        <Typography
-          variant="h5"
-        >
-          Compatibles con FitBit
-        </Typography>
       </Grid>
 
     </Grid>
@@ -119,9 +116,8 @@ const useStyles = makeStyles(() => ({
   },
 
   mainPaper: {
-    height: '100vh',
     width: '100vw',
-    minHeight: '100vh',
+    minHeight: '75vh',
     // maxWidth: '97vw',
     backgroundColor: '#e8eaf6'
   },

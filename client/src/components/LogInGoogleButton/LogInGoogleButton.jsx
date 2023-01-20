@@ -5,8 +5,7 @@ import { logInUserWithGoogle } from "../../actions/index";
 import styles from "./GoogleLogin.module.css";
 
 export default function LogInGoogleButton() {
-  const clientId =
-    "335316690432-trah7lbld3ptrek9o23jo6n0t7g30foe.apps.googleusercontent.com";
+  const clientId = `${process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID}`
   const { login } = useAuthContext();
   const dispatch = useDispatch();
   const onSuccess = (response) => {

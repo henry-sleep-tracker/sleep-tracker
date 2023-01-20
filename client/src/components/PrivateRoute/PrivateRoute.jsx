@@ -5,6 +5,7 @@ import { useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 export default function PrivateRoute() {
+  
   const [mode, setMode] = useState("light");
 
   const { isAuthenticated } = useAuthContext();

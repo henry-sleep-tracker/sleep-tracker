@@ -39,41 +39,14 @@ function SwipeableTextMobileStepper({ commentsState }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
 
-  // const maxSteps = allComments.length;
-
-  // const handleNext = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  // };
-
-  // const handleBack = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  // };
-
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
 
   const currentComments = useSelector((state) => state.comments);
 
-  //   {
-  //     name: 'noName',
-  //     rate: 1,
-  //     comment: 'noComment',
-  //   },
-  //   {
-  //     name: 'noName',
-  //     rate: 1,
-  //     comment: 'noComment',
-  //   },
-  //   {
-  //     name: 'noName',
-  //     rate: 1,
-  //     comment: 'noComment',
-  //   },
-  // ])
-
   return (
-    <Box sx={{ maxWidth: 500, flexGrow: 1 }}>
+    <Box sx={{ maxWidth: '100%', flexGrow: 1 }}>
       <Grid
         container
         justifyContent="center"

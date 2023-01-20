@@ -9,7 +9,9 @@ import {
   Grid,
   TextField,
   Typography,
-  MenuItem
+  MenuItem,
+  Divider,
+  Box
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -27,8 +29,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import AddCommentIcon from "@mui/icons-material/AddComment";
-import PaymentIcon from "@mui/icons-material/Payment";
+// import AddCommentIcon from "@mui/icons-material/AddComment";
+// import PaymentIcon from "@mui/icons-material/Payment";
+import { makeStyles } from "@mui/styles";
 
 const Profile = () => {
   const { createPassword } = useAuthContext();
@@ -50,7 +53,7 @@ const Profile = () => {
   });
   console.log(inputs);
   let nationalities = [
-    'Afganistan', 'Albania', 'Alemania', 'Andorra', 'Angola', 'Antigua y Barbuda', 'Arabia Saudita', 'Argelia', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaiyán', 'Bahamas', 'Bangladés', 'Barbados', 'Baréin', 'Bélgica', 'Belice', 'Bielorrusia', 'Benín', 'Birmania', 'Bolivia', 'Bosnia y Herzegovina', 'Botsuana', 'Brasil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Bután', 'Cabo Verde', 'Camboya', 'Camerún', 'Canadá', 'Catar', 'Chad', 'Chile', 'China', 'Chipre', 'Ciudad del Vaticano', 'Colombia', 'Comoras', 'Corea del Norte', 'Corea del Sur', 'Costa de Marfil', 'Costa Rica', 'Croacia', 'Cuba', 'Dinamarca', 'Dominica', 'Ecuador', 'Egipto', 'El Salvador', 'Emiratos Árabes Unidos', 'Eritrea', 'Eslovaquia', 'Eslovenia', 'España', 'Estados Unidos', 'Estonia', 'Etiopía', 'Filipinas', 'Finlandia', 'Fiyi', 'Francia', 'Gabón', 'Gambia', 'Georgia', 'Ghana', 'Granada', 'Grecia', 'Guatemala', 'Guinea', 'Guinea-Bisáu', 'Guinea Ecuatorial', 'Guyana', 'Haití', 'Honduras', 'Hungría', 'India', 'Indonesia', 'Irak', 'Irán', 'Irlanda', 'Islandia','Islas Marshall', 'Israel', 'Italia', 'Jamaica', 'Japón', 'Jordania', 'Kazajistán', 'Kenia', 'Kirguistán', 'Kiribati', 'Kuwait', 'Laos', 'Lesoto', 'Letonia', 'Líbano', 'Liberia', 'Libia', 'Liechtenstein', 'Lituania', 'Luxemburgo', 'Macedonia del Norte', 'Madagascar', 'Malasia', 'Malaui', 'MalGridas', 'Mali', 'Malta', 'Marruecos',  'Mauricio', 'Mauritania', 'México', 'Micronesia', 'Moldavia', 'Mónaco', 'Mongolia', 'Montenegro', 'Mozambique', 'Namibia', 'Nauru', 'Nepal', 'Nicaragua', 'Níger', 'Nigeria', 'Noruega', 'Nueva Zelanda', 'Omán', 'Países Bajos', 'Pakistán', 'Palaos', 'Palestina', 'Panamá', 'Papúa Nueva Guinea', 'Paraguay', 'Perú', 'Polonia', 'Portugal', 'Reino Unido', 'República Checa','República Centroafricana', 'República del Congo', 'República Democrática del Congo','República Dominicana', 'Ruanda', 'Rumania', 'Rusia', 'Islas Salomón', 'Samoa', 'San Cristóbal y Nieves', 'San Marino', 'San Vicente y las Granadinas', 'Santa Lucía', 'Santo Tomé y Príncipe', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leona', 'Singapur', 'Siria', 'Somalia', 'Sri Lanka', 'Suazilandia', 'Sudáfrica', 'Sudán', 'Sudán del Sur', 'Suecia', 'Suiza', 'Surinam', 'Tailandia', 'Tanzania', 'Tayikistán', 'Timor Oriental', 'Togo', 'Tonga', 'Trinidad y Tobago', 'Túnez', 'Turkmenistán', 'Turquía', 'Tuvalu', 'Ucrania', 'Uganda', 'Uruguay', 'Uzbekistán', 'Vanuatu', 'Venezuela', 'Vietnam', 'Yemen', 'Yibuti', 'Zambia', 'Zimbabue'
+    'Afganistan', 'Albania', 'Alemania', 'Andorra', 'Angola', 'Antigua y Barbuda', 'Arabia Saudita', 'Argelia', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaiyán', 'Bahamas', 'Bangladés', 'Barbados', 'Baréin', 'Bélgica', 'Belice', 'Bielorrusia', 'Benín', 'Birmania', 'Bolivia', 'Bosnia y Herzegovina', 'Botsuana', 'Brasil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Bután', 'Cabo Verde', 'Camboya', 'Camerún', 'Canadá', 'Catar', 'Chad', 'Chile', 'China', 'Chipre', 'Ciudad del Vaticano', 'Colombia', 'Comoras', 'Corea del Norte', 'Corea del Sur', 'Costa de Marfil', 'Costa Rica', 'Croacia', 'Cuba', 'Dinamarca', 'Dominica', 'Ecuador', 'Egipto', 'El Salvador', 'Emiratos Árabes Unidos', 'Eritrea', 'Eslovaquia', 'Eslovenia', 'España', 'Estados Unidos', 'Estonia', 'Etiopía', 'Filipinas', 'Finlandia', 'Fiyi', 'Francia', 'Gabón', 'Gambia', 'Georgia', 'Ghana', 'Granada', 'Grecia', 'Guatemala', 'Guinea', 'Guinea-Bisáu', 'Guinea Ecuatorial', 'Guyana', 'Haití', 'Honduras', 'Hungría', 'India', 'Indonesia', 'Irak', 'Irán', 'Irlanda', 'Islandia', 'Islas Marshall', 'Israel', 'Italia', 'Jamaica', 'Japón', 'Jordania', 'Kazajistán', 'Kenia', 'Kirguistán', 'Kiribati', 'Kuwait', 'Laos', 'Lesoto', 'Letonia', 'Líbano', 'Liberia', 'Libia', 'Liechtenstein', 'Lituania', 'Luxemburgo', 'Macedonia del Norte', 'Madagascar', 'Malasia', 'Malaui', 'MalGridas', 'Mali', 'Malta', 'Marruecos', 'Mauricio', 'Mauritania', 'México', 'Micronesia', 'Moldavia', 'Mónaco', 'Mongolia', 'Montenegro', 'Mozambique', 'Namibia', 'Nauru', 'Nepal', 'Nicaragua', 'Níger', 'Nigeria', 'Noruega', 'Nueva Zelanda', 'Omán', 'Países Bajos', 'Pakistán', 'Palaos', 'Palestina', 'Panamá', 'Papúa Nueva Guinea', 'Paraguay', 'Perú', 'Polonia', 'Portugal', 'Reino Unido', 'República Checa', 'República Centroafricana', 'República del Congo', 'República Democrática del Congo', 'República Dominicana', 'Ruanda', 'Rumania', 'Rusia', 'Islas Salomón', 'Samoa', 'San Cristóbal y Nieves', 'San Marino', 'San Vicente y las Granadinas', 'Santa Lucía', 'Santo Tomé y Príncipe', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leona', 'Singapur', 'Siria', 'Somalia', 'Sri Lanka', 'Suazilandia', 'Sudáfrica', 'Sudán', 'Sudán del Sur', 'Suecia', 'Suiza', 'Surinam', 'Tailandia', 'Tanzania', 'Tayikistán', 'Timor Oriental', 'Togo', 'Tonga', 'Trinidad y Tobago', 'Túnez', 'Turkmenistán', 'Turquía', 'Tuvalu', 'Ucrania', 'Uganda', 'Uruguay', 'Uzbekistán', 'Vanuatu', 'Venezuela', 'Vietnam', 'Yemen', 'Yibuti', 'Zambia', 'Zimbabue'
   ];
   let keyNationalities = 0;
   let yourDate = new Date();
@@ -61,10 +64,10 @@ const Profile = () => {
     }
   }, [currentUser, createPassword]);
 
-  const convertirBase64 = async (e) =>{
+  const convertirBase64 = async (e) => {
     let reader = new FileReader();
-     reader.readAsDataURL(e.target.files[0]);
-     reader.onload = function(){
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = function () {
       let base64 = reader.result;
       setImage(base64)
     }
@@ -149,7 +152,7 @@ const Profile = () => {
       const eliminar = "";
       dispatch(updateImage(currentUser.id, eliminar))
       setImage("");
-    
+
     } catch (error) {
       console.log("el error es:", error);
     }
@@ -186,262 +189,429 @@ const Profile = () => {
     }
   };
 
+  const classes = useStyles();
+
   return (
+
+    // <Card
+    //   variant='outlined'
+    //   width='100vw'
+    //   height='100vh'
+    // >
+
+
+    // <CardContent>
+
     <Grid
       container
       justifyContent="center"
-      direction="column"
-      alignItems="center"
-      spacing={2}
+      direction='column'
+      alignItems='center'
+      // width='100vw'
+      spacing={5}
+    // height='100vh'
+
     >
       <Helmet>
         <title>Perfil | Sleep Tracker</title>
       </Helmet>
 
-      <Grid item></Grid>
-
-      <Grid item>
-        <Typography variant="h2">Perfil</Typography>
-      </Grid>
-
-      {/* <Grid
-        item
-      >
-        <Button
-          variant="outlined"
-          startIcon={<ArrowBackIosNewIcon />}
-          href='/'
-        >
-          Regresar
-        </Button>
-      </Grid> */}
-
-      <Grid container
-        display= "flex"
-        justifyContent="space-evenly"
-        gap={50}
-      >
-        <Grid item>
-        {/* <Link to={`/private/delete-user/${currentUser.id}`}> */}
-          <Button
-            href={`/private/change-password/${currentUser.id}`}
-            startIcon={<PasswordIcon />}
-            variant="outlined"
-            id="ButtonPassword"
-          >
-            Cambiar contraseña
-          </Button>
-        </Grid>
-
-        <Grid item
-        >
-          <Grid container display= "flex" flexDirection= "column" gap={2}>
-          <Button
-            href={`/private/delete-user/${currentUser.id}`}
-            startIcon={<DeleteIcon />}
-            variant="outlined"
-            color="error"
-            id="ButtonDelete"
-          >
-            Borrar usuario
-          </Button>{currentUser.image ? <Button onClick={handleClickDelete}>Eliminar foto</Button>: null}
-          </Grid>
-        </Grid>
-        {/* </Link> */}
-      </Grid>
-
       <Grid
         item
       >
-        <Grid container direction= "column" gap={1} justifyContent= "center">
-          <Avatar 
-            alt = "Not found"
-            srcSet={currentUser.image}
-            sx={{ width: 200, height: 200 }}
-          />
-          {image ? 
-            <Button color="success" size="small" variant="contained" onClick={handleImage}>Confirmar foto</Button> 
-            : 
-            <Button sx={{
-              ml: 1,
-              "&.MuiButtonBase-root:hover": {
-                bgcolor: "transparent"
-              }
-            }} 
-            startIcon = {<PhotoCamera/>} 
-            color="primary" 
-            aria-label="upload picture" 
-            component="label">
-              <input hidden accept="image/*" type="file" onChange = {(e) => convertirBase64(e)}/>
-            </Button>}
-         </Grid>
-
+        <Typography variant="h2">Perfil</Typography>
       </Grid>
-
+<hr/>
       <Grid item>
-        <Card variant="outlined">
+        <Card
+          variant="outlined"
+        >
           <CardContent>
+
+            {/* <Grid
+              item
+            > */}
+
             <Grid
               container
-              direction="column"
               justifyContent="center"
-              alignItems="center"
-              spacing={2}
-              flex={4}
-              p={2}
+              direction='column'
+              alignItems='center'
+              spacing={1}
+              width='90vw'
             >
-              <Grid item>
-                <Typography variant="h4">Tu nombre:</Typography>
-              </Grid>
 
-              <Grid item>
-                {!editNames ? (
-                  <Typography variant="h6">
-                    {`${currentUser.names} ${currentUser.lastNames}`}
-                  </Typography>
-                ) : (
-                  <TextField
-                    variant="outlined"
-                    label="Nuevo nombre"
-                    type="text"
-                    name="names"
-                    value={inputs.names}
-                    onChange={(e) => handleInputs(e)}
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              // spacing={30}
+              >
+
+                <Grid
+                  item
+                >
+                  <Avatar
+                    alt="Not found"
+                    srcSet={currentUser.image}
+                    sx={{
+                      width: 35,
+                      height: 35
+                    }}
                   />
-                )}
-              </Grid>
 
-              <Grid item>
-                {!inputs.names && (
-                  <Button
-                    variant="outlined"
-                    onClick={(e) => handleClick(e)}
-                    startIcon={<PersonIcon />}
-                  >
-                    Editar
-                  </Button>
-                )}
-              </Grid>
+                </Grid>
 
-              <Grid item>
-                <Typography variant="h5">Correo electronico:</Typography>
-              </Grid>
+                <Grid
+                  item>
+                  {
+                    currentUser.image ?
+                      <Button
+                        variant='outlined'
+                        color='error'
+                        onClick={handleClickDelete}>
+                        Eliminar
+                      </Button>
+                      :
+                      null
+                  }
+                </Grid>
 
-              <Grid item>
-                {!editEmail ? (
-                  <Typography variant="h6">{currentUser.email}</Typography>
-                ) : (
-                  <TextField
-                    type="text"
-                    name="email"
-                    label="Nuevo email"
-                    value={inputs.email}
-                    onChange={handleInputs}
-                  />
-                )}
-              </Grid>
-
-              <Grid item>
-                {!inputs.email && (
-                  <Button
-                    variant="outlined"
-                    onClick={(e) => handleClickEmail(e)}
-                    startIcon={<EmailIcon />}
-                  >
-                    Editar
-                  </Button>
-                )}
-              </Grid>
-
-              <Grid item>
-                <Typography variant="h5">Fecha de nacimiento:</Typography>
-              </Grid>
-
-              <Grid item>
-                {!editiBirthday ? (
-                  <Typography variant="h6">{currentUser.birthday}</Typography>
-                ) : (
-                  <TextField
-                    helperText="Fecha de nacimiento"
-                    type="date"
-                    name="birthday"
-                    min="1900-01-01" max={yourDate}
-                    placeholder=""
-                    value={inputs.birthday}
-                    onChange={handleInputs}
-                  />
-                )}
-              </Grid>
-
-              <Grid item>
-                {!inputs.birthday && (
-                  <Button
-                    variant="outlined"
-                    onClick={(e) => handleClickBirthday(e)}
-                    startIcon={<CalendarMonthIcon />}
-                  >
-                    Editar
-                  </Button>
-                )}
-              </Grid>
-
-              <Grid item>
-                <Typography variant="h5">Nacionalidad:</Typography>
-              </Grid>
-
-              <Grid item>
-                {!editNationality ? (
-                  <Typography variant="h6">
-                    {currentUser.nationality}
-                  </Typography>
-                ) : (
-                  <TextField
-                  required
-                  select
-                  label="Nacionalidad"
-                  defaultValue=""
-                  helperText="Seleccione su nacionalidad"
-                    value={inputs.nationality}
-                    onChange={handleSelect}
-                  >
-                     {nationalities?.map((nationality) => (
-                    <MenuItem key={keyNationalities++}
-                      value={nationality}
+                <Grid
+                  item
+                  className={classes.middle}
+                >
+                  {image ?
+                    <Button
+                      color="success"
+                      size="small"
+                      variant="contained"
+                      onClick={handleImage}
                     >
-                      {nationality}
-                    </MenuItem>
-                  ))}
-                  </TextField>
-                )}
+                      Confirmar foto
+                    </Button>
+                    :
+                    <Button
+                      sx={{
+                        ml: 1,
+                        "&.MuiButtonBase-root:hover"
+                          :
+                        {
+                          bgcolor: "transparent"
+                        }
+                      }}
+                      variant='outlined'
+                      startIcon={<PhotoCamera />}
+                      color="primary"
+                      aria-label="upload picture"
+                      component="label">
+                      <input
+                        hidden
+                        accept="image/*"
+                        type="file"
+                        onChange={(e) => convertirBase64(e)}
+                      />
+                      Editar
+                    </Button>}
+                </Grid>
+              </Grid>
+ 
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              // spacing={30}
+              >
+
+                <Grid item>
+                  <Typography
+                    variant="h6"
+                    fontWeight='bold'
+                  >
+                    Tu nombre
+                  </Typography>
+                </Grid>
+
+                <Grid
+                  item
+                  className={classes.middle}
+                >
+                  {!editNames ? (
+                    <Typography>
+                      {`${currentUser.names} ${currentUser.lastNames}`}
+                    </Typography>
+                  ) : (
+                    <TextField
+                      variant="outlined"
+                      label="Nuevo nombre"
+                      type="text"
+                      name="names"
+                      value={inputs.names}
+                      onChange={(e) => handleInputs(e)}
+                    />
+                  )}
+                </Grid>
+
+                <Grid item>
+                  {!inputs.names && (
+                    <Button
+                      variant="outlined"
+                      onClick={(e) => handleClick(e)}
+                      startIcon={<PersonIcon />}
+                    >
+                      Editar
+                    </Button>
+                  )}
+                </Grid>
+
               </Grid>
 
-              <Grid item>
-                {!inputs.nationality && (
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              // spacing={30}
+              >
+
+                <Grid
+                  item
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight='bold'
+                  >
+                    Correo electronico
+                  </Typography>
+                </Grid>
+
+                <Grid item>
+                  {!editEmail ? (
+                    <Typography>{currentUser.email}</Typography>
+                  ) : (
+                    <TextField
+                      type="text"
+                      name="email"
+                      label="Nuevo email"
+                      value={inputs.email}
+                      onChange={handleInputs}
+                    />
+                  )}
+                </Grid>
+
+                <Grid item>
+                  {!inputs.email && (
+                    <Button
+                      variant="outlined"
+                      onClick={(e) => handleClickEmail(e)}
+                      startIcon={<EmailIcon />}
+                    >
+                      Editar
+                    </Button>
+                  )}
+                </Grid>
+              </Grid>
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              // spacing={30}
+              >
+
+                <Grid
+                  item
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight='bold'
+                  >
+                    Fecha de nacimiento
+                  </Typography>
+                </Grid>
+
+                <Grid item>
+                  {!editiBirthday ? (
+                    <Typography>
+                      {currentUser.birthday}
+                    </Typography>
+                  ) : (
+                    <TextField
+                      helperText="Fecha de nacimiento"
+                      type="date"
+                      name="birthday"
+                      min="1900-01-01"
+                      max={yourDate}
+                      placeholder=""
+                      value={inputs.birthday}
+                      onChange={handleInputs}
+                    />
+                  )}
+                </Grid>
+
+                <Grid item>
+                  {!inputs.birthday &&
+                    <Button
+                      variant="outlined"
+                      onClick={(e) => handleClickBirthday(e)}
+                      startIcon={<CalendarMonthIcon />}
+                    >
+                      Editar
+                    </Button>
+                  }
+                </Grid>
+              </Grid>
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              // spacing={30}
+              >
+
+                <Grid
+                  item
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight='bold'
+                  >
+                    Nacionalidad
+                  </Typography>
+                </Grid>
+
+                <Grid item>
+                  {!editNationality ? (
+                    <Typography>
+                      {currentUser.nationality}
+                    </Typography>
+                  ) : (
+                    <TextField
+                      required
+                      select
+                      label="Nacionalidad"
+                      defaultValue=""
+                      helperText="Seleccione su nacionalidad"
+                      value={inputs.nationality}
+                      onChange={handleSelect}
+                    >
+                      {nationalities?.map((nationality) => (
+                        <MenuItem key={keyNationalities++}
+                          value={nationality}
+                        >
+                          {nationality}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
+                </Grid>
+
+                <Grid item>
+                  {!inputs.nationality && (
+                    <Button
+                      variant="outlined"
+                      onClick={(e) => handleClickNationality(e)}
+                      startIcon={<PlaceIcon />}
+                    >
+                      Editar
+                    </Button>
+                  )}
+                </Grid>
+
+              </Grid>
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+
+                <Grid
+                  item
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight='bold'
+                  >
+                    Contraseña
+                  </Typography>
+                </Grid>
+
+                <Grid
+                  item
+                >
+                  <Typography>
+                    **********
+                  </Typography>
+                </Grid>
+
+                <Grid
+                  item
+                >
                   <Button
+                    href={`/private/change-password/${currentUser.id}`}
+                    startIcon={<PasswordIcon />}
                     variant="outlined"
-                    onClick={(e) => handleClickNationality(e)}
-                    startIcon={<PlaceIcon />}
+                    id="ButtonPassword"
                   >
                     Editar
                   </Button>
-                )}
+
+                </Grid>
+
               </Grid>
 
-              <Grid item>
-                <Typography variant="h5">Plan actual:</Typography>
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              // spacing={30}
+              >
+
+                <Grid
+                  item
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight='bold'
+                  >
+                    Plan actual
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Button variant="contained" href="/private/planes">
+                    {currentUser.plan?.name}
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item>
-              <Button variant="contained" href="/private/planes">
-                  {currentUser.plan?.name}
-              </Button>
+
+              <Grid
+                item
+              >
+
+                <Button
+                  href={`/private/delete-user/${currentUser.id}`}
+                  startIcon={<DeleteIcon />}
+                  variant="outlined"
+                  color="error"
+                  id="ButtonDelete"
+                >
+                  Borrar usuario
+                </Button>
+
               </Grid>
-              
-      
+
               <Grid item>
                 {inputs.names ||
-                inputs.email ||
-                inputs.birthday ||
-                inputs.nationality ? (
+                  inputs.email ||
+                  inputs.birthday ||
+                  inputs.nationality ? (
                   <Button
                     onClick={handleClickConfirm}
                     color="success"
@@ -455,6 +625,7 @@ const Profile = () => {
                 ) : null}
               </Grid>
             </Grid>
+
           </CardContent>
         </Card>
       </Grid>
@@ -476,35 +647,43 @@ const Profile = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={(e) => handleDelete(e)} autoFocus>Si, deseo eliminarla</Button>
-            <Button onClick={handleNo}>Cancelar</Button> 
+            <Button onClick={handleNo}>Cancelar</Button>
           </DialogActions>
         </Dialog>
-    </Grid>
-      
-      <Grid item >
-          <Dialog
-            open={open2}
-            onClose={handleClose2}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"¿ Desea realizar los cambios en tu perfil?"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Si continuas tus datos se modificaran con la nueva información que has colocado.
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={(e) => handleSubmit(e)} autoFocus>Si, quiero realizar los cambios</Button>
-              <Button onClick={handleNo2}>Cancelar</Button>
-            </DialogActions>
-          </Dialog>
       </Grid>
 
+      <Grid item >
+        <Dialog
+          open={open2}
+          onClose={handleClose2}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"¿ Desea realizar los cambios en tu perfil?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Si continuas tus datos se modificaran con la nueva información que has colocado.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={(e) => handleSubmit(e)} autoFocus>Si, quiero realizar los cambios</Button>
+            <Button onClick={handleNo2}>Cancelar</Button>
+          </DialogActions>
+        </Dialog>
+      </Grid>
     </Grid>
+    // </CardContent>
+    // </Card>
+
   );
 };
 
 export default Profile;
+
+const useStyles = makeStyles(() => ({
+  middle: {
+    justifyContent: 'center'
+  }
+}));
