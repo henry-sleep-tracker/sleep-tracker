@@ -163,6 +163,7 @@ export const getUserById = (id) => {
     }
   };
 };
+
 export const restoreUser = (email, password) => {
   return async function (dispatch) {
     try {
@@ -189,24 +190,32 @@ export const restoreUser = (email, password) => {
     }
   };
 };
-export const restoreGoogleUser = (email) => {
+
+export const restoreUserByJustEmail = (email) => {
   return async function (dispatch) {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_DEFAULT_URL}/user/${email}`
       );
       const restoredUser = await axios.post(
-        `${process.env.REACT_APP_DEFAULT_URL}/user/restoreGoogleUser/${email}`
+        `${process.env.REACT_APP_DEFAULT_URL}/user/restoreUserByJustEmail/${email}`
       );
-      return dispatch({
-        type: GET_CURRENT_USER,
-        payload: restoredUser.data,
-      });
+      return restoredUser;
     } catch (error) {
       console.log(error);
     }
   };
 };
+
+export const getCurrentUser = (user) => {
+  return async function (dispatch) {
+    return dispatch({
+      type: GET_CURRENT_USER,
+      payload: user,
+    });
+  };
+};
+
 export function logInUser(email, password, setOpen) {
   if (!email && !password) {
     return message.warn("Completa los campos para ingresar");
