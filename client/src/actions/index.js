@@ -99,14 +99,22 @@ export function sendRecoveryEmail(email) {
       } else {
         const response = await userByEmail.json();
         const data = { email: email, link: response };
-        emailjs.send(serviceId, templateId, data, Public_Key).then(
-          (result) => {
-            console.log(result.text);
-          },
-          (error) => {
-            console.log("error.text:", error);
-          }
-        );
+        emailjs
+          .send(serviceId, templateId, data, Public_Key)
+          .then(
+            (result) => {
+              console.log(result.text);
+            },
+            (error) => {
+              console.log("error.text:", error);
+            }
+          )
+          .then(
+            message.success(
+              "Revise su correo electronico y entre al link",
+              4000
+            )
+          );
         return response;
       }
     } catch (error) {
