@@ -9,7 +9,6 @@ import {
   Tooltip,
   Legend,
   ComposedChart,
-  ResponsiveContainer,
 } from "recharts";
 import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
 
@@ -208,94 +207,91 @@ export default function CombinedGraph() {
               flex={4}
               p={2}
             >
-              <ResponsiveContainer width={windowWidth - 150} height={500}>
-                <ComposedChart
-                  width={"10rem"}
-                  height={"40rem"}
-                  data={combinedObjects}
-                  margin={{
-                    top: 20,
-                    right: 20,
-                    bottom: 20,
-                    left: 20,
+              <ComposedChart
+                width={windowWidth - 150}
+                height={500}
+                data={combinedObjects}
+                margin={{
+                  top: 20,
+                  right: 20,
+                  bottom: 20,
+                  left: 20,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis yAxisId="left" />
+                <YAxis yAxisId="right" orientation="right" />
+                <Tooltip
+                  content={<CustomTooltip />}
+                  itemStyle={{
+                    textTransform: "capitalize",
+                    textAlign: "left",
                   }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis yAxisId="left" />
-                  <YAxis yAxisId="right" orientation="right" />
-                  <Tooltip
-                    content={<CustomTooltip />}
-                    itemStyle={{
-                      textTransform: "capitalize",
-                      textAlign: "left",
-                    }}
-                    wrapperStyle={{
-                      backgroundColor: "white",
-                      padding: "0.5rem",
-                    }}
-                  />
-                  <Legend
-                    onClick={handleClick}
-                    layout="vertical"
-                    align="right"
-                    verticalAlign="middle"
-                  />
-                  <Bar
-                    yAxisId="right"
-                    type="monotone"
-                    dataKey="ejercicio"
-                    onMouseEnter={() => (tooltip = "ejercicio")}
-                    onMouseLeave={() => (tooltip = null)}
-                    name="Ejercicio"
-                    fill="#3f51b5"
-                    fillOpacity={opacity.ejercicio}
-                    minPointSize={2}
-                    barSize={20}
-                    unit=" min"
-                  />
-                  <Bar
-                    yAxisId="right"
-                    type="monotone"
-                    dataKey="merienda"
-                    onMouseEnter={() => (tooltip = "merienda")}
-                    onMouseLeave={() => (tooltip = null)}
-                    name="Hora de cena"
-                    fill="#4db6ac"
-                    fillOpacity={opacity.merienda}
-                    barSize={20}
-                    unit=" hrs"
-                  />
-                  <Bar
-                    yAxisId="right"
-                    type="monotone"
-                    dataKey="alcohol"
-                    onMouseEnter={() => (tooltip = "alcohol")}
-                    onMouseLeave={() => (tooltip = null)}
-                    name="Alcohol"
-                    barSize={20}
-                    fill="#757de8"
-                    fillOpacity={opacity.alcohol}
-                    minPointSize={2}
-                    unit=" copas"
-                  />
-                  <Bar
-                    yAxisId="right"
-                    type="monotone"
-                    dataKey="cafe"
-                    onMouseEnter={() => (tooltip = "cafe")}
-                    onMouseLeave={() => (tooltip = null)}
-                    name="Café"
-                    barSize={20}
-                    fill="#90caf9"
-                    fillOpacity={opacity.cafe}
-                    minPointSize={2}
-                    unit=" tazas"
-                  />
-                  {ranges?.length && lines()}
-                </ComposedChart>
-              </ResponsiveContainer>
-
+                  wrapperStyle={{
+                    backgroundColor: "white",
+                    padding: "0.5rem",
+                  }}
+                />
+                <Legend
+                  onClick={handleClick}
+                  layout="vertical"
+                  align="right"
+                  verticalAlign="middle"
+                />
+                <Bar
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="ejercicio"
+                  onMouseEnter={() => (tooltip = "ejercicio")}
+                  onMouseLeave={() => (tooltip = null)}
+                  name="Ejercicio"
+                  fill="#3f51b5"
+                  fillOpacity={opacity.ejercicio}
+                  minPointSize={2}
+                  barSize={20}
+                  unit=" min"
+                />
+                <Bar
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="merienda"
+                  onMouseEnter={() => (tooltip = "merienda")}
+                  onMouseLeave={() => (tooltip = null)}
+                  name="Hora de cena"
+                  fill="#4db6ac"
+                  fillOpacity={opacity.merienda}
+                  barSize={20}
+                  unit=" hrs"
+                />
+                <Bar
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="alcohol"
+                  onMouseEnter={() => (tooltip = "alcohol")}
+                  onMouseLeave={() => (tooltip = null)}
+                  name="Alcohol"
+                  barSize={20}
+                  fill="#757de8"
+                  fillOpacity={opacity.alcohol}
+                  minPointSize={2}
+                  unit=" copas"
+                />
+                <Bar
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="cafe"
+                  onMouseEnter={() => (tooltip = "cafe")}
+                  onMouseLeave={() => (tooltip = null)}
+                  name="Café"
+                  barSize={20}
+                  fill="#90caf9"
+                  fillOpacity={opacity.cafe}
+                  minPointSize={2}
+                  unit=" tazas"
+                />
+                {ranges?.length && lines()}
+              </ComposedChart>
               <Grid item>
                 <Button onClick={handleReset} variant="contained">
                   Reset grafica
