@@ -8,7 +8,6 @@ import {
   Tooltip,
   Legend,
   LineChart,
-  ResponsiveContainer,
 } from "recharts";
 import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
 
@@ -155,45 +154,42 @@ export default function DualGraph() {
               flex={4}
               p={2}
             >
-              <ResponsiveContainer width={windowWidth - 150} height={500}>
-                <LineChart
-                  width={500}
-                  height={400}
-                  data={ranges}
-                  margin={{
-                    top: 20,
-                    right: 20,
-                    bottom: 20,
-                    left: 20,
+              <LineChart
+                width={windowWidth - 150}
+                height={500}
+                data={ranges}
+                margin={{
+                  top: 20,
+                  right: 20,
+                  bottom: 20,
+                  left: 20,
+                }}
+              >
+                <CartesianGrid stroke="#f5f5f5" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip
+                  content={<CustomTooltip />}
+                  itemStyle={{
+                    textTransform: "capitalize",
+                    textAlign: "left",
                   }}
-                >
-                  <CartesianGrid stroke="#f5f5f5" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip
-                    content={<CustomTooltip />}
-                    itemStyle={{
-                      textTransform: "capitalize",
-                      textAlign: "left",
-                    }}
-                    wrapperStyle={{
-                      backgroundColor: "white",
-                      padding: "0.5rem",
-                    }}
-                  />
-                  <Legend
-                    onClick={handleClick}
-                    layout="vertical"
-                    align="right"
-                    verticalAlign="middle"
-                    wrapperStyle={{
-                      paddingLeft: "2rem",
-                    }}
-                  />
-                  {ranges?.length && lines()}
-                </LineChart>
-              </ResponsiveContainer>
-
+                  wrapperStyle={{
+                    backgroundColor: "white",
+                    padding: "0.5rem",
+                  }}
+                />
+                <Legend
+                  onClick={handleClick}
+                  layout="vertical"
+                  align="right"
+                  verticalAlign="middle"
+                  wrapperStyle={{
+                    paddingLeft: "2rem",
+                  }}
+                />
+                {ranges?.length && lines()}
+              </LineChart>
               <Grid item>
                 <Button onClick={handleReset} variant="contained">
                   Reset grafica
