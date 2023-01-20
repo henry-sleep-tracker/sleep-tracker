@@ -46,6 +46,14 @@ const Pricing = () => {
     window.location.href = response.url; // obtener la url y redirigil al usuario a la url
   };
 
+  const priceProps = [{
+    description1: "Registro de actividad fisica",
+    description2: "Registro de consumos diarios( alimentos y bebidas)",
+    description3: "Información de sueño conseguido diario y semanal",
+    description4: "Exporta tu información completa en formato PDF"
+  }]
+
+
   return (
     <div className="container">
       <header>
@@ -59,30 +67,32 @@ const Pricing = () => {
       </header>
       <main>
         <div className="row row-col-1 row-cols-md-3">
-          {!currentUser.plan?.name ? prices.map((price) => (
-                <div className="col">
-                  <div className="card text-center">
-                    <div className="card-header bg-dark text-white">
-                      <h4 className="fw-normal">{price.nickname}</h4>
+          {!currentUser.plan?.name ? prices.map((price, index) => (
+                <div className="col" key={`basico-${index}`}>
+                  <div className="card text-center" key={`basico-${index}`}>
+                    <div className="card-header bg-dark text-white" key={`basico-${index}`}>
+                      <h4 className="fw-normal" key={`basico-${index}`}>{price.nickname}</h4>
                     </div>
-                    <div className="card-body">
-                      <h1 className="card-title">
+                    <div className="card-body" key={`basico-${index}`}>
+                      <h1 className="card-title" key={`basico-${index}`}>
                         ${price.unit_amount / 100}
-                        <small className="text-muted fw-light">
+                        <small className="text-muted fw-light" key={`basico-${index}`}>
                           /{price.recurring.interval}
                         </small>
                       </h1>
-                      <ul className="py-3">
-                        <li>Registro de actividad fisica</li>
-                        <li>
-                          Registro de consumos diarios( alimentos y bebidas)
+                      <ul className="py-3" key={`basico-${index}`}>
+                        <li key={`basico-${index}`}>Registro de actividad fisica</li>
+                        <li key={`basico-${index}`}>
+                        Registro de consumos diarios( alimentos y bebidas)
                         </li>
-                        <li>
-                          Información de sueño conseguido diario y semanal
+                        <li key={`basico-${index}`}>
+                        Información de sueño conseguido diario y semanal
                         </li>
-                        <li>Exporta tu información completa en formato PDF</li>
+                        <li key={`basico-${index}`}>Exporta tu información completa en formato PDF</li>
+           
                       </ul>
                       <button
+                        key={`basico-${index}`}
                         className={style.buttonPay}
                         onClick={() => createSession(currentUser, price.id)}
                       >
@@ -92,68 +102,72 @@ const Pricing = () => {
                   </div>
                 </div>
               ))
-            : currentUser.plan?.name === "Basico" ? prices.slice(0).map((price) => (
-                <div className="col">
-                  <div className="card text-center">
-                    <div className="card-header bg-dark text-white">
-                      <h4 className="fw-normal">{price.nickname}</h4>
-                    </div>
-                    <div className="card-body">
-                      <h1 className="card-title">
-                        ${price.unit_amount / 100}
-                        <small className="text-muted fw-light">
-                          /{price.recurring.interval}
-                        </small>
-                      </h1>
-                      <ul className="py-3">
-                        <li>Registro de actividad fisica</li>
-                        <li>
-                          Registro de consumos diarios( alimentos y bebidas)
-                        </li>
-                        <li>
-                          Información de sueño conseguido diario y semanal
-                        </li>
-                        <li>Exporta tu información completa en formato PDF</li>
-                      </ul>
-                      <button
-                        className={style.buttonPay}
-                        onClick={() => createSession(currentUser, price.id)}
-                      >
-                        Comprar
-                      </button>
+            : currentUser.plan?.name === "Basico" ? prices.slice(0).map((price, index) => (
+              <div className="col" key={`estandar-${index}`}>
+              <div className="card text-center" key={`estandar1-${index}`}>
+                <div className="card-header bg-dark text-white" key={`estandar2-${index}`}>
+                  <h4 className="fw-normal" key={`estandar3-${index}`}>{price.nickname}</h4>
+                </div>
+                <div className="card-body" key={`estandar4-${index}`}>
+                  <h1 className="card-title" key={`estandar5-${index}`}>
+                    ${price.unit_amount / 100}
+                    <small className="text-muted fw-light" key={`estandar6-${index}`}>
+                      /{price.recurring.interval}
+                    </small>
+                  </h1>
+                  <ul className="py-3" key={`estandar-${index}`}>
+                    <li key={`estandar7-${index}`}>Registro de actividad fisica</li>
+                    <li key={`estandar8-${index}`}>
+                    Registro de consumos diarios( alimentos y bebidas)
+                    </li>
+                    <li key={`estandar9-${index}`}>
+                    Información de sueño conseguido diario y semanal
+                    </li>
+                    <li key={`estandar10-${index}`}>Exporta tu información completa en formato PDF</li>
+       
+                  </ul>
+                  <button
+                    key={`estandar11-${index}`}
+                    className={style.buttonPay}
+                    onClick={() => createSession(currentUser, price.id)}
+                  >
+                    Comprar
+                  </button>
                     </div>
                   </div>
                 </div>
               ))
-            : currentUser.plan?.name === "Estandar" ? prices.slice(1).map((price) => (
-                <div className="col">
-                  <div className="card text-center">
-                    <div className="card-header bg-dark text-white">
-                      <h4 className="fw-normal">{price.nickname}</h4>
-                    </div>
-                    <div className="card-body">
-                      <h1 className="card-title">
-                        ${price.unit_amount / 100}
-                        <small className="text-muted fw-light">
-                          /{price.recurring.interval}
-                        </small>
-                      </h1>
-                      <ul className="py-3">
-                        <li>Registro de actividad fisica</li>
-                        <li>
-                          Registro de consumos diarios( alimentos y bebidas)
-                        </li>
-                        <li>
-                          Información de sueño conseguido diario y semanal
-                        </li>
-                        <li>Exporta tu información completa en formato PDF</li>
-                      </ul>
-                      <button
-                        className={style.buttonPay}
-                        onClick={() => createSession(currentUser, price.id)}
-                      >
-                        Comprar
-                      </button>
+            : currentUser.plan?.name === "Estandar" ? prices.slice(1).map((price, index) => (
+              <div className="col" key={`premium-${index}`}>
+              <div className="card text-center" key={`premium-${index}`}>
+                <div className="card-header bg-dark text-white" key={`premium-${index}`}>
+                  <h4 className="fw-normal" key={`premium-${index}`}>{price.nickname}</h4>
+                </div>
+                <div className="card-body" key={`premium-${index}`}>
+                  <h1 className="card-title" key={`premium-${index}`}>
+                    ${price.unit_amount / 100}
+                    <small className="text-muted fw-light" key={`premium-${index}`}>
+                      /{price.recurring.interval}
+                    </small>
+                  </h1>
+                  <ul className="py-3" key={`premium-${index}`}>
+                    <li key={`premium-${index}`}>Registro de actividad fisica</li>
+                    <li key={`premium-${index}`}>
+                    Registro de consumos diarios( alimentos y bebidas)
+                    </li>
+                    <li key={`premium-${index}`}>
+                    Información de sueño conseguido diario y semanal
+                    </li>
+                    <li key={`premium-${index}`}>Exporta tu información completa en formato PDF</li>
+       
+                  </ul>
+                  <button
+                    key={`premium-${index}`}
+                    className={style.buttonPay}
+                    onClick={() => createSession(currentUser, price.id)}
+                  >
+                    Comprar
+                  </button>
                     </div>
                   </div>
                 </div>
