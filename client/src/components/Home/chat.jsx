@@ -3,30 +3,10 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import io from 'socket.io-client';
 import './chat.css';
-import { Container, Divider, FormControl, Grid, IconButton, List, ListItem, ListItemText, Paper, TextField, Typography, Button } from "@mui/material";
+import { Container, Divider,  Grid,  List, ListItem,  Paper, TextField, Typography, Button } from "@mui/material";
 import { Box } from "@mui/system"
 import SendIcon from '@mui/icons-material/Send';
 
-
-
-
-
-// const useStyles = makeStyles(() =>
-//   createStyles({
-//     wrapForm : {
-//         display: "flex",
-//        justifyContent: "center",
-//         width: "85%",
-//         margin:'0'
-//     },
-//     wrapText  : {
-//         width: "70%",
-//     },
-//     button: {
-//       height: '180%'
-//     },
-//   })
-// );
 
 const socket = io(`${process.env.REACT_APP_DEFAULT_URL}`);
 
@@ -74,7 +54,7 @@ const Chat = () => {
 
 <List 
 id="chat-window-messages"
-// id="chatbox" 
+
 >
        {messages.map((message, index) => (
         <ListItem key={index} 
