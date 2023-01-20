@@ -38,3 +38,19 @@ export async function updateUsers(updatedFields, id) {
     return 0;
   }
 }
+
+export function getNationalitiesResponse(nationalities) {
+  return {
+    type: "GET_NATIONALITIES_RESPONSE",
+    payload: nationalities,
+  };
+}
+
+export function getNationalities() {
+  return function (dispatch) {
+   fetch(`${process.env.REACT_APP_DEFAULT_URL}/users/nationalities`)
+      .then( r => r.json())
+      .then( nationalities => dispatch(getNationalitiesResponse(nationalities)))
+      .catch((error) => console.log(error));
+  };
+}

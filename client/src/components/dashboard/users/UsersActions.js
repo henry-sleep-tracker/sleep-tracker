@@ -13,7 +13,7 @@ import { restoreUserByJustEmail } from "../../../actions/index";
 import { deleteUser } from "../../../actions/profileActions";
 import { USER_ID } from "../../../actions/constants";
 
-const UsersActions = ({ params, rowId, setRowId, pageState }) => {
+const UsersActions = ({ params, rowId, setRowId, pageState, filters }) => {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
@@ -44,7 +44,7 @@ const UsersActions = ({ params, rowId, setRowId, pageState }) => {
       if (result) {
         setSuccess(true);
         setRowId(null);
-        dispatch(getUsers(pageState.page, pageState.pageSize));
+        dispatch(getUsers(pageState.page, pageState.pageSize, filters));
       }
     } else {
       //alert('Nombre y Apellidos son requeridos');
@@ -54,17 +54,17 @@ const UsersActions = ({ params, rowId, setRowId, pageState }) => {
   };
   const restore = async () => {
     const result = dispatch(restoreUserByJustEmail(email)).then((result) => {
-      message.success("El usuario ha sido activado.", 3000);
-      setRowId(null);
-      dispatch(getUsers(pageState.page, pageState.pageSize));
+    message.success("El usuario ha sido activado.", 3000);
+    setRowId(null);
+    dispatch(getUsers(pageState.page, pageState.pageSize, filters));
     });
   };
   const eliminate = async () => {
     const idAdmin = window.localStorage.getItem(USER_ID);
     const result = dispatch(deleteUser(id, idAdmin)).then((result) => {
-      message.error("El usuario ha sido desactivado.", 3000);
-      setRowId(null);
-      dispatch(getUsers(pageState.page, pageState.pageSize));
+    message.error("El usuario ha sido desactivado.", 3000);
+    setRowId(null);
+    dispatch(getUsers(pageState.page, pageState.pageSize, filters));
     });
   };
 
@@ -102,7 +102,7 @@ const UsersActions = ({ params, rowId, setRowId, pageState }) => {
             bgcolor: green[500],
             "&:hover": { bgcolor: green[700] },
           }}
-        >
+          >
           <Check />
         </Fab>
       ) : (
@@ -111,21 +111,21 @@ const UsersActions = ({ params, rowId, setRowId, pageState }) => {
           sx={{ width: 40, height: 40 }}
           disabled={params.id !== rowId || loading}
           onClick={handleSubmit}
-        >
+          >
           <Save />
+          {loading && (
+            <CircularProgress
+              size={52}
+              sx={{
+                color: green[500],
+                position: "absolute",
+                top: -6,
+                left: -6,
+                zIndex: 1,
+              }}
+            />
+          )}
         </Fab>
-      )}
-      {loading && (
-        <CircularProgress
-          size={52}
-          sx={{
-            color: green[500],
-            position: "absolute",
-            top: -6,
-            left: -6,
-            zIndex: 1,
-          }}
-        />
       )}
     </Box>
   );
