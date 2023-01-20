@@ -1,6 +1,6 @@
-import { Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
+import { Card, CardContent, Grid, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,7 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-const Collection = () => {
+const Resume = () => {
   const records = useSelector((state) => state?.record.recordsUser);
 
   let consumos = [];
@@ -75,7 +75,7 @@ const Collection = () => {
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
+      backgroundColor: " #3f50b5",
       color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
@@ -117,7 +117,7 @@ const Collection = () => {
   ];
 
   return (
-    <Card className="titleresume" variant="outlined">
+    <Card sx={{ width: "30rem", height: 442, boxShadow: 2 }}>
       <CardContent>
         <Grid
           container
@@ -125,17 +125,26 @@ const Collection = () => {
           alignItems="center"
           direction="column"
           spacing={1}
-          flex={4}
-          p={2}
+          flex={2}
+          p={1}
         >
           <Grid item>
-            <Typography variant="h4">
-              Registro de consumo del:
-              <p>
-                {consumos[0]?.Date
-                  ? consumos[0].Date
-                  : "No hay registro de ese día"}
-              </p>
+            <Typography sx={{ fontSize: 24, fontWeight: "bold" }}>
+              Registro de consumo:
+            </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                fontSize: 16,
+                textAlign: "center",
+                height: "3rem",
+                paddingTop: "0.6rem",
+              }}
+            >
+              {consumos[0]?.Date
+                ? consumos[0].Date
+                : "No hay registro de ese día"}
             </Typography>
           </Grid>
           <Grid item>
@@ -168,4 +177,4 @@ const Collection = () => {
   );
 };
 
-export default Collection;
+export default Resume;

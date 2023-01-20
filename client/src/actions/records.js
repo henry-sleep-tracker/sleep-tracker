@@ -1,4 +1,5 @@
 import axios from "axios";
+import { message } from "react-message-popup";
 
 export const GET_RECORDS_BY_ID_AND_DATE = "GET_RECORDS_BY_ID_AND_DATE";
 export const GET_ACTIVITIES = "GET_ACTIVITIES";
@@ -35,7 +36,7 @@ export const getRecordByIdDate = (id, date) => {
         payload: resRecord.data,
       });
     } catch (err) {
-      console.log(err);
+      message.error(`Error ${err}`, 2000);
     }
   };
 };
@@ -51,7 +52,7 @@ export const getActivities = () => {
         payload: resActivities.data,
       });
     } catch (err) {
-      alert(`${err.response.data} try again`);
+      message.error(`Error: ${err.response.data}`, 2000);
     }
   };
 };
@@ -67,7 +68,7 @@ export const getActivitiesByUser = userId => {
         payload: resActivities.data,
       });
     } catch (err) {
-      alert(`${err.response.data} try again`);
+      message.error(`Error: ${err.response.data}`, 2000);
     }
   };
 };
@@ -83,7 +84,7 @@ export const getLastIdActivity = () => {
         payload: resActivities.data.length + 1,
       });
     } catch (err) {
-      alert(`${err.response.data} try again`);
+      message.error(`Error: ${err.response.data}`, 2000);
     }
   };
 };
@@ -99,7 +100,7 @@ export const getCoffeeSizes = () => {
         payload: resCoffeeSizes.data,
       });
     } catch (err) {
-      alert(`${err.response.data} try again`);
+      message.error(`Error: ${err.response.data}`, 2000);
     }
   };
 };
@@ -115,7 +116,7 @@ export const getCoffeeSizesByUser = userId => {
         payload: resCoffeeSizes.data,
       });
     } catch (err) {
-      alert(`${err.response.data} try again`);
+      message.error(`Error: ${err.response.data}`, 2000);
     }
   };
 };
@@ -131,7 +132,7 @@ export const getLastIdCoffeSize = () => {
         payload: resCoffeeSizes.data.length + 1,
       });
     } catch (err) {
-      alert(`${err.response.data} try again`);
+      message.error(`Error: ${err.response.data}`, 2000);
     }
   };
 };
@@ -145,7 +146,7 @@ export const getDrinks = () => {
         payload: resDrinks.data,
       });
     } catch (err) {
-      alert(`${err.response.data} try again`);
+      message.error(`Error: ${err.response.data}`, 2000);
     }
   };
 };
@@ -161,7 +162,7 @@ export const getDrinksByUser = userId => {
         payload: resDrinks.data,
       });
     } catch (err) {
-      alert(`${err.response.data} try again`);
+      message.error(`Error: ${err.response.data}`, 2000);
     }
   };
 };
@@ -175,7 +176,7 @@ export const getLastIdDrink = () => {
         payload: resDrinks.data.length + 1,
       });
     } catch (err) {
-      alert(`${err.response.data} try again`);
+      message.error(`Error: ${err.response.data}`, 2000);
     }
   };
 };

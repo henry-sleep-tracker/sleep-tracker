@@ -221,7 +221,8 @@ const Profile = () => {
       >
         <Typography variant="h2">Perfil</Typography>
       </Grid>
-<hr/>
+
+
       <Grid item>
         <Card
           variant="outlined"
@@ -285,11 +286,10 @@ const Profile = () => {
                   {image ?
                     <Button
                       color="success"
-                      size="small"
                       variant="contained"
                       onClick={handleImage}
                     >
-                      Confirmar foto
+                      Confirme
                     </Button>
                     :
                     <Button
@@ -316,7 +316,7 @@ const Profile = () => {
                     </Button>}
                 </Grid>
               </Grid>
- 
+
               <Grid
                 container
                 direction="row"

@@ -1,17 +1,17 @@
 import axios from "axios";
+import { message } from "react-message-popup";
 
 export const postComment = (payload) => {
   return async () => {
     try {
       const json = await axios.post("/postcomment", payload);
-      alert("Comentario registrado exitosamente");
+      message.error("Comentario registrado exitosamente", 2500);
       return json;
     } catch (error) {
-      alert("Error al registrar comentario");
+      message.error("Error al registrar comentario", 2500);
       console.log(error);
     }
   };
 };
-
 
 export default postComment;

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MobileStepper from "@mui/material/MobileStepper";
-import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
@@ -72,62 +71,71 @@ function Swipeable() {
   };
 
   return (
-    <Card variant="outlined">
+    <Card sx={{ boxShadow: 2 }}>
       <CardContent>
         <Grid
           container
+          direction="column"
           justifyContent="center"
           alignItems="center"
-          direction="column"
-          spacing={1}
-          flex={4}
-          p={2}
         >
           <Grid item>
-            <Typography variant="h4">Tips para dormir mejor</Typography>
-          </Grid>
-          <Grid item sx={{ width: { md: 500, xs: 300 } }}>
-            <SwipeableViews
-              axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-              index={activeStep}
-              onChangeIndex={handleStepChange}
-              enableMouseEvents
+            <Typography
+              sx={{ fontSize: 24, fontWeight: "bold", padding: "0.8rem" }}
             >
-              {tips.map((step, index) => (
-                <div key={`step-${index}`}>
-                  {Math.abs(activeStep - index) <= 2 ? (
-                    <Box
-                      component="img"
-                      sx={{
-                        height: { md: 250, xs: 200 },
-                        width: { md: 400, xs: 250 },
-                        display: "block",
-                        borderRadius: "4px",
-                      }}
-                      src={step.im}
-                      alt={step.tip}
-                    />
-                  ) : null}
-                </div>
-              ))}
-            </SwipeableViews>
+              Tips para dormir mejor
+            </Typography>
+          </Grid>
+          <Grid>
+            <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+              <SwipeableViews
+                axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+                index={activeStep}
+                onChangeIndex={handleStepChange}
+                enableMouseEvents
+              >
+                {tips.map((step, index) => (
+                  <div
+                    key={`step-${index}`}
+                    style={{
+                      overflow: "hidden",
+                      height: "230px",
+                      maxHeight: "230px",
+                    }}
+                  >
+                    {Math.abs(activeStep - index) <= 2 ? (
+                      <Box
+                        component="img"
+                        sx={{
+                          height: "auto",
+                          display: "block",
+                          maxWidth: 400,
+                          overflow: "hidden",
+                          width: "100%",
+                        }}
+                        src={step.im}
+                        alt={step.tip}
+                      />
+                    ) : null}
+                  </div>
+                ))}
+              </SwipeableViews>
+            </Box>
           </Grid>
 
           <Grid item>
-            <Paper
-              square
-              elevation={0}
+            <Typography
+              variant="body2"
+              color="text.secondary"
               sx={{
-                display: "flex",
-                alignItems: "center",
-                height: 50,
-                pl: 2,
-                bgcolor: "background.default",
-                alignText: "center",
+                fontSize: 16,
+                textAlign: "center",
+                height: "4rem",
+                paddingTop: "20px",
               }}
             >
-              <Typography fontSize="16px">{tips[activeStep].tip}</Typography>
-            </Paper>
+              {tips[activeStep].tip}
+            </Typography>
           </Grid>
           <Grid item>
             <MobileStepper

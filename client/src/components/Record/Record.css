@@ -16,35 +16,15 @@ select {
   margin-right: 0.3rem;
 }
 
-.asterisk {
-  color: red;
-}
-
 .link {
   text-decoration: none;
 }
 
 .x_container {
   display: flex;
-  align-items: center;
   justify-content: flex-end;
-}
-
-.x {
-  margin: 0;
-  width: 2.5rem;
-  padding: 0.2rem;
-  border: solid black 0.2rem;
-  border-radius: 0.2rem;
-  background-color: black;
-  color: white;
-  cursor: default;
-  text-align: center;
-}
-
-.x:hover {
-  background-color: red;
-  transition: 0.5s;
+  margin-top: 0px;
+  margin-bottom: 20px;
 }
 
 .div_head {
@@ -75,49 +55,26 @@ h2 {
   margin-bottom: 3rem;
   border-radius: 0.3rem;
   padding: 3rem;
-  background-color: #3f50b5;
-  color: white
+  padding-top: 20px;
+  background-color: white/* #3f50b5 */;
+  color: black
 }
 
 .general_info_container {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-}
-
-.general_info_container input {
-  width: 10.5rem;
-  margin-left: 0.3rem;
-  margin-right: 0.5rem;
-}
-
-.general_info_container h4 {
-  margin-bottom: 0.8rem;
-  margin-top: 0.8rem;
+  justify-content:space-between;
 }
 
 .general_info_container textarea {
+  width: 100%;
   margin-top: 0;
 }
 
-.date_record_container,
-.time_meal_container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1rem;
-}
-
-.date_record_container {
-  margin-right: 1.5rem;
-}
-
-.time_meal_container {
-  margin-left: 1.5rem;
-}
-
 .meal_section {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -165,13 +122,14 @@ h2 {
 }
 
 .sleep_container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 1rem;
 }
 
-.sleep_container h2 {
+.sleep_container h2,h6 {
   margin-bottom: 0.8rem;
   margin-top: 0.8rem;
   cursor: default;
@@ -183,25 +141,18 @@ h2 {
   align-items: center;
 }
 
-.sleep_section input {
-  width: 8rem;
-  margin-left: 0.3rem;
-  margin-right: 1rem;
-}
-
-.sleep_section button {
-  margin-left: 1rem;
-}
-
-.sleep_section_input {
-  margin-right: 2rem;
+.sleep_section,
+.date_time_section {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .sleep_result {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1.5rem;
+  margin-left: 21%;
+  margin-top: 5%;
 }
 
 .popup_ico {
@@ -248,7 +199,7 @@ h2 {
   border-radius: 0.4rem;
   margin: 0.3rem;
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-  background-color: rgb(24, 26, 27);
+  background-color: #3f50b5/* rgb(24, 26, 27) */;
   color: white;
 }
 
@@ -334,7 +285,6 @@ h2 {
   margin-top: 1rem;
   margin-right: 0.5rem;
   width: fit-content;
-  /* border: solid black 0.15rem; */
   border-radius: 0.3rem;
   padding: 0.3rem;
   background-color: rgb(33, 150, 243);
@@ -426,6 +376,11 @@ input {
   align-items: center;
   justify-content: center;
   margin-top: 1rem;
+}
+
+.select_popup {
+  height: 30px;
+  width: 30%;
 }
 
 .add_item {

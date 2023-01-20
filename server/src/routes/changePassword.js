@@ -7,8 +7,6 @@ router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { newPassword } = req.body;
-    console.log("CHANGE PASSWORD ID", id);
-    console.log("NEW PASSWORD", newPassword);
     if (!id || !newPassword) {
       return res.status(428).send("Falta enviar datos obligatorios");
     }

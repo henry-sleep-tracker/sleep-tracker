@@ -7,6 +7,11 @@ import {
 import axios from "axios";
 import { message } from "react-message-popup";
 const emailjs = require("emailjs-com");
+// const { EMAILJS_TEMPLATE_ID, EMAILJS_SERVICE_ID, EMAILJS_PUBLIC_ID } =
+//   process.env;
+// const templateId = EMAILJS_TEMPLATE_ID;
+// const serviceId = EMAILJS_SERVICE_ID;
+// const Public_Key = EMAILJS_PUBLIC_ID;
 const templateId = "template_upsqgx4";
 const serviceId = "service_ts4dsnk";
 const Public_Key = "DkkyjnDmwCqT4qOL1";
@@ -18,7 +23,7 @@ const getUsersPlanExpDate = require("./plan");
 const nullUser = {
   id: 0,
   isAdmin: false,
-  isActive: false,
+  hasUsedFreePlan: false,
   email: "",
   hashedPassword: "",
   names: "",
@@ -26,6 +31,10 @@ const nullUser = {
   nationality: "",
   birthday: "",
   lastConnection: "",
+  stripeCustomerId: "",
+  image: "",
+  createdAt: "",
+  updatedAt: "",
 };
 
 export const createToken = (code, userId) => async (dispatch) => {
@@ -82,18 +91,24 @@ export function sendRecoveryEmail(email) {
           body: JSON.stringify({ email: email }),
         }
       );
-      const response = await userByEmail.json();
-      const data = { email: email, link: response };
-      emailjs.send(serviceId, templateId, data, Public_Key).then(
-        (result) => {
-          console.log("result", result);
-          console.log(result.text);
-        },
-        (error) => {
-          console.log("error.text:", error);
-        }
-      );
-      return response;
+      if (userByEmail.status === 202) {
+        message.error(
+          "El usuario no esta registrado en la base de datos.",
+          3000
+        );
+      } else {
+        const response = await userByEmail.json();
+        const data = { email: email, link: response };
+        emailjs.send(serviceId, templateId, data, Public_Key).then(
+          (result) => {
+            console.log(result.text);
+          },
+          (error) => {
+            console.log("error.text:", error);
+          }
+        );
+        return response;
+      }
     } catch (error) {
       console.log(
         "El error client actions sendRecoveryEmail es:",
@@ -174,9 +189,25 @@ export const restoreUser = (email, password) => {
     }
   };
 };
+export const restoreGoogleUser = (email) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_DEFAULT_URL}/user/${email}`
+      );
+      const restoredUser = await axios.post(
+        `${process.env.REACT_APP_DEFAULT_URL}/user/restoreGoogleUser/${email}`
+      );
+      return dispatch({
+        type: GET_CURRENT_USER,
+        payload: restoredUser.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
 export function logInUser(email, password, setOpen) {
-  console.log("check", email, password, setOpen);
-
   if (!email && !password) {
     return message.warn("Completa los campos para ingresar");
   }
@@ -201,7 +232,6 @@ export function logInUser(email, password, setOpen) {
         }
       );
       const userFound = await response.json();
-      console.log("userFound", response);
       if (response.status === 204) {
         return dispatch({
           type: GET_CURRENT_USER,
@@ -219,6 +249,15 @@ export function logInUser(email, password, setOpen) {
       console.log(error);
       message.error("correo/contraseña incorrectos", 2500);
     }
+  };
+}
+
+export function cleanUser() {
+  return async function (dispatch) {
+    return dispatch({
+      type: GET_CURRENT_USER,
+      payload: "",
+    });
   };
 }
 
@@ -248,7 +287,7 @@ export function cleanExpDate() {
   };
 }
 
-export function logInUserWithGoogle(response) {
+export function logInUserWithGoogle(response, setOpen) {
   return async function (dispatch) {
     try {
       const { email, familyName, givenName } = response.profileObj;
@@ -256,13 +295,20 @@ export function logInUserWithGoogle(response) {
         `${process.env.REACT_APP_DEFAULT_URL}/user/google`,
         { email, lastNames: familyName, names: givenName }
       );
-      return dispatch({
-        type: POST_USER_WITH_GOOGLE,
-        payload: userCreated.data,
-      });
+      if (userCreated.status === 203) {
+        setOpen(true);
+      } else {
+        return dispatch({
+          type: POST_USER_WITH_GOOGLE,
+          payload: userCreated.data,
+        });
+      }
     } catch (error) {
       console.log("el error de logInUserWithGoogle es:", error.message);
-      message.error("Error: al intentar ingresar con tu cuenta de Google", 2500);
+      message.error(
+        "Error: al intentar ingresar con tu cuenta de Google",
+        2500
+      );
     }
   };
 }

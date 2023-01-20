@@ -2,8 +2,9 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { AuthContextProvider } from "./actions/authContext";
 import axios from "axios";
-import GeneralRoutes from "./components/GeneralRoutes/GeneralRoutes";
 import ChangePassword from "./components/Profile/ChangePassword.jsx";
+import ChangePasswordError from "./components/Loading/ChangePasswordError";
+import ChangePasswordOk from "./components/Loading/ChangePasswordOk";
 import CommentCreate from "./components/Comments/Comment";
 import ConoceAlEquipo from "./components/Home/ConoceAlEquipo";
 import Dashboard from "./components/dashboard/Dashboard.js";
@@ -11,8 +12,11 @@ import DeleteUser from "./components/Profile/DeleteProfile.jsx";
 import Fitbit from "./components/SignUp/Fitbit";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword.jsx";
 import GraphWM from "./components/Graph-Week/Graph-W-M.jsx";
+import GeneralRoutes from "./components/GeneralRoutes/GeneralRoutes";
 import Home from "./components/Home/Home.jsx";
 import LandingPage from "./components/LandingPage/LandingPage.jsx";
+import Loading from "./components/Record/Loading";
+import LoadingPayment from "./components/PlanesPago/LoadingPayment";
 import LogIn from "./components/LogIn/LogIn";
 import LogOut from "./components/LogOut/LogOut.jsx";
 import NotFound from "./components/NotFound/NotFound";
@@ -24,12 +28,10 @@ import Record from "./components/Record/Record.jsx";
 import Register from "./components/Register/Register";
 import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
 import NewUserSuccess from "./components/Loading/NewUserSuccess";
-import UserExist from "./components/Loading/UserExist";
-import ChangePasswordOk from "./components/Loading/ChangePasswordOk";
-import ChangePasswordError from "./components/Loading/ChangePasswordError";
 import Saving from "./components/Record/Saving";
-import Loading from "./components/Record/Loading";
-import LoadingPayment from "./components/PlanesPago/LoadingPayment";
+import UserExist from "./components/Loading/UserExist";
+import Chat from "./components/Home/chat";
+import {ChangePasswordOkProfile, ChangePasswordErrorProfile} from "./components/Loading/ChangePasswordProfile"
 
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
@@ -87,10 +89,19 @@ function App() {
             path="/private/change-password/:id"
             element={<ChangePassword />}
           />
+          <Route
+            path="/private/changepasswordok"
+            element={<ChangePasswordOkProfile />}
+          />
+          <Route
+            path="/private/changepassworderror"
+            element={<ChangePasswordErrorProfile />}
+          />
           <Route path="/private/planes" element={<Pricing />} />
           <Route path="/private/loadingpayment" element={<LoadingPayment />} />
           <Route path="/private/delete-user/:id" element={<DeleteUser />} />
           <Route path="/private/createcomment" element={<CommentCreate />} />
+          <Route path="/private/chat" element={<Chat />} />
         </Route>
       </Routes>
     </AuthContextProvider>

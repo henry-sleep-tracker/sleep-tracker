@@ -12,12 +12,10 @@ import "reactjs-popup/dist/index.css";
 import { useState, useRef } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 // Actions Imports
 import {
-  getRecordByIdDate,
   getActivitiesByUser,
   getCoffeeSizesByUser,
   getDrinksByUser,
@@ -28,9 +26,13 @@ import {
   setStatusNewRecord,
 } from "../../actions/records";
 
-import { getSleepStage } from "../../actions/getUserHealthData";
-
-import { setDay } from "../../actions/loading";
+import {
+  setDay,
+  setStartTime,
+  setEndTime,
+  setSyncFitbit,
+  setTime as setTime2,
+} from "../../actions/loading";
 
 // Import images
 import checkImg from "../../images/check-mark-button_2705.png";
@@ -42,8 +44,6 @@ import coffeeMain from "../../images/coffe2.png";
 import coffeeImg from "../../images/coffee.png";
 import drinkMain from "../../images/tropical-drink-Main.png";
 import drinkImg from "../../images/tropical-drink.png";
-import calendar from "../../images/calendar.png";
-import timeIco from "../../images/time.png";
 
 // Import helpers
 import { date_maker } from "../../helpers/date_maker";
@@ -52,35 +52,29 @@ import { time_convert } from "../../helpers/time_convert";
 import { formatingDate } from "../../helpers/date_formating";
 import { timeToMinutes } from "../../helpers/time_to_minutes";
 import { dateStringToDate } from "../../helpers/string_to_date";
-//import Loading from "./Loading";
+
+// Import MUI Components
+import DateSelector from "./CalendarRecord";
+import TimeMealSelector from "./Time";
+import { StartTime, EndTime } from "./Time";
+import { Button, Stack } from "@mui/material";
 
 //>======================>//
 //> Starts Component
 //>======================>//
 
 const Record = props => {
-  const dispatch = useDispatch();
-  // eslint-disable-next-line no-unused-vars
-  const navigate = useNavigate();
+  // variables
   let sleepTimeMinutes = "";
   let sleepTime12Format = "";
-  let check = "";
+  let checkSleepRecord = "";
+  
 
-  /******************** Set Timeouts Section *********************/
-
-  //! ============ TimeOut for check Sync Sleep Record ========== !//
-  setTimeout(() => {
-    if (check.length >= 1) {
-      if (check[0].dateMeal === currentDay.current?.value) {
-        setSync(true);
-      } else {
-        setSync(false);
-      }
-    }
-  }, 1);
+  // Hooks init
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // useRef Hook
-  const currentDay = useRef();
   const timeRef = useRef();
   const activityRef = useRef();
   const cups = useRef();
@@ -105,8 +99,12 @@ const Record = props => {
   const activitiesRedux = useSelector(state => state.record.activities);
   const coffeeSizesRedux = useSelector(state => state.record.coffeeSizes);
   const drinksRedux = useSelector(state => state.record.drinks);
-  const sleepTime = useSelector(state => state.stage); //--> Estado global que guarda los segundos de suenio
+  const sleepTime = useSelector(state => state.stage);
   const day = useSelector(state => state.loading.day);
+  const timeR = useSelector(state => state.loading.time);
+  const sTime = useSelector(state => state.loading.startTime);
+  const eTime = useSelector(state => state.loading.endTime);
+  const syncFitbit = useSelector(state => state.loading.syncFitbit);
 
   /******************** Functions Before load component *********************/
 
@@ -115,24 +113,25 @@ const Record = props => {
     sleepTimeMinutes = Math.floor(
       temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
     );
-    // eslint-disable-next-line no-unused-vars
     sleepTime12Format = time_convert(sleepTimeMinutes);
   }
 
-  if (recordsUserRedux?.length >= 1) {
-    check = recordsUserRedux?.filter(e => e.sleepTime > 0);
-  }
+  checkSleepRecord = Array.isArray(recordsUserRedux)
+    ? recordsUserRedux.filter(e => e.sleepTime >= 1)
+    : false;
+  
+  let st = sTime;
+  let et = eTime;
 
   /******************** Local States Section *********************/
 
   //! ================== Main Local States ================= !//
-  //const [loading, setLoading] = useState(true);
 
   const [record, setRecord] = useState({
     dateMeal: day ? day : date_maker(),
-    timeMeal: "",
+    timeMeal: timeR ? timeR : "",
     description: "",
-    sleepTime: "",
+    sleepTime: st && et ? timeToMinutes(st, et) : "",
     napTime: [],
     timeActivity: [],
     coffeeCups: [],
@@ -151,16 +150,11 @@ const Record = props => {
 
   //! ================== Sleep States ================= !//
   const [time, setTime] = useState({
-    startTime: "",
-    endTime: "",
+    startTime: sTime?sTime:"",
+    endTime: eTime?eTime:"",
   });
 
-  let st = time.startTime;
-  let et = time.endTime;
-
-  const finalHours = formatingDate(st, et);
-
-  const [sync, setSync] = useState(false); //--> 61
+  const finalHours = formatingDate(sTime, eTime);
 
   //! ================== Activity States ================= !//
 
@@ -197,12 +191,7 @@ const Record = props => {
   //! ================== Main Handlers ================= !//
 
   const handlerOnChange = e => {
-    setRecord({ ...record, [e.target.name]: e.target.value });
-    if (e.target.name === "dateMeal") {
-      dispatch(getRecordByIdDate(userId, e.target.value));
-      navigate("/private/loading");
-      dispatch(setDay(currentDay.current.value));
-    }
+    setRecord({ ...record, [e.target?.name]: e.target?.value });
   };
 
   const handlerOnSubmit = e => {
@@ -214,7 +203,7 @@ const Record = props => {
     // Before Dispatch //
 
     if (
-      record.timeMeal.length <= 0 &&
+      (timeR === null || timeR?.length <= 0 || time === undefined) &&
       record.sleepTime.length <= 0 &&
       record.timeActivity.length <= 0 &&
       record.coffeeCups.length <= 0 &&
@@ -222,8 +211,8 @@ const Record = props => {
       record.coffee.length <= 0 &&
       record.drink.length <= 0 &&
       record.activity.length <= 0 &&
-      st.length <= 0 &&
-      et.length <= 0
+      st?.length <= 0 &&
+      et?.length <= 0
     ) {
       message.warn(`No se ingreso informacion`);
       message.warn(`No se ingreso informacion`);
@@ -235,18 +224,20 @@ const Record = props => {
       setRecord((record.dateMeal = date));
     }
 
-    if (record.timeMeal.length > 0 && record.description.length < 1) {
+    if (timeR && record.description?.length < 1) {
       message.warn(`Ingresa una breve descripcion de tu cena`);
       message.warn(`Ingresa una breve descripcion de tu cena`);
       return;
     }
 
-    if (record.timeMeal === "") {
+    if (!timeR) {
       time = time_maker();
       setRecord((record.timeMeal = time));
+    } else {
+      setRecord((record.timeMeal = timeR));
     }
 
-    if (st.length > 0 && et.length > 0) {
+    if (st?.length > 0 && et?.length > 0) {
       min = timeToMinutes(st, et);
       setRecord((record.sleepTime = min));
     }
@@ -267,7 +258,7 @@ const Record = props => {
     // After Dispatch //
 
     setRecord({
-      dateMeal: currentDay.current.value,
+      dateMeal: day,
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -289,13 +280,15 @@ const Record = props => {
     setTime({ startTime: "", endTime: "" });
     refresh();
     navigate("/private/saving");
-    dispatch(setDay(currentDay.current.value));
+    dispatch(setDay(day));
+    dispatch(setStartTime(""));
+    dispatch(setEndTime(""));
   };
 
   const handlerOnClear = e => {
     e.preventDefault();
     setRecord({
-      dateMeal: currentDay.current.value,
+      dateMeal: day,
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -316,13 +309,18 @@ const Record = props => {
     setCoffeeStatus(false);
     setDrinkStatus(false);
     setTime({ startTime: "", endTime: "" });
+    dispatch(setTime2(null));
+    dispatch(setStartTime(null));
+    dispatch(setEndTime(null));
+  };
+
+  const handlerHome = e => {
+    e.preventDefault();
+    navigate("/private/home");
+    dispatch(setDay(""));
   };
 
   //! ================== SleepTime Handlers ================= !//
-
-  const handlerSleepTimeChange = e => {
-    setTime({ ...time, [e.target.name]: e.target.value });
-  };
 
   const handlerSync = e => {
     e.preventDefault();
@@ -332,12 +330,12 @@ const Record = props => {
       setRecord((record.timeMeal = time));
     }
     dispatch(createNewRecord(record));
+    dispatch(setSyncFitbit(true));
 
     // After Dispatch //
 
-    setSync(true);
     setRecord({
-      dateMeal: currentDay.current.value,
+      dateMeal: day,
       timeMeal: "",
       description: "",
       sleepTime: "",
@@ -358,7 +356,7 @@ const Record = props => {
     setDrinkStatus(false);
     setTime({ startTime: "", endTime: "" });
     navigate("/private/saving");
-    dispatch(setDay(currentDay.current.value));
+    dispatch(setDay(day));
   };
 
   //! ================== Activity Handlers ================= !//
@@ -687,14 +685,14 @@ const Record = props => {
   // Mount/Unmount Component
 
   useEffect(() => {
-    if (day) {
-      dispatch(getSleepStage(day));
-      dispatch(getRecordByIdDate(userId, day));
+    if (checkSleepRecord?.length >= 1) {
+      dispatch(setSyncFitbit(true));
     } else {
-      dispatch(getSleepStage(date_maker()));
-      dispatch(getRecordByIdDate(userId, date_maker()));
+      dispatch(setSyncFitbit(false));
     }
+  });
 
+  useEffect(() => {
     dispatch(getActivitiesByUser(userId));
     dispatch(getCoffeeSizesByUser(userId));
     dispatch(getDrinksByUser(userId));
@@ -717,7 +715,7 @@ const Record = props => {
       message.error(`Error: al guardar registro`, 2500);
       dispatch(setStatusNewRecord());
     }
-  }, [value, sync, recordStatus]);
+  }, [value, recordStatus]);
 
   const PopupActivity = () => (
     <Popup
@@ -743,7 +741,7 @@ const Record = props => {
           />
 
           <label>Actividad</label>
-          <select ref={activityRef} onChange={handlerSetActivity}>
+          <select ref={activityRef} onChange={handlerSetActivity} className="select_popup">
             <option value="default">Selecciona...</option>
             {activitiesRedux.length > 0
               ? activitiesRedux.map((e, i) => {
@@ -751,7 +749,7 @@ const Record = props => {
                     <option
                       key={e.id}
                       value={e.id}
-                      disabled={record.activity.includes(e.id) ? true : false}
+                      disabled={record.activity?.includes(e.id) ? true : false}
                     >
                       {e.activity}
                     </option>
@@ -824,7 +822,11 @@ const Record = props => {
             defaultValue="0"
           />
           <label>Tamaño Taza</label>
-          <select ref={sizeCup} onChange={handlerSetCoffee}>
+          <select
+            ref={sizeCup}
+            onChange={handlerSetCoffee}
+            className="select_popup"
+          >
             <option value="default">Selecciona...</option>
             {coffeeSizesRedux.length > 0
               ? coffeeSizesRedux.map((e, i) => {
@@ -832,7 +834,7 @@ const Record = props => {
                     <option
                       key={`coffee-${i}`}
                       value={e.id}
-                      disabled={record.coffee.includes(e.id) ? true : false}
+                      disabled={record.coffee?.includes(e.id) ? true : false}
                     >
                       {e.size}
                     </option>
@@ -882,6 +884,7 @@ const Record = props => {
       </div>
     </Popup>
   );
+
   const PopupDrink = () => (
     <Popup
       trigger={<img src={drinkMain} alt="" className="popup_ico" />}
@@ -905,7 +908,11 @@ const Record = props => {
             defaultValue="0"
           />
           <label>Tipo de bebida</label>
-          <select ref={typeDrink} onChange={handlerSetDrink}>
+          <select
+            ref={typeDrink}
+            onChange={handlerSetDrink}
+            className="select_popup"
+          >
             <option value="default">Selecciona...</option>
             {drinksRedux.length > 0
               ? drinksRedux.map((e, i) => {
@@ -913,7 +920,7 @@ const Record = props => {
                     <option
                       key={`drinksRe-${i}`}
                       value={e.id}
-                      disabled={record.drink.includes(e.id) ? true : false}
+                      disabled={record.drink?.includes(e.id) ? true : false}
                     >
                       {e.drink}
                     </option>
@@ -968,16 +975,12 @@ const Record = props => {
   return (
     <div className="master">
       <div className="form_container">
-        <form onSubmit={handlerOnSubmit}>
+        <form>
           <div className="main_container">
             <div className="x_container">
-              <Link
-                to="/private/home"
-                className="link"
-                onClick={() => dispatch(setDay(""))}
-              >
-                <div className="x">X</div>
-              </Link>
+              <Button variant="contained" onClick={handlerHome}>
+                X
+              </Button>
             </div>
             <div className="div_head">
               <h2>
@@ -985,36 +988,26 @@ const Record = props => {
                 <img src={memo} alt="" className="memo" />
               </h2>
             </div>
-            <div className="general_info_container">
-              <div className="date_record_container">
-                <h5 className="h5_head">Fecha</h5>
-                <div>
-                  <img src={calendar} alt="" className="main_ico" />
-                  <input
-                    type="date"
-                    name="dateMeal"
-                    value={record.dateMeal}
+            <div className="date_time_section">
+              <div className="general_info_container">
+                <div className="date_record_container">
+                  <DateSelector
+                    text="Fecha"
+                    date={record.dateMeal}
                     onChange={handlerOnChange}
-                    ref={currentDay}
                   />
                 </div>
-              </div>
-              <div className="time_meal_container">
-                <h5 className="h5_head">Hora de tu cena</h5>
-                <div>
-                  <img src={timeIco} alt="" className="main_ico" />
-                  <input
-                    type="time"
-                    name="timeMeal"
-                    value={record.timeMeal}
-                    onChange={handlerOnChange}
+                <div className="time_meal_container">
+                  <TimeMealSelector
+                    text="Hora de tu cena"
+                    clean={timeR === null ? true : false}
                   />
                 </div>
               </div>
               <div
                 id="test_div"
                 className="meal_section"
-                hidden={record.timeMeal.length > 0 ? false : true}
+                hidden={timeR ? false : true}
               >
                 <h5>
                   Descripcion de tu cena{" "}
@@ -1022,27 +1015,34 @@ const Record = props => {
                     src={checkImg}
                     alt=""
                     hidden={
-                      record.timeMeal.length > 0 &&
-                      record.description.length > 0
-                        ? false
-                        : true
+                      timeR && record.description?.length > 0 ? false : true
                     }
                     className="img_ok"
                   />
                 </h5>
                 <textarea
                   name="description"
-                  id=""
-                  cols="70"
+                  cols={57}
                   rows="5"
                   placeholder="Ingresa breve descripcion"
                   value={record.description}
                   onChange={handlerOnChange}
-                  required={record.timeMeal.length > 0 ? true : false}
+                  required={record.timeMeal?.length > 0 ? true : false}
                 ></textarea>
               </div>
             </div>
-            <div className="sleep_container" hidden={sync ? true : false}>
+            <div
+              className="sleep_container"
+              //hidden={checkSleepRecord?.length >= 1 ? false : true}
+              hidden={!syncFitbit}
+            >
+              <h6>Este dia ya tiene registrado tu tiempo de sueño</h6>
+            </div>
+            <div
+              className="sleep_container"
+              /* hidden={checkSleepRecord?.length >= 1 ? true : false} */
+              hidden={syncFitbit}
+            >
               <div>
                 <h2>
                   <img src={personBed} alt="" className="person_bed" />
@@ -1051,7 +1051,7 @@ const Record = props => {
                     src={checkImg}
                     alt=""
                     hidden={
-                      time.startTime.length > 0 && time.endTime.length > 0
+                      time?.startTime.length > 0 && time?.endTime.length > 0
                         ? false
                         : true
                     }
@@ -1060,40 +1060,31 @@ const Record = props => {
                 </h2>
               </div>
 
-              <div className="sync_div_true" hidden={temp.length < 1}>
-                <h3>
-                  El dia{" "}
-                  {dateStringToDate(currentDay.current?.value.replace("-", ""))}
-                </h3>
-                <h4>Dormiste: {sleepTime12Format}</h4>
-                <span
-                  className="sync"
-                  hidden={sleepTime.length > 0 ? false : true}
+              <div className="sync_div_true" hidden={temp?.length < 1}>
+                <h5>El dia {dateStringToDate(day?.replace("-", ""))}</h5>
+                <h6>Fitbit registro {sleepTime12Format} de sueño</h6>
+                <Button
+                  variant="contained"
                   onClick={handlerSync}
+                  sx={{ width: "200px" }}
                 >
-                  Guardar Lectura de Fitbit
-                </span>
+                  Guardar Lectura
+                </Button>
               </div>
 
-              <div className="sleep_section" hidden={temp.length > 0}>
-                <label>Dormiste </label>
-                <input
-                  className="sleep_section_input"
-                  type="time"
-                  name="startTime"
-                  id=""
-                  value={time.startTime}
-                  onChange={handlerSleepTimeChange}
+              <div className="sleep_section" hidden={sleepTime.length > 0}>
+                <StartTime
+                  text="Dormiste"
+                  clean={sTime === null ? true : false}
                 />
-                <label> Despertaste </label>
-                <input
-                  type="time"
-                  name="endTime"
-                  id=""
-                  value={time.endTime}
-                  onChange={handlerSleepTimeChange}
+                <EndTime
+                  text="Despertaste"
+                  clean={eTime === null ? true : false}
                 />
-                <div className="sleep_result" hidden={st && et ? false : true}>
+                <div
+                  className="sleep_result"
+                  hidden={sTime && eTime ? false : true}
+                >
                   <h4>
                     Dormiste:{" "}
                     {sleepTime12Format ? sleepTime12Format : finalHours}
@@ -1146,10 +1137,22 @@ const Record = props => {
             {/* ====================== BUTTONS SECTION ======================= */}
 
             <div className="button_container">
-              <button className="bottom_buttons">Guardar</button>
-              <button className="bottom_buttons" onClick={handlerOnClear}>
-                Limpiar
-              </button>
+              <Stack direction="row" spacing={10}>
+                <Button
+                  variant="contained"
+                  onClick={handlerOnSubmit}
+                  sx={{ width: "150px" }}
+                >
+                  Guardar
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={handlerOnClear}
+                  sx={{ width: "150px" }}
+                >
+                  Limpiar
+                </Button>
+              </Stack>
             </div>
           </div>
         </form>

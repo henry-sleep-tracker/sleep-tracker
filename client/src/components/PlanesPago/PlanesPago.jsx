@@ -2,9 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserById } from "../../actions/index";
+import {
+  USER_ID,
+} from "../../actions/constants";
+import "./PlanesPago.css";
+import style from "./PlanesPago.module.css"
 
 const Pricing = () => {
-  const USER_ID = "USER_ID";
   const userId = window.localStorage.getItem(USER_ID);
   const currentUser = useSelector((state) => state?.users.currentUser);
   const dispatch = useDispatch();
@@ -79,8 +83,7 @@ const Pricing = () => {
                         <li>Exporta tu información completa en formato PDF</li>
                       </ul>
                       <button
-                        className="btn btn-lg text-white btn-success w-100"
-                        variant="outline-success"
+                        className={style.buttonPay}
                         onClick={() => createSession(currentUser, price.id)}
                       >
                         Comprar
@@ -113,8 +116,7 @@ const Pricing = () => {
                         <li>Exporta tu información completa en formato PDF</li>
                       </ul>
                       <button
-                        className="btn btn-lg text-white btn-success w-100"
-                        variant="outline-success"
+                        className={style.buttonPay}
                         onClick={() => createSession(currentUser, price.id)}
                       >
                         Comprar
@@ -147,8 +149,7 @@ const Pricing = () => {
                         <li>Exporta tu información completa en formato PDF</li>
                       </ul>
                       <button
-                        className="btn btn-lg text-white btn-success w-100"
-                        variant="outline-success"
+                        className={style.buttonPay}
                         onClick={() => createSession(currentUser, price.id)}
                       >
                         Comprar

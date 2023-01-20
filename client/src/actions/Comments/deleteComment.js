@@ -1,5 +1,6 @@
 import axios from "axios";
 import { DELETE_COMMENT } from "../constants";
+import { message } from "react-message-popup";
 
 export const deleteComment = (payload) => async (dispatch) => {
   try {
@@ -7,10 +8,9 @@ export const deleteComment = (payload) => async (dispatch) => {
     dispatch({
       type: DELETE_COMMENT,
       payload: payload,
-    })
-
+    });
   } catch (error) {
-    alert("No existe comentario registrado");
+    message.error("No existe comentario registrado", 2500);
     console.log(error, payload);
   }
 };
