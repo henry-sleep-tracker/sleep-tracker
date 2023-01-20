@@ -2,11 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserById } from "../../actions/index";
-import {
-  USER_ID,
-} from "../../actions/constants";
+import { USER_ID } from "../../actions/constants";
 import "./PlanesPago.css";
-import style from "./PlanesPago.module.css"
+import style from "./PlanesPago.module.css";
 
 const Pricing = () => {
   const userId = window.localStorage.getItem(USER_ID);
@@ -59,7 +57,8 @@ const Pricing = () => {
       </header>
       <main>
         <div className="row row-col-1 row-cols-md-3">
-          {!currentUser.plan?.name ? prices.map((price) => (
+          {!currentUser.plan?.name
+            ? prices.map((price) => (
                 <div className="col">
                   <div className="card text-center">
                     <div className="card-header bg-dark text-white">
@@ -92,7 +91,8 @@ const Pricing = () => {
                   </div>
                 </div>
               ))
-            : currentUser.plan?.name === "Basico" ? prices.slice(0).map((price) => (
+            : currentUser.plan?.name === "Basico"
+            ? prices.slice(0).map((price) => (
                 <div className="col">
                   <div className="card text-center">
                     <div className="card-header bg-dark text-white">
@@ -125,7 +125,8 @@ const Pricing = () => {
                   </div>
                 </div>
               ))
-            : currentUser.plan?.name === "Estandar" ? prices.slice(1).map((price) => (
+            : currentUser.plan?.name === "Estandar"
+            ? prices.slice(1).map((price) => (
                 <div className="col">
                   <div className="card text-center">
                     <div className="card-header bg-dark text-white">
