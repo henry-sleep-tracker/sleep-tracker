@@ -3,7 +3,7 @@ const forgotPassswordValdiator = async (req, res, next) => {
     console.log(
       "No se puede leer process.env.REACT_APP_BASE_FRONT_URL. se usara el predefinido localhost "
     );
-    process.env.REACT_APP_BASE_FRONT_URL = "http://localhost:3001";
+    process.env.BASE_FRONT_URL = "http://localhost:3000";
   }
 
   return next();

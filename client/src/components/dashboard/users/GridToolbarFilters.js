@@ -1,21 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { getNationalities } from "../../../actions/users";
 
 const GridToolbarFilters = ({filters, setFilters}) => {
 
-  const [ nationalities, setNationalities ] = useState([]);
+  const dispatch = useDispatch();
+	const nationalities = useSelector(state => state.users.nationalities )
 
   useEffect(() => {
-    const getNationalities = async () => {
-      await fetch(`${process.env.REACT_APP_DEFAULT_URL}/users/nationalities`)
-        .then((r) => r.json())
-        .then( r => setNationalities(r) );
-    };
-    getNationalities();
+    dispatch(getNationalities());
   }, []);
 
 	return (
