@@ -7,7 +7,7 @@ import CombinedGraph from "./CombinedGraph";
 import RangeCalendar from "../Calendario/RangeCalendar";
 import { getSleepSession } from "../../actions/getUserHealthData";
 import { getRecordsRange } from "../../actions/records_data";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Paper, Typography } from "@mui/material";
 import { useReactToPrint } from "react-to-print";
 import { message } from "react-message-popup";
 
@@ -30,44 +30,56 @@ const GraphWM = () => {
   }, [dispatch]);
 
   return (
-    <Grid
-      container
-      ref={componentPdf}
-      style={{ width: "100%" }}
-      justifyContent="center"
-      alignItems="center"
-      direction="column"
-      spacing={5}
-      flex={4}
-      p={1}
-      sx={{ backgroundColor: "#f7f8fb" }}
-    >
-      <Grid item>
-        <Button variant="contained" key="pdf" onClick={handlePrint}>
-          Descargar reporte
-        </Button>
-      </Grid>
+    <Paper>
 
-      <Grid item>
-        <RangeCalendar />
-      </Grid>
+      <Grid
+        container
+        ref={componentPdf}
+        style={{ width: "100%" }}
+        justifyContent="center"
+        alignItems="center"
+        direction="column"
+        spacing={5}
+        flex={4}
+        p={1}
+      >
+        <Grid item>
+          <Typography
+            variant="h2"
+            fontWeight='bold'
+            paddingTop={5}
+          >
+            Graficas
+          </Typography>
+        </Grid>
 
-      <Grid item>
-        <CombinedGraph />
-      </Grid>
+        <Grid item>
+          <Button variant="contained" key="pdf" onClick={handlePrint}>
+            Descargar reporte
+          </Button>
+        </Grid>
 
-      <Grid item>
-        <DualGraph />
-      </Grid>
+        <Grid item>
+          <RangeCalendar />
+        </Grid>
 
-      <Grid item>
-        <GraphRecord />
-      </Grid>
+        <Grid item>
+          <CombinedGraph />
+        </Grid>
 
-      <Grid item>
-        <GraphTime />
+        <Grid item>
+          <DualGraph />
+        </Grid>
+
+        <Grid item>
+          <GraphRecord />
+        </Grid>
+
+        <Grid item>
+          <GraphTime />
+        </Grid>
       </Grid>
-    </Grid>
+    </Paper>
   );
 };
 

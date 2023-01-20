@@ -24,8 +24,6 @@ const Page4 = () => {
       justifyContent="center"
       alignItems="center"
       className={classes.mainPaper}
-      paddingLeft={15}
-      paddingRight={15}
 
     >
       <Grid
@@ -33,7 +31,7 @@ const Page4 = () => {
         marginTop={5}
       >
         <Typography
-          variant="h4"
+          variant="h2"
           fontWeight='bold'
 
         >
@@ -43,21 +41,24 @@ const Page4 = () => {
 
       <Grid
         container
-        // direction="row"
+        direction="row"
         justifyContent="center"
-        alignItems="center"
+        alignItems="stretch"
         flex={4}
         p={9}
         gap='10px'
+        height='70vh'
 
       >
         <Grid
           item
           xs={12}
           md={3}
+
         >
           <Card
             elevation={20}
+            
           >
             <CardContent>
 
@@ -70,7 +71,15 @@ const Page4 = () => {
               >
                 <ThumbUpIcon />
               </Box>
-              <Typography variant="h4" sx={{ mb: 8 }} >Prueba gratis</Typography>
+              <Typography 
+              variant="h4" 
+              sx={{ mb: 8 }} 
+              fontWeight='bold'
+              className={classes.mosaic}
+
+              >
+                Prueba gratis
+              </Typography>
               <Box
                 sx={{ display: { xs: "none", sm: "none", md: 'block' } }}
               >
@@ -81,9 +90,6 @@ const Page4 = () => {
                 </Typography>
                 <Typography>
                   - Información de sueño conseguido diario y semanal.
-                </Typography>
-                <Typography>
-                  - Prueba gratis 30 dias
                 </Typography>
                 <Divider />
               </Box>
@@ -108,6 +114,7 @@ const Page4 = () => {
           item
           xs={12}
           md={3}
+
         >
           <Card
             elevation={20}
@@ -124,7 +131,13 @@ const Page4 = () => {
                 >
                   <EmojiEmotionsIcon />
                 </Box>
-                <Typography variant="h4" sx={{ mb: 8 }}>
+                <Typography 
+                variant="h4" 
+                sx={{ mb: 8 }}
+                fontWeight='bold'
+                className={classes.mosaic}
+
+                >
                   Plan Estandar
                 </Typography>
                 <Box
@@ -136,9 +149,6 @@ const Page4 = () => {
                   </Typography>
                   <Typography>
                     - Información de sueño conseguido diario y semanal.
-                  </Typography>
-                  <Typography>
-                    - Descarga tu información completa en formato PDF
                   </Typography>
                   <Divider />
                 </Box>
@@ -178,7 +188,14 @@ const Page4 = () => {
               >
                 <AutoAwesomeIcon />
               </Box>
-              <Typography variant="h4" sx={{ mb: 8 }}>Plan Premium</Typography>
+              <Typography 
+              variant="h4" 
+              sx={{ mb: 8 }}
+              fontWeight='bold'
+              className={classes.mosaic}
+              >
+                Plan Premium
+                </Typography>
               <Box
                 sx={{ display: { xs: "none", sm: "none", md: 'block' } }}
               >
@@ -189,9 +206,6 @@ const Page4 = () => {
                 </Typography>
                 <Typography>
                   - Información de sueño conseguido diario y semanal.
-                </Typography>
-                <Typography>
-                  - Descarga tu información completa en formato PDF
                 </Typography>
                 <Divider />
               </Box>
@@ -225,7 +239,8 @@ const useStyles = makeStyles(() => ({
   mosaic: {
     display: "flex",
     flexwrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "center",
+    height:'100%'
     // marginTop: '50px',
     // marginBottom: '50px',
   },
