@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { AuthContextProvider } from "./actions/authContext";
+import AdminRoute from "./components/AdminRoute/AdminRoute";
 import axios from "axios";
 import ChangePassword from "./components/Profile/ChangePassword.jsx";
 import ChangePasswordError from "./components/Loading/ChangePasswordError";
@@ -31,7 +32,10 @@ import NewUserSuccess from "./components/Loading/NewUserSuccess";
 import Saving from "./components/Record/Saving";
 import UserExist from "./components/Loading/UserExist";
 import Chat from "./components/Home/chat";
-import {ChangePasswordOkProfile, ChangePasswordErrorProfile} from "./components/Loading/ChangePasswordProfile"
+import {
+  ChangePasswordOkProfile,
+  ChangePasswordErrorProfile,
+} from "./components/Loading/ChangePasswordProfile";
 
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
@@ -74,6 +78,10 @@ function App() {
 
         <Route path="/private" element={<PrivateRoute />}>
           <Route path="/private" element={<GeneralRoutes />}>
+            <Route path="/private/dashboard/" element={<AdminRoute />}>
+              <Route path="/private/dashboard/*" element={<Dashboard />} />
+            </Route>
+
             <Route index path="/private/home" element={<Home />} />
             <Route path="/private/team" element={<ConoceAlEquipo />} />
             <Route path="/private/fitbit" element={<Fitbit />} />
@@ -81,7 +89,6 @@ function App() {
             <Route path="/private/records" element={<Record />} />
             <Route path="/private/loading" element={<Loading />} />
             <Route path="/private/saving" element={<Saving />} />
-            <Route path="/private/dashboard/*" element={<Dashboard />} />
             <Route path="/private/createcomment" element={<CommentCreate />} />
           </Route>
           <Route path="/private/profile" element={<Profile />} />
