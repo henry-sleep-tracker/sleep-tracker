@@ -197,6 +197,12 @@ export default function GraphRecord() {
                 Reset grafica
               </Button>
             </Grid>
+            <Grid>
+              <Typography fontSize="1rem" color="grey" align="center" p={3}>
+                En esta gráfica puedes observar el registro de actividades
+                diarias en el rango de tiempo seleccionado.
+              </Typography>
+            </Grid>
           </CardContent>
         </Card>
       </Grid>
