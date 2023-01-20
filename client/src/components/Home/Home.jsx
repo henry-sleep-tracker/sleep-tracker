@@ -12,7 +12,9 @@ import GraphHome from "../Graphs/Graph-home";
 import CollapsibleTable from "../Graph-Week/CollapsibleTable";
 import Fitbit from "../SignUp/Fitbit";
 import { Grid, Paper, Typography } from "@mui/material";
+
 import { makeStyles } from "@mui/styles";
+
 import { Helmet } from "react-helmet";
 
 const yesterday = new Date(Date.now() - 28800000).toISOString().split("T")[0];
@@ -53,7 +55,9 @@ const Home = () => {
   const classes = useStyles();
 
   return (
-    <Paper>
+    <Paper
+    className={classes.paperWraper}
+    >
 
       <Grid
         container
@@ -129,8 +133,13 @@ const Home = () => {
 };
 
 export default Home;
+
+
 const useStyles = makeStyles(() => ({
 
+  paperWraper:{
+    minHeight:'100vh'
+  }
   // bgColor: {
   //   color: ''
   // }

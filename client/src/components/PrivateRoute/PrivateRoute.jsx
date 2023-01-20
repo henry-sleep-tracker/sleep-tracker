@@ -59,23 +59,13 @@ export default function PrivateRoute() {
         secondary: {
           main: '#f50057',
         },
-        background: {
-          // paper: '#1a237e',
-          // main: '#303030',
-
-        },
       }),
       ...(mode === 'light' && {
         primary: {
-          main: '#283593',
+          main: '#303f9f',
         },
         secondary: {
           main: '#f50057',
-        },
-        background: {
-          // paper: '#1a237e',
-          // main: '#303030',
-
         },
       })
 

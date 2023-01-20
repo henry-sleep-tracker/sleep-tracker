@@ -11,7 +11,8 @@ import {
   Typography,
   MenuItem,
   Divider,
-  Box
+  Box,
+  Paper
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -193,489 +194,496 @@ const Profile = () => {
 
   return (
 
-    // <Card
-    //   variant='outlined'
-    //   width='100vw'
-    //   height='100vh'
-    // >
-
-
-    // <CardContent>
-
-    <Grid
-      container
-      justifyContent="center"
-      direction='column'
-      alignItems='center'
-      // width='100vw'
-      spacing={5}
-    // height='100vh'
-
+    <Paper
+      className={classes.paperWraper}
     >
+
       <Helmet>
         <title>Perfil | Sleep Tracker</title>
       </Helmet>
 
       <Grid
-        item
+        container
+        justifyContent="center"
+        direction='column'
+        alignItems='center'
+        // width='100vw'
+        spacing={5}
+      // height='100vh'  
+
       >
-        <Typography variant="h2">Perfil</Typography>
-      </Grid>
-
-
-      <Grid item>
-        <Card
-          variant="outlined"
+        <Grid
+          item
         >
-          <CardContent>
+          <Typography variant="h2">Perfil</Typography>
+        </Grid>
 
-            {/* <Grid
+
+        <Grid item>
+          <Card
+            variant="outlined"
+          >
+            <CardContent>
+
+              {/* <Grid
               item
             > */}
 
-            <Grid
-              container
-              justifyContent="center"
-              direction='column'
-              alignItems='center'
-              spacing={1}
-              width='90vw'
-            >
-
               <Grid
                 container
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              // spacing={30}
+                justifyContent="center"
+                direction='column'
+                alignItems='center'
+                spacing={1}
+                width='90vw'
               >
 
                 <Grid
-                  item
+                  container
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                // spacing={30}
                 >
-                  <Avatar
-                    alt="Not found"
-                    srcSet={currentUser.image}
-                    sx={{
-                      width: 35,
-                      height: 35
-                    }}
-                  />
 
-                </Grid>
+                  <Grid
+                    item
+                    lg={4}
+                    md={6}
+                    xs={12}
+xl
+sm
+                  >
+                    <Avatar
+                      alt="Not found"
+                      srcSet={currentUser.image}
+                      sx={{
+                        width: 35,
+                        height: 35
+                      }}
+                    />
 
-                <Grid
-                  item>
-                  {
-                    currentUser.image ?
+                  </Grid>
+
+                  <Grid
+                    item
+                    lg={4}
+                    md={4}
+                    xs={12}
+
+                  >
+                    {
+                      currentUser.image ?
+                        <Button
+                          variant='outlined'
+                          color='error'
+                          onClick={handleClickDelete}>
+                          Eliminar
+                        </Button>
+                        :
+                        null
+                    }
+                  </Grid>
+
+                  <Grid
+                    item
+                    className={classes.middle}
+                    lg={4}
+                    md={4}
+                    xs={12}
+                  >
+                    {image ?
                       <Button
-                        variant='outlined'
-                        color='error'
-                        onClick={handleClickDelete}>
-                        Eliminar
+                        color="success"
+                        variant="contained"
+                        onClick={handleImage}
+                      >
+                        Confirme
                       </Button>
                       :
-                      null
-                  }
+                      <Button
+                        sx={{
+                          ml: 1,
+                          "&.MuiButtonBase-root:hover"
+                            :
+                          {
+                            bgcolor: "transparent"
+                          }
+                        }}
+                        variant='outlined'
+                        startIcon={<PhotoCamera />}
+                        color="primary"
+                        aria-label="upload picture"
+                        component="label">
+                        <input
+                          hidden
+                          accept="image/*"
+                          type="file"
+                          onChange={(e) => convertirBase64(e)}
+                        />
+                        Editar
+                      </Button>}
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                // spacing={30}
+                >
+
+                  <Grid item>
+                    <Typography
+                      variant="h6"
+                      fontWeight='bold'
+                    >
+                      Tu nombre
+                    </Typography>
+                  </Grid>
+
+                  <Grid
+                    item
+                    className={classes.middle}
+                  >
+                    {!editNames ? (
+                      <Typography>
+                        {`${currentUser.names} ${currentUser.lastNames}`}
+                      </Typography>
+                    ) : (
+                      <TextField
+                        variant="outlined"
+                        label="Nuevo nombre"
+                        type="text"
+                        name="names"
+                        value={inputs.names}
+                        onChange={(e) => handleInputs(e)}
+                      />
+                    )}
+                  </Grid>
+
+                  <Grid item>
+                    {!inputs.names && (
+                      <Button
+                        variant="outlined"
+                        onClick={(e) => handleClick(e)}
+                        startIcon={<PersonIcon />}
+                      >
+                        Editar
+                      </Button>
+                    )}
+                  </Grid>
+
+                </Grid>
+
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                // spacing={30}
+                >
+
+                  <Grid
+                    item
+                  >
+                    <Typography
+                      variant="h6"
+                      fontWeight='bold'
+                    >
+                      Correo electronico
+                    </Typography>
+                  </Grid>
+
+                  <Grid item>
+                    {!editEmail ? (
+                      <Typography>{currentUser.email}</Typography>
+                    ) : (
+                      <TextField
+                        type="text"
+                        name="email"
+                        label="Nuevo email"
+                        value={inputs.email}
+                        onChange={handleInputs}
+                      />
+                    )}
+                  </Grid>
+
+                  <Grid item>
+                    {!inputs.email && (
+                      <Button
+                        variant="outlined"
+                        onClick={(e) => handleClickEmail(e)}
+                        startIcon={<EmailIcon />}
+                      >
+                        Editar
+                      </Button>
+                    )}
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                // spacing={30}
+                >
+
+                  <Grid
+                    item
+                  >
+                    <Typography
+                      variant="h6"
+                      fontWeight='bold'
+                    >
+                      Fecha de nacimiento
+                    </Typography>
+                  </Grid>
+
+                  <Grid item>
+                    {!editiBirthday ? (
+                      <Typography>
+                        {currentUser.birthday}
+                      </Typography>
+                    ) : (
+                      <TextField
+                        helperText="Fecha de nacimiento"
+                        type="date"
+                        name="birthday"
+                        min="1900-01-01"
+                        max={yourDate}
+                        placeholder=""
+                        value={inputs.birthday}
+                        onChange={handleInputs}
+                      />
+                    )}
+                  </Grid>
+
+                  <Grid item>
+                    {!inputs.birthday &&
+                      <Button
+                        variant="outlined"
+                        onClick={(e) => handleClickBirthday(e)}
+                        startIcon={<CalendarMonthIcon />}
+                      >
+                        Editar
+                      </Button>
+                    }
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                // spacing={30}
+                >
+
+                  <Grid
+                    item
+                  >
+                    <Typography
+                      variant="h6"
+                      fontWeight='bold'
+                    >
+                      Nacionalidad
+                    </Typography>
+                  </Grid>
+
+                  <Grid item>
+                    {!editNationality ? (
+                      <Typography>
+                        {currentUser.nationality}
+                      </Typography>
+                    ) : (
+                      <TextField
+                        required
+                        select
+                        label="Nacionalidad"
+                        defaultValue=""
+                        helperText="Seleccione su nacionalidad"
+                        value={inputs.nationality}
+                        onChange={handleSelect}
+                      >
+                        {nationalities?.map((nationality) => (
+                          <MenuItem key={keyNationalities++}
+                            value={nationality}
+                          >
+                            {nationality}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    )}
+                  </Grid>
+
+                  <Grid item>
+                    {!inputs.nationality && (
+                      <Button
+                        variant="outlined"
+                        onClick={(e) => handleClickNationality(e)}
+                        startIcon={<PlaceIcon />}
+                      >
+                        Editar
+                      </Button>
+                    )}
+                  </Grid>
+
+                </Grid>
+
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+
+                  <Grid
+                    item
+                  >
+                    <Typography
+                      variant="h6"
+                      fontWeight='bold'
+                    >
+                      Contraseña
+                    </Typography>
+                  </Grid>
+
+                  <Grid
+                    item
+                  >
+                    <Typography>
+                      **********
+                    </Typography>
+                  </Grid>
+
+                  <Grid
+                    item
+                  >
+                    <Button
+                      href={`/private/change-password/${currentUser.id}`}
+                      startIcon={<PasswordIcon />}
+                      variant="outlined"
+                      id="ButtonPassword"
+                    >
+                      Editar
+                    </Button>
+
+                  </Grid>
+
+                </Grid>
+
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                // spacing={30}
+                >
+
+                  <Grid
+                    item
+                  >
+                    <Typography
+                      variant="h6"
+                      fontWeight='bold'
+                    >
+                      Plan actual
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Button variant="contained" href="/private/planes">
+                      {currentUser.plan?.name}
+                    </Button>
+                  </Grid>
                 </Grid>
 
                 <Grid
                   item
-                  className={classes.middle}
                 >
-                  {image ?
+
+                  <Button
+                    href={`/private/delete-user/${currentUser.id}`}
+                    startIcon={<DeleteIcon />}
+                    variant="outlined"
+                    color="error"
+                    id="ButtonDelete"
+                  >
+                    Borrar usuario
+                  </Button>
+
+                </Grid>
+
+                <Grid item>
+                  {inputs.names ||
+                    inputs.email ||
+                    inputs.birthday ||
+                    inputs.nationality ? (
                     <Button
+                      onClick={handleClickConfirm}
                       color="success"
                       variant="contained"
-                      onClick={handleImage}
+                      type="submit"
+                      id="ButtonSubmit"
+                      startIcon={<CheckIcon />}
                     >
-                      Confirme
+                      Confirmar
                     </Button>
-                    :
-                    <Button
-                      sx={{
-                        ml: 1,
-                        "&.MuiButtonBase-root:hover"
-                          :
-                        {
-                          bgcolor: "transparent"
-                        }
-                      }}
-                      variant='outlined'
-                      startIcon={<PhotoCamera />}
-                      color="primary"
-                      aria-label="upload picture"
-                      component="label">
-                      <input
-                        hidden
-                        accept="image/*"
-                        type="file"
-                        onChange={(e) => convertirBase64(e)}
-                      />
-                      Editar
-                    </Button>}
+                  ) : null}
                 </Grid>
               </Grid>
 
-              <Grid
-                container
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              // spacing={30}
-              >
+            </CardContent>
+          </Card>
+        </Grid>
 
-                <Grid item>
-                  <Typography
-                    variant="h6"
-                    fontWeight='bold'
-                  >
-                    Tu nombre
-                  </Typography>
-                </Grid>
+        <Grid item >
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"¿ Desea eliminar la imagen de perfil ?"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Si continuas tu foto de perfil será eliminada para siempre.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={(e) => handleDelete(e)} autoFocus>Si, deseo eliminarla</Button>
+              <Button onClick={handleNo}>Cancelar</Button>
+            </DialogActions>
+          </Dialog>
+        </Grid>
 
-                <Grid
-                  item
-                  className={classes.middle}
-                >
-                  {!editNames ? (
-                    <Typography>
-                      {`${currentUser.names} ${currentUser.lastNames}`}
-                    </Typography>
-                  ) : (
-                    <TextField
-                      variant="outlined"
-                      label="Nuevo nombre"
-                      type="text"
-                      name="names"
-                      value={inputs.names}
-                      onChange={(e) => handleInputs(e)}
-                    />
-                  )}
-                </Grid>
-
-                <Grid item>
-                  {!inputs.names && (
-                    <Button
-                      variant="outlined"
-                      onClick={(e) => handleClick(e)}
-                      startIcon={<PersonIcon />}
-                    >
-                      Editar
-                    </Button>
-                  )}
-                </Grid>
-
-              </Grid>
-
-              <Grid
-                container
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              // spacing={30}
-              >
-
-                <Grid
-                  item
-                >
-                  <Typography
-                    variant="h6"
-                    fontWeight='bold'
-                  >
-                    Correo electronico
-                  </Typography>
-                </Grid>
-
-                <Grid item>
-                  {!editEmail ? (
-                    <Typography>{currentUser.email}</Typography>
-                  ) : (
-                    <TextField
-                      type="text"
-                      name="email"
-                      label="Nuevo email"
-                      value={inputs.email}
-                      onChange={handleInputs}
-                    />
-                  )}
-                </Grid>
-
-                <Grid item>
-                  {!inputs.email && (
-                    <Button
-                      variant="outlined"
-                      onClick={(e) => handleClickEmail(e)}
-                      startIcon={<EmailIcon />}
-                    >
-                      Editar
-                    </Button>
-                  )}
-                </Grid>
-              </Grid>
-
-              <Grid
-                container
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              // spacing={30}
-              >
-
-                <Grid
-                  item
-                >
-                  <Typography
-                    variant="h6"
-                    fontWeight='bold'
-                  >
-                    Fecha de nacimiento
-                  </Typography>
-                </Grid>
-
-                <Grid item>
-                  {!editiBirthday ? (
-                    <Typography>
-                      {currentUser.birthday}
-                    </Typography>
-                  ) : (
-                    <TextField
-                      helperText="Fecha de nacimiento"
-                      type="date"
-                      name="birthday"
-                      min="1900-01-01"
-                      max={yourDate}
-                      placeholder=""
-                      value={inputs.birthday}
-                      onChange={handleInputs}
-                    />
-                  )}
-                </Grid>
-
-                <Grid item>
-                  {!inputs.birthday &&
-                    <Button
-                      variant="outlined"
-                      onClick={(e) => handleClickBirthday(e)}
-                      startIcon={<CalendarMonthIcon />}
-                    >
-                      Editar
-                    </Button>
-                  }
-                </Grid>
-              </Grid>
-
-              <Grid
-                container
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              // spacing={30}
-              >
-
-                <Grid
-                  item
-                >
-                  <Typography
-                    variant="h6"
-                    fontWeight='bold'
-                  >
-                    Nacionalidad
-                  </Typography>
-                </Grid>
-
-                <Grid item>
-                  {!editNationality ? (
-                    <Typography>
-                      {currentUser.nationality}
-                    </Typography>
-                  ) : (
-                    <TextField
-                      required
-                      select
-                      label="Nacionalidad"
-                      defaultValue=""
-                      helperText="Seleccione su nacionalidad"
-                      value={inputs.nationality}
-                      onChange={handleSelect}
-                    >
-                      {nationalities?.map((nationality) => (
-                        <MenuItem key={keyNationalities++}
-                          value={nationality}
-                        >
-                          {nationality}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  )}
-                </Grid>
-
-                <Grid item>
-                  {!inputs.nationality && (
-                    <Button
-                      variant="outlined"
-                      onClick={(e) => handleClickNationality(e)}
-                      startIcon={<PlaceIcon />}
-                    >
-                      Editar
-                    </Button>
-                  )}
-                </Grid>
-
-              </Grid>
-
-              <Grid
-                container
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-
-                <Grid
-                  item
-                >
-                  <Typography
-                    variant="h6"
-                    fontWeight='bold'
-                  >
-                    Contraseña
-                  </Typography>
-                </Grid>
-
-                <Grid
-                  item
-                >
-                  <Typography>
-                    **********
-                  </Typography>
-                </Grid>
-
-                <Grid
-                  item
-                >
-                  <Button
-                    href={`/private/change-password/${currentUser.id}`}
-                    startIcon={<PasswordIcon />}
-                    variant="outlined"
-                    id="ButtonPassword"
-                  >
-                    Editar
-                  </Button>
-
-                </Grid>
-
-              </Grid>
-
-              <Grid
-                container
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              // spacing={30}
-              >
-
-                <Grid
-                  item
-                >
-                  <Typography
-                    variant="h6"
-                    fontWeight='bold'
-                  >
-                    Plan actual
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Button variant="contained" href="/private/planes">
-                    {currentUser.plan?.name}
-                  </Button>
-                </Grid>
-              </Grid>
-
-              <Grid
-                item
-              >
-
-                <Button
-                  href={`/private/delete-user/${currentUser.id}`}
-                  startIcon={<DeleteIcon />}
-                  variant="outlined"
-                  color="error"
-                  id="ButtonDelete"
-                >
-                  Borrar usuario
-                </Button>
-
-              </Grid>
-
-              <Grid item>
-                {inputs.names ||
-                  inputs.email ||
-                  inputs.birthday ||
-                  inputs.nationality ? (
-                  <Button
-                    onClick={handleClickConfirm}
-                    color="success"
-                    variant="contained"
-                    type="submit"
-                    id="ButtonSubmit"
-                    startIcon={<CheckIcon />}
-                  >
-                    Confirmar
-                  </Button>
-                ) : null}
-              </Grid>
-            </Grid>
-
-          </CardContent>
-        </Card>
+        <Grid item >
+          <Dialog
+            open={open2}
+            onClose={handleClose2}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"¿ Desea realizar los cambios en tu perfil?"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Si continuas tus datos se modificaran con la nueva información que has colocado.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={(e) => handleSubmit(e)} autoFocus>Si, quiero realizar los cambios</Button>
+              <Button onClick={handleNo2}>Cancelar</Button>
+            </DialogActions>
+          </Dialog>
+        </Grid>
       </Grid>
-
-      <Grid item >
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"¿ Desea eliminar la imagen de perfil ?"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Si continuas tu foto de perfil será eliminada para siempre.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={(e) => handleDelete(e)} autoFocus>Si, deseo eliminarla</Button>
-            <Button onClick={handleNo}>Cancelar</Button>
-          </DialogActions>
-        </Dialog>
-      </Grid>
-
-      <Grid item >
-        <Dialog
-          open={open2}
-          onClose={handleClose2}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"¿ Desea realizar los cambios en tu perfil?"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Si continuas tus datos se modificaran con la nueva información que has colocado.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={(e) => handleSubmit(e)} autoFocus>Si, quiero realizar los cambios</Button>
-            <Button onClick={handleNo2}>Cancelar</Button>
-          </DialogActions>
-        </Dialog>
-      </Grid>
-    </Grid>
-    // </CardContent>
-    // </Card>
+    </Paper>
 
   );
 };
@@ -685,5 +693,10 @@ export default Profile;
 const useStyles = makeStyles(() => ({
   middle: {
     justifyContent: 'center'
+  },
+
+  paperWraper: {
+    minHeight: '100vh'
   }
+
 }));
