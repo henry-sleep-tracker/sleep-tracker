@@ -101,7 +101,7 @@ const forgotPassword = async (req, res) => {
     const token = jwt.sign({ email: oldUser.email, id: oldUser.id }, secret, {
       expiresIn: "50m",
     });
-    const link = `${process.env.REACT_APP_BASE_FRONT_URL}/reiniciar_contrasena/${oldUser.id}/${token}`;
+    const link = `${process.env.BASE_FRONT_URL}/reiniciar_contrasena/${oldUser.id}/${token}`;
     res.status(200).json(link); //201 es que fue creado
   } catch (error) {
     console.log("El error controllers user forgotPassword es:", error.message);
@@ -156,29 +156,30 @@ const deleteUser = async (req, res) => {
     const { id, idAdmin, password } = req.params;
     function copareHash(password, hashed) {
       return bcrypt.compareSync(password, hashed);
-    };
+    }
     const userDelete = await findUserById(id);
-    
-    if(idAdmin){ // Solo para el Admin
+
+    if (idAdmin) {
+      // Solo para el Admin
       const userAdmin = await findUserById(idAdmin);
-      if(userAdmin && userAdmin.isAdmin && userDelete){
+      if (userAdmin && userAdmin.isAdmin && userDelete) {
         const result = await User.destroy({ where: { id: id } });
-        if(result) return res.status(200).send("Usuario eliminado");
+        if (result) return res.status(200).send("Usuario eliminado");
       }
     }
-    if (!id || !password) return res.status(428).send("Falta enviar datos obligatorios"); // Validacion de datos
-  
+    if (!id || !password)
+      return res.status(428).send("Falta enviar datos obligatorios"); // Validacion de datos
+
     if (!userDelete) return res.status(202).send("el usuario no existe"); // Validacion de Usuario existente
-    
+
     if (copareHash(password, userDelete.hashedPassword)) {
       const result = await User.destroy({ where: { id: id } });
-      if(result) return res.status(200).send("Usuario eliminado");
+      if (result) return res.status(200).send("Usuario eliminado");
     }
   } catch (error) {
     return res.status(400).send("No se pudo eliminar el usuario");
   }
 };
-
 
 const restoreUser = async (req, res) => {
   try {

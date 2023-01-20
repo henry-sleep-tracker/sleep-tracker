@@ -15,3 +15,4 @@ export const POST_USER_WITH_GOOGLE = "POST_USER_WITH_GOOGLE";
 export const IS_GOOGLE_USER = "IS_GOOGLE_USER";
 export const IS_PASSWORD_SET_UP = "IS_PASSWORD_SET_UP";
 export const USER_ID = "USER_ID";
+export const IS_ADMIN = "IS_ADMIN";
