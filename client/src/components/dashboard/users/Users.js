@@ -1,26 +1,26 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { styled, Box, Typography } from "@mui/material";
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { 
-  DataGrid, 
-  GridToolbarContainer, 
-  GridToolbarColumnsButton, 
-  gridClasses, 
-  esES, 
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import {
+  DataGrid,
+  GridToolbarContainer,
+  GridToolbarColumnsButton,
+  gridClasses,
+  esES,
   gridPageCountSelector,
   gridPageSelector,
   useGridApiContext,
-  useGridSelector
+  useGridSelector,
 } from "@mui/x-data-grid";
 import { grey } from "@mui/material/colors";
-import Pagination from '@mui/material/Pagination';
+import Pagination from "@mui/material/Pagination";
 
 import { getUsers } from "../../../actions/users";
 import UsersActions from "./UsersActions";
-import GridToolbarFilters from './GridToolbarFilters'
+import GridToolbarFilters from "./GridToolbarFilters";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -31,7 +31,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-function CustomToolbar( { filters, setFilters }) {
+function CustomToolbar({ filters, setFilters }) {
   return (
     <GridToolbarContainer sx={{ mr: 2 }}>
       <GridToolbarColumnsButton />
@@ -46,48 +46,53 @@ function CustomPagination({ totalUsers }) {
   const pageCount = useGridSelector(apiRef, gridPageCountSelector);
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Box>
-        Total de Usuarios: { totalUsers }
-      </Box>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <Box>Total de Usuarios: {totalUsers}</Box>
       <Pagination
         color="primary"
         count={pageCount}
         page={page + 1}
         onChange={(event, value) => apiRef.current.setPage(value - 1)}
       />
-  </Box>
+    </Box>
   );
-};
+}
 
 function UsersContent() {
-
   const dispatch = useDispatch();
-  const users = useSelector(state => state.users.users);
-  
+  const users = useSelector((state) => state.users.users);
+
   const [rowId, setRowId] = useState(null);
   const [pageState, setPageState] = useState({
     isLoading: false,
     users: users.users,
     total: users.total,
     page: 1,
-    pageSize: 5
+    pageSize: 5,
   });
 
   const [filters, setFilters] = useState({
-    nationality: '',
-    plan: '',
-    lastNames: ''
+    nationality: "",
+    plan: "",
+    lastNames: "",
   });
 
-  const [search, setSearch] = useState('');
-  const handleChangeSearch = (event) => { setSearch(event.target.value) };
+  const [search, setSearch] = useState("");
+  const handleChangeSearch = (event) => {
+    setSearch(event.target.value);
+  };
   const handleSearch = (event) => {
-    if(event.target.name === 'limpiar'){
-      setSearch('');
-      setFilters( filters => ({...filters, lastNames: ''}) )
-    } else{
-      setFilters( filters => ({...filters, lastNames: search}) )
+    if (event.target.name === "limpiar") {
+      setSearch("");
+      setFilters((filters) => ({ ...filters, lastNames: "" }));
+    } else {
+      setFilters((filters) => ({ ...filters, lastNames: search }));
     }
   };
 
@@ -97,21 +102,26 @@ function UsersContent() {
   }, []);
 
   useEffect(() => {
-    setPageState(old => ({ ...old, isLoading: false, users: users.users, total: users.total }));
+    setPageState((old) => ({
+      ...old,
+      isLoading: false,
+      users: users.users,
+      total: users.total,
+    }));
   }, [users]);
 
   useEffect(() => {
-      setPageState(old => ({ ...old, isLoading: true }));
-      dispatch(getUsers(pageState.page, pageState.pageSize, filters));
-      // eslint-disable-next-line
+    setPageState((old) => ({ ...old, isLoading: true }));
+    dispatch(getUsers(pageState.page, pageState.pageSize, filters));
+    // eslint-disable-next-line
   }, [pageState.page, pageState.pageSize]);
 
   useEffect(() => {
-    setPageState(old => ({ ...old, isLoading: true }));
+    setPageState((old) => ({ ...old, isLoading: true }));
     dispatch(getUsers(pageState.page, pageState.pageSize, filters));
     // eslint-disable-next-line
   }, [filters]);
-  
+
   // useEffect(() => {
   //   console.log('users', users);
   //   console.log('pageState', pageState);
@@ -123,29 +133,77 @@ function UsersContent() {
 
   const columns = useMemo(
     () => [
-      { field: "fullName", headerName: "Nombre Completo", width: 200, valueGetter: getFullName },
-      { field: "lastNames", headerName: "Apellidos", width: 170, editable: true },
+      {
+        field: "fullName",
+        headerName: "Nombre Completo",
+        width: 200,
+        valueGetter: getFullName,
+      },
+      {
+        field: "lastNames",
+        headerName: "Apellidos",
+        width: 170,
+        editable: true,
+      },
       { field: "names", headerName: "Nombres", width: 170, editable: true },
       { field: "email", headerName: "Email", width: 170 },
-      { field: "plan", headerName: "Suscripción", width: 125, headerAlign: 'center', align: 'center',
-          valueGetter:  params => { 
-          return params.row.plan?.name || 'Basico';
-        }
+      {
+        field: "plan",
+        headerName: "Suscripción",
+        width: 125,
+        headerAlign: "center",
+        align: "center",
+        valueGetter: (params) => {
+          return params.row.plan?.name || "Basico";
+        },
       },
-      { field: "isAdmin", headerName: "Admin", width: 85, headerAlign: 'center', align: 'center', 
-        type: "singleSelect", editable: true, 
-        valueOptions: [{ value: true, label: 'Si' }, { value: false, label: 'No'} ], 
-        valueFormatter: params => {
-          if(params.value === true ) return 'Si';
-          else return 'No';
-        }
+      {
+        field: "isAdmin",
+        headerName: "Admin",
+        width: 85,
+        headerAlign: "center",
+        align: "center",
+        type: "singleSelect",
+        editable: true,
+        valueOptions: [
+          { value: true, label: "Si" },
+          { value: false, label: "No" },
+        ],
+        valueFormatter: (params) => {
+          if (params.value === true) return "Si";
+          else return "No";
+        },
       },
-      { field: "birthday", headerName: "Nacimiento", type: "date", editable: true },
-      { field: "nationality", headerName: "Nacionalidad", width: 125, editable: true },
-      { field: "lastConnection", headerName: "Última Conexión", type: "date", width: 125 }, 
-      { field: "createdAt", headerName: "Creado", type: "date", width: 175, editable: true },
+      {
+        field: "birthday",
+        headerName: "Nacimiento",
+        type: "date",
+        editable: true,
+      },
+      {
+        field: "nationality",
+        headerName: "Nacionalidad",
+        width: 125,
+        editable: true,
+      },
+      {
+        field: "lastConnection",
+        headerName: "Última Conexión",
+        type: "date",
+        width: 125,
+      },
+      {
+        field: "createdAt",
+        headerName: "Creado",
+        type: "date",
+        width: 175,
+        editable: true,
+      },
       { field: "deletedAt", headerName: "Eliminado", type: "date", width: 175 },
-      { field: "actions", headerName: "Acciones", type: "actions",
+      {
+        field: "actions",
+        headerName: "Acciones",
+        type: "actions",
         renderCell: (params) => (
           <UsersActions {...{ params, rowId, setRowId, pageState }} />
         ),
@@ -157,49 +215,48 @@ function UsersContent() {
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <Box sx={{ height: 455, width: "100%" }}>
-
-        <Box sx={{ mb:2, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} >
-
-          <Typography variant="h5" component="h5" >
+        <Box
+          sx={{
+            mb: 2,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h5" component="h5">
             Usuarios
           </Typography>
 
           <Box>
             <Grid container spacing={2}>
-
               <Grid item>
                 <TextField
                   id="search"
                   label="Buscar Usuario"
                   placeholder="Apellido"
-                  variant="standard" 
+                  variant="standard"
                   value={search}
                   onChange={handleChangeSearch}
                 />
               </Grid>
 
               <Grid item>
-                <Button 
-                  variant="contained"
-                  onClick={handleSearch}
-                  >
+                <Button variant="contained" onClick={handleSearch}>
                   Buscar
                 </Button>
               </Grid>
 
               <Grid item>
-                <Button 
-                  name='limpiar'
+                <Button
+                  name="limpiar"
                   variant="contained"
                   onClick={handleSearch}
-                  >
+                >
                   Limpiar
                 </Button>
               </Grid>
-
             </Grid>
           </Box>
-
         </Box>
 
         <DataGrid
@@ -216,15 +273,14 @@ function UsersContent() {
           }}
           columns={columns}
           rows={pageState.users}
-
           pageSize={pageState.pageSize}
-
           paginationMode="server"
           rowCount={pageState.total}
           loading={pageState.isLoading}
-          onPageChange={ (newPage) => setPageState( old => ({ ...old, page: newPage + 1}) ) }
+          onPageChange={(newPage) =>
+            setPageState((old) => ({ ...old, page: newPage + 1 }))
+          }
           page={pageState.page - 1}
-
           getRowSpacing={(params) => ({
             top: params.isFirstVisible ? 0 : 3,
             bottom: params.isLastVisible ? 0 : 3,
@@ -236,7 +292,7 @@ function UsersContent() {
             },
           }}
           onCellEditCommit={(params) => setRowId(params.id)}
-          components={{ 
+          components={{
             Toolbar: CustomToolbar,
             Pagination: CustomPagination,
           }}
@@ -244,7 +300,6 @@ function UsersContent() {
             pagination: { totalUsers: users.total },
             toolbar: { filters: filters, setFilters: setFilters },
           }}
-
         />
       </Box>
 
