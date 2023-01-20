@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CollapsibleTableTime from "./CollapsibleTableTime";
 import GraphRecord from "./Graph-Records";
 import DualGraph from "./DualGraph";
 import GraphTime from "./Graph-Time";
@@ -67,10 +66,6 @@ const GraphWM = () => {
 
       <Grid item>
         <GraphTime />
-      </Grid>
-
-      <Grid item>
-        <CollapsibleTableTime />
       </Grid>
     </Grid>
   );

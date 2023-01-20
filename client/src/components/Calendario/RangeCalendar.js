@@ -24,7 +24,6 @@ export default function Calendario() {
       setState([item.selection]);
     } else {
       setState([item.selection]);
-      console.log("item", item.selection);
       const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
       const startDate = new Date(item.selection?.startDate - tzoffset)
         .toISOString()

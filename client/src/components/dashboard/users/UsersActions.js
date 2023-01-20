@@ -54,19 +54,17 @@ const UsersActions = ({ params, rowId, setRowId, pageState, filters }) => {
   };
   const restore = async () => {
     const result = dispatch(restoreUserByJustEmail(email)).then((result) => {
-      if (result) {
-        setRowId(null);
-        dispatch(getUsers(pageState.page, pageState.pageSize, filters));
-      }
+    message.success("El usuario ha sido activado.", 3000);
+    setRowId(null);
+    dispatch(getUsers(pageState.page, pageState.pageSize, filters));
     });
   };
   const eliminate = async () => {
     const idAdmin = window.localStorage.getItem(USER_ID);
     const result = dispatch(deleteUser(id, idAdmin)).then((result) => {
-      if (result) {
-        setRowId(null);
-        dispatch(getUsers(pageState.page, pageState.pageSize, filters));
-      }
+    message.error("El usuario ha sido desactivado.", 3000);
+    setRowId(null);
+    dispatch(getUsers(pageState.page, pageState.pageSize, filters));
     });
   };
 
