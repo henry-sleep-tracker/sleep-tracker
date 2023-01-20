@@ -11,7 +11,7 @@ import {
   ComposedChart,
   ResponsiveContainer,
 } from "recharts";
-import { Button, Card, CardContent, Grid } from "@mui/material";
+import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
 
 const sleepTranslations = {
   summary_light_min: "Sueño ligero",
@@ -70,7 +70,6 @@ export default function CombinedGraph() {
   const handleClick = useCallback(
     (event) => {
       const { dataKey } = event;
-      console.log("dataKey", dataKey);
       const updated = opacity[dataKey] === 0 ? 1 : 0;
       setOpacity({ ...opacity, [dataKey]: updated });
     },
@@ -124,11 +123,11 @@ export default function CombinedGraph() {
           connectNulls
           type="monotone"
           stroke={getColor(k)}
-          strokeWidth={1.5}
+          strokeWidth={3}
           strokeOpacity={opacity[k]}
           name={sleepTranslations[k]}
           dataKey={k}
-          onMouseEnter={() => (tooltip = { k })}
+          onMouseEnter={() => (tooltip = k)}
           onMouseLeave={() => (tooltip = null)}
           activeDot={{ r: 5 }}
           unit=" min"
@@ -166,15 +165,16 @@ export default function CombinedGraph() {
   var tooltip;
   const CustomTooltip = ({ active, payload }) => {
     if (!active || !tooltip) return null;
-    for (const bar of payload)
+    for (const bar of payload) {
       if (bar.dataKey === tooltip)
         return (
           <div>
-            {bar.name}
+            {`${bar.name}:`}
             <br />
-            {bar.value}
+            {`${bar.value} ${bar.unit}`}
           </div>
         );
+    }
     return null;
   };
 
@@ -191,6 +191,14 @@ export default function CombinedGraph() {
       <Grid item>
         <Card variant="outlined">
           <CardContent>
+            <Typography
+              fontSize="2rem"
+              fontWeight={"bold"}
+              align="center"
+              p={3}
+            >
+              Etapas de sueño y actividades diarias
+            </Typography>
             <Grid
               container
               justifyContent="center"
@@ -202,8 +210,8 @@ export default function CombinedGraph() {
             >
               <ResponsiveContainer width={windowWidth - 150} height={500}>
                 <ComposedChart
-                  width={500}
-                  height={400}
+                  width={"10rem"}
+                  height={"40rem"}
                   data={combinedObjects}
                   margin={{
                     top: 20,
@@ -217,13 +225,22 @@ export default function CombinedGraph() {
                   <YAxis yAxisId="left" />
                   <YAxis yAxisId="right" orientation="right" />
                   <Tooltip
+                    content={<CustomTooltip />}
                     itemStyle={{
                       textTransform: "capitalize",
                       textAlign: "left",
                     }}
-                    content={<CustomTooltip />}
+                    wrapperStyle={{
+                      backgroundColor: "white",
+                      padding: "0.5rem",
+                    }}
                   />
-                  <Legend onClick={handleClick} />
+                  <Legend
+                    onClick={handleClick}
+                    layout="vertical"
+                    align="right"
+                    verticalAlign="middle"
+                  />
                   <Bar
                     yAxisId="right"
                     type="monotone"
@@ -247,7 +264,7 @@ export default function CombinedGraph() {
                     fill="#4db6ac"
                     fillOpacity={opacity.merienda}
                     barSize={20}
-                    unit=" Hrs"
+                    unit=" hrs"
                   />
                   <Bar
                     yAxisId="right"
@@ -280,8 +297,8 @@ export default function CombinedGraph() {
               </ResponsiveContainer>
 
               <Grid item>
-                <Button onClick={handleReset} variant="outlined">
-                  Reiniciar grafica
+                <Button onClick={handleReset} variant="contained">
+                  Reset grafica
                 </Button>
               </Grid>
             </Grid>

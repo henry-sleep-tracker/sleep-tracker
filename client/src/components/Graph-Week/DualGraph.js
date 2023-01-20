@@ -10,7 +10,15 @@ import {
   LineChart,
   ResponsiveContainer,
 } from "recharts";
-import { Button, Card, CardContent, Grid } from "@mui/material";
+import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
+
+const sleepTranslations = {
+  summary_light_min: "Sueño ligero",
+  summary_deep_min: "Sueño profundo",
+  summary_rem_min: "REM",
+  summary_awake_min: "Despierto",
+  efficiency: "Eficiencia",
+};
 
 export default function DualGraph() {
   const ranges = useSelector((state) => state.session);
@@ -78,10 +86,12 @@ export default function DualGraph() {
           connectNulls
           type="monotone"
           stroke={getColor(k)}
-          strokeWidth={1.5}
+          strokeWidth={3}
           strokeOpacity={opacity[k]}
-          name={k.replace(/_/g, " ")}
+          name={sleepTranslations[k]}
           dataKey={k}
+          onMouseEnter={() => (tooltip = k)}
+          onMouseLeave={() => (tooltip = null)}
           activeDot={{ r: 5 }}
         />
       );
@@ -98,6 +108,22 @@ export default function DualGraph() {
     window.addEventListener("resize", handleResize);
   }, []);
 
+  var tooltip;
+  const CustomTooltip = ({ active, payload }) => {
+    if (!active || !tooltip) return null;
+    for (const bar of payload) {
+      if (bar.dataKey === tooltip)
+        return (
+          <div>
+            {`${bar.name}:`}
+            <br />
+            {`${bar.value} ${bar.unit}`}
+          </div>
+        );
+    }
+    return null;
+  };
+
   return (
     <Grid
       container
@@ -111,6 +137,14 @@ export default function DualGraph() {
       <Grid item>
         <Card variant="outlined">
           <CardContent>
+            <Typography
+              fontSize="2rem"
+              fontWeight={"bold"}
+              align="center"
+              p={3}
+            >
+              Etapas de sueño
+            </Typography>
             <Grid
               container
               justifyContent="center"
@@ -136,20 +170,32 @@ export default function DualGraph() {
                   <XAxis dataKey="date" />
                   <YAxis />
                   <Tooltip
+                    content={<CustomTooltip />}
                     itemStyle={{
                       textTransform: "capitalize",
                       textAlign: "left",
                     }}
-                    content={"efficiency"}
+                    wrapperStyle={{
+                      backgroundColor: "white",
+                      padding: "0.5rem",
+                    }}
                   />
-                  <Legend onClick={handleClick} />
+                  <Legend
+                    onClick={handleClick}
+                    layout="vertical"
+                    align="right"
+                    verticalAlign="middle"
+                    wrapperStyle={{
+                      paddingLeft: "2rem",
+                    }}
+                  />
                   {ranges?.length && lines()}
                 </LineChart>
               </ResponsiveContainer>
 
               <Grid item>
-                <Button onClick={handleReset} variant="outlined">
-                  Reiniciar grafica
+                <Button onClick={handleReset} variant="contained">
+                  Reset grafica
                 </Button>
               </Grid>
             </Grid>

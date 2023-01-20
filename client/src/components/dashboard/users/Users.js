@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { styled, Box, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import {
   DataGrid,
   GridToolbarContainer,
@@ -77,7 +80,21 @@ function UsersContent() {
   const [filters, setFilters] = useState({
     nationality: "",
     plan: "",
+    lastNames: "",
   });
+
+  const [search, setSearch] = useState("");
+  const handleChangeSearch = (event) => {
+    setSearch(event.target.value);
+  };
+  const handleSearch = (event) => {
+    if (event.target.name === "limpiar") {
+      setSearch("");
+      setFilters((filters) => ({ ...filters, lastNames: "" }));
+    } else {
+      setFilters((filters) => ({ ...filters, lastNames: search }));
+    }
+  };
 
   useEffect(() => {
     dispatch(getUsers(pageState.page, pageState.pageSize, filters));
@@ -198,13 +215,49 @@ function UsersContent() {
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <Box sx={{ height: 455, width: "100%" }}>
-        <Typography
-          variant="h5"
-          component="h5"
-          sx={{ textAlign: "left", mt: 0, mb: 2 }}
+        <Box
+          sx={{
+            mb: 2,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-          Usuarios
-        </Typography>
+          <Typography variant="h5" component="h5">
+            Usuarios
+          </Typography>
+
+          <Box>
+            <Grid container spacing={2}>
+              <Grid item>
+                <TextField
+                  id="search"
+                  label="Buscar Usuario"
+                  placeholder="Apellido"
+                  variant="standard"
+                  value={search}
+                  onChange={handleChangeSearch}
+                />
+              </Grid>
+
+              <Grid item>
+                <Button variant="contained" onClick={handleSearch}>
+                  Buscar
+                </Button>
+              </Grid>
+
+              <Grid item>
+                <Button
+                  name="limpiar"
+                  variant="contained"
+                  onClick={handleSearch}
+                >
+                  Limpiar
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
 
         <DataGrid
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}
