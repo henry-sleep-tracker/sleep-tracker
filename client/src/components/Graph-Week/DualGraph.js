@@ -93,6 +93,7 @@ export default function DualGraph() {
           onMouseEnter={() => (tooltip = k)}
           onMouseLeave={() => (tooltip = null)}
           activeDot={{ r: 5 }}
+          unit=" min"
         />
       );
     });
