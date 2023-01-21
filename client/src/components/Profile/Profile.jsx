@@ -12,7 +12,11 @@ import {
   MenuItem,
   Divider,
   Box,
-  Paper
+  Paper,
+  Tooltip,
+  IconButton,
+  ListItemIcon,
+  Menu
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -34,6 +38,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 // import PaymentIcon from "@mui/icons-material/Payment";
 import { makeStyles } from "@mui/styles";
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import EditIcon from '@mui/icons-material/Edit';
+import { Logout, Settings } from "@mui/icons-material";
 
 const Profile = () => {
   const { createPassword } = useAuthContext();
@@ -193,6 +199,20 @@ const Profile = () => {
 
   const classes = useStyles();
 
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const openAnchor = Boolean(anchorEl);
+
+  const handleClickAnchor = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseAnchor = () => {
+    setAnchorEl(null);
+  };
+
+
   return (
 
     <Paper
@@ -208,9 +228,7 @@ const Profile = () => {
         justifyContent="center"
         direction='column'
         alignItems='center'
-        // width='100vw'
         spacing={5}
-      // height='100vh'  
 
       >
         <Grid
@@ -233,19 +251,6 @@ const Profile = () => {
           >
             <CardContent>
 
-              {/* <Grid
-              item
-            > */}
-
-              {/* <Grid
-                container
-                justifyContent="center"
-                direction='column'
-                alignItems='center'
-                spacing={1}
-                width='90vw'
-              >
- */}
               <Grid
                 container
                 sx={{
@@ -254,20 +259,182 @@ const Profile = () => {
                     sm: 'column'
                   }
                 }}
-                justifyContent="space-between"
-                alignItems="flex-end"
+                justifyContent="center"
+                alignItems="center"
                 paddingTop={1}
                 paddingBottom={1}
 
-              // spacing={30}
               >
 
                 <Grid
                   item
-                // xs={12}
-
                 >
-                  <Avatar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  <Box>
+                    <Tooltip
+                      title={
+                        <Typography
+                          variant='h6'
+                          fontWeight='bold'
+                        >
+                          Editar
+                        </Typography>
+                      }>
+
+                      <IconButton
+                        onClick={handleClickAnchor}
+                        size="small"
+                        sx={{ ml: 2 }}
+                        aria-controls={openAnchor ? 'account-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={openAnchor ? 'true' : undefined}
+                      >
+                        <ListItemIcon>
+                          {
+                            currentUser.image ?
+                              <Avatar
+                                alt="Not found"
+                                srcSet={currentUser.image}
+                                sx={{
+                                  width: 150,
+                                  height: 150
+                                }}
+                              />
+                              :
+                              <Avatar>
+                                <PersonIcon />
+                              </Avatar>
+                          }
+                        </ListItemIcon>
+                      </IconButton>
+                    </Tooltip>
+                    <Menu
+                      anchorEl={anchorEl}
+                      id="account-menu"
+                      open={openAnchor}
+                      onClose={handleCloseAnchor}
+                      PaperProps={{
+                        elevation: 0,
+                        sx: {
+                          overflow: 'visible',
+                          filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                          mt: 1.5,
+                          '& .MuiAvatar-root': {
+                            width: 32,
+                            height: 32,
+                            ml: -0.5,
+                            mr: 1,
+                          },
+                          '&:before': {
+                            content: '""',
+                            display: 'block',
+                            position: 'absolute',
+                            top: 0,
+                            right: 14,
+                            width: 10,
+                            height: 10,
+                            bgcolor: 'background.paper',
+                            transform: 'translateY(-50%) rotate(45deg)',
+                            zIndex: 0,
+                          },
+                        },
+                      }}
+                      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                    >
+                      {image ?
+                        <MenuItem
+                          onClick={handleImage}
+                        >
+                          <ListItemIcon>
+                            <CheckIcon
+                              color='success'
+                            />
+                          </ListItemIcon>
+                          Confirme
+                        </MenuItem>
+
+                        :
+                        <Button
+                          size='large'
+                          sx={{
+                            "&.MuiButtonBase-root:hover"
+                              :
+                            {
+                              bgcolor: "transparent"
+                            }
+                          }}
+                          color="primary"
+                          aria-label="upload picture"
+                          component="label">
+                          <input
+                            hidden
+                            accept="image/*"
+                            type="file"
+                            onChange={(e) => convertirBase64(e)}
+                          />
+                          <MenuItem>
+                            <ListItemIcon>
+                              <EditIcon />
+                            </ListItemIcon>
+                            <Typography>
+                              Editar
+                            </Typography>
+
+                          </MenuItem>
+                        </Button>
+                      }
+
+                      {
+                        currentUser.image ?
+                          <MenuItem
+                            onClick={handleClickDelete}
+                          >
+                            <ListItemIcon>
+                              <DeleteIcon
+                                color='error'
+                              />
+                            </ListItemIcon>
+                            <Typography>
+                              Eliminar
+                            </Typography>
+                          </MenuItem>
+
+                          :
+                          null
+                      }
+                    </Menu>
+
+                  </Box>
+
+
+
+
+
+
+
+
+
+
+                </Grid>
+                {/* <Avatar
                     alt="Not found"
                     srcSet={currentUser.image}
                     sx={{
@@ -280,7 +447,6 @@ const Profile = () => {
 
                 <Grid
                   item
-                // xs={12}
                 >
                   {
                     currentUser.image ?
@@ -299,7 +465,6 @@ const Profile = () => {
 
                 <Grid
                   item
-                // xs={12}
                 >
                   {image ?
                     <Button
@@ -314,7 +479,6 @@ const Profile = () => {
                     <Button
                       size='large'
                       sx={{
-                        // ml: 1,
                         "&.MuiButtonBase-root:hover"
                           :
                         {
@@ -334,7 +498,7 @@ const Profile = () => {
                       />
                       Editar
                     </Button>}
-                </Grid>
+                </Grid> */}
               </Grid>
 
               <Divider />
@@ -346,17 +510,7 @@ const Profile = () => {
                 alignItems="center"
                 paddingTop={1}
                 paddingBottom={1}
-              // spacing={30}
               >
-
-                {/* <Grid item>
-                  <Typography
-                    variant="h6"
-                    fontWeight='bold'
-                  >
-                    Tu nombre
-                  </Typography>
-                </Grid> */}
 
                 <Grid
                   item
