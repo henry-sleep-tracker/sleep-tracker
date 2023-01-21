@@ -416,6 +416,12 @@ const Record = props => {
       return;
     }
 
+    if (!addActivity.activity) {
+      message.warn(`Ingresa un nombre para la nueva actividad`, 2500);
+      message.warn(`Ingresa un nombre para la nueva actividad`, 2500);
+      return;
+    }
+
     dispatch(createNewActivity(addActivity));
 
     if (activityStat === null) {
@@ -521,6 +527,12 @@ const Record = props => {
       return;
     }
 
+    if (!addCoffeSize.size) {
+      message.warn(`Ingresa un nombre para la nueva porcion`, 2500);
+      message.warn(`Ingresa un nombre para la nueva porcion`, 2500);
+      return;
+    }
+
     dispatch(createNewCoffeeSize(addCoffeSize));
 
     if (coffeeStat === null) {
@@ -623,6 +635,12 @@ const Record = props => {
       message.error(`La bebida ${addNewDrink.drink} no puede duplicarse`, 2500);
       message.error(`La bebida ${addNewDrink.drink} no puede duplicarse`, 2500);
       nameDrink.current.value = "";
+      return;
+    }
+
+    if (!addNewDrink.drink) {
+      message.warn(`Ingresa un nombre para la nueva bebida`, 2500);
+      message.warn(`Ingresa un nombre para la nueva bebida`, 2500);
       return;
     }
 
