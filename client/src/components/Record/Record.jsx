@@ -1155,50 +1155,20 @@ const Record = props => {
             {/* ====================== BUTTONS SECTION ======================= */}
 
             <div className="button_container">
-              <div hidden={window.innerWidth > 400 ? true : false}>
-                <Button
-                  variant="contained"
-                  onClick={handlerOnSubmit}
-                  sx={{
-                    width: "380px",
-                    margin: "15px",
-                    height: "60px",
-                    fontSize: "20px",
-                  }}
-                >
-                  Guardar
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={handlerOnClear}
-                  sx={{
-                    width: "380px",
-                    margin: "15px",
-                    height: "60px",
-                    fontSize: "20px",
-                  }}
-                >
-                  Limpiar
-                </Button>
-              </div>
-              <div hidden={window.innerWidth <= 400 ? true : false}>
-                <Stack direction="row" spacing={10}>
-                  <Button
-                    variant="contained"
-                    onClick={handlerOnSubmit}
-                    sx={{ width: "150px" }}
-                  >
-                    Guardar
-                  </Button>
-                  <Button
-                    variant="contained"
-                    onClick={handlerOnClear}
-                    sx={{ width: "150px" }}
-                  >
-                    Limpiar
-                  </Button>
-                </Stack>
-              </div>
+              <Button
+                variant="contained"
+                onClick={handlerOnSubmit}
+                sx={{ width: "300px", margin: "5px" }}
+              >
+                Guardar
+              </Button>
+              <Button
+                variant="contained"
+                onClick={handlerOnClear}
+                sx={{ width: "300px", margin: "5px" }}
+              >
+                Limpiar
+              </Button>
             </div>
           </div>
         </form>
