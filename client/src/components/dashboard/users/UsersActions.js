@@ -61,7 +61,8 @@ const UsersActions = ({ params, rowId, setRowId, pageState, filters }) => {
   };
   const eliminate = async () => {
     const idAdmin = window.localStorage.getItem(USER_ID);
-    const result = dispatch(deleteUser(id, idAdmin)).then((result) => {
+    const password = "NoPassword";
+    dispatch(deleteUser(id, password, idAdmin)).then(() => {
     message.error("El usuario ha sido desactivado.", 3000);
     setRowId(null);
     dispatch(getUsers(pageState.page, pageState.pageSize, filters));
