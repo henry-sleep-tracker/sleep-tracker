@@ -79,7 +79,7 @@ function App() {
         <Route path="/private" element={<PrivateRoute />}>
           <Route path="/private" element={<GeneralRoutes />}>
             <Route path="/private/dashboard/" element={<AdminRoute />}>
-              <Route path="/private/dashboard/*" element={<Dashboard />} />
+              <Route index element={<Dashboard />} />
             </Route>
 
             <Route index path="/private/home" element={<Home />} />
