@@ -9,6 +9,7 @@ import ChangePasswordOk from "./components/Loading/ChangePasswordOk";
 import CommentCreate from "./components/Comments/Comment";
 import ConoceAlEquipo from "./components/Home/ConoceAlEquipo";
 import Dashboard from "./components/dashboard/Dashboard.js";
+import Default from "./components/dashboard/default/Default";
 import DeleteUser from "./components/Profile/DeleteProfile.jsx";
 import Fitbit from "./components/SignUp/Fitbit";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword.jsx";
@@ -31,10 +32,13 @@ import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
 import NewUserSuccess from "./components/Loading/NewUserSuccess";
 import Saving from "./components/Record/Saving";
 import UserExist from "./components/Loading/UserExist";
+import Users from "./components/dashboard/users/Users";
 import Chat from "./components/Home/chat";
 import {
   ChangePasswordOkProfile,
   ChangePasswordErrorProfile,
+  DeleteUserProfile,
+  DeleteUserProfileError,
 } from "./components/Loading/ChangePasswordProfile";
 
 import "./App.css";
@@ -79,7 +83,9 @@ function App() {
         <Route path="/private" element={<PrivateRoute />}>
           <Route path="/private" element={<GeneralRoutes />}>
             <Route path="/private/dashboard/" element={<AdminRoute />}>
-              <Route path="/private/dashboard/*" element={<Dashboard />} />
+              <Route index element={<Dashboard />} />
+              {/* <Route path="/private/dashboard/1" element={<Default />} /> */}
+              <Route path="/private/dashboard/users" element={<Users />} />
             </Route>
 
             <Route index path="/private/home" element={<Home />} />
@@ -103,6 +109,14 @@ function App() {
           <Route
             path="/private/changepassworderror"
             element={<ChangePasswordErrorProfile />}
+          />
+          <Route
+            path="/private/deleteuserprofile"
+            element={<DeleteUserProfile />}
+          />
+          <Route
+            path="/private/deleteuserprofileerror"
+            element={<DeleteUserProfileError />}
           />
           <Route path="/private/planes" element={<Pricing />} />
           <Route path="/private/loadingpayment" element={<LoadingPayment />} />

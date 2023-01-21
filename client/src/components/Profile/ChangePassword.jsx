@@ -78,11 +78,11 @@ export default function ChangePassword() {
     }
   }
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const [showPassword2, setShowPassword2] = React.useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
 
   const handleClickShowPassword2 = () => setShowPassword2((show) => !show);
 
