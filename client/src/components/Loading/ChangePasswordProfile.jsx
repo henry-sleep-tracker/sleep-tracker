@@ -11,12 +11,11 @@ import "./Loading.css";
 //>======================>//
 
 export const ChangePasswordOkProfile = () => {
-  
   const navigate = useNavigate();
 
   useEffect(() => {
     const delay = () => navigate("/private/profile");
-    
+
     setTimeout(() => {
       delay();
     }, 2000);
@@ -24,8 +23,8 @@ export const ChangePasswordOkProfile = () => {
     return () => {
       message.success("La contraseña se actualizo correctamente", 3000);
       message.success("La contraseña se actualizo correctamente", 3000);
-    }
-    
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -33,7 +32,7 @@ export const ChangePasswordOkProfile = () => {
     <div className="modal">
       <div className="modal-content">
         <div className="loader"></div>
-        <div className="modal-text">Actualizando Password...</div>
+        <div className="modal-text">Actualizando Contraseña...</div>
       </div>
     </div>
   );
@@ -58,7 +57,7 @@ export const ChangePasswordErrorProfile = () => {
         "Hubo un error al actualizar la contraseña. Intentelo nuevamente.",
         3000
       );
-    }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -66,9 +65,8 @@ export const ChangePasswordErrorProfile = () => {
     <div className="modal">
       <div className="modal-content">
         <div className="loader"></div>
-        <div className="modal-text">Actualizando Password...</div>
+        <div className="modal-text">Actualizando Contraseña...</div>
       </div>
     </div>
   );
 };
-
