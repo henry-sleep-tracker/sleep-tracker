@@ -64,7 +64,7 @@ export function AuthContextProvider({ children }) {
     setPlanExpDate(planExpirationDate);
     if (isAdmin === true) {
       window.localStorage.setItem(IS_ADMIN, true);
-      setIsPasswordSetUp(true);
+      setIsAdmin(true);
     }
     if (email.slice(-10) === "@gmail.com") {
       window.localStorage.setItem(IS_GOOGLE_USER, true);
