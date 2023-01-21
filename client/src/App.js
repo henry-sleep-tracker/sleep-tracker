@@ -37,6 +37,8 @@ import Chat from "./components/Home/chat";
 import {
   ChangePasswordOkProfile,
   ChangePasswordErrorProfile,
+  DeleteUserProfile,
+  DeleteUserProfileError,
 } from "./components/Loading/ChangePasswordProfile";
 
 import "./App.css";
@@ -107,6 +109,14 @@ function App() {
           <Route
             path="/private/changepassworderror"
             element={<ChangePasswordErrorProfile />}
+          />
+          <Route
+            path="/private/deleteuserprofile"
+            element={<DeleteUserProfile />}
+          />
+          <Route
+            path="/private/deleteuserprofileerror"
+            element={<DeleteUserProfileError />}
           />
           <Route path="/private/planes" element={<Pricing />} />
           <Route path="/private/loadingpayment" element={<LoadingPayment />} />
