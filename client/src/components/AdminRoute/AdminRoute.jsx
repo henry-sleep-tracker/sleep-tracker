@@ -43,9 +43,6 @@ export default function AdminRoute() {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <ResponsiveAppBar mode={mode} setMode={setMode} />
-      <Outlet /> {/*todo lo que esta anidado dentro de publico */}
-    </ThemeProvider>
+      <Outlet />
   );
 }
