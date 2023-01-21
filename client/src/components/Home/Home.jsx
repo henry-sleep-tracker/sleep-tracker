@@ -56,7 +56,7 @@ const Home = () => {
 
   return (
     <Paper
-    className={classes.paperWraper}
+      className={classes.paperWraper}
     >
 
       <Grid
@@ -67,14 +67,18 @@ const Home = () => {
         spacing={3}
         flex={4}
         p={"2rem"}
-        // sx={{ backgroundColor: "#f7f8fb" }}
+      // sx={{ backgroundColor: "#f7f8fb" }}
       >
         <Helmet>
           <title>Inicio | Sleep Tracker</title>
         </Helmet>
 
         <Grid item>
-          <Typography sx={{ fontSize: "3vw", fontWeight: "bold" }}>
+          <Typography
+            variant='h2'
+            fontWeight="bold"
+            paddingTop={2}
+          >
             ¡Hola {user.name}, {greet()}
           </Typography>
         </Grid>
@@ -137,8 +141,8 @@ export default Home;
 
 const useStyles = makeStyles(() => ({
 
-  paperWraper:{
-    minHeight:'100vh'
+  paperWraper: {
+    minHeight: '100vh'
   }
   // bgColor: {
   //   color: ''

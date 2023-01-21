@@ -54,7 +54,7 @@ export default function PrivateRoute() {
       mode,
       ...(mode === 'dark' && {
         primary: {
-          main: '#283593',
+          main: '#7986cb',
         },
         secondary: {
           main: '#f50057',
