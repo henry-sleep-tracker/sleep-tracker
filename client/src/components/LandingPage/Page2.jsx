@@ -48,12 +48,11 @@ const Page2 = () => {
       container
       direction='column'
       alignItems="center"
-      // justifyContent='flex-start'
-      className={classes.mainPaper}
-      sx={{ minHeight: { xl: '70vh' , lg: '120vh', md:'120vh' } }}
-      // p={9}
-      // paddingLeft={15}
-      // paddingRight={15}
+      sx={{
+        minHeight: 'auto',
+        //  xl: '130vh' , lg: '130vh', md:'130vh' 
+        backgroundColor: '#ecefef'
+      }}
       columns={12}
       spacing={4}
     >
@@ -89,7 +88,7 @@ const Page2 = () => {
           {itemData.map((item) => (
             <Grid
               item
-
+              marginBottom={4}
             >
 
               <Card
