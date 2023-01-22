@@ -12,7 +12,11 @@ import {
   MenuItem,
   Divider,
   Box,
-  Paper
+  Paper,
+  Tooltip,
+  IconButton,
+  ListItemIcon,
+  Menu
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -33,6 +37,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 // import AddCommentIcon from "@mui/icons-material/AddComment";
 // import PaymentIcon from "@mui/icons-material/Payment";
 import { makeStyles } from "@mui/styles";
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import EditIcon from '@mui/icons-material/Edit';
+import { Logout, Settings } from "@mui/icons-material";
 
 const Profile = () => {
   const { createPassword } = useAuthContext();
@@ -192,6 +199,20 @@ const Profile = () => {
 
   const classes = useStyles();
 
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const openAnchor = Boolean(anchorEl);
+
+  const handleClickAnchor = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseAnchor = () => {
+    setAnchorEl(null);
+  };
+
+
   return (
 
     <Paper
@@ -207,433 +228,555 @@ const Profile = () => {
         justifyContent="center"
         direction='column'
         alignItems='center'
-        // width='100vw'
         spacing={5}
-      // height='100vh'  
 
       >
         <Grid
           item
         >
-          <Typography variant="h2">Perfil</Typography>
+          <Typography
+            variant="h2"
+            fontWeight='bold'
+            paddingTop={5}
+          >
+            Perfil
+          </Typography>
         </Grid>
 
 
         <Grid item>
           <Card
             variant="outlined"
+            sx={{ width: '70vw' }}
           >
             <CardContent>
 
-              {/* <Grid
-              item
-            > */}
-
               <Grid
                 container
+                sx={{
+                  direction: {
+                    md: 'row',
+                    sm: 'column'
+                  }
+                }}
                 justifyContent="center"
-                direction='column'
-                alignItems='center'
-                spacing={1}
-                width='90vw'
+                alignItems="center"
+                paddingTop={1}
+                paddingBottom={1}
+
               >
-
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                // spacing={30}
-                >
-
-                  <Grid
-                    item
-                    lg={4}
-                    md={6}
-                    xs={12}
-xl
-sm
-                  >
-                    <Avatar
-                      alt="Not found"
-                      srcSet={currentUser.image}
-                      sx={{
-                        width: 35,
-                        height: 35
-                      }}
-                    />
-
-                  </Grid>
-
-                  <Grid
-                    item
-                    lg={4}
-                    md={4}
-                    xs={12}
-
-                  >
-                    {
-                      currentUser.image ?
-                        <Button
-                          variant='outlined'
-                          color='error'
-                          onClick={handleClickDelete}>
-                          Eliminar
-                        </Button>
-                        :
-                        null
-                    }
-                  </Grid>
-
-                  <Grid
-                    item
-                    className={classes.middle}
-                    lg={4}
-                    md={4}
-                    xs={12}
-                  >
-                    {image ?
-                      <Button
-                        color="success"
-                        variant="contained"
-                        onClick={handleImage}
-                      >
-                        Confirme
-                      </Button>
-                      :
-                      <Button
-                        sx={{
-                          ml: 1,
-                          "&.MuiButtonBase-root:hover"
-                            :
-                          {
-                            bgcolor: "transparent"
-                          }
-                        }}
-                        variant='outlined'
-                        startIcon={<PhotoCamera />}
-                        color="primary"
-                        aria-label="upload picture"
-                        component="label">
-                        <input
-                          hidden
-                          accept="image/*"
-                          type="file"
-                          onChange={(e) => convertirBase64(e)}
-                        />
-                        Editar
-                      </Button>}
-                  </Grid>
-                </Grid>
-
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                // spacing={30}
-                >
-
-                  <Grid item>
-                    <Typography
-                      variant="h6"
-                      fontWeight='bold'
-                    >
-                      Tu nombre
-                    </Typography>
-                  </Grid>
-
-                  <Grid
-                    item
-                    className={classes.middle}
-                  >
-                    {!editNames ? (
-                      <Typography>
-                        {`${currentUser.names} ${currentUser.lastNames}`}
-                      </Typography>
-                    ) : (
-                      <TextField
-                        variant="outlined"
-                        label="Nuevo nombre"
-                        type="text"
-                        name="names"
-                        value={inputs.names}
-                        onChange={(e) => handleInputs(e)}
-                      />
-                    )}
-                  </Grid>
-
-                  <Grid item>
-                    {!inputs.names && (
-                      <Button
-                        variant="outlined"
-                        onClick={(e) => handleClick(e)}
-                        startIcon={<PersonIcon />}
-                      >
-                        Editar
-                      </Button>
-                    )}
-                  </Grid>
-
-                </Grid>
-
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                // spacing={30}
-                >
-
-                  <Grid
-                    item
-                  >
-                    <Typography
-                      variant="h6"
-                      fontWeight='bold'
-                    >
-                      Correo electronico
-                    </Typography>
-                  </Grid>
-
-                  <Grid item>
-                    {!editEmail ? (
-                      <Typography>{currentUser.email}</Typography>
-                    ) : (
-                      <TextField
-                        type="text"
-                        name="email"
-                        label="Nuevo email"
-                        value={inputs.email}
-                        onChange={handleInputs}
-                      />
-                    )}
-                  </Grid>
-
-                  <Grid item>
-                    {!inputs.email && (
-                      <Button
-                        variant="outlined"
-                        onClick={(e) => handleClickEmail(e)}
-                        startIcon={<EmailIcon />}
-                      >
-                        Editar
-                      </Button>
-                    )}
-                  </Grid>
-                </Grid>
-
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                // spacing={30}
-                >
-
-                  <Grid
-                    item
-                  >
-                    <Typography
-                      variant="h6"
-                      fontWeight='bold'
-                    >
-                      Fecha de nacimiento
-                    </Typography>
-                  </Grid>
-
-                  <Grid item>
-                    {!editiBirthday ? (
-                      <Typography>
-                        {currentUser.birthday}
-                      </Typography>
-                    ) : (
-                      <TextField
-                        helperText="Fecha de nacimiento"
-                        type="date"
-                        name="birthday"
-                        min="1900-01-01"
-                        max={yourDate}
-                        placeholder=""
-                        value={inputs.birthday}
-                        onChange={handleInputs}
-                      />
-                    )}
-                  </Grid>
-
-                  <Grid item>
-                    {!inputs.birthday &&
-                      <Button
-                        variant="outlined"
-                        onClick={(e) => handleClickBirthday(e)}
-                        startIcon={<CalendarMonthIcon />}
-                      >
-                        Editar
-                      </Button>
-                    }
-                  </Grid>
-                </Grid>
-
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                // spacing={30}
-                >
-
-                  <Grid
-                    item
-                  >
-                    <Typography
-                      variant="h6"
-                      fontWeight='bold'
-                    >
-                      Nacionalidad
-                    </Typography>
-                  </Grid>
-
-                  <Grid item>
-                    {!editNationality ? (
-                      <Typography>
-                        {currentUser.nationality}
-                      </Typography>
-                    ) : (
-                      <TextField
-                        required
-                        select
-                        label="Nacionalidad"
-                        defaultValue=""
-                        helperText="Seleccione su nacionalidad"
-                        value={inputs.nationality}
-                        onChange={handleSelect}
-                      >
-                        {nationalities?.map((nationality) => (
-                          <MenuItem key={keyNationalities++}
-                            value={nationality}
-                          >
-                            {nationality}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    )}
-                  </Grid>
-
-                  <Grid item>
-                    {!inputs.nationality && (
-                      <Button
-                        variant="outlined"
-                        onClick={(e) => handleClickNationality(e)}
-                        startIcon={<PlaceIcon />}
-                      >
-                        Editar
-                      </Button>
-                    )}
-                  </Grid>
-
-                </Grid>
-
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-
-                  <Grid
-                    item
-                  >
-                    <Typography
-                      variant="h6"
-                      fontWeight='bold'
-                    >
-                      Contraseña
-                    </Typography>
-                  </Grid>
-
-                  <Grid
-                    item
-                  >
-                    <Typography>
-                      **********
-                    </Typography>
-                  </Grid>
-
-                  <Grid
-                    item
-                  >
-                    <Button
-                      href={`/private/change-password/${currentUser.id}`}
-                      startIcon={<PasswordIcon />}
-                      variant="outlined"
-                      id="ButtonPassword"
-                    >
-                      Editar
-                    </Button>
-
-                  </Grid>
-
-                </Grid>
-
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                // spacing={30}
-                >
-
-                  <Grid
-                    item
-                  >
-                    <Typography
-                      variant="h6"
-                      fontWeight='bold'
-                    >
-                      Plan actual
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Button variant="contained" href="/private/planes">
-                      {currentUser.plan?.name}
-                    </Button>
-                  </Grid>
-                </Grid>
 
                 <Grid
                   item
                 >
+                  <Box>
+                    <Tooltip
+                      title={
+                        <Typography
+                          variant='h6'
+                          fontWeight='bold'
+                        >
+                          Editar
+                        </Typography>
+                      }>
 
-                  <Button
-                    href={`/private/delete-user/${currentUser.id}`}
-                    startIcon={<DeleteIcon />}
-                    variant="outlined"
-                    color="error"
-                    id="ButtonDelete"
+                      <IconButton
+                        onClick={handleClickAnchor}
+                        size="small"
+                        sx={{ ml: 2 }}
+                        aria-controls={openAnchor ? 'account-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={openAnchor ? 'true' : undefined}
+                      >
+                        <ListItemIcon>
+                          {
+                            currentUser.image ?
+                              <Avatar
+                                alt="Not found"
+                                srcSet={currentUser.image}
+                                sx={{
+                                  width: 150,
+                                  height: 150
+                                }}
+                              />
+                              :
+                              <Avatar>
+                                <PersonIcon />
+                              </Avatar>
+                          }
+                        </ListItemIcon>
+                      </IconButton>
+                    </Tooltip>
+                    <Menu
+                      anchorEl={anchorEl}
+                      id="account-menu"
+                      open={openAnchor}
+                      onClose={handleCloseAnchor}
+                      PaperProps={{
+                        elevation: 0,
+                        sx: {
+                          overflow: 'visible',
+                          filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                          mt: 1.5,
+                          '& .MuiAvatar-root': {
+                            width: 32,
+                            height: 32,
+                            ml: -0.5,
+                            mr: 1,
+                          },
+                          '&:before': {
+                            content: '""',
+                            display: 'block',
+                            position: 'absolute',
+                            top: 0,
+                            right: 14,
+                            width: 10,
+                            height: 10,
+                            bgcolor: 'background.paper',
+                            transform: 'translateY(-50%) rotate(45deg)',
+                            zIndex: 0,
+                          },
+                        },
+                      }}
+                      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                    >
+                      {image ?
+                        <MenuItem
+                          onClick={handleImage}
+                        >
+                          <ListItemIcon>
+                            <CheckIcon
+                              color='success'
+                            />
+                          </ListItemIcon>
+                          Confirme
+                        </MenuItem>
+
+                        :
+                        <Button
+                          size='large'
+                          sx={{
+                            "&.MuiButtonBase-root:hover"
+                              :
+                            {
+                              bgcolor: "transparent"
+                            }
+                          }}
+                          color="primary"
+                          aria-label="upload picture"
+                          component="label">
+                          <input
+                            hidden
+                            accept="image/*"
+                            type="file"
+                            onChange={(e) => convertirBase64(e)}
+                          />
+                          <MenuItem>
+                            <ListItemIcon>
+                              <EditIcon />
+                            </ListItemIcon>
+                            <Typography>
+                              Editar
+                            </Typography>
+
+                          </MenuItem>
+                        </Button>
+                      }
+
+                      {
+                        currentUser.image ?
+                          <MenuItem
+                            onClick={handleClickDelete}
+                          >
+                            <ListItemIcon>
+                              <DeleteIcon
+                                color='error'
+                              />
+                            </ListItemIcon>
+                            <Typography>
+                              Eliminar
+                            </Typography>
+                          </MenuItem>
+
+                          :
+                          null
+                      }
+                    </Menu>
+
+                  </Box>
+                </Grid>
+              </Grid>
+
+              <Divider />
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                paddingTop={1}
+                paddingBottom={1}
+              >
+
+                <Grid
+                  item
+                // xs={12}
+                >
+                  {!editNames ? (
+                    <Typography>
+                      {`${currentUser.names} ${currentUser.lastNames}`}
+                    </Typography>
+                  ) : (
+                    <TextField
+                      variant="outlined"
+                      label="Nuevo nombre"
+                      type="text"
+                      name="names"
+                      value={inputs.names}
+                      onChange={(e) => handleInputs(e)}
+                    />
+                  )}
+                </Grid>
+
+                <Grid
+                  item
+                // xs={12}
+                >
+                  {!inputs.names && (
+                    <Button
+                      size='large'
+                      variant="outlined"
+                      onClick={(e) => handleClick(e)}
+                      startIcon={<PersonIcon />}
+                    >
+                      Nombre
+                    </Button>
+                  )}
+                </Grid>
+
+              </Grid>
+
+              <Divider />
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                paddingTop={1}
+                paddingBottom={1}
+
+              // spacing={30}
+              >
+
+                {/* <Grid
+                  item
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight='bold'
                   >
-                    Borrar usuario
+                    Correo electronico
+                  </Typography>
+                </Grid> */}
+
+                <Grid
+                  item
+                // xs={12}
+                >
+                  {!editEmail ? (
+                    <Typography>{currentUser.email}</Typography>
+                  ) : (
+                    <TextField
+                      type="text"
+                      name="email"
+                      label="Nuevo email"
+                      value={inputs.email}
+                      onChange={handleInputs}
+                    />
+                  )}
+                </Grid>
+
+                <Grid
+                  item
+                // xs={12}
+                >
+                  {!inputs.email && (
+                    <Button
+                      size='large'
+                      variant="outlined"
+                      onClick={(e) => handleClickEmail(e)}
+                      startIcon={<EmailIcon />}
+                    >
+                      Correo
+                    </Button>
+                  )}
+                </Grid>
+              </Grid>
+
+              <Divider />
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                paddingTop={1}
+                paddingBottom={1}
+
+              // spacing={30}
+              >
+
+                {/* <Grid
+                  item
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight='bold'
+                  >
+                    Fecha de nacimiento
+                  </Typography>
+                </Grid> */}
+
+                <Grid
+                  item
+                // xs={12}
+                >
+                  {!editiBirthday ? (
+                    <Typography>
+                      {currentUser.birthday}
+                    </Typography>
+                  ) : (
+                    <TextField
+                      helperText="Fecha de nacimiento"
+                      type="date"
+                      name="birthday"
+                      min="1900-01-01"
+                      max={yourDate}
+                      placeholder=""
+                      value={inputs.birthday}
+                      onChange={handleInputs}
+                    />
+                  )}
+                </Grid>
+
+                <Grid
+                  item
+                // xs={12}
+                >
+                  {!inputs.birthday &&
+                    <Button
+                      size='large'
+                      variant="outlined"
+                      onClick={(e) => handleClickBirthday(e)}
+                      startIcon={<CalendarMonthIcon />}
+                    >
+                      Nacimiento
+                    </Button>
+                  }
+                </Grid>
+              </Grid>
+
+              <Divider />
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                paddingTop={1}
+                paddingBottom={1}
+
+              // spacing={30}
+              >
+
+                {/* <Grid
+                  item
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight='bold'
+                  >
+                    Nacionalidad
+                  </Typography>
+                </Grid> */}
+
+                <Grid
+                  item
+                // xs={12}
+                >
+                  {!editNationality ? (
+                    <Typography>
+                      {currentUser.nationality}
+                    </Typography>
+                  ) : (
+                    <TextField
+                      required
+                      select
+                      label="Nacionalidad"
+                      defaultValue=""
+                      helperText="Seleccione su nacionalidad"
+                      value={inputs.nationality}
+                      onChange={handleSelect}
+                    >
+                      {nationalities?.map((nationality) => (
+                        <MenuItem key={keyNationalities++}
+                          value={nationality}
+                        >
+                          {nationality}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
+                </Grid>
+
+                <Grid
+                  item
+                // xs={12}
+                >
+                  {!inputs.nationality && (
+                    <Button
+                      size='large'
+                      variant="outlined"
+                      onClick={(e) => handleClickNationality(e)}
+                      startIcon={<PlaceIcon />}
+                    >
+                      Nacionalidad
+                    </Button>
+                  )}
+                </Grid>
+
+              </Grid>
+
+              <Divider />
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                paddingTop={1}
+                paddingBottom={1}
+
+              >
+
+                {/* <Grid
+                  item
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight='bold'
+                  >
+                    Contraseña
+                  </Typography>
+                </Grid> */}
+
+                <Grid
+                  item
+                // xs={12}
+
+                >
+                  <Typography>
+                    **********
+                  </Typography>
+                </Grid>
+
+                <Grid
+                  item
+                // xs={12}
+
+                >
+                  <Button
+                    size='large'
+                    href={`/private/change-password/${currentUser.id}`}
+                    startIcon={<PasswordIcon />}
+                    variant="outlined"
+                    id="ButtonPassword"
+                  >
+                    Contraseña
                   </Button>
 
                 </Grid>
 
-                <Grid item>
-                  {inputs.names ||
-                    inputs.email ||
-                    inputs.birthday ||
-                    inputs.nationality ? (
-                    <Button
-                      onClick={handleClickConfirm}
-                      color="success"
-                      variant="contained"
-                      type="submit"
-                      id="ButtonSubmit"
-                      startIcon={<CheckIcon />}
-                    >
-                      Confirmar
-                    </Button>
-                  ) : null}
+              </Grid>
+
+              <Divider />
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                paddingTop={1}
+                paddingBottom={1}
+
+              // spacing={30}
+              >
+
+                <Grid
+                  item
+                // xs={12}
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight='bold'
+                  >
+                    Plan actual
+                  </Typography>
+                </Grid>
+
+                <Grid
+                  item
+                // xs={12}
+                >
+                  <Button
+                    size='large'
+                    variant="outlined"
+                    href="/private/planes"
+                    startIcon={<AccountBalanceWalletIcon />}
+                  >
+                    {currentUser.plan?.name}
+                  </Button>
                 </Grid>
               </Grid>
+
+              <Grid
+                item
+              >
+
+                <Button
+                  size='small'
+                  href={`/private/delete-user/${currentUser.id}`}
+                  startIcon={<DeleteIcon />}
+                  variant="outlined"
+                  color="error"
+                  id="ButtonDelete"
+                >
+                  Borrar usuario
+                </Button>
+
+              </Grid>
+
+              <Grid item>
+                {inputs.names ||
+                  inputs.email ||
+                  inputs.birthday ||
+                  inputs.nationality ? (
+                  <Button
+                    size='large'
+                    onClick={handleClickConfirm}
+                    color="success"
+                    variant="contained"
+                    type="submit"
+                    id="ButtonSubmit"
+                    startIcon={<CheckIcon />}
+                  >
+                    Confirmar
+                  </Button>
+                ) : null}
+              </Grid>
+              {/* </Grid> */}
 
             </CardContent>
           </Card>
