@@ -11,19 +11,18 @@ import "./Loading.css";
 //>======================>//
 
 const ChangePasswordOk = () => {
-  
   const navigate = useNavigate();
 
   useEffect(() => {
     const delay = () => navigate("/login");
-    
+
     setTimeout(() => {
       delay();
     }, 2000);
 
     return () =>
       message.success("La contraseña se actualizo correctamente", 3000);
-    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -31,7 +30,7 @@ const ChangePasswordOk = () => {
     <div className="modal">
       <div className="modal-content">
         <div className="loader"></div>
-        <div className="modal-text">Actualizando Password...</div>
+        <div className="modal-text">Actualizando Contraseña...</div>
       </div>
     </div>
   );

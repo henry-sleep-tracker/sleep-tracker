@@ -12,12 +12,11 @@ import "./Loading.css";
 //>======================>//
 
 export const ChangePasswordOkProfile = () => {
-  
   const navigate = useNavigate();
 
   useEffect(() => {
     const delay = () => navigate("/private/profile");
-    
+
     setTimeout(() => {
       delay();
     }, 2000);
@@ -25,8 +24,8 @@ export const ChangePasswordOkProfile = () => {
     return () => {
       message.success("La contraseña se actualizo correctamente", 3000);
       message.success("La contraseña se actualizo correctamente", 3000);
-    }
-    
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -59,7 +58,7 @@ export const ChangePasswordErrorProfile = () => {
         "Hubo un error al actualizar la contraseña. Intentelo nuevamente.",
         3000
       );
-    }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -84,15 +83,9 @@ export const DeleteUserProfile = () => {
     }, 2000);
 
     return () => {
-      message.error(
-        "El usuario ha sido eliminado.",
-        3000
-      );
-      message.error(
-        "El usuarioha ha sido eliminado.",
-        3000
-      );
-    }
+      message.error("El usuario ha sido eliminado.", 3000);
+      message.error("El usuarioha ha sido eliminado.", 3000);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -125,7 +118,7 @@ export const DeleteUserProfileError = () => {
         "Hubo un error al eliminar el usuario. Intentelo nuevamente.",
         3000
       );
-    }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

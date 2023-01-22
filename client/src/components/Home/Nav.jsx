@@ -45,6 +45,8 @@ import AddCommentIcon from "@mui/icons-material/AddComment";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import ForumIcon from "@mui/icons-material/Forum";
+import AddchartIcon from "@mui/icons-material/Addchart";
 
 function ResponsiveAppBar({ mode, setMode }) {
   const dispatch = useDispatch();
@@ -77,6 +79,11 @@ function ResponsiveAppBar({ mode, setMode }) {
   const handlerRecord = (e) => {
     e.preventDefault();
     navigate("/private/loading");
+  };
+
+  const handlerChat = (e) => {
+    e.preventDefault();
+    navigate("/private/chat");
   };
 
   const handlerProfile = (e) => {
@@ -273,12 +280,21 @@ function ResponsiveAppBar({ mode, setMode }) {
                 <ListItem disablePadding>
                   <ListItemButton component="a">
                     <ListItemIcon>
-                      <QuestionMark />
+                      <AddchartIcon />
                     </ListItemIcon>
                     <ListItemText
                       primary="Registrar actividad"
                       onClick={handlerRecord}
                     />
+                  </ListItemButton>
+                </ListItem>
+
+                <ListItem disablePadding>
+                  <ListItemButton component="a">
+                    <ListItemIcon>
+                      <ForumIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Chat" onClick={handlerChat} />
                   </ListItemButton>
                 </ListItem>
 
@@ -336,26 +352,42 @@ function ResponsiveAppBar({ mode, setMode }) {
               key="conoce al equipo"
               onClick={handleConoce}
               sx={{ my: 2, color: "white", display: "block" }}
+              startIcon={<Groups2 />}
             >
               conoce al equipo
             </Button>
           </Box>
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               key="Graficas"
               onClick={handleGraph}
               sx={{ my: 2, color: "white", display: "block" }}
+              startIcon={<TimelineIcon />}
             >
               Graficas
             </Button>
           </Box>
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               key="Registrar Actividad"
               onClick={handlerRecord}
               sx={{ my: 2, color: "white", display: "block" }}
+              startIcon={<AddchartIcon />}
             >
               Registrar Actividad
+            </Button>
+          </Box>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <Button
+              key="Chat"
+              onClick={handlerChat}
+              sx={{ my: 2, color: "white", display: "block" }}
+              startIcon={<ForumIcon />}
+            >
+              Chat
             </Button>
           </Box>
 
