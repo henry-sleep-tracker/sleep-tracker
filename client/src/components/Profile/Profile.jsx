@@ -269,24 +269,6 @@ const Profile = () => {
                 <Grid
                   item
                 >
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                   <Box>
                     <Tooltip
                       title={
@@ -423,82 +405,7 @@ const Profile = () => {
                     </Menu>
 
                   </Box>
-
-
-
-
-
-
-
-
-
-
                 </Grid>
-                {/* <Avatar
-                    alt="Not found"
-                    srcSet={currentUser.image}
-                    sx={{
-                      width: 100,
-                      height: 100
-                    }}
-                  />
-
-                </Grid>
-
-                <Grid
-                  item
-                >
-                  {
-                    currentUser.image ?
-                      <Button
-                        startIcon={<PhotoCamera />}
-                        size='small'
-                        variant='outlined'
-                        color='error'
-                        onClick={handleClickDelete}>
-                        Borrar
-                      </Button>
-                      :
-                      null
-                  }
-                </Grid>
-
-                <Grid
-                  item
-                >
-                  {image ?
-                    <Button
-                      size='large'
-                      color="success"
-                      variant="contained"
-                      onClick={handleImage}
-                    >
-                      Confirme
-                    </Button>
-                    :
-                    <Button
-                      size='large'
-                      sx={{
-                        "&.MuiButtonBase-root:hover"
-                          :
-                        {
-                          bgcolor: "transparent"
-                        }
-                      }}
-                      variant='outlined'
-                      startIcon={<PhotoCamera />}
-                      color="primary"
-                      aria-label="upload picture"
-                      component="label">
-                      <input
-                        hidden
-                        accept="image/*"
-                        type="file"
-                        onChange={(e) => convertirBase64(e)}
-                      />
-                      Editar
-                    </Button>}
-                </Grid> */}
               </Grid>
 
               <Divider />

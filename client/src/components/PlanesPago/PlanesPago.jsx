@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Helmet } from "react-helmet";
+import { useTheme } from '@mui/material/styles';
 
 
 const Pricing = () => {
@@ -70,10 +71,13 @@ const Pricing = () => {
 
   const classes = useStyles();
 
+  const theme = useTheme();
+
+
   return (
     <Paper
       // className={classes.paperWraper}
-      sx={{minHeight:'100vh'}}
+      sx={{ minHeight: '100vh' }}
     >
 
       <Helmet>
@@ -90,6 +94,7 @@ const Pricing = () => {
         paddingLeft={3}
 
       >
+
         <Grid
           item
         >
@@ -134,49 +139,51 @@ const Pricing = () => {
                 >
 
                   <Card
+                    variant='outlined'
+                    spacing={5}
                   >
-                    <CardContent >
-                      <Grid
-                        container
-                        justifyContent="center"
-                        direction='column'
-                        alignItems='center'
-                        spacing={5}
+                    <CardContent
+                      sx={{
+                        backgroundColor:
+                          theme.palette.mode == 'dark' ?
+                            '#7986cb'
+                            :
+                            '#303f9f'
+                      }}
+                    >
+                      <Typography
+                        variant='h3'
+                        fontWeight='bold'
                       >
-
-                        <Grid
-                          item
-                        >
-                          <Typography
-                            variant='h3'
-                          >
-                            {price.nickname}
-                          </Typography>
-                        </Grid>
-
-                        <Grid
-                          item
-                        >
-                          <Typography
-                            variant='h4'
-                          >
-                            ${price.unit_amount / 100}
-                            <small>
-                              /{price.recurring.interval}
-                            </small>
-                          </Typography>
-                        </Grid>
-
-                        {priceProps}
-                        <Button
-                          variant='contained'
-                          size='large'
-                          onClick={() => createSession(currentUser, price.id)}
-                        >
-                          Comprar
-                        </Button>
-                      </Grid>
+                        {price.nickname}
+                      </Typography>
                     </CardContent>
+
+                    <CardContent >
+                      <Typography
+                        variant='h4'
+                      >
+                        ${price.unit_amount / 100}
+                        <small>
+                          /{price.recurring.interval}
+                        </small>
+                      </Typography>
+                    </CardContent >
+
+                    <CardContent >
+                      {priceProps}
+                    </CardContent >
+                    <CardContent >
+
+                      <Button
+                        variant='contained'
+                        size='large'
+                        onClick={() => createSession(currentUser, price.id)}
+                      >
+                        Comprar
+                      </Button>
+                    </CardContent>
+
                   </Card>
                 </Grid>
 
@@ -191,40 +198,50 @@ const Pricing = () => {
                   >
                     <Card
                       variant='outlined'
+                      spacing={5}
                     >
+                      <CardContent
+                        sx={{
+                          backgroundColor:
+                            theme.palette.mode == 'dark' ?
+                              '#7986cb'
+                              :
+                              '#303f9f'
+                        }}
+                      >
+                        <Typography
+                          variant='h3'
+                          fontWeight='bold'
+                        >
+                          {price.nickname}
+                        </Typography>
+                      </CardContent>
+                      <CardContent >
+                        <Typography
+                          variant='h4'
+                        >
+                          ${price.unit_amount / 100}
+                          <small
+                          >
+                            /{price.recurring.interval}
+                          </small>
+                        </Typography>
+                      </CardContent>
                       <CardContent >
 
-                        <Card
-                        >
-                          <CardContent >
-                            <Typography
-                              variant='h3'
-                              fontWeight='bold'
-                            >
-                              {price.nickname}
-                            </Typography>
-                          </CardContent>
-                        </Card>
-                        <div >
-                          <Typography
-                            variant='h4'
-                          >
-                            ${price.unit_amount / 100}
-                            <small
-                            >
-                              /{price.recurring.interval}
-                            </small>
-                          </Typography>
-                          {priceProps}
-                          <Button
-                            variant='contained'
-                            size='large'
-                            onClick={() => createSession(currentUser, price.id)}
-                          >
-                            Comprar
-                          </Button>
-                        </div>
+                        {priceProps}
                       </CardContent>
+                      <CardContent >
+
+                        <Button
+                          variant='contained'
+                          size='large'
+                          onClick={() => createSession(currentUser, price.id)}
+                        >
+                          Comprar
+                        </Button>
+                      </CardContent>
+
                     </Card>
 
                   </Grid>
@@ -240,39 +257,52 @@ const Pricing = () => {
                     >
                       <Card
                         variant='outlined'
+                        spacing={6}
                       >
-                        <CardContent>
-                          <Card
+                        <CardContent
+                          sx={{
+                            backgroundColor:
+                              theme.palette.mode == 'dark' ?
+                                '#7986cb'
+                                :
+                                '#303f9f'
+                          }}
+                        >
+                          <Typography
+                            variant='h3'
+                            fontWeight='bold'
                           >
-                          <CardContent >
-                            <Typography
-                              variant='h3'
-                              fontWeight='bold'
-                            >
-                              {price.nickname}
-                              </Typography>
-                            </CardContent>
-                          </Card>
-                          <div >
-                            <Typography
-                              variant='h4'
-                            >
-                              ${price.unit_amount / 100}
-                              <small
-                              >
-                                /{price.recurring.interval}
-                              </small>
-                            </Typography>
-                            {priceProps}
-                            <Button
-                              variant='contained'
-                              size='large'
-                              onClick={() => createSession(currentUser, price.id)}
-                            >
-                              Comprar
-                            </Button>
-                          </div>
+                            {price.nickname}
+                          </Typography>
                         </CardContent>
+
+                        <CardContent>
+                          <Typography
+                            variant='h4'
+                          >
+                            ${price.unit_amount / 100}
+                            <small
+                            >
+                              /{price.recurring.interval}
+                            </small>
+                          </Typography>
+
+                        </CardContent>
+
+                        <CardContent>
+                          {priceProps}
+                        </CardContent>
+
+                        <CardContent>
+                          <Button
+                            variant='contained'
+                            size='large'
+                            onClick={() => createSession(currentUser, price.id)}
+                          >
+                            Comprar
+                          </Button>
+                        </CardContent>
+
                       </Card>
 
                     </Grid>
@@ -285,7 +315,7 @@ const Pricing = () => {
         </Grid>
       </Grid>
 
-    </Paper>
+    </Paper >
   );
 };
 

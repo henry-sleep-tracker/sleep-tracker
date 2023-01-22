@@ -287,6 +287,18 @@ function ResponsiveAppBar({ mode, setMode }) {
                 <ListItem disablePadding>
                   <ListItemButton component="a">
                     <ListItemIcon>
+                      <ForumIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Chat"
+                      onClick={handlerChat}
+                    />
+                  </ListItemButton>
+                </ListItem>
+
+                <ListItem disablePadding>
+                  <ListItemButton component="a">
+                    <ListItemIcon>
                       <AccountBalanceWalletSharp />
                     </ListItemIcon>
                     <ListItemText
@@ -304,18 +316,6 @@ function ResponsiveAppBar({ mode, setMode }) {
                     <ListItemText
                       primary="Dejar comentario"
                       onClick={handlerComment}
-                    />
-                  </ListItemButton>
-                </ListItem>
-
-                <ListItem disablePadding>
-                  <ListItemButton component="a">
-                    <ListItemIcon>
-                      <ForumIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Chat"
-                      onClick={handlerChat}
                     />
                   </ListItemButton>
                 </ListItem>
