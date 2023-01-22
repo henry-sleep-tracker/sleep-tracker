@@ -83,7 +83,7 @@ const Page4 = () => {
               <Box
                 sx={{ display: { xs: "none", sm: "none", md: 'block' } }}
               >
-                <Typography>- Duracion de 15 dias</Typography>
+                <Typography>- Duracion de 30 dias</Typography>
                 <Typography>- Registro de actividad física</Typography>
                 <Typography>
                   - Registra tus consumos diarios de comida y bebida.
@@ -206,6 +206,9 @@ const Page4 = () => {
                 </Typography>
                 <Typography>
                   - Información de sueño conseguido diario y semanal.
+                </Typography>
+                <Typography>
+                  - Chatea con otros usuarios e intercambiar experiencias de uso.
                 </Typography>
                 <Divider />
               </Box>
