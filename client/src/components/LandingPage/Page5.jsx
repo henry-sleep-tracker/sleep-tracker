@@ -69,10 +69,20 @@ const Page5 = () => {
     <Grid
     container
     className={classes.mainPaper}
+    justifyContent='center'
+    // paddingRight={20}
+    // paddingLeft={20}
     >
 
 
-      <Typography variant="h4">Conoce al equipo</Typography>
+      <Typography 
+      variant="h2"
+      fontWeight='bold'
+      paddingTop={5}
+      color='white'
+      >
+        Conoce al equipo
+        </Typography>
 
       <ImageList
         // sx={{ width: 1000, height: 450 }} 
@@ -104,6 +114,8 @@ const Page5 = () => {
                   srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
                   alt={item.name}
                   loading="lazy"
+                  width={200}
+                  height={200}
                 />
                 <ImageListItemBar
                   title={item.name}
@@ -137,9 +149,9 @@ const useStyles = makeStyles(() => ({
   },
 
   mainPaper: {
-    height: '70vh',
+    minHeight: '70vh',
     width: '100vw',
-
+    backgroundColor: '#212121'
   },
 
 }));

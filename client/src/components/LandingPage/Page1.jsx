@@ -15,95 +15,99 @@ const Page1 = (
   const classes = useStyles();
   return (
 
+    <Grid
+      container
+      // display='flex'
+      direction="center"
+      justifyContent="center"
+      // alignItems='center'
+      className={classes.mainPaper}
+
+    // flex={4}
+    // p={2}
+    // columns={12}
+    >
       <Grid
-        container
-        // display='flex'
-        // direction="row"
-        justifyContent="center"
-        alignItems='stretch'
-        className={classes.mainPaper}
-        // flex={4}
-        // p={2}
-        columns={12}
+        item
+        md={6}
+        xs={12}
+        className={classes.bg}
       >
         <Grid
-          item
-          lg={6}
-          md={6}
-          xs={12}
-          className={classes.bg}
+          container
+          direction='column'
+          justifyContent="center"
+          alignItems="center"
+          // width="100%"
+          paddingTop={10}
+          spacing={4}
         >
           <Grid
-            container
-            direction='column'
-            justifyContent="center"
-            alignItems="center"
-            width="100%"
-            paddingTop={10}
-            spacing={4}
+            item
           >
-            <Grid
-              item
+            <Typography
+              fontWeight='bold'
+              variant="h1"
+              display='flex'
+              flexwrap='wrap'
             >
-              <Typography
-                fontWeight='bold'
-                variant="h1"
-                display='flex'
-                flexwrap='wrap'
-              >
-                Sleep Tracker
-              </Typography>
+              Sleep Tracker
+            </Typography>
 
-            </Grid>
-            <Grid
-              item
+          </Grid>
+
+          <Grid
+            item
+          >
+            <Typography
+              variant='h4'
+              display='flex'
+              flexwrap='wrap'
             >
-              <Typography
-                variant='h4'
-                display='flex'
-                flexwrap='wrap'
-              >
-                Lleva el control de tu sueño
-              </Typography>
+              Lleva el control de tu sueño
+            </Typography>
 
-            </Grid>
-            <Grid
-              item
+          </Grid>
+
+          <Grid
+            item
+          >
+            <Button
+              variant='contained'
+              size='large'
+              href='/registro'
             >
-              <Button
-                variant='contained'
-                size='large'
-                href='/registro'
-              >
-                Comienza ya
-              </Button>
+              Comienza ya
+            </Button>
 
-            </Grid>
+          </Grid>
 
-
-            <br />
+          <Grid
+            item
+          >
+            <br/>
           </Grid>
         </Grid>
 
-        <Grid
-          item
-          lg={6}
-          md={6}
-          xs={12}
-        >
+      </Grid>
 
-          <img
-            src={page1SleepA}
-            className={classes.imageStyle}
-            alt={'imagen'}
-            loading="lazy"
-            width='400px'
-            height='100%'
-          />
+      <Grid
+        item
+        md={6}
+        xs={12}
+      >
 
-        </Grid>
+        <img
+          src={page1SleepA}
+          alt={'imagen'}
+          loading="lazy"
+          height='100%'
+          width='100%'
+        />
 
       </Grid>
+
+    </Grid>
 
 
   );
@@ -122,10 +126,4 @@ const useStyles = makeStyles(() => ({
     minHeight: '60vh',
 
   },
-
-  imageStyle: {
-    width: '100%',
-    height: '100%'
-  },
-
 }));

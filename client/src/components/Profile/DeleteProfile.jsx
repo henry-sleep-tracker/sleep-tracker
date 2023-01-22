@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { deleteUser } from "../../actions/profileActions";
 // import style from "./ChangePassword.module.css";
 import { logOutUser, cleanExpDate } from "../../actions";
@@ -14,6 +14,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import { message } from "react-message-popup";
 
 export default function DeleteUser() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
   const { logout } = useAuthContext();
@@ -63,25 +64,28 @@ export default function DeleteUser() {
       } else if (input.password !== input.confirmPassword) {
         message.error("La contraseña no se confirmo correctamente",2500);
       } else {
-        dispatch(deleteUser(id, input.password));
+        const idAdmin = "NoAdmin";
+        dispatch(deleteUser(id, input.password, idAdmin));
         setInput({
           password: "",
           confirmPassword: "",
         });
         dispatch(logOutUser());
         dispatch(cleanExpDate());
-        await logout();
+        navigate("/private/deleteuserprofile");
+
       }
     } catch (error) {
-      console.log("el error es:", error);
+      // console.log("el error es:", error);
+      navigate("/private/deleteuserprofileerror");
     }
   }
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const [showPassword2, setShowPassword2] = React.useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
 
   const handleClickShowPassword2 = () => setShowPassword2((show) => !show);
 

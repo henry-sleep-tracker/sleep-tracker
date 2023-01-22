@@ -11,7 +11,7 @@ import Calendario from "../Calendario/Calendario";
 import GraphHome from "../Graphs/Graph-home";
 import CollapsibleTable from "../Graph-Week/CollapsibleTable";
 import Fitbit from "../SignUp/Fitbit";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Helmet } from "react-helmet";
 
@@ -53,76 +53,83 @@ const Home = () => {
   const classes = useStyles();
 
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      direction="column"
-      spacing={3}
-      flex={4}
-      p={"2rem"}
-      sx={{ backgroundColor: "#f7f8fb" }}
-    >
-      <Helmet>
-        <title>Inicio | Sleep Tracker</title>
-      </Helmet>
+    <Paper className={classes.paperWraper}>
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        direction="column"
+        spacing={3}
+        flex={4}
+        p={"2rem"}
+        // sx={{ backgroundColor: "#f7f8fb" }}
+      >
+        <Helmet>
+          <title>Inicio | Sleep Tracker</title>
+        </Helmet>
 
-      <Grid item>
-        <Typography sx={{ fontSize: "3vw", fontWeight: "bold" }}>
-          ¡Hola {user.name}, {greet()}
-        </Typography>
-      </Grid>
+        <Grid item>
+          <Typography sx={{ fontSize: "3vw", fontWeight: "bold" }}>
+            ¡Hola {user.name}, {greet()}
+          </Typography>
+        </Grid>
 
-      <Grid item>
-        <Fitbit />
-      </Grid>
+        <Grid item>
+          <Fitbit />
+        </Grid>
 
-      <Grid item>
-        <Calendario />
-      </Grid>
-      <Grid>
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="flex-start"
-          spacing={{ xs: 4, md: 6 }}
-          p={"2rem"}
-          columns={16}
-        >
-          <Grid item xs={12}>
-            <GraphHome />
+        <Grid item>
+          <Calendario />
+        </Grid>
+        <Grid>
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="flex-start"
+            spacing={{ xs: 4, md: 6 }}
+            p={"2rem"}
+            columns={16}
+          >
+            <Grid item xs={12}>
+              <GraphHome />
+            </Grid>
+
+            <Grid item xs={4}>
+              <CollapsibleTable />
+            </Grid>
           </Grid>
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            p={"2rem"}
+            spacing={{ xs: 4, md: 6 }}
+            columns={{ xs: 4, sm: 8, md: 15 }}
+          >
+            <Grid item xs={5}>
+              <Resume />
+            </Grid>
 
-          <Grid item xs={4}>
-            <CollapsibleTable />
+            <Grid item xs={5}>
+              <Swipeable className={classes.swipeable} />
+            </Grid>
+
+            <Grid item xs={5}>
+              <Calc />
+            </Grid>
           </Grid>
         </Grid>
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          p={"2rem"}
-          spacing={{ xs: 4, md: 6 }}
-          columns={{ xs: 4, sm: 8, md: 15 }}
-        >
-          <Grid item xs={5}>
-            <Resume />
-          </Grid>
-
-          <Grid item xs={5}>
-            <Swipeable className={classes.swipeable} />
-          </Grid>
-
-          <Grid item xs={5}>
-            <Calc />
-          </Grid>
-        </Grid>
       </Grid>
-    </Grid>
+    </Paper>
   );
 };
 
 export default Home;
-const useStyles = makeStyles(() => ({}));
+
+const useStyles = makeStyles(() => ({
+  paperWraper: {
+    minHeight: "100vh",
+  },
+}));

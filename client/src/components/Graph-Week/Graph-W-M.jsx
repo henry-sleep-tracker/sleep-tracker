@@ -15,7 +15,9 @@ import {
   CardActionArea,
   CardMedia,
   CardContent,
+  Paper,
 } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { useReactToPrint } from "react-to-print";
 import { message } from "react-message-popup";
 import image from "../../images/sleeping_person.jpeg";
@@ -39,88 +41,98 @@ const GraphWM = () => {
     dispatch(getRecordsRange(currentUser.id, fiveDaysAgo, yesterday));
   }, [dispatch]);
 
+  const classes = useStyles();
+
   return (
-    <Grid
-      container
-      width="auto"
-      justifyContent="center"
-      alignItems="center"
-      direction="column"
-      ref={componentPdf}
-      spacing={5}
-      flex={4}
-      p={5}
-      sx={{ backgroundColor: "#f7f8fb" }}
-    >
+    <Paper className={classes.paperWraper}>
       <Grid
         container
-        direction="row"
+        width="auto"
         justifyContent="center"
         alignItems="center"
-        spacing={10}
+        direction="column"
+        ref={componentPdf}
+        spacing={5}
+        flex={4}
         p={5}
+        // sx={{ backgroundColor: "#f7f8fb" }}
       >
-        <Grid item width={"40%"}>
-          <Card>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="170"
-                image={image}
-                alt="sleeping person"
-              />
-              <CardContent sx={{ backgroundColor: "white" }}>
-                <Typography
-                  fontSize={"2rem"}
-                  fontWeight="medium"
-                  lineHeight={2}
-                >
-                  Reporte de tu perfil de sueño
-                </Typography>
-                <Typography fontSize={"1rem"}>
-                  Dormir bien no se refiere solo al total de horas de sueño,
-                  también es importante que el sueño sea de buena calidad para
-                  que te sientas descansado cuando despiertes.
-                </Typography>
-                <Typography fontSize={"1rem"}>
-                  Aquí podrás obtener un mejor entendimiento sobre la calidad de
-                  tu sueño.
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          spacing={10}
+          p={5}
+        >
+          <Grid item width={"40%"}>
+            <Card>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="170"
+                  image={image}
+                  alt="sleeping person"
+                />
+                <CardContent>
+                  <Typography
+                    fontSize={"2rem"}
+                    fontWeight="medium"
+                    lineHeight={2}
+                  >
+                    Reporte de tu perfil de sueño
+                  </Typography>
+                  <Typography fontSize={"1rem"}>
+                    Dormir bien no se refiere solo al total de horas de sueño,
+                    también es importante que el sueño sea de buena calidad para
+                    que te sientas descansado cuando despiertes.
+                  </Typography>
+                  <Typography fontSize={"1rem"}>
+                    Aquí podrás obtener un mejor entendimiento sobre la calidad
+                    de tu sueño.
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+
+          <Grid item width="auto">
+            <Card>
+              <RangeCalendar />
+            </Card>
+          </Grid>
         </Grid>
 
-        <Grid item width="auto">
-          <Card>
-            <RangeCalendar />
-          </Card>
+        <Grid item>
+          <Button variant="contained" key="pdf" onClick={handlePrint}>
+            Descargar reporte
+          </Button>
+        </Grid>
+
+        <Grid item>
+          <CombinedGraph />
+        </Grid>
+
+        <Grid item>
+          <DualGraph />
+        </Grid>
+
+        <Grid item>
+          <GraphRecord />
+        </Grid>
+
+        <Grid item>
+          <GraphTime />
         </Grid>
       </Grid>
-
-      <Grid item>
-        <Button variant="contained" key="pdf" onClick={handlePrint}>
-          Descargar reporte
-        </Button>
-      </Grid>
-
-      <Grid item>
-        <CombinedGraph />
-      </Grid>
-
-      <Grid item>
-        <DualGraph />
-      </Grid>
-
-      <Grid item>
-        <GraphRecord />
-      </Grid>
-
-      <Grid item>
-        <GraphTime />
-      </Grid>
-    </Grid>
+    </Paper>
   );
 };
 
 export default GraphWM;
+
+const useStyles = makeStyles(() => ({
+  paperWraper: {
+    minHeight: "100vh",
+  },
+}));

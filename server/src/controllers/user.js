@@ -153,13 +153,17 @@ const getUserByEmail = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const { id, idAdmin, password } = req.params;
+    const { id, password, idAdmin } = req.params;
+    console.log("id", id)
+    console.log("password", password)
+    console.log("idAdmin", idAdmin)
     function copareHash(password, hashed) {
       return bcrypt.compareSync(password, hashed);
     }
     const userDelete = await findUserById(id);
+    console.log(userDelete)
 
-    if (idAdmin) {
+    if (idAdmin && idAdmin !== "NoAdmin") {
       // Solo para el Admin
       const userAdmin = await findUserById(idAdmin);
       if (userAdmin && userAdmin.isAdmin && userDelete) {
@@ -167,14 +171,24 @@ const deleteUser = async (req, res) => {
         if (result) return res.status(200).send("Usuario eliminado");
       }
     }
-    if (!id || !password)
-      return res.status(428).send("Falta enviar datos obligatorios"); // Validacion de datos
-
-    if (!userDelete) return res.status(202).send("el usuario no existe"); // Validacion de Usuario existente
-
-    if (copareHash(password, userDelete.hashedPassword)) {
-      const result = await User.destroy({ where: { id: id } });
-      if (result) return res.status(200).send("Usuario eliminado");
+    else{
+      if (!id || !password){
+        console.log("1")
+        return res.status(428).send("Falta enviar datos obligatorios"); // Validacion de datos
+      }
+  
+      if (!userDelete){
+        console.log("2")
+        return res.status(202).send("el usuario no existe"); // Validacion de Usuario existente
+      } 
+  
+      if (copareHash(password, userDelete.hashedPassword)) {
+        console.log("3")
+        const result = await User.destroy({ where: { id: id } });
+        if (result){
+          return res.status(200).send("Usuario eliminado");
+        }
+      }
     }
   } catch (error) {
     return res.status(400).send("No se pudo eliminar el usuario");

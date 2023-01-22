@@ -4,23 +4,16 @@ import { styled, Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {
-  DataGrid,
-  GridToolbarContainer,
-  GridToolbarColumnsButton,
-  gridClasses,
-  esES,
-  gridPageCountSelector,
-  gridPageSelector,
-  useGridApiContext,
-  useGridSelector,
-} from "@mui/x-data-grid";
+import { DataGrid, gridClasses, esES, } from "@mui/x-data-grid";
 import { grey } from "@mui/material/colors";
-import Pagination from "@mui/material/Pagination";
 
-import { getUsers } from "../../../actions/users";
+import CustomToolbar from './CustomToolbar';
+import CustomPagination from './CustomPagination';
+
+import { getUsers, getNationalities } from "../../../actions/users";
+import { nationalities } from "../../../actions/nationalities";
 import UsersActions from "./UsersActions";
-import GridToolbarFilters from "./GridToolbarFilters";
+
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -30,39 +23,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
-
-function CustomToolbar({ filters, setFilters }) {
-  return (
-    <GridToolbarContainer sx={{ mr: 2 }}>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilters filters={filters} setFilters={setFilters} />
-    </GridToolbarContainer>
-  );
-}
-
-function CustomPagination({ totalUsers }) {
-  const apiRef = useGridApiContext();
-  const page = useGridSelector(apiRef, gridPageSelector);
-  const pageCount = useGridSelector(apiRef, gridPageCountSelector);
-
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <Box>Total de Usuarios: {totalUsers}</Box>
-      <Pagination
-        color="primary"
-        count={pageCount}
-        page={page + 1}
-        onChange={(event, value) => apiRef.current.setPage(value - 1)}
-      />
-    </Box>
-  );
-}
 
 function UsersContent() {
   const dispatch = useDispatch();
@@ -102,6 +62,7 @@ function UsersContent() {
   }, []);
 
   useEffect(() => {
+    dispatch(getNationalities());
     setPageState((old) => ({
       ...old,
       isLoading: false,
@@ -184,7 +145,11 @@ function UsersContent() {
         field: "nationality",
         headerName: "Nacionalidad",
         width: 125,
+        headerAlign: "center",
+        align: "center",
+        type: "singleSelect",
         editable: true,
+        valueOptions: nationalities,
       },
       {
         field: "lastConnection",
@@ -205,7 +170,7 @@ function UsersContent() {
         headerName: "Acciones",
         type: "actions",
         renderCell: (params) => (
-          <UsersActions {...{ params, rowId, setRowId, pageState }} />
+          <UsersActions {...{ params, rowId, setRowId, pageState, filters }} />
         ),
       },
     ],
