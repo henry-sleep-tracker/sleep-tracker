@@ -43,8 +43,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 
 function ResponsiveAppBar({ mode, setMode }) {
   const dispatch = useDispatch();
@@ -83,7 +83,6 @@ function ResponsiveAppBar({ mode, setMode }) {
     e.preventDefault();
     navigate("/private/profile");
     setAnchorEl(null);
-
   };
 
   const handlerPlans = (e) => {
@@ -107,7 +106,7 @@ function ResponsiveAppBar({ mode, setMode }) {
     setMobileOpen(!mobileOpen);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -117,15 +116,15 @@ function ResponsiveAppBar({ mode, setMode }) {
     setAnchorEl(null);
   };
 
-  const [checked, setChecked] = React.useState(true);
+  const [checked, setChecked] = useState(true);
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
-    setMode(mode === "light" ? "dark" : "light")
+    setMode(mode === "light" ? "dark" : "light");
   };
 
   return (
-    <AppBar position="sticky" backgroundColor='primary'>
+    <AppBar position="sticky" backgroundColor="primary">
       <Container maxWidth="xl" sx={{ color: "black" }}>
         <Toolbar disableGutters>
           <Box>
@@ -161,30 +160,31 @@ function ResponsiveAppBar({ mode, setMode }) {
               }}
             >
               <List>
-
                 <ListItem
                   disablePadding
                   sx={{
                     display: {
-                      lg: 'none', md: 'none', sm: 'block', xs: 'block'
-                    }
+                      lg: "none",
+                      md: "none",
+                      sm: "block",
+                      xs: "block",
+                    },
                   }}
                 >
                   <ListItemButton component="a">
                     <ListItemIcon>
-                      {
-                        currentUser2.image ?
-                          <Avatar
-                            alt="Not found"
-                            srcSet={currentUser2.image}
-                            sx={{
-                              width: 50,
-                              height: 50
-                            }}
-                          />
-                          :
-                          <PersonIcon />
-                      }
+                      {currentUser2.image ? (
+                        <Avatar
+                          alt="Not found"
+                          srcSet={currentUser2.image}
+                          sx={{
+                            width: 50,
+                            height: 50,
+                          }}
+                        />
+                      ) : (
+                        <PersonIcon />
+                      )}
                     </ListItemIcon>
                     <ListItemText primary="Perfil" onClick={handlerProfile} />
                   </ListItemButton>
@@ -195,8 +195,11 @@ function ResponsiveAppBar({ mode, setMode }) {
                     disablePadding
                     sx={{
                       display: {
-                        lg: 'none', md: 'none', sm: 'block', xs: 'block'
-                      }
+                        lg: "none",
+                        md: "none",
+                        sm: "block",
+                        xs: "block",
+                      },
                     }}
                   >
                     <ListItemButton component="a">
@@ -214,8 +217,11 @@ function ResponsiveAppBar({ mode, setMode }) {
                 <Divider
                   sx={{
                     display: {
-                      lg: 'none', md: 'none', sm: 'block', xs: 'block'
-                    }
+                      lg: "none",
+                      md: "none",
+                      sm: "block",
+                      xs: "block",
+                    },
                   }}
                 />
 
@@ -223,22 +229,21 @@ function ResponsiveAppBar({ mode, setMode }) {
                   disablePadding
                   sx={{
                     display: {
-                      lg: 'none', md: 'none', sm: 'block', xs: 'block'
-                    }
+                      lg: "none",
+                      md: "none",
+                      sm: "block",
+                      xs: "block",
+                    },
                   }}
                 >
                   <ListItemButton component="a">
                     <ListItemIcon>
                       <Brightness4Icon />
                     </ListItemIcon>
-                    <Switch
-                      checked={checked}
-                      onChange={handleChange}
-                    />
+                    <Switch checked={checked} onChange={handleChange} />
                     <ListItemIcon>
                       <Brightness7Icon />
                     </ListItemIcon>
-
                   </ListItemButton>
                 </ListItem>
 
@@ -305,8 +310,11 @@ function ResponsiveAppBar({ mode, setMode }) {
                   disablePadding
                   sx={{
                     display: {
-                      lg: 'none', md: 'none', sm: 'block', xs: 'block'
-                    }
+                      lg: "none",
+                      md: "none",
+                      sm: "block",
+                      xs: "block",
+                    },
                   }}
                 >
                   <ListItemButton component="a">
@@ -357,38 +365,37 @@ function ResponsiveAppBar({ mode, setMode }) {
                 onClick={handleClick}
                 size="small"
                 sx={{ ml: 2 }}
-                aria-controls={open ? 'account-menu' : undefined}
+                aria-controls={open ? "account-menu" : undefined}
                 aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
+                aria-expanded={open ? "true" : undefined}
               >
                 <ListItemIcon>
-                  {
-                    currentUser2.image ?
-                      <Avatar
-                        alt="Not found"
-                        srcSet={currentUser2.image}
-                        sx={{
-                          width: 50,
-                          height: 50
-                        }}
-                      />
-                      :
-                      <Avatar>
-                        <PersonIcon />
-                      </Avatar>
-                  }
+                  {currentUser2.image ? (
+                    <Avatar
+                      alt="Not found"
+                      srcSet={currentUser2.image}
+                      sx={{
+                        width: 50,
+                        height: 50,
+                      }}
+                    />
+                  ) : (
+                    <Avatar>
+                      <PersonIcon />
+                    </Avatar>
+                  )}
                 </ListItemIcon>
               </IconButton>
             </Tooltip>
             <Menu
-            sx={{
-              display:{
-                lg:'block',
-                md:'block',
-                sm:'none',
-                xs:'none'
-              }
-            }}
+              sx={{
+                display: {
+                  lg: "block",
+                  md: "block",
+                  sm: "none",
+                  xs: "none",
+                },
+              }}
               anchorEl={anchorEl}
               id="account-menu"
               open={open}
@@ -396,40 +403,37 @@ function ResponsiveAppBar({ mode, setMode }) {
               PaperProps={{
                 elevation: 0,
                 sx: {
-                  overflow: 'visible',
-                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                   mt: 1.5,
-                  '& .MuiAvatar-root': {
+                  "& .MuiAvatar-root": {
                     width: 32,
                     height: 32,
                     ml: -0.5,
                     mr: 1,
                   },
-                  '&:before': {
+                  "&:before": {
                     content: '""',
-                    display: 'block',
-                    position: 'absolute',
+                    display: "block",
+                    position: "absolute",
                     top: 0,
                     right: 14,
                     width: 10,
                     height: 10,
-                    bgcolor: 'background.paper',
-                    transform: 'translateY(-50%) rotate(45deg)',
+                    bgcolor: "background.paper",
+                    transform: "translateY(-50%) rotate(45deg)",
                     zIndex: 0,
                   },
                 },
               }}
-              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
               <MenuItem>
                 <ListItemIcon>
                   <Brightness4Icon />
                 </ListItemIcon>
-                <Switch
-                  checked={checked}
-                  onChange={handleChange}
-                />
+                <Switch checked={checked} onChange={handleChange} />
                 <ListItemIcon>
                   <Brightness7Icon />
                 </ListItemIcon>
@@ -457,16 +461,13 @@ function ResponsiveAppBar({ mode, setMode }) {
                 Perfil
               </MenuItem>
 
-              <MenuItem
-                onClick={handleLogOut}
-              >
+              <MenuItem onClick={handleLogOut}>
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>
                 Salir
               </MenuItem>
             </Menu>
-
           </Box>
         </Toolbar>
       </Container>

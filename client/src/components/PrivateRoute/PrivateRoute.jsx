@@ -2,12 +2,10 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuthContext } from "../../actions/authContext";
 import ResponsiveAppBar from "../Home/Nav";
 import { useState } from "react";
-import { ThemeProvider, useTheme, createTheme } from '@mui/material/styles';
-import { amber, deepOrange, grey, indigo } from '@mui/material/colors';
-
+import { ThemeProvider, useTheme, createTheme } from "@mui/material/styles";
+import { amber, deepOrange, grey, indigo } from "@mui/material/colors";
 
 export default function PrivateRoute() {
-
   const [mode, setMode] = useState("light");
 
   const { isAuthenticated } = useAuthContext();
@@ -45,29 +43,25 @@ export default function PrivateRoute() {
   //   },
   // });
 
-
-
-
-
   const getDesignTokens = (mode) => ({
     palette: {
       mode,
-      ...(mode === 'dark' && {
+      ...(mode === "dark" && {
         primary: {
-          main: '#283593',
+          main: "#283593",
         },
         secondary: {
-          main: '#f50057',
+          main: "#f50057",
         },
       }),
-      ...(mode === 'light' && {
+      ...(mode === "light" && {
         primary: {
-          main: '#303f9f',
+          main: "#303f9f",
         },
         secondary: {
-          main: '#f50057',
+          main: "#f50057",
         },
-      })
+      }),
 
       //   primary: {
       //     ...amber,
@@ -97,9 +91,6 @@ export default function PrivateRoute() {
   });
 
   const darkModeTheme = createTheme(getDesignTokens(mode));
-
-
-
 
   return (
     <ThemeProvider theme={darkModeTheme}>

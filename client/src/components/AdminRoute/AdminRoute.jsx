@@ -8,7 +8,7 @@ export default function AdminRoute() {
   const [mode, setMode] = useState("light");
 
   const { isAdmin } = useAuthContext();
-  if (isAdmin!==true) {
+  if (isAdmin !== true) {
     //si esta autenticado que vaya a la seccion privada
     return <Navigate to="/private/home" />; //aca se quita el return
   }
@@ -22,27 +22,24 @@ export default function AdminRoute() {
   const theme = createTheme({
     palette: {
       primary: {
-        light: '#757ce8',
-        main: '#3f50b5',
-        dark: '#002884',
-        contrastText: '#fff',
+        light: "#757ce8",
+        main: "#3f50b5",
+        dark: "#002884",
+        contrastText: "#fff",
       },
       secondary: {
-        light: '#ff7961',
-        main: '#f44336',
-        dark: '#ba000d',
-        contrastText: '#000',
+        light: "#ff7961",
+        main: "#f44336",
+        dark: "#ba000d",
+        contrastText: "#000",
       },
-      lightFont:
-      {
+      lightFont: {
         main: "#e3f2fd",
         light: "#e3f2fd",
       },
-      mode: mode
+      mode: mode,
     },
   });
 
-  return (
-      <Outlet />
-  );
+  return <Outlet />;
 }
