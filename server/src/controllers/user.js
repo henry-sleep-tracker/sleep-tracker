@@ -101,7 +101,7 @@ const forgotPassword = async (req, res) => {
     const token = jwt.sign({ email: oldUser.email, id: oldUser.id }, secret, {
       expiresIn: "50m",
     });
-    const link = `${process.env.REACT_APP_BASE_FRONT_URL}/reiniciar_contrasena/${oldUser.id}/${token}`;
+    const link = `${process.env.BASE_FRONT_URL}/reiniciar_contrasena/${oldUser.id}/${token}`;
     res.status(200).json(link); //201 es que fue creado
   } catch (error) {
     console.log("El error controllers user forgotPassword es:", error.message);
@@ -153,27 +153,42 @@ const getUserByEmail = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const { id, password } = req.params;
+    const { id, password, idAdmin } = req.params;
+    console.log("id", id)
+    console.log("password", password)
+    console.log("idAdmin", idAdmin)
     function copareHash(password, hashed) {
       return bcrypt.compareSync(password, hashed);
     }
+    const userDelete = await findUserById(id);
+    console.log(userDelete)
 
-    if (!id || !password) {
-      return res.status(428).send("Falta enviar datos obligatorios");
+    if (idAdmin && idAdmin !== "NoAdmin") {
+      // Solo para el Admin
+      const userAdmin = await findUserById(idAdmin);
+      if (userAdmin && userAdmin.isAdmin && userDelete) {
+        const result = await User.destroy({ where: { id: id } });
+        if (result) return res.status(200).send("Usuario eliminado");
+      }
     }
-
-    const user = await findUserById(id);
-    if (!user) {
-      return res.status(202).send("el usuario no existe");
-    }
-
-    if (copareHash(password, user.hashedPassword)) {
-      const result = await User.destroy({
-        where: {
-          id: id,
-        },
-      });
-      return res.status(200).send("Usuario eliminado");
+    else{
+      if (!id || !password){
+        console.log("1")
+        return res.status(428).send("Falta enviar datos obligatorios"); // Validacion de datos
+      }
+  
+      if (!userDelete){
+        console.log("2")
+        return res.status(202).send("el usuario no existe"); // Validacion de Usuario existente
+      } 
+  
+      if (copareHash(password, userDelete.hashedPassword)) {
+        console.log("3")
+        const result = await User.destroy({ where: { id: id } });
+        if (result){
+          return res.status(200).send("Usuario eliminado");
+        }
+      }
     }
   } catch (error) {
     return res.status(400).send("No se pudo eliminar el usuario");
@@ -201,7 +216,7 @@ const restoreUser = async (req, res) => {
   }
 };
 
-const restoreGoogleUser = async (req, res) => {
+const restoreUserByJustEmail = async (req, res) => {
   try {
     const { email } = req.params;
     let user = await findUserByEmail(email);
@@ -292,5 +307,5 @@ module.exports = {
   changeUserPassword,
   getUserInfoById,
   restoreUser,
-  restoreGoogleUser,
+  restoreUserByJustEmail,
 };

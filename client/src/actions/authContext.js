@@ -8,6 +8,7 @@ import {
   PLAN_EXPIRATION_DATE,
   IS_GOOGLE_USER,
   IS_PASSWORD_SET_UP,
+  IS_ADMIN,
 } from "./constants";
 
 export const AuthContext = createContext(); //es un objeto que adentro tiene un provider
@@ -26,6 +27,9 @@ export function AuthContextProvider({ children }) {
   const [isGoogleUser, setIsGoogleUser] = useState(
     window.localStorage.getItem(IS_GOOGLE_USER) ?? false
   );
+  const [isAdmin, setIsAdmin] = useState(
+    window.localStorage.getItem(IS_ADMIN) ?? false
+  );
   const [isPasswordSetUp, setIsPasswordSetUp] = useState(
     window.localStorage.getItem(IS_PASSWORD_SET_UP) ?? false
   );
@@ -42,7 +46,13 @@ export function AuthContextProvider({ children }) {
     setIsPasswordSetUp(true);
   }, []);
 
-  const login = useCallback(function (id, email, password, planExpirationDate) {
+  const login = useCallback(function (
+    id,
+    isAdmin,
+    email,
+    password,
+    planExpirationDate
+  ) {
     //esto lo usa el componente log in cuando se valide la contraseña y el email
     window.localStorage.setItem(MY_AUTH_APP, true); //cuando se invoque establecera en el localstorage que establece el valor true para la clave my_auth_app
     setIsAuthenticated(true); //actualiza el estado
@@ -52,7 +62,10 @@ export function AuthContextProvider({ children }) {
 
     window.localStorage.setItem(PLAN_EXPIRATION_DATE, planExpirationDate);
     setPlanExpDate(planExpirationDate);
-
+    if (isAdmin === true) {
+      window.localStorage.setItem(IS_ADMIN, true);
+      setIsAdmin(true);
+    }
     if (email.slice(-10) === "@gmail.com") {
       window.localStorage.setItem(IS_GOOGLE_USER, true);
       setIsGoogleUser(true);
@@ -64,7 +77,8 @@ export function AuthContextProvider({ children }) {
       window.localStorage.setItem(IS_PASSWORD_SET_UP, false);
       setIsPasswordSetUp(false);
     }
-  }, []);
+  },
+  []);
   const logout = useCallback(function () {
     //esto lo usa el componente log in cuando se valide la contraseña y el email
     window.localStorage.removeItem(MY_AUTH_APP); //cuando se invoque establecera en el localstorage que establece el valor true para la clave my_auth_app
@@ -72,6 +86,8 @@ export function AuthContextProvider({ children }) {
     window.localStorage.removeItem(PLAN_EXPIRATION_DATE);
     window.localStorage.removeItem(IS_PASSWORD_SET_UP);
     window.localStorage.removeItem(IS_GOOGLE_USER);
+    window.localStorage.removeItem(IS_ADMIN);
+    setIsAdmin(false); //actualiza el estado
     setIsAuthenticated(false); //actualiza el estado
     setUserId(null);
     setIsGoogleUser(false);
@@ -86,6 +102,7 @@ export function AuthContextProvider({ children }) {
       payPlan,
       createPassword,
       isAuthenticated,
+      isAdmin,
       userId,
       planExpDate,
       isGoogleUser,
@@ -97,6 +114,7 @@ export function AuthContextProvider({ children }) {
       payPlan,
       createPassword,
       isAuthenticated,
+      isAdmin,
       userId,
       planExpDate,
       isGoogleUser,

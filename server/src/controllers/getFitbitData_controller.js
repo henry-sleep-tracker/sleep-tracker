@@ -102,6 +102,9 @@ const getFitbitData = async (req, res) => {
         .toISOString()
         .split("T")[0];
       const today = new Date(Date.now() - 43200000).toISOString().split("T")[0];
+      console.log("mostRecent", mostRecent);
+      console.log("startDate", startDate);
+      console.log("today", today);
 
       const data = await fetch(
         `https://api.fitbit.com/1.2/user/-/sleep/date/${startDate}/${today}.json`,
@@ -130,6 +133,7 @@ const getFitbitData = async (req, res) => {
         obj["summary_awake_min"] = session?.levels?.summary?.wake?.minutes;
         return obj;
       });
+      console.log("sessions", sessions);
       await Session.bulkCreate(sessions);
 
       const stages = getData?.sleep

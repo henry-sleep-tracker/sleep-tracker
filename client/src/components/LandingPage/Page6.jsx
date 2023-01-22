@@ -16,12 +16,19 @@ const Page1 = () => {
 
     <Grid
       container
-      // direction="row"
-      justifyContent="space-evenly"
+      direction="row"
+      sx={{
+
+        justifyContent: {
+          lg: 'space-evenly',
+          xs: 'center'
+        }
+      }}
       alignItems="center"
       className={classes.mainPaper}
-      flex={4}
-      p={9}
+    // flex={4}
+    // p={9}
+
     >
       <Grid
         item
@@ -30,6 +37,7 @@ const Page1 = () => {
       >
         <Typography
           variant="h2"
+          fontWeight='bold'
         >
           Comentarios sobre Sleep Tracker
         </Typography>
@@ -51,7 +59,7 @@ export default Page1;
 const useStyles = makeStyles(() => ({
   mainPaper: {
     minHeight: '50vh',
-    width: '100vw',
+    width: '50vw',
     backgroundColor: '#e8eaf6',
   }
 }));

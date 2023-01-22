@@ -1,12 +1,7 @@
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import MobileStepper from '@mui/material/MobileStepper';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import googlePixelWatchChalk from "./Images/google-pixel-watch-chalk-device-3qt.png";
@@ -15,86 +10,66 @@ import sense2 from "./Images/sense2-black-device-3qt.png";
 import versa2 from "./Images/versa2-3qtr-black.png";
 import versa4 from "./Images/versa4-black-device-3qtr.png";
 import { Card, CardContent, Grid } from '@mui/material';
-import { makeStyles } from "@mui/styles";
+// import { makeStyles } from "@mui/styles";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const images = [
     {
-        label: 'Google Pixel Watch Chalk',
-        imgPath: googlePixelWatchChalk
+        label: 'Pixel Watch Chalk',
+        imgPath: googlePixelWatchChalk,
+        author: 'Google'
+
     },
     {
-        label: 'Google Pixel Watch Obsidian',
-        imgPath: googlePixelWatchObsidian
+        label: 'Pixel Watch Obsidian',
+        imgPath: googlePixelWatchObsidian,
+        author: 'Google'
+
     },
     {
         label: 'Sense 2',
-        imgPath: sense2
+        imgPath: sense2,
+        author: 'FitBit'
+
     },
     {
         label: 'Versa 2',
-        imgPath: versa2
+        imgPath: versa2,
+        author: 'FitBit'
+
     },
     {
         label: 'Versa 4',
-        imgPath: versa4
+        imgPath: versa4,
+        author: 'FitBit'
+
     },
 ];
 
 const DevicesCarousel = ({ localStep }) => {
     const theme = useTheme();
-    const maxSteps = images.length;
-    const classes = useStyles();
+    // const classes = useStyles();
 
 
     const [activeStep, setActiveStep] = React.useState(localStep);
-
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
 
     const handleStepChange = (step) => {
         setActiveStep(step);
     };
 
+    const widthSize = 400
     return (
 
         <Grid
             container
-            // justifyContent="space-evenly"
-            // alignItems="center"
-            // // flex={4}
-            // // p={9}
-            direction='row'
+            direction='column'
         >
-            {/* <Grid
-                item
-            >
-                <Button 
-                size="large" 
-                variant='contained'
-                onClick={handleBack} 
-                disabled={activeStep === 0}
-                >
-                    {theme.direction === 'rtl' ? (
-                        <KeyboardArrowRight />
-                    ) : (
-                        <KeyboardArrowLeft />
-                    )}
-                    Back
-                </Button>
-            </Grid> */}
-
             <Grid
                 item
             >
-                <Card 
-                square
+                <Card
+                    elevation={20}
                 >
                     <CardContent>
 
@@ -105,17 +80,18 @@ const DevicesCarousel = ({ localStep }) => {
                             direction='column'
 
                         >
+
                             <Grid
                                 item
-                                marginTop={0}
                             >
 
                                 <Typography
-                                    variant='h5'
+                                    variant='h2'
                                     fontWeight='bold'
                                 >
-                                    {images[activeStep].label}
+                                    {images[activeStep].author}
                                 </Typography>
+
                             </Grid>
 
                             <Grid
@@ -134,9 +110,9 @@ const DevicesCarousel = ({ localStep }) => {
                                                 <Box
                                                     component="img"
                                                     sx={{
-                                                        height: 500,
+                                                        height: 'auto',
                                                         display: 'block',
-                                                        maxWidth: 500,
+                                                        maxWidth: widthSize,
                                                         overflow: 'hidden',
                                                         width: '100%',
                                                     }}
@@ -149,31 +125,25 @@ const DevicesCarousel = ({ localStep }) => {
                                 </AutoPlaySwipeableViews>
                             </Grid>
 
+                            <Grid
+                                item
+                            >
+
+                                <Typography
+                                    variant='h5'
+                                    fontWeight='bold'
+                                >
+                                    {images[activeStep].label}
+                                </Typography>
+
+                            </Grid>
+
                         </Grid>
                     </CardContent>
 
                 </Card>
 
             </Grid>
-
-            {/* <Grid
-                item
-            >
-                <Button
-                    size="large"
-                    variant='contained'
-                    onClick={handleNext}
-                    disabled={activeStep === maxSteps - 1}
-                >
-                    Next
-                    {theme.direction === 'rtl' ? (
-                        <KeyboardArrowLeft />
-                    ) : (
-                        <KeyboardArrowRight />
-                    )}
-                </Button>
-            </Grid> */}
-
         </Grid>
 
     );
@@ -182,9 +152,9 @@ const DevicesCarousel = ({ localStep }) => {
 export default DevicesCarousel;
 
 
-const useStyles = makeStyles(() => ({
-    bg: {
-        backgroundColor: '#e8eaf6'
-    },
+// const useStyles = makeStyles(() => ({
+//     bg: {
+//         backgroundColor: '#e8eaf6'
+//     },
 
-}));
+// }));

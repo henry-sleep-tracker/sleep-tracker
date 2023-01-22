@@ -80,11 +80,11 @@ export const changePassword = (id, newPassword) => {
   };
 };
 
-export const deleteUser = (id, password) => {
+export const deleteUser = (id, password, idAdmin) => {
   return async function () {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_DEFAULT_URL}/user/${id}/${password}`,
+        `${process.env.REACT_APP_DEFAULT_URL}/user/${id}/${password}/${idAdmin}`,
         {
           method: "DELETE",
           headers: {
@@ -92,6 +92,7 @@ export const deleteUser = (id, password) => {
           },
         }
       );
+      return response;
     } catch (error) {
       console.log(error);
     }

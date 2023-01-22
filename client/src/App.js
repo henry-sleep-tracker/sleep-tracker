@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { AuthContextProvider } from "./actions/authContext";
+import AdminRoute from "./components/AdminRoute/AdminRoute";
 import axios from "axios";
 import ChangePassword from "./components/Profile/ChangePassword.jsx";
 import ChangePasswordError from "./components/Loading/ChangePasswordError";
@@ -8,6 +9,7 @@ import ChangePasswordOk from "./components/Loading/ChangePasswordOk";
 import CommentCreate from "./components/Comments/Comment";
 import ConoceAlEquipo from "./components/Home/ConoceAlEquipo";
 import Dashboard from "./components/dashboard/Dashboard.js";
+import Default from "./components/dashboard/default/Default";
 import DeleteUser from "./components/Profile/DeleteProfile.jsx";
 import Fitbit from "./components/SignUp/Fitbit";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword.jsx";
@@ -30,8 +32,14 @@ import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
 import NewUserSuccess from "./components/Loading/NewUserSuccess";
 import Saving from "./components/Record/Saving";
 import UserExist from "./components/Loading/UserExist";
+import Users from "./components/dashboard/users/Users";
 import Chat from "./components/Home/chat";
-import {ChangePasswordOkProfile, ChangePasswordErrorProfile} from "./components/Loading/ChangePasswordProfile"
+import {
+  ChangePasswordOkProfile,
+  ChangePasswordErrorProfile,
+  DeleteUserProfile,
+  DeleteUserProfileError,
+} from "./components/Loading/ChangePasswordProfile";
 
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
@@ -74,6 +82,12 @@ function App() {
 
         <Route path="/private" element={<PrivateRoute />}>
           <Route path="/private" element={<GeneralRoutes />}>
+            <Route path="/private/dashboard/" element={<AdminRoute />}>
+              <Route index element={<Dashboard />} />
+              {/* <Route path="/private/dashboard/1" element={<Default />} /> */}
+              <Route path="/private/dashboard/users" element={<Users />} />
+            </Route>
+
             <Route index path="/private/home" element={<Home />} />
             <Route path="/private/team" element={<ConoceAlEquipo />} />
             <Route path="/private/fitbit" element={<Fitbit />} />
@@ -81,7 +95,6 @@ function App() {
             <Route path="/private/records" element={<Record />} />
             <Route path="/private/loading" element={<Loading />} />
             <Route path="/private/saving" element={<Saving />} />
-            <Route path="/private/dashboard/*" element={<Dashboard />} />
             <Route path="/private/createcomment" element={<CommentCreate />} />
           </Route>
           <Route path="/private/profile" element={<Profile />} />
@@ -96,6 +109,14 @@ function App() {
           <Route
             path="/private/changepassworderror"
             element={<ChangePasswordErrorProfile />}
+          />
+          <Route
+            path="/private/deleteuserprofile"
+            element={<DeleteUserProfile />}
+          />
+          <Route
+            path="/private/deleteuserprofileerror"
+            element={<DeleteUserProfileError />}
           />
           <Route path="/private/planes" element={<Pricing />} />
           <Route path="/private/loadingpayment" element={<LoadingPayment />} />
