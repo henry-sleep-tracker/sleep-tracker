@@ -62,14 +62,13 @@ const Home = () => {
         spacing={3}
         flex={4}
         p={"2rem"}
-        // sx={{ backgroundColor: "#f7f8fb" }}
       >
         <Helmet>
           <title>Inicio | Sleep Tracker</title>
         </Helmet>
 
         <Grid item>
-          <Typography sx={{ fontSize: "3vw", fontWeight: "bold" }}>
+          <Typography variant="h3" fontWeight="bold" paddingTop={2}>
             ¡Hola {user.name}, {greet()}
           </Typography>
         </Grid>
