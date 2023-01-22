@@ -43,7 +43,7 @@ const tips = [
     im: "https://www.colchonexpres.com/blog/wp-content/uploads/2017/05/como-relajarse-para-dormir-1.jpg",
   },
   {
-    tip: " Deshacerse de distracciones como ruidos, luces brillantes y el televisor o computadora en el dormitorio",
+    tip: " Deshacerse de distracciones como ruidos, luces brillantes y el televisor o computadora",
     im: "https://cdnb.20m.es/sites/91/2016/07/las-bombillas-edison-apagan-europa-1346409905559.jpg",
   },
   {
