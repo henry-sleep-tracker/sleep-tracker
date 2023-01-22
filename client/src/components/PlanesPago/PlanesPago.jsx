@@ -148,7 +148,8 @@ const Pricing = () => {
                           theme.palette.mode == 'dark' ?
                             '#7986cb'
                             :
-                            '#303f9f'
+                            '#303f9f',
+                        display: 'flex', justifyContent: 'center'
                       }}
                     >
                       <Typography
@@ -173,7 +174,9 @@ const Pricing = () => {
                     <CardContent >
                       {priceProps}
                     </CardContent >
-                    <CardContent >
+
+                    <CardContent
+                      sx={{ display: 'flex', justifyContent: 'center' }} >
 
                       <Button
                         variant='contained'
@@ -206,7 +209,8 @@ const Pricing = () => {
                             theme.palette.mode == 'dark' ?
                               '#7986cb'
                               :
-                              '#303f9f'
+                              '#303f9f',
+                          display: 'flex', justifyContent: 'center'
                         }}
                       >
                         <Typography
@@ -231,7 +235,8 @@ const Pricing = () => {
 
                         {priceProps}
                       </CardContent>
-                      <CardContent >
+                      <CardContent
+                        sx={{ display: 'flex', justifyContent: 'center' }} >
 
                         <Button
                           variant='contained'
@@ -265,7 +270,8 @@ const Pricing = () => {
                               theme.palette.mode == 'dark' ?
                                 '#7986cb'
                                 :
-                                '#303f9f'
+                                '#303f9f',
+                            display: 'flex', justifyContent: 'center'
                           }}
                         >
                           <Typography
@@ -293,7 +299,8 @@ const Pricing = () => {
                           {priceProps}
                         </CardContent>
 
-                        <CardContent>
+                        <CardContent
+                          sx={{ display: 'flex', justifyContent: 'center' }}>
                           <Button
                             variant='contained'
                             size='large'
