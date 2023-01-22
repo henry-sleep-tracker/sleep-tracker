@@ -68,7 +68,6 @@ const Record = props => {
   let sleepTimeMinutes = "";
   let sleepTime12Format = "";
   let checkSleepRecord = "";
-  
 
   // Hooks init
   const dispatch = useDispatch();
@@ -119,7 +118,7 @@ const Record = props => {
   checkSleepRecord = Array.isArray(recordsUserRedux)
     ? recordsUserRedux.filter(e => e.sleepTime >= 1)
     : false;
-  
+
   let st = sTime;
   let et = eTime;
 
@@ -150,8 +149,8 @@ const Record = props => {
 
   //! ================== Sleep States ================= !//
   const [time, setTime] = useState({
-    startTime: sTime?sTime:"",
-    endTime: eTime?eTime:"",
+    startTime: sTime ? sTime : "",
+    endTime: eTime ? eTime : "",
   });
 
   const finalHours = formatingDate(sTime, eTime);
@@ -417,6 +416,12 @@ const Record = props => {
       return;
     }
 
+    if (!addActivity.activity) {
+      message.warn(`Ingresa un nombre para la nueva actividad`, 2500);
+      message.warn(`Ingresa un nombre para la nueva actividad`, 2500);
+      return;
+    }
+
     dispatch(createNewActivity(addActivity));
 
     if (activityStat === null) {
@@ -519,6 +524,12 @@ const Record = props => {
       message.error(`La medida ${addCoffeSize.size} no puede duplicarse`, 2500);
       message.error(`La medida ${addCoffeSize.size} no puede duplicarse`, 2500);
       nameCoffee.current.value = "";
+      return;
+    }
+
+    if (!addCoffeSize.size) {
+      message.warn(`Ingresa un nombre para la nueva porcion`, 2500);
+      message.warn(`Ingresa un nombre para la nueva porcion`, 2500);
       return;
     }
 
@@ -627,6 +638,12 @@ const Record = props => {
       return;
     }
 
+    if (!addNewDrink.drink) {
+      message.warn(`Ingresa un nombre para la nueva bebida`, 2500);
+      message.warn(`Ingresa un nombre para la nueva bebida`, 2500);
+      return;
+    }
+
     dispatch(createNewDrink(addNewDrink));
 
     if (drinkStat === null) {
@@ -720,8 +737,10 @@ const Record = props => {
   const PopupActivity = () => (
     <Popup
       trigger={<img src={menRuning} alt="" className="popup_ico" />}
-      contentStyle={{ width: "40%" }}
+      /* contentStyle={{ width: "35%" }} */
+      contentStyle={{ width: "320px" }}
       onClose={() => setNewActivity(false)}
+      position="bottom left"
     >
       <div className="activity_container">
         <div className="actity_head_container">
@@ -741,7 +760,11 @@ const Record = props => {
           />
 
           <label>Actividad</label>
-          <select ref={activityRef} onChange={handlerSetActivity} className="select_popup">
+          <select
+            ref={activityRef}
+            onChange={handlerSetActivity}
+            className="select_popup"
+          >
             <option value="default">Selecciona...</option>
             {activitiesRedux.length > 0
               ? activitiesRedux.map((e, i) => {
@@ -782,6 +805,7 @@ const Record = props => {
         </div>
         <div className="add_item">
           <div className="new_item" hidden={newActivity ? false : true}>
+            <hr />
             <label>Nueva Actividad</label>
             <input
               type="text"
@@ -799,11 +823,14 @@ const Record = props => {
       </div>
     </Popup>
   );
+
   const PopupCoffee = () => (
     <Popup
       trigger={<img src={coffeeMain} alt="" className="popup_ico" />}
-      contentStyle={{ width: "35%" }}
+      /* contentStyle={{ width: "35%" }} */
+      contentStyle={{ width: "320px" }}
       onClose={() => setNewCoffeeSize(false)}
+      position="bottom center"
     >
       <div className="coffee_container">
         <div className="coffee_head_container">
@@ -867,6 +894,7 @@ const Record = props => {
         </div>
         <div className="add_item">
           <div className="new_item" hidden={newCoffeeSize ? false : true}>
+            <hr />
             <label>Nueva medida</label>
             <input
               type="text"
@@ -888,8 +916,10 @@ const Record = props => {
   const PopupDrink = () => (
     <Popup
       trigger={<img src={drinkMain} alt="" className="popup_ico" />}
-      contentStyle={{ width: "35%" }}
+      /* contentStyle={{ width: "35%" }} */
+      contentStyle={{ width: "320px" }}
       onClose={() => setNewDrink(false)}
+      position="bottom right"
     >
       <div className="drink_container">
         <div className="drink_head_container">
@@ -953,6 +983,7 @@ const Record = props => {
         </div>
         <div className="add_item">
           <div className="new_item" hidden={newDrink ? false : true}>
+            <hr />
             <label>Nueva Bebida</label>
             <input
               type="text"
@@ -1004,32 +1035,33 @@ const Record = props => {
                   />
                 </div>
               </div>
-              <div
-                id="test_div"
-                className="meal_section"
-                hidden={timeR ? false : true}
-              >
-                <h5>
-                  Descripcion de tu cena{" "}
-                  <img
-                    src={checkImg}
-                    alt=""
-                    hidden={
-                      timeR && record.description?.length > 0 ? false : true
-                    }
-                    className="img_ok"
-                  />
-                </h5>
-                <textarea
-                  name="description"
-                  cols={57}
-                  rows="5"
-                  placeholder="Ingresa breve descripcion"
-                  value={record.description}
-                  onChange={handlerOnChange}
-                  required={record.timeMeal?.length > 0 ? true : false}
-                ></textarea>
-              </div>
+            </div>
+            <div
+              id="test_div"
+              className="meal_section"
+              hidden={timeR ? false : true}
+            >
+              <h5>
+                Descripcion de tu cena{" "}
+                <img
+                  src={checkImg}
+                  alt=""
+                  hidden={
+                    timeR && record.description?.length > 0 ? false : true
+                  }
+                  className="img_ok"
+                />
+              </h5>
+              <textarea
+                className="text_description"
+                name="description"
+                /* cols={57} */
+                rows="5"
+                placeholder="Ingresa breve descripcion"
+                value={record.description}
+                onChange={handlerOnChange}
+                required={record.timeMeal?.length > 0 ? true : false}
+              ></textarea>
             </div>
             <div
               className="sleep_container"
@@ -1073,14 +1105,18 @@ const Record = props => {
               </div>
 
               <div className="sleep_section" hidden={sleepTime.length > 0}>
-                <StartTime
-                  text="Dormiste"
-                  clean={sTime === null ? true : false}
-                />
-                <EndTime
-                  text="Despertaste"
-                  clean={eTime === null ? true : false}
-                />
+                <div className="start_time">
+                  <StartTime
+                    text="Dormiste"
+                    clean={sTime === null ? true : false}
+                  />
+                </div>
+                <div className="end_time">
+                  <EndTime
+                    text="Despertaste"
+                    clean={eTime === null ? true : false}
+                  />
+                </div>
                 <div
                   className="sleep_result"
                   hidden={sTime && eTime ? false : true}
@@ -1137,22 +1173,20 @@ const Record = props => {
             {/* ====================== BUTTONS SECTION ======================= */}
 
             <div className="button_container">
-              <Stack direction="row" spacing={10}>
-                <Button
-                  variant="contained"
-                  onClick={handlerOnSubmit}
-                  sx={{ width: "150px" }}
-                >
-                  Guardar
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={handlerOnClear}
-                  sx={{ width: "150px" }}
-                >
-                  Limpiar
-                </Button>
-              </Stack>
+              <Button
+                variant="contained"
+                onClick={handlerOnSubmit}
+                sx={{ width: "300px", margin: "5px" }}
+              >
+                Guardar
+              </Button>
+              <Button
+                variant="contained"
+                onClick={handlerOnClear}
+                sx={{ width: "300px", margin: "5px" }}
+              >
+                Limpiar
+              </Button>
             </div>
           </div>
         </form>
