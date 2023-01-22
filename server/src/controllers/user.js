@@ -154,9 +154,6 @@ const getUserByEmail = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id, password, idAdmin } = req.params;
-    console.log("id", id)
-    console.log("password", password)
-    console.log("idAdmin", idAdmin)
     function copareHash(password, hashed) {
       return bcrypt.compareSync(password, hashed);
     }
@@ -173,17 +170,14 @@ const deleteUser = async (req, res) => {
     }
     else{
       if (!id || !password){
-        console.log("1")
         return res.status(428).send("Falta enviar datos obligatorios"); // Validacion de datos
       }
-  
+
       if (!userDelete){
-        console.log("2")
         return res.status(202).send("el usuario no existe"); // Validacion de Usuario existente
       } 
   
-      if (copareHash(password, userDelete.hashedPassword)) {
-        console.log("3")
+      if (copareHash(password, userDelete.hashedPassword)) { // Validacion de contraseña
         const result = await User.destroy({ where: { id: id } });
         if (result){
           return res.status(200).send("Usuario eliminado");
