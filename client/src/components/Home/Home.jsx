@@ -68,7 +68,7 @@ const Home = () => {
         </Helmet>
 
         <Grid item>
-          <Typography variant="h2" fontWeight="bold" paddingTop={2}>
+          <Typography variant="h3" fontWeight="bold" paddingTop={2}>
             ¡Hola {user.name}, {greet()}
           </Typography>
         </Grid>
