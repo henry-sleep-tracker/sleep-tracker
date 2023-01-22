@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthContext } from "../../actions/authContext";
 import { updateUser, updateImage } from "../../actions/profileActions";
+import {nationalities} from "../../actions/nationalities"
 import {
   Button,
   Card,
@@ -18,7 +19,6 @@ import {
   ListItemIcon,
   Menu
 } from "@mui/material";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PasswordIcon from "@mui/icons-material/Password";
 import CheckIcon from "@mui/icons-material/Check";
@@ -27,19 +27,16 @@ import EmailIcon from "@mui/icons-material/Email";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Helmet } from "react-helmet";
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Avatar from '@mui/material/Avatar';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-// import AddCommentIcon from "@mui/icons-material/AddComment";
-// import PaymentIcon from "@mui/icons-material/Payment";
 import { makeStyles } from "@mui/styles";
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import EditIcon from '@mui/icons-material/Edit';
-import { Logout, Settings } from "@mui/icons-material";
+import { message } from "react-message-popup";
 
 const Profile = () => {
   const { createPassword } = useAuthContext();
@@ -60,9 +57,6 @@ const Profile = () => {
     nationality: "",
   });
   console.log(inputs);
-  let nationalities = [
-    'Afganistan', 'Albania', 'Alemania', 'Andorra', 'Angola', 'Antigua y Barbuda', 'Arabia Saudita', 'Argelia', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaiyán', 'Bahamas', 'Bangladés', 'Barbados', 'Baréin', 'Bélgica', 'Belice', 'Bielorrusia', 'Benín', 'Birmania', 'Bolivia', 'Bosnia y Herzegovina', 'Botsuana', 'Brasil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Bután', 'Cabo Verde', 'Camboya', 'Camerún', 'Canadá', 'Catar', 'Chad', 'Chile', 'China', 'Chipre', 'Ciudad del Vaticano', 'Colombia', 'Comoras', 'Corea del Norte', 'Corea del Sur', 'Costa de Marfil', 'Costa Rica', 'Croacia', 'Cuba', 'Dinamarca', 'Dominica', 'Ecuador', 'Egipto', 'El Salvador', 'Emiratos Árabes Unidos', 'Eritrea', 'Eslovaquia', 'Eslovenia', 'España', 'Estados Unidos', 'Estonia', 'Etiopía', 'Filipinas', 'Finlandia', 'Fiyi', 'Francia', 'Gabón', 'Gambia', 'Georgia', 'Ghana', 'Granada', 'Grecia', 'Guatemala', 'Guinea', 'Guinea-Bisáu', 'Guinea Ecuatorial', 'Guyana', 'Haití', 'Honduras', 'Hungría', 'India', 'Indonesia', 'Irak', 'Irán', 'Irlanda', 'Islandia', 'Islas Marshall', 'Israel', 'Italia', 'Jamaica', 'Japón', 'Jordania', 'Kazajistán', 'Kenia', 'Kirguistán', 'Kiribati', 'Kuwait', 'Laos', 'Lesoto', 'Letonia', 'Líbano', 'Liberia', 'Libia', 'Liechtenstein', 'Lituania', 'Luxemburgo', 'Macedonia del Norte', 'Madagascar', 'Malasia', 'Malaui', 'MalGridas', 'Mali', 'Malta', 'Marruecos', 'Mauricio', 'Mauritania', 'México', 'Micronesia', 'Moldavia', 'Mónaco', 'Mongolia', 'Montenegro', 'Mozambique', 'Namibia', 'Nauru', 'Nepal', 'Nicaragua', 'Níger', 'Nigeria', 'Noruega', 'Nueva Zelanda', 'Omán', 'Países Bajos', 'Pakistán', 'Palaos', 'Palestina', 'Panamá', 'Papúa Nueva Guinea', 'Paraguay', 'Perú', 'Polonia', 'Portugal', 'Reino Unido', 'República Checa', 'República Centroafricana', 'República del Congo', 'República Democrática del Congo', 'República Dominicana', 'Ruanda', 'Rumania', 'Rusia', 'Islas Salomón', 'Samoa', 'San Cristóbal y Nieves', 'San Marino', 'San Vicente y las Granadinas', 'Santa Lucía', 'Santo Tomé y Príncipe', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leona', 'Singapur', 'Siria', 'Somalia', 'Sri Lanka', 'Suazilandia', 'Sudáfrica', 'Sudán', 'Sudán del Sur', 'Suecia', 'Suiza', 'Surinam', 'Tailandia', 'Tanzania', 'Tayikistán', 'Timor Oriental', 'Togo', 'Tonga', 'Trinidad y Tobago', 'Túnez', 'Turkmenistán', 'Turquía', 'Tuvalu', 'Ucrania', 'Uganda', 'Uruguay', 'Uzbekistán', 'Vanuatu', 'Venezuela', 'Vietnam', 'Yemen', 'Yibuti', 'Zambia', 'Zimbabue'
-  ];
   let keyNationalities = 0;
   let yourDate = new Date();
 
@@ -198,20 +192,14 @@ const Profile = () => {
   };
 
   const classes = useStyles();
-
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const [anchorEl, setAnchorEl] = useState(null);
   const openAnchor = Boolean(anchorEl);
-
   const handleClickAnchor = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleCloseAnchor = () => {
     setAnchorEl(null);
   };
-
 
   return (
 
@@ -428,6 +416,7 @@ const Profile = () => {
                       {`${currentUser.names} ${currentUser.lastNames}`}
                     </Typography>
                   ) : (
+                    <Grid container gap={1}>
                     <TextField
                       variant="outlined"
                       label="Nuevo nombre"
@@ -436,6 +425,15 @@ const Profile = () => {
                       value={inputs.names}
                       onChange={(e) => handleInputs(e)}
                     />
+                    <TextField
+                      variant="outlined"
+                      label="Nuevo apellido"
+                      type="text"
+                      name="lastNames"
+                      value={inputs.lastNames}
+                      onChange={(e) => handleInputs(e)}
+                    />
+                    </Grid>
                   )}
                 </Grid>
 
@@ -466,7 +464,6 @@ const Profile = () => {
                 alignItems="center"
                 paddingTop={1}
                 paddingBottom={1}
-
               // spacing={30}
               >
 
@@ -744,7 +741,6 @@ const Profile = () => {
               <Grid
                 item
               >
-
                 <Button
                   size='small'
                   href={`/private/delete-user/${currentUser.id}`}
@@ -755,7 +751,6 @@ const Profile = () => {
                 >
                   Borrar usuario
                 </Button>
-
               </Grid>
 
               <Grid item>

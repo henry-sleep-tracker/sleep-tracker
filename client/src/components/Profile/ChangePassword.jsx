@@ -8,23 +8,19 @@ import { useDispatch } from "react-redux";
 import { useParams, useNavigate } from 'react-router-dom';
 import { changePassword } from "../../actions/profileActions";
 import { message } from "react-message-popup";
-// import style from "./ChangePassword.module.css";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useAuthContext } from "../../actions/authContext";
 
 export default function ChangePassword() {
   const { createPassword } = useAuthContext();
   const navigate = useNavigate();
-
   const { id } = useParams();
-
   const dispatch = useDispatch();
-
   const [errors, setErrors] = useState({
     password: "",
     confirmPassword: "",
-  })
-  var [input, setInput] = useState({
+  });
+  const [input, setInput] = useState({
     password: "",
     confirmPassword: "",
   });
@@ -37,7 +33,7 @@ export default function ChangePassword() {
       }
     }
     return errors
-  }
+  };
 
   function handleChange(e) {
     setInput({
@@ -50,18 +46,14 @@ export default function ChangePassword() {
         [e.target.name]: e.target.value
       })
     )
-  }
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
       if (Object.keys(errors).length !== 0) {
-        //alert(`Todos los campos obligatorios deben ser llenados para poder registrarse`)
-        message.warn(
-          `Todos los campos obligatorios deben ser llenados para poder registrarse`
-        ,2500);
+        message.warn(`Todos los campos obligatorios deben ser llenados para poder registrarse`,2500);
       } else if (input.password !== input.confirmPassword) {
-        //alert(`La contraseña no se confirmo correctamente`)
         message.error(`La contraseña no se confirmo correctamente`,2500)
       } else {
         dispatch(changePassword(id, input.password));
@@ -73,19 +65,14 @@ export default function ChangePassword() {
         navigate("/private/changepasswordok");
       }
     } catch (error) {
-      //console.log("el error es:", error);
       navigate("/private/changepassworderror");
     }
-  }
+  };
 
   const [showPassword, setShowPassword] = useState(false);
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const [showPassword2, setShowPassword2] = useState(false);
-
   const handleClickShowPassword2 = () => setShowPassword2((show) => !show);
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };

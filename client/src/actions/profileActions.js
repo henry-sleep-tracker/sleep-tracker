@@ -69,11 +69,7 @@ export const changePassword = (id, newPassword) => {
           body: JSON.stringify({ newPassword: newPassword }),
         }
       );
-      if (response.status === 200) {
-        //alert(`La contraseña se cambio correctamente`);
-      } else {
-        //alert(`Hubo un error al cambiar la contraseña. Intentelo nuevamente.`);
-      }
+      return response;
     } catch (error) {
       console.log(error);
     }
