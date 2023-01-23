@@ -131,7 +131,7 @@ function ResponsiveAppBar({ mode, setMode }) {
   };
 
   return (
-    <AppBar position="sticky" backgroundColor="primary">
+    <AppBar position="sticky" backgroundcolor="primary">
       <Container maxWidth="xl" sx={{ color: "black" }}>
         <Toolbar disableGutters>
           <Box>
@@ -347,18 +347,13 @@ function ResponsiveAppBar({ mode, setMode }) {
             </Drawer>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button
-              key="conoce al equipo"
-              onClick={handleConoce}
-              sx={{ my: 2, color: "white", display: "block" }}
-              startIcon={<Groups2 />}
-            >
-              conoce al equipo
-            </Button>
-          </Box>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              justifyContent: "center",
+              display: { xs: "none", md: "flex" },
+            }}
+          >
             <Button
               key="Graficas"
               onClick={handleGraph}
@@ -369,7 +364,13 @@ function ResponsiveAppBar({ mode, setMode }) {
             </Button>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              justifyContent: "center",
+              display: { xs: "none", md: "flex" },
+            }}
+          >
             <Button
               key="Registrar Actividad"
               onClick={handlerRecord}
@@ -380,7 +381,13 @@ function ResponsiveAppBar({ mode, setMode }) {
             </Button>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              justifyContent: "center",
+              display: { xs: "none", md: "flex" },
+            }}
+          >
             <Button
               key="Chat"
               onClick={handlerChat}
@@ -391,7 +398,30 @@ function ResponsiveAppBar({ mode, setMode }) {
             </Button>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              justifyContent: "center",
+              display: { xs: "none", md: "flex" },
+            }}
+          >
+            <Button
+              key="conoce al equipo"
+              onClick={handleConoce}
+              sx={{ my: 2, color: "white", display: "block" }}
+              startIcon={<Groups2 />}
+            >
+              conoce al equipo
+            </Button>
+          </Box>
+
+          <Box
+            sx={{
+              flexGrow: 1,
+              justifyContent: "center",
+              display: { xs: "none", md: "flex" },
+            }}
+          >
             <Tooltip title={currentUser2.names}>
               <IconButton
                 onClick={handleClick}

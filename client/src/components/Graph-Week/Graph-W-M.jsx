@@ -134,5 +134,6 @@ export default GraphWM;
 const useStyles = makeStyles(() => ({
   paperWraper: {
     minHeight: "100vh",
+    minWidth: "100vw",
   },
 }));

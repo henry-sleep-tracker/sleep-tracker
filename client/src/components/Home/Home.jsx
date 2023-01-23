@@ -11,7 +11,7 @@ import Calendario from "../Calendario/Calendario";
 import GraphHome from "../Graphs/Graph-home";
 import CollapsibleTable from "../Graph-Week/CollapsibleTable";
 import Fitbit from "../SignUp/Fitbit";
-import { Grid, Paper, Typography } from "@mui/material";
+import { Grid, Paper, Typography, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Helmet } from "react-helmet";
 
@@ -88,13 +88,12 @@ const Home = () => {
             alignItems="flex-start"
             spacing={{ xs: 4, md: 6 }}
             p={"2rem"}
-            columns={16}
           >
-            <Grid item xs={12}>
+            <Grid item xs={12} md={8}>
               <GraphHome />
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <CollapsibleTable />
             </Grid>
           </Grid>
@@ -107,15 +106,15 @@ const Home = () => {
             spacing={{ xs: 4, md: 6 }}
             columns={{ xs: 4, sm: 8, md: 15 }}
           >
-            <Grid item xs={5}>
+            <Grid item xs={12} md={5}>
               <Resume />
             </Grid>
 
-            <Grid item xs={5}>
+            <Grid item xs={12} md={5}>
               <Swipeable className={classes.swipeable} />
             </Grid>
 
-            <Grid item xs={5}>
+            <Grid item xs={12} md={5}>
               <Calc />
             </Grid>
           </Grid>
@@ -130,5 +129,6 @@ export default Home;
 const useStyles = makeStyles(() => ({
   paperWraper: {
     minHeight: "100vh",
+    minWidth: "100vw",
   },
 }));
