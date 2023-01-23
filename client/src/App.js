@@ -30,7 +30,7 @@ import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
 import NewUserSuccess from "./components/Loading/NewUserSuccess";
 import Saving from "./components/Record/Saving";
 import UserExist from "./components/Loading/UserExist";
-import Chat from "./components/Home/chat";
+import Chat from "./components/Chat/Chat";
 import {ChangePasswordOkProfile, ChangePasswordErrorProfile} from "./components/Loading/ChangePasswordProfile"
 
 import "./App.css";
