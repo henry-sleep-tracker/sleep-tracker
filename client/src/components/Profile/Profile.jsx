@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthContext } from "../../actions/authContext";
 import { updateUser, updateImage } from "../../actions/profileActions";
-import {nationalities} from "../../actions/nationalities"
+import { nationalities } from "../../actions/nationalities"
 import {
   Button,
   Card,
@@ -288,8 +288,19 @@ const Profile = () => {
                                 }}
                               />
                               :
-                              <Avatar>
-                                <PersonIcon />
+                              <Avatar
+                                sx={{
+                                  width: 150,
+                                  height: 150
+                                }}
+                                alt="Not found"
+                              >
+                                <PersonIcon
+                                  sx={{
+                                    width: 150,
+                                    height: 150
+                                  }}
+                                />
                               </Avatar>
                           }
                         </ListItemIcon>
@@ -417,22 +428,22 @@ const Profile = () => {
                     </Typography>
                   ) : (
                     <Grid container gap={1}>
-                    <TextField
-                      variant="outlined"
-                      label="Nuevo nombre"
-                      type="text"
-                      name="names"
-                      value={inputs.names}
-                      onChange={(e) => handleInputs(e)}
-                    />
-                    <TextField
-                      variant="outlined"
-                      label="Nuevo apellido"
-                      type="text"
-                      name="lastNames"
-                      value={inputs.lastNames}
-                      onChange={(e) => handleInputs(e)}
-                    />
+                      <TextField
+                        variant="outlined"
+                        label="Nuevo nombre"
+                        type="text"
+                        name="names"
+                        value={inputs.names}
+                        onChange={(e) => handleInputs(e)}
+                      />
+                      <TextField
+                        variant="outlined"
+                        label="Nuevo apellido"
+                        type="text"
+                        name="lastNames"
+                        value={inputs.lastNames}
+                        onChange={(e) => handleInputs(e)}
+                      />
                     </Grid>
                   )}
                 </Grid>
