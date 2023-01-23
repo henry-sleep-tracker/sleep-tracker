@@ -21,6 +21,7 @@ import { makeStyles } from "@mui/styles";
 import { useReactToPrint } from "react-to-print";
 import { message } from "react-message-popup";
 import image from "../../images/sleeping_person.jpeg";
+import styles from "./Graph-W-M.module.css";
 
 const yesterday = new Date(Date.now() - 28800000).toISOString().split("T")[0];
 const fiveDaysAgo = new Date(Date.now() - 432000000)
@@ -47,7 +48,6 @@ const GraphWM = () => {
     <Paper className={classes.paperWraper}>
       <Grid
         container
-        width="auto"
         justifyContent="center"
         alignItems="center"
         direction="column"
@@ -55,7 +55,6 @@ const GraphWM = () => {
         spacing={5}
         flex={4}
         p={5}
-        // sx={{ backgroundColor: "#f7f8fb" }}
       >
         <Grid
           container
@@ -66,7 +65,7 @@ const GraphWM = () => {
           p={5}
         >
           <Grid item width={"40%"}>
-            <Card>
+            <Card className={styles.media}>
               <CardActionArea>
                 <CardMedia
                   component="img"

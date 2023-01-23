@@ -40,7 +40,7 @@ h2 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white
+  background-color: white;
 }
 
 .main_container {
@@ -51,10 +51,8 @@ h2 {
   border-radius: 0.3rem;
   padding: 3rem;
   padding-top: 20px;
-  background-color: white
-    /* #3f50b5 */
-  ;
-  color: black
+  background-color: white /* #3f50b5 */;
+  color: black;
 }
 
 .general_info_container {
@@ -241,7 +239,6 @@ h6 {
 
 .div_map_container {
   display: flex;
-
 }
 
 .div_map {
@@ -252,8 +249,9 @@ h6 {
   border-radius: 0.3rem;
   padding: 0.3rem;
   background-color: rgb(33, 150, 243);
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  color: white
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  color: white;
 }
 
 .div_map:hover {
@@ -316,8 +314,7 @@ input {
   align-items: center;
 }
 
-.add_quantity label,
-span {
+.add_quantity label {
   width: 100%;
   text-align: center;
   font-size: x-large;
@@ -352,8 +349,16 @@ span {
   text-transform: uppercase;
   color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
   background-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  font-family: var(--pure-material-font, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  font-family: var(
+    --pure-material-font,
+    "Roboto",
+    "Segoe UI",
+    BlinkMacSystemFont,
+    system-ui,
+    -apple-system
+  );
   font-size: 14px;
   font-weight: 500;
   line-height: 36px;
@@ -401,7 +406,8 @@ span {
 /* Hover, Focus */
 .add_button:hover,
 .add_button:focus {
-  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .add_button:hover::before {
@@ -418,7 +424,8 @@ span {
 
 /* Active */
 .add_button:active {
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 .add_button:active::after {
@@ -443,12 +450,10 @@ span {
   opacity: 0;
 }
 
-
 /************************* Responsive Section **********************************/
 
 /* =========================== Medium Phone Screens ========================= */
 @media (max-width: 560px) {
-
   h3,
   h4 {
     cursor: default;
@@ -497,7 +502,7 @@ span {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: white
+    background-color: white;
   }
 
   .main_container {
@@ -507,7 +512,7 @@ span {
     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
     border-radius: 0.3rem;
     background-color: white;
-    color: black
+    color: black;
   }
 
   .general_info_container {
@@ -705,7 +710,6 @@ span {
 
   .div_map_container {
     display: flex;
-
   }
 
   .div_map {
@@ -716,8 +720,9 @@ span {
     border-radius: 0.3rem;
     padding: 0.3rem;
     background-color: rgb(33, 150, 243);
-    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    color: white
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+      0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    color: white;
   }
 
   .div_map:hover {
@@ -815,8 +820,16 @@ span {
     text-transform: uppercase;
     color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
     background-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
-    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    font-family: var(--pure-material-font, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+      0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    font-family: var(
+      --pure-material-font,
+      "Roboto",
+      "Segoe UI",
+      BlinkMacSystemFont,
+      system-ui,
+      -apple-system
+    );
     font-size: 14px;
     font-weight: 500;
     line-height: 36px;
@@ -864,7 +877,8 @@ span {
   /* Hover, Focus */
   .add_button:hover,
   .add_button:focus {
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+      0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
   }
 
   .add_button:hover::before {
@@ -881,7 +895,8 @@ span {
 
   /* Active */
   .add_button:active {
-    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+      0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
   }
 
   .add_button:active::after {
@@ -905,12 +920,10 @@ span {
   .add_button:disabled::after {
     opacity: 0;
   }
-
 }
 
 /* =========================== Small Phone Screens ========================= */
 @media (max-width: 400px) {
-
   h3,
   h4 {
     cursor: default;
@@ -960,7 +973,7 @@ span {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: white
+    background-color: white;
   }
 
   .main_container {
@@ -970,7 +983,7 @@ span {
     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
     border-radius: 0.3rem;
     background-color: white;
-    color: black
+    color: black;
   }
 
   .general_info_container {
@@ -1168,7 +1181,6 @@ span {
 
   .div_map_container {
     display: flex;
-
   }
 
   .div_map {
@@ -1179,8 +1191,9 @@ span {
     border-radius: 0.3rem;
     padding: 0.3rem;
     background-color: rgb(33, 150, 243);
-    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    color: white
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+      0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    color: white;
   }
 
   .div_map:hover {
@@ -1278,8 +1291,16 @@ span {
     text-transform: uppercase;
     color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
     background-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
-    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    font-family: var(--pure-material-font, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+      0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    font-family: var(
+      --pure-material-font,
+      "Roboto",
+      "Segoe UI",
+      BlinkMacSystemFont,
+      system-ui,
+      -apple-system
+    );
     font-size: 14px;
     font-weight: 500;
     line-height: 36px;
@@ -1327,7 +1348,8 @@ span {
   /* Hover, Focus */
   .add_button:hover,
   .add_button:focus {
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+      0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
   }
 
   .add_button:hover::before {
@@ -1344,7 +1366,8 @@ span {
 
   /* Active */
   .add_button:active {
-    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+      0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
   }
 
   .add_button:active::after {

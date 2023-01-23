@@ -50,8 +50,6 @@ const StyledToolbar = styled(Toolbar)({
 //     width: "40%"
 // }));
 
-console.log("theme", theme);
-
 const Icons = styled("div")(({ theme }) => ({
   display: "none",
   gap: "20px",
