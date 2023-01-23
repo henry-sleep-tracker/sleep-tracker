@@ -5,23 +5,20 @@ const morgan = require("morgan");
 const routes = require("./index.js");
 const session = require("express-session"); //esto permite crear sesiones con un tiempo de
 require("./db.js");
-const {PORT} = process.env;
-const {Server } = require('socket.io') 
-const http = require('http')
-const cors = require('cors')
-
+const { PORT } = process.env;
+const { Server } = require("socket.io");
+const http = require("http");
+const cors = require("cors");
 
 const server = express();
 
-
-const serverApp = http.createServer(server)
+const serverApp = http.createServer(server);
 const io = new Server(serverApp, {
   cors: {
-    origin: '*'
-  }
-})
-server.use(cors())
-
+    origin: "*",
+  },
+});
+server.use(cors());
 
 server.name = "API";
 
@@ -30,7 +27,7 @@ server.use((req, res, next) => {
   if (req.originalUrl === "/webhook") {
     next();
   } else {
-    express.json({limit: "50mb"})(req, res, next);
+    express.json({ limit: "50mb" })(req, res, next);
   }
 });
 server.use(express.text());
@@ -53,17 +50,14 @@ server.use((req, res, next) => {
 
 server.use("/", routes);
 
-io.on('connection', (socket)=> {
-  socket.on('message', (message, currentUser) => { 
-    socket.broadcast.emit('message', {
+io.on("connection", (socket) => {
+  socket.on("message", (message, currentUser) => {
+    socket.broadcast.emit("message", {
       body: message,
-      from: currentUser
-    })
-  })
-
-})
-
-
+      from: currentUser,
+    });
+  });
+});
 
 // Error catching endware.
 server.use((err, req, res, next) => {
