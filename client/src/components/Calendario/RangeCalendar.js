@@ -8,7 +8,6 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
 const isMobile = window.innerWidth < 800;
-console.log("isMobile", isMobile);
 
 export default function Calendario() {
   const currentUser = useSelector((state) => state?.users.currentUser);
