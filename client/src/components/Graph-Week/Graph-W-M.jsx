@@ -7,21 +7,10 @@ import CombinedGraph from "./CombinedGraph";
 import RangeCalendar from "../Calendario/RangeCalendar";
 import { getSleepSession } from "../../actions/getUserHealthData";
 import { getRecordsRange } from "../../actions/records_data";
-import {
-  Button,
-  Card,
-  Grid,
-  Typography,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  Paper,
-} from "@mui/material";
+import { Button, Card, Grid, Typography, Paper } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useReactToPrint } from "react-to-print";
 import { message } from "react-message-popup";
-import image from "../../images/sleeping_person.jpeg";
-import styles from "./Graph-W-M.module.css";
 
 const yesterday = new Date(Date.now() - 28800000).toISOString().split("T")[0];
 const fiveDaysAgo = new Date(Date.now() - 432000000)
@@ -51,77 +40,51 @@ const GraphWM = () => {
         justifyContent="center"
         alignItems="center"
         direction="column"
-        ref={componentPdf}
-        spacing={5}
-        flex={4}
-        p={5}
+        spacing={2}
+        flex={2}
+        p={3}
       >
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          spacing={10}
-          p={5}
-        >
-          <Grid item width={"40%"}>
-            <Card className={styles.media}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="170"
-                  image={image}
-                  alt="sleeping person"
-                />
-                <CardContent>
-                  <Typography
-                    fontSize={"2rem"}
-                    fontWeight="medium"
-                    lineHeight={2}
-                  >
-                    Reporte de tu perfil de sueño
-                  </Typography>
-                  <Typography fontSize={"1rem"}>
-                    Dormir bien no se refiere solo al total de horas de sueño,
-                    también es importante que el sueño sea de buena calidad para
-                    que te sientas descansado cuando despiertes.
-                  </Typography>
-                  <Typography fontSize={"1rem"}>
-                    Aquí podrás obtener un mejor entendimiento sobre la calidad
-                    de tu sueño.
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-
-          <Grid item width="auto">
-            <Card>
-              <RangeCalendar />
-            </Card>
-          </Grid>
+        <Grid item>
+          <Typography fontSize={"2.5rem"} fontWeight="bold">
+            Reporte de tu perfil de sueño
+          </Typography>
         </Grid>
 
-        <Grid item>
+        <Grid item sx={{ paddingBottom: 3 }}>
           <Button variant="contained" key="pdf" onClick={handlePrint}>
             Descargar reporte
           </Button>
         </Grid>
 
-        <Grid item>
-          <CombinedGraph />
-        </Grid>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          direction="column"
+          spacing={5}
+          ref={componentPdf}
+        >
+          <Grid item>
+            <Card>
+              <RangeCalendar />
+            </Card>
+          </Grid>
 
-        <Grid item>
-          <DualGraph />
-        </Grid>
+          <Grid item>
+            <CombinedGraph />
+          </Grid>
 
-        <Grid item>
-          <GraphRecord />
-        </Grid>
+          <Grid item>
+            <DualGraph />
+          </Grid>
 
-        <Grid item>
-          <GraphTime />
+          <Grid item>
+            <GraphRecord />
+          </Grid>
+
+          <Grid item>
+            <GraphTime />
+          </Grid>
         </Grid>
       </Grid>
     </Paper>

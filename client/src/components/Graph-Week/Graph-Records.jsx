@@ -11,6 +11,8 @@ import {
 } from "recharts";
 import { Card, CardContent, Typography, Grid, Button } from "@mui/material";
 
+const isMobile = window.innerWidth < 800;
+
 export default function GraphRecord() {
   const records = useSelector((state) => state?.record.recordsRange);
   const [opacity, setOpacity] = useState({
@@ -122,7 +124,11 @@ export default function GraphRecord() {
             >
               Actividades diarias
             </Typography>
-            <ComposedChart width={windowWidth - 150} height={250} data={data}>
+            <ComposedChart
+              width={!isMobile ? windowWidth - 150 : windowWidth - 100}
+              height={400}
+              data={data}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="date" />
               <YAxis yAxisId="left" />
@@ -140,9 +146,9 @@ export default function GraphRecord() {
               />
               <Legend
                 onClick={handleClick}
-                layout="vertical"
-                align="right"
-                verticalAlign="middle"
+                layout={!isMobile ? "vertical" : "horizontal"}
+                align={!isMobile ? "right" : "center"}
+                verticalAlign={!isMobile ? "middle" : "bottom"}
               />
               <Bar
                 yAxisId="right"
@@ -198,7 +204,12 @@ export default function GraphRecord() {
               </Button>
             </Grid>
             <Grid>
-              <Typography fontSize="1rem" color="grey" align="center" p={3}>
+              <Typography
+                fontSize="1rem"
+                color="grey"
+                align="center"
+                p={!isMobile ? 3 : 1}
+              >
                 En esta gráfica puedes observar el registro de actividades
                 diarias en el rango de tiempo seleccionado.
               </Typography>

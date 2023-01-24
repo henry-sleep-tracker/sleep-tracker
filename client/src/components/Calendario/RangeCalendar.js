@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { DateRange } from "react-date-range";
 import { getSleepSession } from "../../actions/getUserHealthData";
 import { getRecordsRange } from "../../actions/records_data";
-import { Card, CardContent } from "@mui/material";
+import { Card, Grid } from "@mui/material";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+
+const isMobile = window.innerWidth < 800;
 
 export default function Calendario() {
   const currentUser = useSelector((state) => state?.users.currentUser);
@@ -38,15 +40,15 @@ export default function Calendario() {
   };
 
   return (
-    <Card>
-      <CardContent>
+    <Grid>
+      <Card sx={{ width: !isMobile ? 390 : 360 }}>
         <DateRange
           editableDateInputs={true}
           onChange={handleChange}
           moveRangeOnFirstSelection={false}
           ranges={state}
         />
-      </CardContent>
-    </Card>
+      </Card>
+    </Grid>
   );
 }

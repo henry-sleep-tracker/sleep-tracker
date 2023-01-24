@@ -784,8 +784,7 @@ input {
     align-items: center;
   }
 
-  .add_quantity label,
-  span {
+  .add_quantity label {
     width: 100%;
     text-align: center;
     font-size: x-large;
@@ -1255,8 +1254,7 @@ input {
     align-items: center;
   }
 
-  .add_quantity label,
-  span {
+  .add_quantity label {
     width: 100%;
     text-align: center;
     font-size: x-large;
