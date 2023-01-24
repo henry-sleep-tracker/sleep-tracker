@@ -56,7 +56,7 @@ export default function ChangePassword() {
       } else if (input.password !== input.confirmPassword) {
         message.error(`La contraseña no se confirmo correctamente`,2500)
       } else {
-        dispatch(changePassword(id, input.password));
+        dispatch(changePassword(id, input.password))
         createPassword();
         setInput({
           password: "",

@@ -80,43 +80,42 @@ const Home = () => {
         <Grid item>
           <Calendario />
         </Grid>
-        <Grid>
-          <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="flex-start"
-            spacing={{ xs: 4, md: 6 }}
-            p={"2rem"}
-          >
-            <Grid item xs={12} md={8}>
-              <GraphHome />
-            </Grid>
 
-            <Grid item xs={12} md={4}>
-              <CollapsibleTable />
-            </Grid>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="flex-start"
+          spacing={{ xs: 4, md: 6 }}
+          p={"2rem"}
+        >
+          <Grid item xs={12} md={8}>
+            <GraphHome />
           </Grid>
-          <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            p={"2rem"}
-            spacing={{ xs: 4, md: 6 }}
-            columns={{ xs: 4, sm: 8, md: 15 }}
-          >
-            <Grid item xs={12} md={5}>
-              <Resume />
-            </Grid>
 
-            <Grid item xs={12} md={5}>
-              <Swipeable className={classes.swipeable} />
-            </Grid>
+          <Grid item xs={12} md={4}>
+            <CollapsibleTable />
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          p={"2rem"}
+          spacing={{ xs: 4, md: 6 }}
+          columns={{ xs: 4, sm: 8, md: 15 }}
+        >
+          <Grid item xs={12} md={5}>
+            <Resume />
+          </Grid>
 
-            <Grid item xs={12} md={5}>
-              <Calc />
-            </Grid>
+          <Grid item xs={12} md={5}>
+            <Swipeable className={classes.swipeable} />
+          </Grid>
+
+          <Grid item xs={12} md={5}>
+            <Calc />
           </Grid>
         </Grid>
       </Grid>

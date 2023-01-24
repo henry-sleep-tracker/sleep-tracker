@@ -12,6 +12,8 @@ import {
 } from "recharts";
 import { Card, CardContent, Typography, Grid } from "@mui/material";
 
+const isMobile = window.innerWidth < 800;
+
 export default function GraphTime() {
   const sleepSession = useSelector((state) => state.session);
 
@@ -22,7 +24,6 @@ export default function GraphTime() {
     obj["goal"] = 8;
     return obj;
   });
-
   const [windowWidth, setwindowWidth] = useState(window.innerWidth);
 
   const handleResize = () => {
@@ -32,24 +33,31 @@ export default function GraphTime() {
   useEffect(() => {
     window.addEventListener("resize", handleResize);
   }, []);
-
   return (
-    <Card variant="outlined">
+    <Card
+      variant="outlined"
+      sx={{ width: "100%", height: "auto", marginLeft: -1 }}
+    >
       <CardContent>
         <Typography fontSize="2rem" fontWeight={"bold"} align="center" p={3}>
           Promedio de sueño por día
         </Typography>
-        <ComposedChart width={windowWidth - 150} height={500} data={data}>
+        <ComposedChart
+          width={!isMobile ? windowWidth - 150 : windowWidth - 100}
+          height={400}
+          data={data}
+        >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="date" />
           <YAxis type="number" domain={[0, 12]} tickCount={7} />
           <Tooltip />
           <Legend
-            layout="vertical"
-            align="right"
-            verticalAlign="middle"
+            layout={!isMobile ? "vertical" : "horizontal"}
+            align={!isMobile ? "right" : "center"}
+            verticalAlign={!isMobile ? "middle" : "bottom"}
             wrapperStyle={{
               paddingLeft: "1.5rem",
+              marginTop: "3rem",
             }}
           />
           <ReferenceLine
@@ -67,7 +75,12 @@ export default function GraphTime() {
           />
         </ComposedChart>
         <Grid>
-          <Typography fontSize="1rem" color="grey" align="center" p={3}>
+          <Typography
+            fontSize="1rem"
+            color="grey"
+            align="center"
+            p={!isMobile ? 3 : 0}
+          >
             En esta gráfica puedes observar las horas de sueño diarias que has
             tenido en el lapso de tiempo seleccionado.
           </Typography>
