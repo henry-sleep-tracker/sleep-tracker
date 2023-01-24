@@ -9,7 +9,9 @@ import {
   Area,
 } from "recharts";
 import { useSelector } from "react-redux";
-import { Card } from "@mui/material";
+import { Card, Grid, Typography } from "@mui/material";
+
+const isMobile = window.innerWidth < 800;
 
 export default function GraphHome() {
   const stages = useSelector((state) => state.stage);
@@ -69,6 +71,9 @@ export default function GraphHome() {
 
   return (
     <Card sx={{ boxShadow: 2 }}>
+      <Typography fontSize="2rem" fontWeight={"bold"} align="center" p={3}>
+        Etapas de sueño por noche
+      </Typography>
       <ResponsiveContainer width="95%" height={500}>
         <AreaChart data={data}>
           <defs>
@@ -99,6 +104,16 @@ export default function GraphHome() {
           />
         </AreaChart>
       </ResponsiveContainer>
+      <Grid p={!isMobile ? 3 : 0}>
+        <Typography fontSize="1rem" color="grey" align="center">
+          En esta grafica puedes visualizar cada etapa de tu ciclo de sueño.
+        </Typography>
+        <Typography fontSize="1rem" color="grey" align="center">
+          Durante una noche, nuestro sueño pasa por distintas etapas. Usualmente
+          se mueve de sueño ligero, a sueño profundo, regresa a sueño ligero,
+          para despues pasar a REM.
+        </Typography>
+      </Grid>
     </Card>
   );
 }

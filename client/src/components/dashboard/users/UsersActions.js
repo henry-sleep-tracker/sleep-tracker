@@ -17,7 +17,6 @@ const UsersActions = ({ params, rowId, setRowId, pageState, filters }) => {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
-  const [loadingRestore, setLoadingRestore] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const {
@@ -34,7 +33,6 @@ const UsersActions = ({ params, rowId, setRowId, pageState, filters }) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    //Verificar names y lastNames no estan vacios. Falta Validar
 
     if (names && lastNames) {
       const result = await updateUsers(
@@ -47,13 +45,12 @@ const UsersActions = ({ params, rowId, setRowId, pageState, filters }) => {
         dispatch(getUsers(pageState.page, pageState.pageSize, filters));
       }
     } else {
-      //alert('Nombre y Apellidos son requeridos');
       message.warn("Nombre y Apellidos son requeridos", 2500);
     }
     setLoading(false);
   };
   const restore = async () => {
-    const result = dispatch(restoreUserByJustEmail(email)).then((result) => {
+    dispatch(restoreUserByJustEmail(email)).then( () => {
     message.success("El usuario ha sido activado.", 3000);
     setRowId(null);
     dispatch(getUsers(pageState.page, pageState.pageSize, filters));

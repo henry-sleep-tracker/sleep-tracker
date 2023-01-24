@@ -69,7 +69,7 @@ function UsersContent() {
       users: users.users,
       total: users.total,
     }));
-  }, [users]);
+  }, [dispatch, users]);
 
   useEffect(() => {
     setPageState((old) => ({ ...old, isLoading: true }));
@@ -115,7 +115,7 @@ function UsersContent() {
         headerAlign: "center",
         align: "center",
         valueGetter: (params) => {
-          return params.row.plan?.name || "Basico";
+          return params.row.plan?.name || "Ninguno";
         },
       },
       {
@@ -174,6 +174,7 @@ function UsersContent() {
         ),
       },
     ],
+    // eslint-disable-next-line
     [rowId, pageState]
   );
 
