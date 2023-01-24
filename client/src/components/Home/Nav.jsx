@@ -289,15 +289,14 @@ function ResponsiveAppBar({ mode, setMode }) {
                   </ListItemButton>
                 </ListItem>
 
-                <ListItem disablePadding>
+               {currentUser.currentUser.plan?.name ==='Premium'&& ( <ListItem disablePadding>
                   <ListItemButton component="a">
                     <ListItemIcon>
                       <ForumIcon />
                     </ListItemIcon>
                     <ListItemText primary="Chat" onClick={handlerChat} />
                   </ListItemButton>
-                </ListItem>
-
+                </ListItem>)}
                 <ListItem disablePadding>
                   <ListItemButton component="a">
                     <ListItemIcon>
@@ -388,14 +387,14 @@ function ResponsiveAppBar({ mode, setMode }) {
               display: { xs: "none", md: "flex" },
             }}
           >
-            <Button
+            { currentUser.currentUser.plan?.name ==='Premium' && (<Button
               key="Chat"
               onClick={handlerChat}
               sx={{ my: 2, color: "white", display: "block" }}
               startIcon={<ForumIcon />}
             >
               Chat
-            </Button>
+            </Button>) }
           </Box>
 
           <Box
