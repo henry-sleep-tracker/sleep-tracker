@@ -12,6 +12,8 @@ import {
 } from "recharts";
 import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
 
+const isMobile = window.innerWidth < 800;
+
 const sleepTranslations = {
   summary_light_min: "Sueño ligero",
   summary_deep_min: "Sueño profundo",
@@ -208,15 +210,9 @@ export default function CombinedGraph() {
               p={2}
             >
               <ComposedChart
-                width={windowWidth - 150}
+                width={!isMobile ? windowWidth - 150 : windowWidth - 80}
                 height={500}
                 data={combinedObjects}
-                margin={{
-                  top: 20,
-                  right: 20,
-                  bottom: 20,
-                  left: 20,
-                }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
@@ -235,9 +231,9 @@ export default function CombinedGraph() {
                 />
                 <Legend
                   onClick={handleClick}
-                  layout="vertical"
-                  align="right"
-                  verticalAlign="middle"
+                  layout={!isMobile ? "vertical" : "horizontal"}
+                  align={!isMobile ? "right" : "center"}
+                  verticalAlign={!isMobile ? "middle" : "bottom"}
                 />
                 <Bar
                   yAxisId="right"
@@ -303,7 +299,7 @@ export default function CombinedGraph() {
                 fontSize="1rem"
                 color="grey"
                 align="center"
-                paddingTop={2}
+                paddingTop={!isMobile ? 3 : 0}
               >
                 En esta gráfica puedes observar las horas de sueño diarias y
                 registro de actividades diarias, durante el rango de tiempo
@@ -313,7 +309,7 @@ export default function CombinedGraph() {
                 fontSize="1rem"
                 color="grey"
                 align="center"
-                paddingBottom={2}
+                paddingBottom={!isMobile ? 3 : 0}
               >
                 Haz click en los elementos en la parte izquierda de la grafica
                 para ocultar o mostrar una gráfica.

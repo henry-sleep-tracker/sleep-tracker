@@ -7,21 +7,10 @@ import CombinedGraph from "./CombinedGraph";
 import RangeCalendar from "../Calendario/RangeCalendar";
 import { getSleepSession } from "../../actions/getUserHealthData";
 import { getRecordsRange } from "../../actions/records_data";
-import {
-  Button,
-  Card,
-  Grid,
-  Typography,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  Paper,
-} from "@mui/material";
+import { Button, Card, Grid, Typography, Paper } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useReactToPrint } from "react-to-print";
 import { message } from "react-message-popup";
-import image from "../../images/sleeping_person.jpeg";
-import styles from "./Graph-W-M.module.css";
 
 const yesterday = new Date(Date.now() - 28800000).toISOString().split("T")[0];
 const fiveDaysAgo = new Date(Date.now() - 432000000)
@@ -61,7 +50,7 @@ const GraphWM = () => {
           </Typography>
         </Grid>
 
-        <Grid item>
+        <Grid item sx={{ paddingBottom: 3 }}>
           <Button variant="contained" key="pdf" onClick={handlePrint}>
             Descargar reporte
           </Button>

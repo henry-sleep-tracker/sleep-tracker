@@ -11,6 +11,8 @@ import {
 } from "recharts";
 import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
 
+const isMobile = window.innerWidth < 800;
+
 const sleepTranslations = {
   summary_light_min: "Sueño ligero",
   summary_deep_min: "Sueño profundo",
@@ -155,15 +157,9 @@ export default function DualGraph() {
               p={2}
             >
               <LineChart
-                width={windowWidth - 150}
+                width={!isMobile ? windowWidth - 150 : windowWidth - 100}
                 height={500}
                 data={ranges}
-                margin={{
-                  top: 20,
-                  right: 20,
-                  bottom: 20,
-                  left: 20,
-                }}
               >
                 <CartesianGrid stroke="#f5f5f5" />
                 <XAxis dataKey="date" />
@@ -181,9 +177,9 @@ export default function DualGraph() {
                 />
                 <Legend
                   onClick={handleClick}
-                  layout="vertical"
-                  align="right"
-                  verticalAlign="middle"
+                  layout={!isMobile ? "vertical" : "horizontal"}
+                  align={!isMobile ? "right" : "center"}
+                  verticalAlign={!isMobile ? "middle" : "bottom"}
                   wrapperStyle={{
                     paddingLeft: "2rem",
                   }}
@@ -197,7 +193,12 @@ export default function DualGraph() {
               </Grid>
             </Grid>
             <Grid>
-              <Typography fontSize="1rem" color="grey" align="center" p={3}>
+              <Typography
+                fontSize="1rem"
+                color="grey"
+                align="center"
+                p={!isMobile ? 3 : 0}
+              >
                 En esta gráfica puedes observar el promedio de duración de cada
                 una de las etapas del sueño, en el lapso de tiempo seleccionado.
               </Typography>

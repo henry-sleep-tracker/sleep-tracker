@@ -117,7 +117,7 @@ const Resume = () => {
   ];
 
   return (
-    <Card sx={{ width: "30rem", height: 442, boxShadow: 2 }}>
+    <Card sx={{ width: "auto", height: 442, boxShadow: 2 }}>
       <CardContent>
         <Grid
           container
