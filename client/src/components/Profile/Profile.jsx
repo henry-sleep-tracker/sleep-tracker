@@ -39,7 +39,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { message } from "react-message-popup";
 
 const Profile = () => {
-  const { createPassword } = useAuthContext();
+  const { createPassword, isPasswordSetUp } = useAuthContext();
   const currentUser = useSelector((state) => state.users.currentUser);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -63,6 +63,13 @@ const Profile = () => {
   useEffect(() => {
     if (currentUser.hashedPassword !== null) {
       createPassword();
+    }
+    if (isPasswordSetUp==="false" ||currentUser.nationality === null ||currentUser.birthday === null ) {
+      message.error(
+        `Tiene que haber completado toda su informacion de perfil para poder continuar...  
+        Contraseña, nacionalidad y cumpleaños`,
+        10000
+      );
     }
   }, [currentUser, createPassword]);
 

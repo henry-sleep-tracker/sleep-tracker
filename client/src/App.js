@@ -22,6 +22,7 @@ import LoadingPayment from "./components/PlanesPago/LoadingPayment";
 import LogIn from "./components/LogIn/LogIn";
 import LogOut from "./components/LogOut/LogOut.jsx";
 import NotFound from "./components/NotFound/NotFound";
+import PlansRoute from "./components/PlansRoute/PlansRoute";
 import Pricing from "./components/PlanesPago/PlanesPago.jsx";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Profile from "./components/Profile/Profile.jsx";
@@ -46,7 +47,6 @@ import "./App.css";
 axios.defaults.baseURL = "http://localhost:3001";
 //The following link must be un-comented on gitHub if you wanna work with on-line servers
 // axios.defaults.baseURL = 'https://sleep-tracker-production.up.railway.app'
-
 function App() {
   return (
     <AuthContextProvider>
@@ -97,6 +97,11 @@ function App() {
             <Route path="/private/saving" element={<Saving />} />
             <Route path="/private/createcomment" element={<CommentCreate />} />
           </Route>
+
+          <Route path="/private" element={<PlansRoute />}>
+            <Route path="/private/planes" element={<Pricing />} />
+          </Route>
+
           <Route path="/private/profile" element={<Profile />} />
           <Route
             path="/private/change-password/:id"
@@ -118,7 +123,6 @@ function App() {
             path="/private/deleteuserprofileerror"
             element={<DeleteUserProfileError />}
           />
-          <Route path="/private/planes" element={<Pricing />} />
           <Route path="/private/loadingpayment" element={<LoadingPayment />} />
           <Route path="/private/delete-user/:id" element={<DeleteUser />} />
           <Route path="/private/createcomment" element={<CommentCreate />} />
