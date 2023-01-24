@@ -1,27 +1,23 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserById } from "../../actions/index";
 import { USER_ID } from "../../actions/constants";
-import axios from "axios";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
-import CssBaseline from "@mui/material/CssBaseline";
-import Grid from "@mui/material/Grid";
-import StarIcon from "@mui/icons-material/StarBorder";
-import Typography from "@mui/material/Typography";
-import GlobalStyles from "@mui/material/GlobalStyles";
-import Container from "@mui/material/Container";
-import StarPurple500Icon from "@mui/icons-material/StarPurple500";
-import { Paper } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+  Box,
+  Paper
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import "./PlanesPago.css";
+import { Helmet } from "react-helmet";
+import { useTheme } from '@mui/material/styles';
 
-function Pricing() {
+
+const Pricing = () => {
   const userId = window.localStorage.getItem(USER_ID);
   const currentUser = useSelector((state) => state?.users.currentUser);
   const dispatch = useDispatch();
@@ -32,7 +28,6 @@ function Pricing() {
     if (currentUser === "") {
       dispatch(getUserById(userId));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, currentUser, userId]);
 
   const fetchPrices = async () => {
@@ -57,293 +52,288 @@ function Pricing() {
     window.location.href = response.url; // obtener la url y redirigil al usuario a la url
   };
 
+  const priceProps =
+    <Box>
+      <Typography>- Registro de actividad fisica</Typography>
+      <Typography>- Registro de consumos diarios( alimentos y bebidas)</Typography>
+      <Typography>- Información de sueño conseguido diario y semanal</Typography>
+      <Typography>- Exporta tu información completa en formato PDF</Typography>
+    </Box>
+    ;
+
   const classes = useStyles();
 
+  const theme = useTheme();
+
+
   return (
-    <React.Fragment>
-      <Paper className={classes.paperWraper}>
-        <GlobalStyles
-          styles={{
-            ul: {
-              margin: 0,
-              padding: 0,
-              listStyle: "none",
-              alignItems: "row",
-              justifyContent: "center",
-            },
-          }}
-        />
-        <CssBaseline />
-        <AppBar
-          position="static"
-          color="default"
-          elevation={0}
-          sx={{ borderBottom: (theme) => `5px solid ${theme.palette.divider}` }}
-        ></AppBar>
-        {/* Hero unit */}
-        <Container
-          disableGutters
-          maxWidth="sm"
-          component="main"
-          sx={{ pt: 2, pb: 4 }}
+    <Paper
+      // className={classes.paperWraper}
+      sx={{ minHeight: '100vh' }}
+    >
+
+      <Helmet>
+        <title>Planes | Sleep Tracker</title>
+      </Helmet>
+
+      <Grid
+        container
+        justifyContent="center"
+        direction='column'
+        alignItems='center'
+        spacing={5}
+        paddingRight={3}
+        paddingLeft={3}
+
+      >
+
+        <Grid
+          item
         >
           <Typography
-            component="h1"
-            variant="h2"
-            align="center"
-            color="text.primary"
-            gutterBottom
+            variant='h2'
+            fontWeight='bold'
+            paddingTop={5}
           >
             Planes
           </Typography>
-          <Typography
-            variant="h5"
-            align="center"
-            color="text.secondary"
-            component="p"
-          >
-            Te damos los mejores beneficios para que tengas una mejor calidad de
-            sueño con nuestros planes
-          </Typography>
-        </Container>
-        {/* End hero unit */}
-        <Container
-          maxWidth="md"
-          component="main"
-          alignItems="row"
-          justifyContent="center"
+        </Grid>
+
+        <Grid
+          item
         >
-          <Grid container spacing={5} alignItems="flex-end">
+          <Typography
+            variant='h6'
+          >
+            Te damos los mejores beneficios para que tengas una mejor calidad de sueño con nuestros planes
+          </Typography>
+        </Grid>
+
+        <Grid
+          item
+        >
+
+          <Grid
+            container
+            justifyContent="center"
+            direction='row'
+            alignItems='stretch'
+            spacing={5}
+          >
+
             {!currentUser.plan?.name
               ? prices.map((price, index) => (
-                  // Enterprise card is full width at sm breakpoint
-                  <Grid item key={`Basico-${index}`} xs={12} md={4}>
-                    <Card>
-                      <CardHeader
-                        title={price.nickname}
-                        titleTypographyProps={{ align: "center" }}
-                        action={
-                          price.nickname === "Estandar" ? <StarIcon /> : null
-                        }
-                        subheaderTypographyProps={{
-                          align: "center",
-                        }}
-                        sx={{
-                          backgroundColor: (theme) =>
-                            theme.palette.mode === "light"
-                              ? theme.palette.grey[200]
-                              : theme.palette.grey[700],
-                        }}
-                      />
-                      <CardContent>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "baseline",
-                            mb: 2,
-                          }}
-                        >
-                          <Typography
-                            component="h2"
-                            variant="h3"
-                            color="text.primary"
-                          >
-                            ${price.unit_amount / 100}
-                          </Typography>
-                          <Typography variant="h6" color="text.secondary">
-                            {price.nickname === "Premium" ? "/Año" : "/mes"}
-                          </Typography>
-                        </Box>
-                        <ul>
-                          <Typography
-                            component="li"
-                            variant="subtitle1"
-                            align="center"
-                            key={"line1"}
-                          >
-                            <StarPurple500Icon />
-                            Registro de actividad fisica
-                            <StarPurple500Icon />
-                            Registro de consumos diarios( alimentos y bebidas)
-                            <StarPurple500Icon />
-                            Información de sueño conseguido diario y semanal{" "}
-                            <br />
-                            <StarPurple500Icon />
-                            Exporta tu información completa en formato PDF
-                          </Typography>
-                        </ul>
-                      </CardContent>
-                      <CardActions>
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          onClick={() => createSession(currentUser, price.id)}
-                        >
-                          Comprar
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))
+
+                <Grid
+                  item
+                  key={`basico-${index}`}
+
+                >
+
+                  <Card
+                    variant='outlined'
+                    spacing={5}
+                  >
+                    <CardContent
+                      sx={{
+                        backgroundColor:
+                          theme.palette.mode == 'dark' ?
+                            '#7986cb'
+                            :
+                            '#303f9f',
+                        display: 'flex', justifyContent: 'center'
+                      }}
+                    >
+                      <Typography
+                        variant='h3'
+                        fontWeight='bold'
+                      >
+                        {price.nickname}
+                      </Typography>
+                    </CardContent>
+
+                    <CardContent >
+                      <Typography
+                        variant='h4'
+                      >
+                        ${price.unit_amount / 100}
+                        <small>
+                          /{price.recurring.interval}
+                        </small>
+                      </Typography>
+                    </CardContent >
+
+                    <CardContent >
+                      {priceProps}
+                    </CardContent >
+
+                    <CardContent
+                      sx={{ display: 'flex', justifyContent: 'center' }} >
+
+                      <Button
+                        variant='contained'
+                        size='large'
+                        onClick={() => createSession(currentUser, price.id)}
+                      >
+                        Comprar
+                      </Button>
+                    </CardContent>
+
+                  </Card>
+                </Grid>
+
+              ))
               : currentUser.plan?.name === "Basico"
-              ? prices.slice(0).map((price, index) => (
-                  <Grid item key={`Estandar-${index}`} xs={12} md={4}>
-                    <Card>
-                      <CardHeader
-                        title={price.nickname}
-                        titleTypographyProps={{ align: "center" }}
-                        action={
-                          price.nickname === "Estandar" ? <StarIcon /> : null
-                        }
-                        subheaderTypographyProps={{
-                          align: "center",
-                        }}
+                ? prices.slice(0).map((price, index) => (
+
+                  <Grid
+                    item
+                    key={`estandar-${index}`}
+
+                  >
+                    <Card
+                      variant='outlined'
+                      spacing={5}
+                    >
+                      <CardContent
                         sx={{
-                          backgroundColor: (theme) =>
-                            theme.palette.mode === "light"
-                              ? theme.palette.grey[200]
-                              : theme.palette.grey[700],
+                          backgroundColor:
+                            theme.palette.mode == 'dark' ?
+                              '#7986cb'
+                              :
+                              '#303f9f',
+                          display: 'flex', justifyContent: 'center'
                         }}
-                      />
-                      <CardContent>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "baseline",
-                            mb: 2,
-                          }}
+                      >
+                        <Typography
+                          variant='h3'
+                          fontWeight='bold'
                         >
-                          <Typography
-                            component="h2"
-                            variant="h3"
-                            color="text.primary"
-                          >
-                            ${price.unit_amount / 100}
-                          </Typography>
-                          <Typography variant="h6" color="text.secondary">
-                            {price.nickname === "Premium" ? "/Año" : "/mes"}
-                          </Typography>
-                        </Box>
-                        <ul>
-                          <Typography
-                            component="li"
-                            variant="subtitle1"
-                            align="center"
-                            key={"line2"}
-                          >
-                            <StarPurple500Icon />
-                            Registro de actividad fisica
-                            <StarPurple500Icon />
-                            Registro de consumos diarios( alimentos y bebidas)
-                            <StarPurple500Icon />
-                            Información de sueño conseguido diario y semanal{" "}
-                            <br />
-                            <StarPurple500Icon />
-                            Exporta tu información completa en formato PDF
-                          </Typography>
-                        </ul>
+                          {price.nickname}
+                        </Typography>
                       </CardContent>
-                      <CardActions>
+                      <CardContent >
+                        <Typography
+                          variant='h4'
+                        >
+                          ${price.unit_amount / 100}
+                          <small
+                          >
+                            /{price.recurring.interval}
+                          </small>
+                        </Typography>
+                      </CardContent>
+                      <CardContent >
+                        {
+                          price.nickname === "Premium" &&
+                          <Typography>- Participa en el foro con otros usuarios</Typography>
+                        }
+                        {priceProps}
+                      </CardContent>
+                      <CardContent
+                        sx={{ display: 'flex', justifyContent: 'center' }} >
+
                         <Button
-                          fullWidth
-                          variant="contained"
+                          variant='contained'
+                          size='large'
                           onClick={() => createSession(currentUser, price.id)}
                         >
                           Comprar
                         </Button>
-                      </CardActions>
+                      </CardContent>
+
                     </Card>
+
                   </Grid>
+
                 ))
-              : currentUser.plan?.name === "Estandar"
-              ? prices.slice(1).map((price, index) => (
-                  <Grid item key={`Premium-${index}`} xs={12} md={4}>
-                    <Card>
-                      <CardHeader
-                        title={price.nickname}
-                        titleTypographyProps={{ align: "center" }}
-                        action={
-                          price.nickname === "Estandar" ? <StarIcon /> : null
-                        }
-                        subheaderTypographyProps={{
-                          align: "center",
-                        }}
-                        sx={{
-                          backgroundColor: (theme) =>
-                            theme.palette.mode === "light"
-                              ? theme.palette.grey[200]
-                              : theme.palette.grey[700],
-                        }}
-                      />
-                      <CardContent>
-                        <Box
+                :
+                currentUser.plan?.name === "Estandar"
+                  ? prices.slice(1).map((price, index) => (
+
+                    <Grid
+                      item
+                      key={`premium-${index}`}
+                    >
+                      <Card
+                        variant='outlined'
+                        spacing={6}
+                      >
+                        <CardContent
                           sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "baseline",
-                            mb: 2,
+                            backgroundColor:
+                              theme.palette.mode == 'dark' ?
+                                '#7986cb'
+                                :
+                                '#303f9f',
+                            display: 'flex', justifyContent: 'center'
                           }}
                         >
                           <Typography
-                            component="h2"
-                            variant="h3"
-                            color="text.primary"
+                            variant='h3'
+                            fontWeight='bold'
+                          >
+                            {price.nickname}
+                          </Typography>
+                        </CardContent>
+
+                        <CardContent>
+                          <Typography
+                            variant='h4'
                           >
                             ${price.unit_amount / 100}
+                            <small
+                            >
+                              /{price.recurring.interval}
+                            </small>
                           </Typography>
-                          <Typography variant="h6" color="text.secondary">
-                            {price.nickname === "Premium" ? "/Año" : "/mes"}
-                          </Typography>
-                        </Box>
-                        <ul>
-                          <Typography
-                            component="li"
-                            variant="subtitle1"
-                            align="center"
-                            key={"line3"}
+
+                        </CardContent>
+
+                        <CardContent>
+                          {
+                            price.nickname === "Premium" &&
+                            <Typography>- Participa en el foro con otros usuarios</Typography>
+                          }
+                          {priceProps}
+                        </CardContent>
+
+                        <CardContent
+                          sx={{ display: 'flex', justifyContent: 'center' }}>
+                          <Button
+                            variant='contained'
+                            size='large'
+                            onClick={() => createSession(currentUser, price.id)}
                           >
-                            <StarPurple500Icon />
-                            Registro de actividad fisica
-                            <StarPurple500Icon />
-                            Registro de consumos diarios( alimentos y bebidas)
-                            <StarPurple500Icon />
-                            Información de sueño conseguido diario y semanal{" "}
-                            <br />
-                            <StarPurple500Icon />
-                            Exporta tu información completa en formato PDF
-                          </Typography>
-                        </ul>
-                      </CardContent>
-                      <CardActions>
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          onClick={() => createSession(currentUser, price.id)}
-                        >
-                          Comprar
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))
-              : null}
+                            Comprar
+                          </Button>
+                        </CardContent>
+
+                      </Card>
+
+                    </Grid>
+
+                  ))
+                  :
+                  null}
           </Grid>
-        </Container>
-      </Paper>
-    </React.Fragment>
+
+        </Grid>
+      </Grid>
+
+    </Paper >
   );
-}
+};
 
 export default Pricing;
 
 const useStyles = makeStyles(() => ({
   middle: {
-    justifyContent: "center",
+    justifyContent: 'center'
   },
 
   paperWraper: {
-    minHeight: "100vh",
-  },
+    minHeight: '100vh'
+  }
+
 }));
