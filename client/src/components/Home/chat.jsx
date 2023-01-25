@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import io from 'socket.io-client';
 // import './chat.css';
-import { Container, Divider, Grid, List, ListItem, Paper, TextField, Typography, Button, Card, CardContent, Avatar } from "@mui/material";
+import { Container, Divider, Grid, List, ListItem, Paper, TextField, Typography, Button, Card, CardContent, Avatar, InputAdornment } from "@mui/material";
 import { Box } from "@mui/system"
 import SendIcon from '@mui/icons-material/Send';
 import { Helmet } from "react-helmet";
@@ -19,13 +19,17 @@ const Chat = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    socket.emit("message", message, currentUser.names);
-    const newMessage = {
-      body: message,
-      from: "Yo",
-    };
-    setMessages([...messages, newMessage]);
-    setMessage("");
+    if (message !== "") {
+
+      socket.emit("message", message, currentUser.names);
+      const newMessage = {
+        body: message,
+        from: "Yo",
+      };
+      setMessages([...messages, newMessage]);
+      setMessage("");
+    }
+
   };
 
   useEffect(() => {
@@ -76,11 +80,12 @@ const Chat = () => {
           <Card
             variant='outlined'
             sx={{
-              width: '60vw',
+              width: '70vw',
               marginBottom: 10
             }}
           >
             <CardContent>
+
               <Grid
                 container
                 direction="column"
@@ -92,62 +97,84 @@ const Chat = () => {
                 spacing={3}
               >
 
-                <Card
+                {/* <Card
                   sx={{ width: '100%' }}
                   elevation={20}
-                >
-                  <Grid
+                > */}
+                {/* <Grid
                     container
                     spacing={4}
                     alignItems="center"
+                  > */}
+                <Grid
+                  item
+                  id="chat-window"
+                  xs={12}
+                >
+
+                  <Card
+                    variant='outlined'
+                    sx={{
+                      width: '60vw',
+                      height:'60vh',
+                      marginBottom: 10
+                    }}
                   >
-                    <Grid
-                      id="chat-window"
-                      xs={12}
-                      item
+
+                    <List
+                      id="chat-window-messages"
                     >
-                      <List
-                        id="chat-window-messages"
-                      >
-                        {
-                          messages.map((message, index) => (
-                            <ListItem
-                              key={index}
+                      {
+                        messages.map((message, index) => (
+                          <ListItem
+                            key={index}
+                            className={
+                              message.from === 'Yo' ? 'myMessages' : 'OtherMessages'
+                            }
+
+                          >
+                            <Card
                               className={
-                                message.from === 'Yo' ? 'myMessages' : 'OtherMessages'
+                                message.from === 'Yo' ? 'myMessage' : 'OtherMessage'
                               }
-
                             >
-                              <Card
-                                className={
-                                  message.from === 'Yo' ? 'myMessage' : 'OtherMessage'
-                                }
-                              >
-                                {/* {message.from} */}
-                                {currentUser.image ? (
-                                  <Avatar
-                                    alt="Not found"
-                                    srcSet={currentUser.image}
-                                    sx={{
-                                      width: 30,
-                                      height: 30,
-                                    }}
-                                    variant="dot"
-                                  />
-                                ) : (
-                                  <Avatar>
-                                    <PersonIcon />
-                                  </Avatar>
-                                )}: {message.body}
-                              </Card>
-                            </ListItem>
-                          ))}
-                      </List>
+                              {/* {message.from} */}
+                              {currentUser.image ? (
+                                <Avatar
+                                  alt="Not found"
+                                  srcSet={currentUser.image}
+                                  sx={{
+                                    width: 30,
+                                    height: 30,
+                                  }}
+                                  variant="dot"
+                                />
+                              ) : (
+                                <Avatar>
+                                  <PersonIcon />
+                                </Avatar>
+                              )}: {message.body}
+                            </Card>
+                          </ListItem>
+                        ))}
+                    </List>
+                  </Card>
 
-                    </Grid>
+                </Grid>
 
-                  </Grid>
-                </Card>
+                {/* </Grid> */}
+                {/* </Card> */}
+
+
+              </Grid>
+
+              <Grid
+                container
+                justifyContent="center"
+                direction='row'
+                alignItems='center'
+                spacing={5}
+              >
 
                 <Grid xs={9} item>
                   <form onSubmit={handleSubmit} >
@@ -157,10 +184,24 @@ const Chat = () => {
                       variant="outlined"
                       fullWidth
                       autoComplete="false"
+                      InputProps={{
+                        endAdornment:
+                          <InputAdornment
+                            position="end"
+                            onClick={handleSubmit}
+                          >
+                            <Button
+                              variant='contained'
+                              color='success'
+                            >
+                              <SendIcon />
+                            </Button>
+                          </InputAdornment>,
+                      }}
                     />
                   </form >
                 </Grid>
-
+                {/* 
                 <Grid
                   item
                 // color="#f3f4fa" 
@@ -174,10 +215,13 @@ const Chat = () => {
                   >
                     Enviar
                   </Button>
-                </Grid>
+                </Grid> */}
+
               </Grid>
+
             </CardContent>
           </Card>
+
         </Grid>
 
       </Grid>
