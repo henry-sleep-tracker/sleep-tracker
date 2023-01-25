@@ -668,7 +668,7 @@ const Profile = () => {
               </Grid>
 
               <Grid item>
-                {isPasswordSetUp === "true" ? (
+                {isPasswordSetUp === "true" || isPasswordSetUp === true ? (
                   <Fab
                     size="small"
                     href={`/private/delete-user/${currentUser.id}`}
