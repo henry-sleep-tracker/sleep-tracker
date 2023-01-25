@@ -10,6 +10,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
+const isMobile = window.innerWidth < 800;
+
 const Resume = () => {
   const records = useSelector((state) => state?.record.recordsUser);
 
@@ -117,7 +119,12 @@ const Resume = () => {
   ];
 
   return (
-    <Card sx={{ width: "auto", height: 442, boxShadow: 2 }}>
+    <Card
+      sx={{
+        height: !isMobile ? 442 : 500,
+        boxShadow: 2,
+      }}
+    >
       <CardContent>
         <Grid
           container
@@ -149,7 +156,7 @@ const Resume = () => {
           </Grid>
           <Grid item>
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 350 }} aria-label="customized table">
+              <Table sx={{ minWidth: 260 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
                     <StyledTableCell>Registro</StyledTableCell>
