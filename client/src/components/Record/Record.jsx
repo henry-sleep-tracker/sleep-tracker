@@ -207,17 +207,6 @@ const Record = props => {
     }
 
     if (
-      /* (!timeR || timeR?.length <= 0) &&
-      record.description.length <= 0 &&
-      record.sleepTime.length <= 0 &&
-      record.timeActivity.length <= 0 &&
-      record.coffeeCups.length <= 0 &&
-      record.drinks.length <= 0 &&
-      record.coffee.length <= 0 &&
-      record.drink.length <= 0 &&
-      record.activity.length <= 0 &&
-      st?.length <= 0 &&
-      et?.length <= 0 */
       record.dateMeal === day &&
       !record.timeMeal &&
       !record.description &&
