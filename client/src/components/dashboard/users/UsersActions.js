@@ -8,6 +8,7 @@ import Save from "@mui/icons-material/Save";
 import { green } from "@mui/material/colors";
 import { message } from "react-message-popup";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 import { updateUsers, getUsers } from "../../../actions/users";
 import { restoreUserByJustEmail } from "../../../actions/index";
 import { deleteUser } from "../../../actions/profileActions";
@@ -84,7 +85,7 @@ const UsersActions = ({ params, rowId, setRowId, pageState, filters }) => {
           }}
           onClick={restore}
         >
-          <Check />
+          <SettingsBackupRestoreIcon />
         </Fab>
       ) : (
         <Fab color="primary" sx={{ width: 40, height: 40 }} onClick={eliminate}>
