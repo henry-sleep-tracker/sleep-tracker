@@ -246,7 +246,7 @@ const updateProfile = async (req, res) => {
           attributes: ["id", "name", "price", "endTime"],
         },
       });
-      return res.status(200).jsonp(user);
+      return res.status(200).json(user);
     }
   } catch (error) {
     return res.status(400).send(error.message);
@@ -271,6 +271,7 @@ const getUserInfoById = async (req, res) => {
       .send("El error controllers user getUserInfoById es:", error.message);
   }
 };
+
 const changeUserPassword = async (req, res) => {
   try {
     const { id } = req.params;
@@ -283,8 +284,15 @@ const changeUserPassword = async (req, res) => {
       return res.status(202).send("el usuario no existe");
     }
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    updatePassword(id, hashedPassword);
-    return res.status(200).send("Verificado");
+    await updatePassword(id, hashedPassword);
+    const newUser = await User.findOne({
+      where: { id: id },
+      include: {
+        model: Plan,
+        attributes: ["id", "name", "price", "endTime"],
+      },
+    });
+    return res.status(200).json(newUser);
   } catch (error) {
     res.status(400).send("Sin verificar");
   }
