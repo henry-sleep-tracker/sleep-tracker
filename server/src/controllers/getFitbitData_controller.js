@@ -102,9 +102,6 @@ const getFitbitData = async (req, res) => {
         .toISOString()
         .split("T")[0];
       const today = new Date(Date.now() - 43200000).toISOString().split("T")[0];
-      console.log("mostRecent", mostRecent);
-      console.log("startDate", startDate);
-      console.log("today", today);
 
       const data = await fetch(
         `https://api.fitbit.com/1.2/user/-/sleep/date/${startDate}/${today}.json`,
@@ -133,8 +130,7 @@ const getFitbitData = async (req, res) => {
         obj["summary_awake_min"] = session?.levels?.summary?.wake?.minutes;
         return obj;
       });
-      console.log("sessions", sessions);
-      await Session.bulkCreate(sessions);
+      await Session.bulkCreate(sessions, { ignoreDuplicates: true });
 
       const stages = getData?.sleep
         ?.map((session) => {
@@ -149,7 +145,7 @@ const getFitbitData = async (req, res) => {
           });
         })
         .flat(2);
-      await Stage.bulkCreate(stages);
+      await Stage.bulkCreate(stages, { ignoreDuplicates: true });
 
       //------------------ STEPS ACTIVITY ---------------------//
 
@@ -175,7 +171,7 @@ const getFitbitData = async (req, res) => {
           obj["steps"] = s.value;
           return obj;
         });
-      await Steps.bulkCreate(steps);
+      await Steps.bulkCreate(steps, { ignoreDuplicates: true });
     }
   } catch (error) {
     console.error(error);
