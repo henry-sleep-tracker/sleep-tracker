@@ -31,7 +31,7 @@ function DashboardContent() {
           }}
         >
           <Routes>
-            <Route exact path="" element={<Default />} />
+            <Route exact path="/" element={<Default />} />
             <Route exact path="/users" element={<Users />} />
           </Routes>
 
