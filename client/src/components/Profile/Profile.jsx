@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthContext } from "../../actions/authContext";
 import { updateUser, updateImage } from "../../actions/profileActions";
-import { nationalities } from "../../actions/nationalities"
+import { nationalities } from "../../actions/nationalities";
 import {
   Button,
   Card,
@@ -17,23 +17,23 @@ import {
   Tooltip,
   IconButton,
   ListItemIcon,
-  Menu
+  Menu,
 } from "@mui/material";
-import Fab from '@mui/material/Fab';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import Fab from "@mui/material/Fab";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PasswordIcon from "@mui/icons-material/Password";
 import CheckIcon from "@mui/icons-material/Check";
 import PersonIcon from "@mui/icons-material/Person";
 import { Helmet } from "react-helmet";
-import Avatar from '@mui/material/Avatar';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import Avatar from "@mui/material/Avatar";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { makeStyles } from "@mui/styles";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 import { message } from "react-message-popup";
 
 const Profile = () => {
@@ -61,7 +61,11 @@ const Profile = () => {
     if (currentUser.hashedPassword !== null) {
       createPassword();
     }
-    if (isPasswordSetUp === "false" || currentUser.nationality === null || currentUser.birthday === null) {
+    if (
+      isPasswordSetUp === "false" ||
+      currentUser.nationality === null ||
+      currentUser.birthday === null
+    ) {
       message.error(
         `Tiene que haber completado toda su informacion de perfil para poder continuar...  
         Contraseña, nacionalidad y cumpleaños`,
@@ -75,8 +79,8 @@ const Profile = () => {
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = function () {
       let base64 = reader.result;
-      setImage(base64)
-    }
+      setImage(base64);
+    };
   };
 
   const handleInputs = (e) => {
@@ -123,7 +127,7 @@ const Profile = () => {
   const handleSelect = (event) => {
     setInputs({
       ...inputs,
-      nationality: event.target.value
+      nationality: event.target.value,
     });
   };
 
@@ -151,10 +155,9 @@ const Profile = () => {
     try {
       setOpen(false);
       const eliminar = "";
-      dispatch(updateImage(currentUser.id, eliminar))
+      dispatch(updateImage(currentUser.id, eliminar));
       setImage("");
-      message.success("Imagen eliminada", 2000)
-
+      message.success("Imagen eliminada", 2000);
     } catch (error) {
       // console.log("el error es:", error);
       message.error("Hubo un error intentelo nuevamente", 2000);
@@ -164,9 +167,9 @@ const Profile = () => {
   const handleImage = async (e) => {
     e.preventDefault();
     try {
-      dispatch(updateImage(currentUser.id, image))
+      dispatch(updateImage(currentUser.id, image));
       setImage("");
-      message.success("Imagen actualizada", 2000)
+      message.success("Imagen actualizada", 2000);
     } catch (error) {
       // console.log("el error es:", error);
       message.error("Hubo un error intentelo nuevamente", 2000);
@@ -207,11 +210,7 @@ const Profile = () => {
   };
 
   return (
-
-    <Paper
-      className={classes.paperWraper}
-    >
-
+    <Paper className={classes.paperWraper}>
       <Helmet>
         <title>Perfil | Sleep Tracker</title>
       </Helmet>
@@ -219,30 +218,24 @@ const Profile = () => {
       <Grid
         container
         justifyContent="center"
-        direction='column'
-        alignItems='center'
+        direction="column"
+        alignItems="center"
         spacing={5}
       >
-        <Grid
-          item
-        >
-          <Typography
-            variant="h2"
-            fontWeight='bold'
-            paddingTop={5}
-          >
+        <Grid item>
+          <Typography variant="h2" fontWeight="bold" paddingTop={5}>
             Perfil
           </Typography>
         </Grid>
 
-
         <Grid item>
           <Card
             variant="outlined"
-            sx={{ width: {large:'50vw', md:'50vw', sm: '70vw', xs:'90vw'} }}
+            sx={{
+              width: { large: "50vw", md: "50vw", sm: "70vw", xs: "90vw" },
+            }}
           >
             <CardContent>
-
               <Grid
                 container
                 // sx={{
@@ -255,58 +248,50 @@ const Profile = () => {
                 alignItems="center"
                 paddingTop={1}
                 paddingBottom={1}
-
               >
-
-                <Grid
-                  item
-                >
+                <Grid item>
                   <Box>
                     <Tooltip
                       title={
-                        <Typography
-                          variant='h6'
-                          fontWeight='bold'
-                        >
+                        <Typography variant="h6" fontWeight="bold">
                           Editar
                         </Typography>
-                      }>
-
+                      }
+                    >
                       <IconButton
                         onClick={handleClickAnchor}
                         size="small"
                         sx={{ ml: 2 }}
-                        aria-controls={openAnchor ? 'account-menu' : undefined}
+                        aria-controls={openAnchor ? "account-menu" : undefined}
                         aria-haspopup="true"
-                        aria-expanded={openAnchor ? 'true' : undefined}
+                        aria-expanded={openAnchor ? "true" : undefined}
                       >
                         <ListItemIcon>
-                          {
-                            currentUser.image ?
-                              <Avatar
-                                alt="Not found"
-                                srcSet={currentUser.image}
+                          {currentUser.image ? (
+                            <Avatar
+                              alt="Not found"
+                              srcSet={currentUser.image}
+                              sx={{
+                                width: 150,
+                                height: 150,
+                              }}
+                            />
+                          ) : (
+                            <Avatar
+                              sx={{
+                                width: 150,
+                                height: 150,
+                              }}
+                              alt="Not found"
+                            >
+                              <PersonIcon
                                 sx={{
                                   width: 150,
-                                  height: 150
+                                  height: 150,
                                 }}
                               />
-                              :
-                              <Avatar
-                                sx={{
-                                  width: 150,
-                                  height: 150
-                                }}
-                                alt="Not found"
-                              >
-                                <PersonIcon
-                                  sx={{
-                                    width: 150,
-                                    height: 150
-                                  }}
-                                />
-                              </Avatar>
-                          }
+                            </Avatar>
+                          )}
                         </ListItemIcon>
                       </IconButton>
                     </Tooltip>
@@ -318,57 +303,51 @@ const Profile = () => {
                       PaperProps={{
                         elevation: 0,
                         sx: {
-                          overflow: 'visible',
-                          filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                          overflow: "visible",
+                          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                           mt: 1.5,
-                          '& .MuiAvatar-root': {
+                          "& .MuiAvatar-root": {
                             width: 32,
                             height: 32,
                             ml: -0.5,
                             mr: 1,
                           },
-                          '&:before': {
+                          "&:before": {
                             content: '""',
-                            display: 'block',
-                            position: 'absolute',
+                            display: "block",
+                            position: "absolute",
                             top: 0,
                             right: 14,
                             width: 10,
                             height: 10,
-                            bgcolor: 'background.paper',
-                            transform: 'translateY(-50%) rotate(45deg)',
+                            bgcolor: "background.paper",
+                            transform: "translateY(-50%) rotate(45deg)",
                             zIndex: 0,
                           },
                         },
                       }}
-                      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                      transformOrigin={{ horizontal: "right", vertical: "top" }}
+                      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                     >
-                      {image ?
-                        <MenuItem
-                          onClick={handleImage}
-                        >
+                      {image ? (
+                        <MenuItem onClick={handleImage}>
                           <ListItemIcon>
-                            <CheckIcon
-                              color='success'
-                            />
+                            <CheckIcon color="success" />
                           </ListItemIcon>
                           Confirme
                         </MenuItem>
-
-                        :
+                      ) : (
                         <Button
-                          size='large'
+                          size="large"
                           sx={{
-                            "&.MuiButtonBase-root:hover"
-                              :
-                            {
-                              bgcolor: "transparent"
+                            "&.MuiButtonBase-root:hover": {
+                              bgcolor: "transparent",
                             },
                           }}
                           color="primary"
                           aria-label="upload picture"
-                          component="label">
+                          component="label"
+                        >
                           <input
                             hidden
                             accept="image/*"
@@ -382,28 +361,17 @@ const Profile = () => {
                             Cambiar
                           </MenuItem>
                         </Button>
-                      }
+                      )}
 
-                      {
-                        currentUser.image ?
-                          <MenuItem
-                            onClick={handleClickDelete}
-                          >
-                            <ListItemIcon>
-                              <DeleteIcon
-                                color='error'
-                              />
-                            </ListItemIcon>
-                            <Typography>
-                              Eliminar
-                            </Typography>
-                          </MenuItem>
-
-                          :
-                          null
-                      }
+                      {currentUser.image ? (
+                        <MenuItem onClick={handleClickDelete}>
+                          <ListItemIcon>
+                            <DeleteIcon color="error" />
+                          </ListItemIcon>
+                          <Typography>Eliminar</Typography>
+                        </MenuItem>
+                      ) : null}
                     </Menu>
-
                   </Box>
                 </Grid>
               </Grid>
@@ -419,55 +387,48 @@ const Profile = () => {
                 paddingBottom={1}
                 spacing={1}
               >
-
-                <Grid
-                  item
-                   xs={7}
-                >
+                <Grid item xs={7}>
                   {!editNames ? (
                     <Typography>
                       {`${currentUser.names} ${currentUser.lastNames}`}
                     </Typography>
                   ) : (
                     <Grid container gap={1}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      label="Nuevo nombre"
-                      type="text"
-                      name="names"
-                      value={inputs.names}
-                      onChange={(e) => handleInputs(e)}
-                    />
-                    <TextField
-                    size="small"
-                      variant="outlined"
-                      label="Nuevo apellido"
-                      type="text"
-                      name="lastNames"
-                      value={inputs.lastNames}
-                      onChange={(e) => handleInputs(e)}
-                    />
+                      <TextField
+                        size="small"
+                        variant="outlined"
+                        label="Nuevo nombre"
+                        type="text"
+                        name="names"
+                        value={inputs.names}
+                        onChange={(e) => handleInputs(e)}
+                      />
+                      <TextField
+                        size="small"
+                        variant="outlined"
+                        label="Nuevo apellido"
+                        type="text"
+                        name="lastNames"
+                        value={inputs.lastNames}
+                        onChange={(e) => handleInputs(e)}
+                      />
                     </Grid>
                   )}
                 </Grid>
 
-                <Grid
-                  item
-                >
+                <Grid item>
                   {!inputs.names && (
-                    <Tooltip title= {!editNames ? "Editar nombre" : "Cancelar"}>
+                    <Tooltip title={!editNames ? "Editar nombre" : "Cancelar"}>
                       <Fab
-                        size='small'
+                        size="small"
                         color={!editNames ? "primary" : "error"}
                         onClick={(e) => handleClick(e)}
                       >
-                        {!editNames ? <EditIcon /> : <HighlightOffIcon/>}
+                        {!editNames ? <EditIcon /> : <HighlightOffIcon />}
                       </Fab>
-                   </Tooltip>
+                    </Tooltip>
                   )}
                 </Grid>
-
               </Grid>
 
               <Divider />
@@ -481,10 +442,7 @@ const Profile = () => {
                 paddingBottom={1}
                 spacing={1}
               >
-
-                <Grid
-                  item
-                >
+                <Grid item>
                   {!editEmail ? (
                     <Typography>{currentUser.email}</Typography>
                   ) : (
@@ -501,16 +459,16 @@ const Profile = () => {
 
                 <Grid
                   item
-                // xs={12}
+                  // xs={12}
                 >
                   {!inputs.email && (
-                    <Tooltip title = {!editEmail ? "Editar email" : "Cancelar"}>
+                    <Tooltip title={!editEmail ? "Editar email" : "Cancelar"}>
                       <Fab
-                        size='small'
+                        size="small"
                         color={!editEmail ? "primary" : "error"}
                         onClick={(e) => handleClickEmail(e)}
                       >
-                        {!editEmail ? <EditIcon /> : <HighlightOffIcon/>}
+                        {!editEmail ? <EditIcon /> : <HighlightOffIcon />}
                       </Fab>
                     </Tooltip>
                   )}
@@ -528,13 +486,12 @@ const Profile = () => {
                 paddingBottom={1}
                 spacing={1}
               >
-
-                <Grid
-                  item
-                >
+                <Grid item>
                   {!editBirthday ? (
                     <Typography>
-                      {currentUser.birthday}
+                      {currentUser.birthday
+                        ? currentUser.birthday
+                        : "¡ Registra fecha de nacimiento !"}
                     </Typography>
                   ) : (
                     <TextField
@@ -551,19 +508,19 @@ const Profile = () => {
                   )}
                 </Grid>
 
-                <Grid
-                  item
-                >
+                <Grid item>
                   {!inputs.birthday && (
-                    <Tooltip title = {!editBirthday ? "Editar nacimiento" : "Cancelar"}>
-                    <Fab
-                      size='small'
-                      color={!editBirthday ? "primary" : "error"}
-                      onClick={(e) => handleClickBirthday(e)}
+                    <Tooltip
+                      title={!editBirthday ? "Editar nacimiento" : "Cancelar"}
                     >
-                      {!editBirthday ? <EditIcon /> : <HighlightOffIcon/>}
-                    </Fab>
-                  </Tooltip>
+                      <Fab
+                        size="small"
+                        color={!editBirthday ? "primary" : "error"}
+                        onClick={(e) => handleClickBirthday(e)}
+                      >
+                        {!editBirthday ? <EditIcon /> : <HighlightOffIcon />}
+                      </Fab>
+                    </Tooltip>
                   )}
                 </Grid>
               </Grid>
@@ -579,13 +536,12 @@ const Profile = () => {
                 paddingBottom={1}
                 spacing={1}
               >
-
-                <Grid
-                  item
-                >
+                <Grid item>
                   {!editNationality ? (
                     <Typography>
-                      {currentUser.nationality}
+                      {currentUser.nationality
+                        ? currentUser.nationality
+                        : " ¡ Registra tu nacionalidad !"}
                     </Typography>
                   ) : (
                     <TextField
@@ -599,9 +555,7 @@ const Profile = () => {
                       onChange={handleSelect}
                     >
                       {nationalities?.map((nationality) => (
-                        <MenuItem key={keyNationalities++}
-                          value={nationality}
-                        >
+                        <MenuItem key={keyNationalities++} value={nationality}>
                           {nationality}
                         </MenuItem>
                       ))}
@@ -609,22 +563,23 @@ const Profile = () => {
                   )}
                 </Grid>
 
-                <Grid
-                  item
-                >
+                <Grid item>
                   {!inputs.nationality && (
-                    <Tooltip title = {!editNationality ? "Editar nacionalidad" : "Cancelar"}>
-                    <Fab
-                      size='small'
-                      color={!editNationality ? "primary" : "error"}
-                      onClick={(e) => handleClickNationality(e)}
+                    <Tooltip
+                      title={
+                        !editNationality ? "Editar nacionalidad" : "Cancelar"
+                      }
                     >
-                      {!editNationality ? <EditIcon /> : <HighlightOffIcon/>}
-                    </Fab>
-                  </Tooltip>
+                      <Fab
+                        size="small"
+                        color={!editNationality ? "primary" : "error"}
+                        onClick={(e) => handleClickNationality(e)}
+                      >
+                        {!editNationality ? <EditIcon /> : <HighlightOffIcon />}
+                      </Fab>
+                    </Tooltip>
                   )}
                 </Grid>
-
               </Grid>
 
               <Divider />
@@ -638,36 +593,36 @@ const Profile = () => {
                 paddingBottom={1}
                 spacing={1}
               >
-
-                <Grid
-                  item
-                >
+                <Grid item>
                   <Typography>
-                    **********
+                    {currentUser.hashedPassword
+                      ? "**********"
+                      : "¡ Crea tu contraseña !"}
                   </Typography>
                 </Grid>
 
-                <Grid
-                  item
-                >
-                  <Tooltip title="Cambiar contraseña">
+                <Grid item>
+                  <Tooltip
+                    title={
+                      currentUser.hashedPassword
+                        ? "Cambiar contraseña"
+                        : "Crea tu contraseña"
+                    }
+                  >
                     <Fab
-                      size='small'
+                      size="small"
                       href={`/private/change-password/${currentUser.id}`}
-                      variant="extended"
                       color="primary"
                       sx={{
-                        ':hover': {
-                          color: 'white',
+                        ":hover": {
+                          color: "white",
                         },
                       }}
                     >
-                      Contraseña
+                      <PasswordIcon />
                     </Fab>
                   </Tooltip>
-
                 </Grid>
-
               </Grid>
 
               <Divider />
@@ -681,63 +636,63 @@ const Profile = () => {
                 paddingBottom={1}
                 spacing={1}
               >
-
-                <Grid
-                  item
-                >
-                  <Typography
-                    variant="h6"
-                    fontWeight='bold'
-                  >
+                <Grid item>
+                  <Typography variant="h6" fontWeight="bold">
                     Plan actual
                   </Typography>
                 </Grid>
 
-                <Grid
-                  item
-                >
-                  <Tooltip title= "Cambiar plan">
+                <Grid item>
+                  <Tooltip
+                    title={
+                      currentUser.plan
+                        ? "Cambiar plan"
+                        : "Subscribete a un plan"
+                    }
+                  >
                     <Fab
-                      size='small'
+                      size="small"
                       variant="extended"
                       href="/private/planes"
                       color="primary"
                       sx={{
-                        ':hover': {
-                          color: 'white',
+                        ":hover": {
+                          color: "white",
                         },
                       }}
                     >
-                      {currentUser.plan?.name}
+                      {currentUser.plan ? currentUser.plan?.name : "Planes"}
                     </Fab>
                   </Tooltip>
                 </Grid>
               </Grid>
 
-              <Grid
-                item
-              >
-                <Fab
-                  size='small'
-                  href={`/private/delete-user/${currentUser.id}`}
-                  variant="extended"
-                  color="error"
-                  id="ButtonDelete"
-                  sx={{
-                    ':hover': {
-                      color: 'white',
-                    },
-                  }}
-                >
-                  Borrar usuario
-                </Fab>
+              <Grid item>
+                {isPasswordSetUp === "true" || isPasswordSetUp === true ? (
+                  <Fab
+                    size="small"
+                    href={`/private/delete-user/${currentUser.id}`}
+                    variant="extended"
+                    color="error"
+                    id="ButtonDelete"
+                    sx={{
+                      ":hover": {
+                        color: "white",
+                      },
+                    }}
+                  >
+                    Borrar usuario
+                  </Fab>
+                ) : (
+                  <div></div>
+                )}
               </Grid>
 
-              <Grid item paddingTop = {1}>
+              <Grid item paddingTop={1}>
                 {inputs.names ||
-                  inputs.email ||
-                  inputs.birthday ||
-                  inputs.nationality ? (
+                inputs.email ||
+                inputs.birthday ||
+                inputs.nationality ? (
                   <Fab
                     size="small"
                     onClick={handleClickConfirm}
@@ -749,12 +704,11 @@ const Profile = () => {
                 ) : null}
               </Grid>
               {/* </Grid> */}
-
             </CardContent>
           </Card>
         </Grid>
 
-        <Grid item >
+        <Grid item>
           <Dialog
             open={open}
             onClose={handleClose}
@@ -770,13 +724,15 @@ const Profile = () => {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={(e) => handleDelete(e)} autoFocus>Si, deseo eliminarla</Button>
+              <Button onClick={(e) => handleDelete(e)} autoFocus>
+                Si, deseo eliminarla
+              </Button>
               <Button onClick={handleNo}>Cancelar</Button>
             </DialogActions>
           </Dialog>
         </Grid>
 
-        <Grid item >
+        <Grid item>
           <Dialog
             open={open2}
             onClose={handleClose2}
@@ -788,18 +744,20 @@ const Profile = () => {
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Si continuas tus datos se modificaran con la nueva información que has colocado.
+                Si continuas tus datos se modificaran con la nueva información
+                que has colocado.
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={(e) => handleSubmit(e)} autoFocus>Si, quiero realizar los cambios</Button>
+              <Button onClick={(e) => handleSubmit(e)} autoFocus>
+                Si, quiero realizar los cambios
+              </Button>
               <Button onClick={handleNo2}>Cancelar</Button>
             </DialogActions>
           </Dialog>
         </Grid>
       </Grid>
     </Paper>
-
   );
 };
 
@@ -807,11 +765,10 @@ export default Profile;
 
 const useStyles = makeStyles(() => ({
   middle: {
-    justifyContent: 'center'
+    justifyContent: "center",
   },
 
   paperWraper: {
-    minHeight: '100vh'
-  }
-
+    minHeight: "100vh",
+  },
 }));

@@ -1,6 +1,6 @@
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Button, Card, CardContent, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
+import { Button, Card, CardContent, FormControl, Grid, IconButton, InputAdornment, InputLabel, Input, Typography } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
@@ -13,6 +13,7 @@ import { useAuthContext } from "../../actions/authContext";
 
 export default function ChangePassword() {
   const { createPassword } = useAuthContext();
+  const passwordPattern=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -55,6 +56,8 @@ export default function ChangePassword() {
         message.warn(`Todos los campos obligatorios deben ser llenados para poder registrarse`,2500);
       } else if (input.password !== input.confirmPassword) {
         message.error(`La contraseña no se confirmo correctamente`,2500)
+      } else if (input.password.match(passwordPattern)===null) {
+        message.warn(`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`, 2500);
       } else {
         dispatch(changePassword(id, input.password))
         createPassword();
@@ -146,7 +149,7 @@ export default function ChangePassword() {
                   <InputLabel htmlFor="outlined-adornment-password">
                     Contraseña *
                   </InputLabel>
-                  <OutlinedInput
+                  <Input
                     value={input.password}
                     id="outlined-adornment-password"
                     type={showPassword ? "text" : "password"}
@@ -154,7 +157,8 @@ export default function ChangePassword() {
                     variant="outlined"
                     name="password"
                     inputProps={{ maxLength: 32 }}
-                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
+                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" 
+                    title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                     onChange={(e) => handleChange(e)}
                     required
                     endAdornment={
@@ -180,7 +184,7 @@ export default function ChangePassword() {
                   <InputLabel htmlFor="outlined-adornment-password">
                     Confirmar contraseña *
                   </InputLabel>
-                  <OutlinedInput
+                  <Input
                     value={input.confirmPassword}
                     id="outlined-adornment-password"
                     type={showPassword2 ? "text" : "password"}
@@ -188,7 +192,8 @@ export default function ChangePassword() {
                     variant="outlined"
                     name="confirmPassword"
                     inputProps={{ maxLength: 32 }}
-                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
+                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" 
+                    title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                     onChange={(e) => handleChange(e)}
                     required
                     endAdornment={
@@ -236,4 +241,4 @@ export default function ChangePassword() {
 
     </Grid >
   );
-}
+};

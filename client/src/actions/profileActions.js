@@ -57,7 +57,7 @@ export const updateImage = (id, file) => {
 };
 
 export const changePassword = (id, newPassword) => {
-  return async function () {
+  return async function (dispatch) {
     try {
       const response = await fetch(
         `${process.env.REACT_APP_DEFAULT_URL}/user/changepassword/${id}`,
@@ -69,7 +69,8 @@ export const changePassword = (id, newPassword) => {
           body: JSON.stringify({ newPassword: newPassword }),
         }
       );
-      return response;
+      const user = await response.json();
+      return dispatch({ type: "GET_PROFILE", payload: user });
     } catch (error) {
       console.log(error);
     }
