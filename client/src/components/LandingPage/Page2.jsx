@@ -20,7 +20,7 @@ const itemData = [
   },
   {
     img: page2C,
-    title: 'Conecta tu relo inteliente',
+    title: 'Conecta tu reloj inteliente',
     description: 'Usa FitBit para tomar datos precisos',
   },
   {
