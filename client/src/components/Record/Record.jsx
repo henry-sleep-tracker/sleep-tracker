@@ -818,7 +818,6 @@ const Record = (props) => {
   const PopupCoffee = () => (
     <Popup
       trigger={<img src={coffeeMain} alt="" className="popup_ico" />}
-      /* contentStyle={{ width: "35%" }} */
       contentStyle={{ width: "320px" }}
       onClose={() => setNewCoffeeSize(false)}
       position="top center"
@@ -997,7 +996,6 @@ const Record = (props) => {
 
   // Render Main Elements
   return (
-    // <div className="master">
     <Paper sx={{ minHeight: "100vh" }}>
       <Helmet>
         <title>Registrar actividad | Sleep Tracker</title>
@@ -1074,10 +1072,6 @@ const Record = (props) => {
                     />
                   </Grid>
                 </Grid>
-
-                {/* </div> */}
-                {/* </div> */}
-                {/* </div> */}
                 <div
                   id="test_div"
                   className="meal_section"
@@ -1091,8 +1085,6 @@ const Record = (props) => {
                   <TextField
                     className="text_description"
                     name="description"
-                    /* cols={57} */
-                    // rows="5"
                     placeholder="Ingresa breve descripcion"
                     value={record.description}
                     onChange={handlerOnChange}
@@ -1121,7 +1113,6 @@ const Record = (props) => {
                   /* hidden={checkSleepRecord?.length >= 1 ? true : false} */
                   hidden={syncFitbit}
                 >
-                  {/* <div> */}
                   <Typography>
                     <img src={personBed} alt="" className="person_bed" />
                     Tiempo de Sueño{" "}
@@ -1136,8 +1127,6 @@ const Record = (props) => {
                       className="img_ok"
                     />
                   </Typography>
-                  {/* </div> */}
-
                   <div className="sync_div_true" hidden={temp?.length < 1}>
                     <h5>El dia {dateStringToDate(day?.replace("-", ""))}</h5>
                     <h6>Fitbit registro {sleepTime12Format} de sueño</h6>
