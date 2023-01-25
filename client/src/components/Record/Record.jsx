@@ -1235,10 +1235,12 @@ const Record = props => {
                       className="sleep_result"
                       hidden={sTime && eTime ? false : true}
                     > */}
+                    {
                     <h4>
                       Dormiste:{" "}
                       {sleepTime12Format ? sleepTime12Format : finalHours}
                     </h4>
+                    }
                     {/* </div> */}
                     {/* </div> */}
                   </Grid>

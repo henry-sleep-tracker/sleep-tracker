@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import io from 'socket.io-client';
-import './chat.css';
+// import './chat.css';
 import { Container, Divider, Grid, List, ListItem, Paper, TextField, Typography, Button, Card, CardContent, Avatar } from "@mui/material";
 import { Box } from "@mui/system"
 import SendIcon from '@mui/icons-material/Send';
@@ -54,7 +54,7 @@ const Chat = () => {
       >
 
         <Helmet>
-          <title>Foro premium | Sleep Tracker</title>
+          <title>Sala de chat | Sleep Tracker</title>
         </Helmet>
 
         <Grid
@@ -66,7 +66,7 @@ const Chat = () => {
             fontWeight='bold'
           // gutterBottom   
           >
-            Foro premium
+            Sala de chat
           </Typography>
         </Grid>
 
@@ -75,21 +75,32 @@ const Chat = () => {
         >
           <Card
             variant='outlined'
-            sx={{ width: '60vw' }}
+            sx={{
+              width: '60vw',
+              marginBottom: 10
+            }}
           >
             <CardContent>
               <Grid
                 container
-                direction="row"
+                direction="column"
                 justifyContent="space-evenly"
                 alignItems="center"
                 paddingTop={1}
+                paddingLeft={1}
                 paddingBottom={1}
                 spacing={3}
               >
 
-                <Box p={3}>
-                  <Grid container spacing={4} alignItems="center" >
+                <Card
+                  sx={{ width: '100%' }}
+                  elevation={20}
+                >
+                  <Grid
+                    container
+                    spacing={4}
+                    alignItems="center"
+                  >
                     <Grid
                       id="chat-window"
                       xs={12}
@@ -107,7 +118,7 @@ const Chat = () => {
                               }
 
                             >
-                              <p
+                              <Card
                                 className={
                                   message.from === 'Yo' ? 'myMessage' : 'OtherMessage'
                                 }
@@ -128,41 +139,42 @@ const Chat = () => {
                                     <PersonIcon />
                                   </Avatar>
                                 )}: {message.body}
-                              </p>
+                              </Card>
                             </ListItem>
                           ))}
                       </List>
 
                     </Grid>
-                    <Grid xs={9} item>
-                      <form onSubmit={handleSubmit} >
-                        <TextField
-                          onChange={(e) => setMessage(e.target.value)}
-                          value={message}
-                          variant="outlined"
-                          fullWidth
-                          autoComplete="false"
-                        />
-                      </form >
-                    </Grid>
 
-                    <Grid
-                      xs={1}
-                      item
-                    // color="#f3f4fa" 
-                    >
-                      <Button
-                        onClick={handleSubmit}
-                        startIcon={<SendIcon />}
-                        variant="contained"
-                        size='large'
-                        color='success'
-                      >
-                        Enviar
-                      </Button>
-                    </Grid>
                   </Grid>
-                </Box>
+                </Card>
+
+                <Grid xs={9} item>
+                  <form onSubmit={handleSubmit} >
+                    <TextField
+                      onChange={(e) => setMessage(e.target.value)}
+                      value={message}
+                      variant="outlined"
+                      fullWidth
+                      autoComplete="false"
+                    />
+                  </form >
+                </Grid>
+
+                <Grid
+                  item
+                // color="#f3f4fa" 
+                >
+                  <Button
+                    onClick={handleSubmit}
+                    startIcon={<SendIcon />}
+                    variant="contained"
+                    size='large'
+                    color='success'
+                  >
+                    Enviar
+                  </Button>
+                </Grid>
               </Grid>
             </CardContent>
           </Card>
