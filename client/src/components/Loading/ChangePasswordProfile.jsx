@@ -23,7 +23,6 @@ export const ChangePasswordOkProfile = () => {
 
     return () => {
       message.success("La contraseña se actualizo correctamente", 3000);
-      message.success("La contraseña se actualizo correctamente", 3000);
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,10 +53,6 @@ export const ChangePasswordErrorProfile = () => {
         "Hubo un error al actualizar la contraseña. Intentelo nuevamente.",
         3000
       );
-      message.error(
-        "Hubo un error al actualizar la contraseña. Intentelo nuevamente.",
-        3000
-      );
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -84,7 +79,6 @@ export const DeleteUserProfile = () => {
 
     return () => {
       message.error("El usuario ha sido eliminado.", 3000);
-      message.error("El usuarioha ha sido eliminado.", 3000);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -110,10 +104,6 @@ export const DeleteUserProfileError = () => {
     }, 2000);
 
     return () => {
-      message.error(
-        "Hubo un error al eliminar el usuario. Intentelo nuevamente.",
-        3000
-      );
       message.error(
         "Hubo un error al eliminar el usuario. Intentelo nuevamente.",
         3000

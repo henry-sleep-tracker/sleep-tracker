@@ -57,7 +57,7 @@ import { dateStringToDate } from "../../helpers/string_to_date";
 import DateSelector from "./CalendarRecord";
 import TimeMealSelector from "./Time";
 import { StartTime, EndTime } from "./Time";
-import { Button, Stack } from "@mui/material";
+import { Button } from "@mui/material";
 
 //>======================>//
 //> Starts Component
@@ -214,7 +214,6 @@ const Record = props => {
       et?.length <= 0
     ) {
       message.warn(`No se ingreso informacion`);
-      message.warn(`No se ingreso informacion`);
       return;
     }
 
@@ -224,7 +223,6 @@ const Record = props => {
     }
 
     if (timeR && record.description?.length < 1) {
-      message.warn(`Ingresa una breve descripcion de tu cena`);
       message.warn(`Ingresa una breve descripcion de tu cena`);
       return;
     }
@@ -370,7 +368,6 @@ const Record = props => {
 
     if (!timeSelected || !activitySelected || timeSelected < 1) {
       message.warning("Ingresa los minutos", 2500);
-      message.warning("Ingresa los minutos", 2500);
       return;
     }
 
@@ -408,16 +405,11 @@ const Record = props => {
         `La actividad ${addActivity.activity} no puede duplicarse`,
         2500
       );
-      message.error(
-        `La actividad ${addActivity.activity} no puede duplicarse`,
-        2500
-      );
       nameActivity.current.value = "";
       return;
     }
 
     if (!addActivity.activity) {
-      message.warn(`Ingresa un nombre para la nueva actividad`, 2500);
       message.warn(`Ingresa un nombre para la nueva actividad`, 2500);
       return;
     }
@@ -425,7 +417,6 @@ const Record = props => {
     dispatch(createNewActivity(addActivity));
 
     if (activityStat === null) {
-      message.success("Actividad creada exitosamente", 2500);
       message.success("Actividad creada exitosamente", 2500);
       setAddActivity({
         activity: "",
@@ -489,7 +480,6 @@ const Record = props => {
 
     if (!quantityCoffee || !cup || quantityCoffee < 1) {
       message.warning("Ingresa el numero de tazas", 2500);
-      message.warning("Ingresa el numero de tazas", 2500);
       return;
     }
 
@@ -522,13 +512,11 @@ const Record = props => {
 
     if (duplicated.length > 0) {
       message.error(`La medida ${addCoffeSize.size} no puede duplicarse`, 2500);
-      message.error(`La medida ${addCoffeSize.size} no puede duplicarse`, 2500);
       nameCoffee.current.value = "";
       return;
     }
 
     if (!addCoffeSize.size) {
-      message.warn(`Ingresa un nombre para la nueva porcion`, 2500);
       message.warn(`Ingresa un nombre para la nueva porcion`, 2500);
       return;
     }
@@ -536,7 +524,6 @@ const Record = props => {
     dispatch(createNewCoffeeSize(addCoffeSize));
 
     if (coffeeStat === null) {
-      message.success("Nueva porcion creada exitosamente", 2500);
       message.success("Nueva porcion creada exitosamente", 2500);
       setAddCoffeSize({
         size: "",
@@ -600,7 +587,6 @@ const Record = props => {
 
     if (!quantityDrinks || !typeDrinks || quantityDrinks < 1) {
       message.warning("Ingresa el numero de bebidas", 2500);
-      message.warning("Ingresa el numero de bebidas", 2500);
       return;
     }
 
@@ -633,13 +619,11 @@ const Record = props => {
 
     if (duplicated.length > 0) {
       message.error(`La bebida ${addNewDrink.drink} no puede duplicarse`, 2500);
-      message.error(`La bebida ${addNewDrink.drink} no puede duplicarse`, 2500);
       nameDrink.current.value = "";
       return;
     }
 
     if (!addNewDrink.drink) {
-      message.warn(`Ingresa un nombre para la nueva bebida`, 2500);
       message.warn(`Ingresa un nombre para la nueva bebida`, 2500);
       return;
     }
@@ -647,7 +631,6 @@ const Record = props => {
     dispatch(createNewDrink(addNewDrink));
 
     if (drinkStat === null) {
-      message.success("Nueva bebida creada exitosamente", 2500);
       message.success("Nueva bebida creada exitosamente", 2500);
       setAddNewDrink({
         drink: "",
@@ -722,13 +705,8 @@ const Record = props => {
         `${nameUser} tu registro se guardo correctamente!!`,
         2500
       );
-      message.success(
-        `${nameUser} tu registro se guardo correctamente!!`,
-        2500
-      );
       dispatch(setStatusNewRecord());
     } else {
-      message.error(`Error: al guardar registro`, 2500);
       message.error(`Error: al guardar registro`, 2500);
       dispatch(setStatusNewRecord());
     }
