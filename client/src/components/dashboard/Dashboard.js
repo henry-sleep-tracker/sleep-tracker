@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Box from "@mui/material/Box";
+import Grid from '@mui/material/Grid';
 
 import Default from "./default/Default";
 import Users from "./users/Users";
@@ -13,31 +13,28 @@ const mdTheme = createTheme();
 function DashboardContent() {
   return (
     <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: "flex" }}>
-        <Box>
-          <SideList />
-        </Box>
 
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === "light"
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-            flexGrow: 1,
-            height: "100vh",
-            overflow: "auto",
-          }}
-        >
+      <Grid container spacing={1}>
+
+        <Grid item xs="auto">
+          <SideList />
+        </Grid>
+
+        <Grid item xs={10}>
+
           <Routes>
             <Route exact path="/" element={<Default />} />
             <Route exact path="/users" element={<Users />} />
           </Routes>
 
+        </Grid>
+
+        <Grid item xs={12}>
           <Copyright sx={{ pt: 4 }} />
-        </Box>
-      </Box>
+        </Grid>
+
+      </Grid>
+
     </ThemeProvider>
   );
 }
