@@ -26,15 +26,13 @@ import Visibility from "@mui/icons-material/Visibility";
 import { Helmet } from "react-helmet";
 import log from "../logi/log-.png";
 import wakeup from "../../images/Signup/zen-balancing.jpg";
-// import styles from "./Login.module.css";
 import { message } from "react-message-popup";
 import { style } from "@mui/system";
 import AlertDialog from "../Alert/Alert";
 import { makeStyles } from "@mui/styles";
 
 export default function LogIn() {
-  const clientId =
-    "335316690432-trah7lbld3ptrek9o23jo6n0t7g30foe.apps.googleusercontent.com";
+  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
   const { login } = useAuthContext();
   const loggedUser = useSelector((state) => state?.users.currentUser);
   const planExpirationDate = useSelector(
@@ -54,23 +52,22 @@ export default function LogIn() {
   gapi.load("client:auth2", start);
 
   useEffect(() => {
-    if (loggedUser.hasOwnProperty("id") && loggedUser.id !== 0) {
+    if (loggedUser.hasOwnProperty("id") && loggedUser.id !== 0 && !loggedUser.deletedAt) {
       dispatch(getUsersPlanExpDate(loggedUser.id));
       if (
         planExpirationDate !== "1900-01-01" &&
         planExpirationDate !== undefined
       ) {
-        //alert("Usuario validado");
         message.success("Usuario validado", 2500);
         login(
           loggedUser.id,
+          loggedUser.isAdmin,
           loggedUser.email,
           loggedUser.hashedPassword,
           planExpirationDate
         );
       }
     } else if (loggedUser.id === 0) {
-      //alert("El usuario o la contraseña no son correctos");
       message.error("El usuario o la contraseña no son correctos", 2500);
     }
   }, [loggedUser, login, planExpirationDate]);
@@ -90,7 +87,6 @@ export default function LogIn() {
     event.preventDefault();
   };
   const [open, setOpen] = React.useState(false);
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -105,11 +101,16 @@ export default function LogIn() {
 
   const classes = useStyles();
   return (
-    <Grid container>
+    <Grid 
+    container
+    height='100vh'
+    >
       <AlertDialog open={open} handleClose={handleClose} input={input} />
+     
       <Helmet>
         <title>Iniciar sesion | Sleep Tracker</title>
       </Helmet>
+
       <Grid
         container
         direction="row"
@@ -275,16 +276,16 @@ export default function LogIn() {
 
 const useStyles = makeStyles(() => ({
   imageStyle: {
-    width: "100%",
-    minHeight: "100vh",
-    height: "100%",
+    width: '100%',
+    minHeight: '100vh',
+    height: '100%'
   },
 
   bg: {
-    backgroundColor: "#ecefef",
+    backgroundColor: '#ecefef'
   },
 
   bgImage: {
-    backgroundImage: `url(${wakeup})`,
+    backgroundImage: `url(${wakeup})`
   },
 }));

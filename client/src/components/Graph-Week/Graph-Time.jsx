@@ -1,61 +1,91 @@
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Chart } from "react-google-charts";
-import { ResponsiveContainer } from "recharts";
-import { Card, CardContent } from "@mui/material";
-import { useEffect, useState } from "react";
+import {
+  ComposedChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ReferenceLine,
+} from "recharts";
+import { Card, CardContent, Typography, Grid } from "@mui/material";
+
+const isMobile = window.innerWidth < 800;
 
 export default function GraphTime() {
-  const effective = useSelector((state) => state.session);
+  const sleepSession = useSelector((state) => state.session);
 
-  let totality = [["dia", "Horas de sueño"]];
-  let sumary = [];
-  let semana = [];
-
-  for (let i = 0; i < effective.length; i++) {
-    sumary.push(effective[i].duration / 1000 / 60);
-    semana.push(effective[i].date);
-  }
-
-  for (let c = 0; c < sumary.length; c++) {
-    totality.push([semana[c], sumary[c] / 60]);
-  }
-
-  const options1 = {
-    title: `promedio de horas de descanso  ${semana[0]} - ${semana[semana.length - 1]
-      }`,
-    colors: ["#2196f3"],
-  };
-
-  const [windowWidth, setwindowWidth] = useState(window.innerWidth)
+  const data = sleepSession?.map((session) => {
+    let obj = {};
+    obj["date"] = session.date;
+    obj["duration"] = (parseInt(session.duration, 10) / 3600000).toFixed(1);
+    obj["goal"] = 8;
+    return obj;
+  });
+  const [windowWidth, setwindowWidth] = useState(window.innerWidth);
 
   const handleResize = () => {
-    setwindowWidth(window.innerWidth)
-  }
+    setwindowWidth(window.innerWidth);
+  };
 
   useEffect(() => {
-    window.addEventListener('resize', handleResize)
-  }, [])
-
-
+    window.addEventListener("resize", handleResize);
+  }, []);
   return (
     <Card
       variant="outlined"
+      sx={{ width: "100%", height: "auto", marginLeft: -1 }}
     >
       <CardContent>
-
-        <ResponsiveContainer
-          width={windowWidth - 150}
-          height={500}
-        // margin={{ top: 10, left: 20, bottom: 0 }}
+        <Typography fontSize="2rem" fontWeight={"bold"} align="center" p={3}>
+          Promedio de sueño por día
+        </Typography>
+        <ComposedChart
+          width={!isMobile ? windowWidth - 150 : windowWidth - 100}
+          height={400}
+          data={data}
         >
-          <Chart
-            data={totality}
-            chartType="BarChart"
-            options={options1}
-            width={100}
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" />
+          <YAxis type="number" domain={[0, 12]} tickCount={7} />
+          <Tooltip />
+          <Legend
+            layout={!isMobile ? "vertical" : "horizontal"}
+            align={!isMobile ? "right" : "center"}
+            verticalAlign={!isMobile ? "middle" : "bottom"}
+            wrapperStyle={{
+              paddingLeft: "1.5rem",
+              marginTop: "3rem",
+            }}
           />
-        </ResponsiveContainer>
+          <ReferenceLine
+            y="8"
+            label="Meta"
+            stroke="#b90007"
+            strokeWidth={2}
+            strokeDasharray="3 3"
+          />
+          <Bar
+            dataKey="duration"
+            name="Duración de sueño"
+            fill="#ff7961"
+            unit=" hrs"
+          />
+        </ComposedChart>
+        <Grid>
+          <Typography
+            fontSize="1rem"
+            color="grey"
+            align="center"
+            p={!isMobile ? 3 : 0}
+          >
+            En esta gráfica puedes observar las horas de sueño diarias que has
+            tenido en el lapso de tiempo seleccionado.
+          </Typography>
+        </Grid>
       </CardContent>
     </Card>
-  )
+  );
 }

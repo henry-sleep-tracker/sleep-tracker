@@ -6,18 +6,26 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch } from "react-redux";
-import { restoreUser } from "../../actions/index";
+import { restoreUser, restoreUserByJustEmail,getCurrentUser } from "../../actions/index";
 
 export default function AlertDialog({open,handleClose,input}) {
     const {email,password} =input;
     const dispatch = useDispatch();
-
     async function handleSubmit(event) {
         event.preventDefault();
-        try {
-          dispatch(restoreUser(email,password));
-        } catch (error) {
-          console.log("el error es:", error);
+        if (password===undefined) {
+          try {
+            const user = dispatch(restoreUserByJustEmail(email));
+            dispatch(getCurrentUser(user));
+          } catch (error) {
+            console.log("el error es:", error);
+          }
+        }else{
+          try {
+            dispatch(restoreUser(email,password));
+          } catch (error) {
+            console.log("el error es:", error);
+          }
         }
       }
     return (

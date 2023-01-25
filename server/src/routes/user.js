@@ -14,19 +14,21 @@ const {
   changeUserPassword,
   getUserInfoById,
   restoreUser,
+  restoreUserByJustEmail,
 } = require("../controllers/user");
-
+const { forgotPassswordValdiator } = require("../middlewares/user");
 //> ==================== End Points ======================== <//
 
 router.post("/", postUser);
 router.post("/restoreUser/:id", restoreUser);
+router.post("/restoreUserByJustEmail/:email", restoreUserByJustEmail);
 router.post("/google", postGoogleUser);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:id/:token", resetPassword);
-router.get("/:email", getUserByEmail);
-router.delete("/:id/:password", deleteUser);
+router.delete("/:id/:password/:idAdmin", deleteUser);
 router.put("/:id", updateProfile);
 router.get("/userId/:id", getUserInfoById);
+router.get("/:email", getUserByEmail);
 router.put("/changepassword/:id", changeUserPassword);
 
 module.exports = router;

@@ -1,27 +1,27 @@
 import {
-    AppBar,
-    styled,
-    Typography,
-    IconButton,
-    Box,
-    Drawer,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    Switch,
-    ListItemText,
-    Divider,
-    Button,
+  AppBar,
+  styled,
+  Typography,
+  IconButton,
+  Box,
+  Drawer,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  Switch,
+  ListItemText,
+  Divider,
+  Button,
 } from "@mui/material";
 import React from "react";
 import {
-    AccountBalanceWalletSharp,
-    AppRegistration,
-    DarkMode,
-    DevicesOther,
-    Groups2,
-    Home,
-    Login,
+  AccountBalanceWalletSharp,
+  AppRegistration,
+  DarkMode,
+  DevicesOther,
+  Groups2,
+  Home,
+  Login,
   /*Mail, Notifications,*/ QuestionMark,
 } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -38,9 +38,9 @@ import { useSelector } from "react-redux";
 import log from "../logi/log-.png";
 
 const StyledToolbar = styled(Toolbar)({
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
 });
 
 // const Search = styled("div")(({ theme }) => ({
@@ -51,12 +51,12 @@ const StyledToolbar = styled(Toolbar)({
 // }));
 
 const Icons = styled("div")(({ theme }) => ({
-    display: "none",
-    gap: "20px",
-    alignItems: "center",
-    [theme.breakpoints.up("sm")]: {
-        display: "flex",
-    },
+  display: "none",
+  gap: "20px",
+  alignItems: "center",
+  [theme.breakpoints.up("sm")]: {
+    display: "flex",
+  },
 }));
 
 // const UserBox = styled("div")(({ theme }) => ({
@@ -69,59 +69,59 @@ const Icons = styled("div")(({ theme }) => ({
 // }));
 
 const NavegationBar = ({
-    mode,
-    setMode,
-    currentPage,
-    setCurrentPage,
-    page1,
-    page2,
-    page3,
-    page4,
-    page5,
-    page6,
+  mode,
+  setMode,
+  currentPage,
+  setCurrentPage,
+  page1,
+  page2,
+  page3,
+  page4,
+  page5,
+  page6,
 }) => {
-    // const [open, setOpen] = useState(false)
+  // const [open, setOpen] = useState(false)
 
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
-    // const classes = useStyles();
+  // const classes = useStyles();
 
-    const currentComments = useSelector((state) => state.comments);
+  const currentComments = useSelector((state) => state.comments);
 
-    return (
-        <ThemeProvider theme={theme}>
-            <AppBar position="sticky">
-                <StyledToolbar>
-                    <Box
-                        component="nav"
-                        sx={{
-                            width: { sm: 240 },
-                            flexShrink: { sm: 0 },
-                        }}
-                    >
-                        <IconButton
-                            aria-label="open drawer"
-                            edge="start"
-                            onClick={handleDrawerToggle}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        
-                        <Drawer
-                            variant="temporary"
-                            open={mobileOpen}
-                            onClose={handleDrawerToggle}
-                            ModalProps={{
-                                keepMounted: true, // Better open performance on mobile.
-                            }}
-                        >
-                            <div>
-                                <List>
-                                    {/* <ListItem disablePadding>
+  return (
+    <ThemeProvider theme={theme}>
+      <AppBar position="sticky">
+        <StyledToolbar>
+          <Box
+            component="nav"
+            sx={{
+              width: { sm: 240 },
+              flexShrink: { sm: 0 },
+            }}
+          >
+            <IconButton
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <Drawer
+              variant="temporary"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+              <div>
+                <List>
+                  {/* <ListItem disablePadding>
                                         <ListItemButton component='a'>
                                             <ListItemIcon>
                                                 <DarkMode />
@@ -132,132 +132,130 @@ const NavegationBar = ({
 
                                     <Divider /> */}
 
-                                    <ListItem disablePadding>
-                                        <ListItemButton component="a" href="login">
-                                            <ListItemIcon>
-                                                <Login />
-                                            </ListItemIcon>
-                                            <ListItemText primary="Iniciar sesion" />
-                                        </ListItemButton>
-                                    </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton component="a" href="login">
+                      <ListItemIcon>
+                        <Login />
+                      </ListItemIcon>
+                      <ListItemText primary="Iniciar sesion" />
+                    </ListItemButton>
+                  </ListItem>
 
-                                    <ListItem disablePadding>
-                                        <ListItemButton component="a" href="registro">
-                                            <ListItemIcon>
-                                                <AppRegistration />
-                                            </ListItemIcon>
-                                            <ListItemText primary="Registrarse" />
-                                        </ListItemButton>
-                                    </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton component="a" href="registro">
+                      <ListItemIcon>
+                        <AppRegistration />
+                      </ListItemIcon>
+                      <ListItemText primary="Registrarse" />
+                    </ListItemButton>
+                  </ListItem>
 
-                                    <Divider />
+                  <Divider />
 
-                                    <ListItem disablePadding>
-                                        <ListItemButton
-                                            component="a"
-                                            onClick={() => setCurrentPage(page1)}
-                                        >
-                                            <ListItemIcon>
-                                                <Home />
-                                            </ListItemIcon>
-                                            <ListItemText primary="Home" />
-                                        </ListItemButton>
-                                    </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      component="a"
+                      onClick={() => setCurrentPage(page1)}
+                    >
+                      <ListItemIcon>
+                        <Home />
+                      </ListItemIcon>
+                      <ListItemText primary="Home" />
+                    </ListItemButton>
+                  </ListItem>
 
-                                    <ListItem disablePadding>
-                                        <ListItemButton
-                                            component="a"
-                                            onClick={() => setCurrentPage(page2)}
-                                        >
-                                            <ListItemIcon>
-                                                <QuestionMark />
-                                            </ListItemIcon>
-                                            <ListItemText primary="Como funciona" />
-                                        </ListItemButton>
-                                    </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      component="a"
+                      onClick={() => setCurrentPage(page2)}
+                    >
+                      <ListItemIcon>
+                        <QuestionMark />
+                      </ListItemIcon>
+                      <ListItemText primary="Como funciona" />
+                    </ListItemButton>
+                  </ListItem>
 
-                                    <ListItem disablePadding>
-                                        <ListItemButton
-                                            component="a"
-                                            onClick={() => setCurrentPage(page3)}
-                                        >
-                                            <ListItemIcon>
-                                                <DevicesOther />
-                                            </ListItemIcon>
-                                            <ListItemText primary="Dispositivos soportados" />
-                                        </ListItemButton>
-                                    </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      component="a"
+                      onClick={() => setCurrentPage(page3)}
+                    >
+                      <ListItemIcon>
+                        <DevicesOther />
+                      </ListItemIcon>
+                      <ListItemText primary="Dispositivos soportados" />
+                    </ListItemButton>
+                  </ListItem>
 
-                                    <ListItem disablePadding>
-                                        <ListItemButton
-                                            component="a"
-                                            onClick={() => setCurrentPage(page4)}
-                                        >
-                                            <ListItemIcon>
-                                                <AccountBalanceWalletSharp />
-                                            </ListItemIcon>
-                                            <ListItemText primary="Planes de pago" />
-                                        </ListItemButton>
-                                    </ListItem>
-                                    {currentComments.data && (
-                                        <ListItem disablePadding>
-                                            <ListItemButton
-                                                component="a"
-                                                onClick={() => setCurrentPage(page6)}
-                                            >
-                                                <ListItemIcon>
-                                                    <CommentIcon />
-                                                </ListItemIcon>
-                                                <ListItemText primary="Comentarios" />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    )}
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      component="a"
+                      onClick={() => setCurrentPage(page4)}
+                    >
+                      <ListItemIcon>
+                        <AccountBalanceWalletSharp />
+                      </ListItemIcon>
+                      <ListItemText primary="Planes de pago" />
+                    </ListItemButton>
+                  </ListItem>
+                  {currentComments.data && (
+                    <ListItem disablePadding>
+                      <ListItemButton
+                        component="a"
+                        onClick={() => setCurrentPage(page6)}
+                      >
+                        <ListItemIcon>
+                          <CommentIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Comentarios" />
+                      </ListItemButton>
+                    </ListItem>
+                  )}
 
-                                    <ListItem disablePadding>
-                                        <ListItemButton
-                                            component="a"
-                                            onClick={() => setCurrentPage(page5)}
-                                        >
-                                            <ListItemIcon>
-                                                <Groups2 />
-                                            </ListItemIcon>
-                                            <ListItemText primary="Conoce al equipo" />
-                                        </ListItemButton>
-                                    </ListItem>
-                                </List>
-                            </div>
-                        </Drawer>
-                        <img
-                            // sx={{ display: { xs: "none",md: "block", sm: "none" } }}
-                            onClick={() => setCurrentPage(page1)}
-                            src={log}
-                            alt="logo"
-                            width="200px"
-                        />
-                    </Box>
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      component="a"
+                      onClick={() => setCurrentPage(page5)}
+                    >
+                      <ListItemIcon>
+                        <Groups2 />
+                      </ListItemIcon>
+                      <ListItemText primary="Conoce al equipo" />
+                    </ListItemButton>
+                  </ListItem>
+                </List>
+              </div>
+            </Drawer>
+            <img
+              // sx={{ display: { xs: "none",md: "block", sm: "none" } }}
+              onClick={() => setCurrentPage(page1)}
+              src={log}
+              alt="logo"
+              width="200px"
+            />
+          </Box>
 
-                    {/* <NightShelterIcon
+          {/* <NightShelterIcon
                         sx={{ display: { xs: "block", sm: "block", md: 'none' } }}
                         onClick={() => setCurrentPage(page1)}
                     /> */}
-                    <Button
-                        startIcon={<LoginIcon />}
-                        sx={{ display: { xs: "block", sm: "block", md: "none" } }}
-                        color='lightFont'
-                        href='login'
-                    >
-                    </Button>
+          <Button
+            startIcon={<LoginIcon />}
+            sx={{ display: { xs: "block", sm: "block", md: "none" } }}
+            color="lightFont"
+            href="login"
+          ></Button>
 
-                    <Button
-                        startIcon={<AppRegistrationIcon />}
-                        sx={{ display: { xs: "block", sm: "block", md: "none" } }}
-                        color='lightFont'
-                        href='/registro'
-                    >
-                    </Button>
+          <Button
+            startIcon={<AppRegistrationIcon />}
+            sx={{ display: { xs: "block", sm: "block", md: "none" } }}
+            color="lightFont"
+            href="/registro"
+          ></Button>
 
-                    <Icons>
-                        {/* <Badge badgeContent={4} color="error"><Mail /></Badge>
+          <Icons>
+            {/* <Badge badgeContent={4} color="error"><Mail /></Badge>
                     <Badge badgeContent={2} color="error"><Notifications /></Badge>
                     <Typography>Lisa</Typography>
                     <Badge>
@@ -265,33 +263,33 @@ const NavegationBar = ({
                             onClick={event => setOpen(true)}
                         />
                     </Badge> */}
-                        <Button
-                            sx={{ display: { xs: "none", sm: "none", md: "block" } }}
-                            variant="text"
-                            color="lightFont"
-                            href="/login"
-                        >
-                            Iniciar sesion
-                        </Button>
+            <Button
+              sx={{ display: { xs: "none", sm: "none", md: "block" } }}
+              variant="text"
+              color="lightFont"
+              href="/login"
+            >
+              Iniciar sesion
+            </Button>
 
-                        <Button
-                            sx={{ display: { xs: "none", sm: "none", md: "block" } }}
-                            variant="outlined"
-                            color="lightFont"
-                            href="/registro"
-                        >
-                            Registrarse
-                        </Button>
-                    </Icons>
-                    {/* <UserBox>
+            <Button
+              sx={{ display: { xs: "none", sm: "none", md: "block" } }}
+              variant="outlined"
+              color="lightFont"
+              href="/registro"
+            >
+              Registrarse
+            </Button>
+          </Icons>
+          {/* <UserBox>
                     <Badge>
                         <Avatar sx={{ width: 30, height: 30 }} src='https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
                             onClick={event => setOpen(true)}
                         />
                     </Badge>
                 </UserBox> */}
-                </StyledToolbar>
-                {/* <Divider />
+        </StyledToolbar>
+        {/* <Divider />
                 <Menu
                     id="demo-positioned-menu"
                     aria-labelledby="demo-positioned-button"
@@ -310,9 +308,9 @@ const NavegationBar = ({
                     <MenuItem>My account</MenuItem>
                     <MenuItem>Logout</MenuItem>
                 </Menu> */}
-            </AppBar>
-        </ThemeProvider>
-    );
+      </AppBar>
+    </ThemeProvider>
+  );
 };
 
 export default NavegationBar;

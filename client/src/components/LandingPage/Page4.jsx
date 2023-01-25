@@ -15,6 +15,16 @@ import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { Link } from "react-router-dom";
 
 const Page4 = () => {
+
+  const priceProps =
+    <Box>
+      <Typography>- Registro de actividad fisica</Typography>
+      <Typography>- Registro de consumos diarios( alimentos y bebidas)</Typography>
+      <Typography>- Información de sueño conseguido diario y semanal</Typography>
+      <Typography>- Exporta tu información completa en formato PDF</Typography>
+    </Box>
+    ;
+
   const classes = useStyles();
   return (
 
@@ -24,8 +34,6 @@ const Page4 = () => {
       justifyContent="center"
       alignItems="center"
       className={classes.mainPaper}
-      paddingLeft={15}
-      paddingRight={15}
 
     >
       <Grid
@@ -33,7 +41,7 @@ const Page4 = () => {
         marginTop={5}
       >
         <Typography
-          variant="h4"
+          variant="h2"
           fontWeight='bold'
 
         >
@@ -43,21 +51,24 @@ const Page4 = () => {
 
       <Grid
         container
-        // direction="row"
+        direction="row"
         justifyContent="center"
-        alignItems="center"
+        alignItems="stretch"
         flex={4}
         p={9}
         gap='10px'
+        height='70vh'
 
       >
         <Grid
           item
           xs={12}
           md={3}
+
         >
           <Card
             elevation={20}
+
           >
             <CardContent>
 
@@ -70,22 +81,20 @@ const Page4 = () => {
               >
                 <ThumbUpIcon />
               </Box>
-              <Typography variant="h4" sx={{ mb: 8 }} >Prueba gratis</Typography>
+              <Typography
+                variant="h4"
+                sx={{ mb: 8 }}
+                fontWeight='bold'
+                className={classes.mosaic}
+
+              >
+                Prueba gratis
+              </Typography>
               <Box
                 sx={{ display: { xs: "none", sm: "none", md: 'block' } }}
               >
-                <Typography>- Duracion de 15 dias</Typography>
-                <Typography>- Registro de actividad física</Typography>
-                <Typography>
-                  - Registra tus consumos diarios de comida y bebida.
-                </Typography>
-                <Typography>
-                  - Información de sueño conseguido diario y semanal.
-                </Typography>
-                <Typography>
-                  - Prueba gratis 30 dias
-                </Typography>
-                <Divider />
+                <Typography>- Duracion de 30 dias</Typography>
+                {priceProps}
               </Box>
               <Box
                 className={classes.mosaic}
@@ -108,6 +117,7 @@ const Page4 = () => {
           item
           xs={12}
           md={3}
+
         >
           <Card
             elevation={20}
@@ -124,22 +134,19 @@ const Page4 = () => {
                 >
                   <EmojiEmotionsIcon />
                 </Box>
-                <Typography variant="h4" sx={{ mb: 8 }}>
+                <Typography
+                  variant="h4"
+                  sx={{ mb: 8 }}
+                  fontWeight='bold'
+                  className={classes.mosaic}
+
+                >
                   Plan Estandar
                 </Typography>
                 <Box
                   sx={{ display: { xs: "none", sm: "none", md: 'block' } }}
                 >
-                  <Typography>- Registro de actividad física</Typography>
-                  <Typography>
-                    - Registra tus consumos diarios de comida y bebida.
-                  </Typography>
-                  <Typography>
-                    - Información de sueño conseguido diario y semanal.
-                  </Typography>
-                  <Typography>
-                    - Descarga tu información completa en formato PDF
-                  </Typography>
+                  {priceProps}
                   <Divider />
                 </Box>
                 <Box
@@ -178,21 +185,20 @@ const Page4 = () => {
               >
                 <AutoAwesomeIcon />
               </Box>
-              <Typography variant="h4" sx={{ mb: 8 }}>Plan Premium</Typography>
+              <Typography
+                variant="h4"
+                sx={{ mb: 8 }}
+                fontWeight='bold'
+                className={classes.mosaic}
+              >
+                Plan Premium
+              </Typography>
               <Box
                 sx={{ display: { xs: "none", sm: "none", md: 'block' } }}
               >
                 <Typography>- Descuento de $2 USD</Typography>
-                <Typography>- Registro de actividad física</Typography>
-                <Typography>
-                  - Registra tus consumos diarios de comida y bebida.
-                </Typography>
-                <Typography>
-                  - Información de sueño conseguido diario y semanal.
-                </Typography>
-                <Typography>
-                  - Descarga tu información completa en formato PDF
-                </Typography>
+                <Typography>- Participa en el foro con otros usuarios</Typography>
+                {priceProps}
                 <Divider />
               </Box>
               <Box
@@ -225,7 +231,8 @@ const useStyles = makeStyles(() => ({
   mosaic: {
     display: "flex",
     flexwrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "center",
+    height: '100%'
     // marginTop: '50px',
     // marginBottom: '50px',
   },

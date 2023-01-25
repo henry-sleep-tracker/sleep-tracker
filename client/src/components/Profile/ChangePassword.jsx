@@ -1,6 +1,6 @@
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Button, Card, CardContent, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
+import { Button, Card, CardContent, FormControl, Grid, IconButton, InputAdornment, InputLabel, Input, Typography } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
@@ -8,23 +8,20 @@ import { useDispatch } from "react-redux";
 import { useParams, useNavigate } from 'react-router-dom';
 import { changePassword } from "../../actions/profileActions";
 import { message } from "react-message-popup";
-// import style from "./ChangePassword.module.css";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useAuthContext } from "../../actions/authContext";
 
 export default function ChangePassword() {
   const { createPassword } = useAuthContext();
+  const passwordPattern=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
   const navigate = useNavigate();
-
   const { id } = useParams();
-
   const dispatch = useDispatch();
-
   const [errors, setErrors] = useState({
     password: "",
     confirmPassword: "",
-  })
-  var [input, setInput] = useState({
+  });
+  const [input, setInput] = useState({
     password: "",
     confirmPassword: "",
   });
@@ -37,7 +34,7 @@ export default function ChangePassword() {
       }
     }
     return errors
-  }
+  };
 
   function handleChange(e) {
     setInput({
@@ -50,41 +47,35 @@ export default function ChangePassword() {
         [e.target.name]: e.target.value
       })
     )
-  }
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
       if (Object.keys(errors).length !== 0) {
-        //alert(`Todos los campos obligatorios deben ser llenados para poder registrarse`)
-        message.warn(
-          `Todos los campos obligatorios deben ser llenados para poder registrarse`
-        ,2500);
+        message.warn(`Todos los campos obligatorios deben ser llenados para poder registrarse`,2500);
       } else if (input.password !== input.confirmPassword) {
-        //alert(`La contraseña no se confirmo correctamente`)
         message.error(`La contraseña no se confirmo correctamente`,2500)
+      } else if (input.password.match(passwordPattern)===null) {
+        message.warn(`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`, 2500);
       } else {
-        dispatch(changePassword(id, input.password));
+        dispatch(changePassword(id, input.password))
         createPassword();
         setInput({
           password: "",
           confirmPassword: "",
         });
-        navigate("/private/profile");
+        navigate("/private/changepasswordok");
       }
     } catch (error) {
-      console.log("el error es:", error);
+      navigate("/private/changepassworderror");
     }
-  }
+  };
 
-  const [showPassword, setShowPassword] = React.useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const [showPassword2, setShowPassword2] = React.useState(false);
-
+  const [showPassword2, setShowPassword2] = useState(false);
   const handleClickShowPassword2 = () => setShowPassword2((show) => !show);
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -158,7 +149,7 @@ export default function ChangePassword() {
                   <InputLabel htmlFor="outlined-adornment-password">
                     Contraseña *
                   </InputLabel>
-                  <OutlinedInput
+                  <Input
                     value={input.password}
                     id="outlined-adornment-password"
                     type={showPassword ? "text" : "password"}
@@ -166,7 +157,8 @@ export default function ChangePassword() {
                     variant="outlined"
                     name="password"
                     inputProps={{ maxLength: 32 }}
-                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
+                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" 
+                    title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                     onChange={(e) => handleChange(e)}
                     required
                     endAdornment={
@@ -192,7 +184,7 @@ export default function ChangePassword() {
                   <InputLabel htmlFor="outlined-adornment-password">
                     Confirmar contraseña *
                   </InputLabel>
-                  <OutlinedInput
+                  <Input
                     value={input.confirmPassword}
                     id="outlined-adornment-password"
                     type={showPassword2 ? "text" : "password"}
@@ -200,7 +192,8 @@ export default function ChangePassword() {
                     variant="outlined"
                     name="confirmPassword"
                     inputProps={{ maxLength: 32 }}
-                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
+                    pattern="(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).*" 
+                    title={`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`}
                     onChange={(e) => handleChange(e)}
                     required
                     endAdornment={
@@ -248,4 +241,4 @@ export default function ChangePassword() {
 
     </Grid >
   );
-}
+};

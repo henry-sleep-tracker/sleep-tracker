@@ -2,11 +2,9 @@ import React from "react";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { deleteUser } from "../../actions/profileActions";
-// import style from "./ChangePassword.module.css";
 import { logOutUser, cleanExpDate } from "../../actions";
-import { useAuthContext } from "../../actions/authContext";
 import { Button, Card, CardContent, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -14,9 +12,9 @@ import Visibility from "@mui/icons-material/Visibility";
 import { message } from "react-message-popup";
 
 export default function DeleteUser() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { logout } = useAuthContext();
 
   const [errors, setErrors] = useState({
     password: "",
@@ -49,45 +47,34 @@ export default function DeleteUser() {
       })
     );
   }
-  console.log("INPUT PASSWORD", input);
-  console.log("ERRORS", errors);
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
       if (Object.keys(errors).length !== 0) {
-       /*  alert(
-          "Todos los campos obligatorios deben ser llenados para poder continuar"
-        ); */
-        message.warn(
-          "Todos los campos obligatorios deben ser llenados para poder continuar",2500
-        );
+        message.warn("Todos los campos obligatorios deben ser llenados para poder continuar",2500);
       } else if (input.password !== input.confirmPassword) {
-        //alert("La contraseña no se confirmo correctamente");
         message.error("La contraseña no se confirmo correctamente",2500);
       } else {
-        dispatch(deleteUser(id, input.password));
+        const idAdmin = "NoAdmin";
+        dispatch(deleteUser(id, input.password, idAdmin));
         setInput({
           password: "",
           confirmPassword: "",
         });
         dispatch(logOutUser());
         dispatch(cleanExpDate());
-        await logout();
+        navigate("/private/deleteuserprofile");
       }
     } catch (error) {
-      console.log("el error es:", error);
+      navigate("/private/deleteuserprofileerror");
     }
   }
 
-  const [showPassword, setShowPassword] = React.useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const [showPassword2, setShowPassword2] = React.useState(false);
-
+  const [showPassword2, setShowPassword2] = useState(false);
   const handleClickShowPassword2 = () => setShowPassword2((show) => !show);
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };

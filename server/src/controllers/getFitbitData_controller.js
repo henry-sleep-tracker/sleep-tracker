@@ -1,5 +1,3 @@
-const { Router } = require("express");
-const router = Router();
 const fetch = require("node-fetch");
 const { Stage, Session, Steps } = require("../db");
 const { Op } = require("sequelize");
@@ -96,15 +94,15 @@ const getFitbitData = async (req, res) => {
           obj["steps"] = s.value;
           return obj;
         });
-      console.log("steps", steps);
       await Steps.bulkCreate(steps);
-      //-------------------------- STEPS ACTIVITY ----------------------------------------------------//
+      //-------------------------------------------------------------------------------------//
     } else {
       // ------- if there's a recent timestamp, then adds from the past 12h to today -----------------//
       const startDate = mostRecent?.dataValues?.createdAt
         .toISOString()
         .split("T")[0];
       const today = new Date(Date.now() - 43200000).toISOString().split("T")[0];
+
       const data = await fetch(
         `https://api.fitbit.com/1.2/user/-/sleep/date/${startDate}/${today}.json`,
         {
@@ -132,7 +130,7 @@ const getFitbitData = async (req, res) => {
         obj["summary_awake_min"] = session?.levels?.summary?.wake?.minutes;
         return obj;
       });
-      await Session.bulkCreate(sessions);
+      await Session.bulkCreate(sessions, { ignoreDuplicates: true });
 
       const stages = getData?.sleep
         ?.map((session) => {
@@ -147,7 +145,7 @@ const getFitbitData = async (req, res) => {
           });
         })
         .flat(2);
-      await Stage.bulkCreate(stages);
+      await Stage.bulkCreate(stages, { ignoreDuplicates: true });
 
       //------------------ STEPS ACTIVITY ---------------------//
 
@@ -163,7 +161,6 @@ const getFitbitData = async (req, res) => {
       );
 
       const getSteps = await stepsData.json();
-      console.log("stepsNORECENT", getSteps);
 
       const steps = getSteps["activities-steps"]
         ?.filter((s) => s.value !== "0")
@@ -174,8 +171,7 @@ const getFitbitData = async (req, res) => {
           obj["steps"] = s.value;
           return obj;
         });
-      console.log("steps", steps);
-      await Steps.bulkCreate(steps);
+      await Steps.bulkCreate(steps, { ignoreDuplicates: true });
     }
   } catch (error) {
     console.error(error);

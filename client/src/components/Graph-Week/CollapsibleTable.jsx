@@ -7,37 +7,30 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 
 const rows = [
   {
-    name: "Generalidades",
+    name: "🟠 Despierto",
     items: [
-      "- Durante una noche de descanso nuestro sueño pasa por distintas fases en las que tienen lugar diversos procesos.",
-      "- En esta grafica puedes observar las fases del sueño de la noche indicada.",
-    ],
-  },
-  {
-    name: "🟢 R.E.M",
-    items: [
-      "- La primera fase de sueño REM suele darse una vez finalizada una fase inicial de sueño profundo.",
-      "- La fase REM desempeña un papelcimportante en la regulación del estado de ánimo, el aprendizaje y la memoria.",
-    ],
-  },
-  {
-    name: "🟣 Sueño profundo",
-    items: [
-      "- El sueño profundo suele darse durante las primeras horas de sueño. Durante el sueño profundo es más difícil despertarse, pues el cuerpo responde menos a los estímulos externos.",
-      "- El sueño profundo fomenta la recuperación física y los aspectos de la memoria, el aprendizaje y ayuda al sistema inmunológico.",
+      "Indica los momentos del sueño en los que despertaste. Usualmente pueden ser entre 10-30 despertares por noche, pero son tan cortos, que es probable que no recuerdes que despertaste.",
     ],
   },
   {
     name: "🟡 Sueño ligero",
     items: [
-      "- El sueño ligero sirve como punto de entrada al sueño por las noches, cuando tu cuerpo desconecta y se relaja.",
-      "- Esta fase comienza normalmente a los pocos minutos de quedarse dormido, favorece la recuperación física y mental.",
+      "El sueño ligero sirve como punto de entrada al sueño por las noches, es cuando tu cuerpo se desconecta y se relaja.",
+      "Esta fase comienza normalmente a los pocos minutos de quedarse dormido y es muy importante porque favorece la recuperación física y mental.",
     ],
   },
   {
-    name: "🟠 Despierto",
+    name: "🟣 Sueño profundo",
     items: [
-      "- Indica los momentos del sueño en los que despertó, por lo general son lapsos de solo minutos.",
+      "El sueño profundo suele darse durante las primeras horas de sueño. Durante el sueño profundo es más difícil despertarse, pues el cuerpo responde menos a los estímulos externos.",
+      "Esta etapa del sueño fomenta la recuperación física y los aspectos de la memoria, el aprendizaje y ayuda al sistema inmunológico.",
+    ],
+  },
+  {
+    name: "🟢 R.E.M",
+    items: [
+      "La primera fase de sueño REM suele darse una vez finalizada la fase inicial de sueño profundo.",
+      "La fase REM desempeña un papel importante en la regulación del estado de ánimo, el aprendizaje y la memoria.",
     ],
   },
 ];
@@ -52,11 +45,15 @@ export default function CollapsibleTable() {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography variant="h6">{row.name}</Typography>
+            <Typography sx={{ fontSize: 18, padding: 0 }}>
+              {row.name}
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             {row.items?.map((item, i) => (
-              <Typography key={`detail${i}`}>{item}</Typography>
+              <Typography key={`detail${i}`} sx={{ fontSize: 16 }}>
+                {item}
+              </Typography>
             ))}
           </AccordionDetails>
         </Accordion>

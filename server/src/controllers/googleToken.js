@@ -1,6 +1,6 @@
 const { OAuth2Client } = require("google-auth-library");
 const jwt = require("jsonwebtoken");
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const { GOOGLE_CLIENT_ID } = process.env;
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 async function verifyGoogleToken(token) {

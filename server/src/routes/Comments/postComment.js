@@ -1,16 +1,17 @@
 const { Router } = require("express");
 const router = Router();
-const { getComments } = require("../../controllers/Comment/getComments");
+const { getComments } = require("../../controllers/getComments");
+// const { getUserById } = require("../../controllers/user");
 const { Comment, User } = require("../../db");
 
 router.post("/", async (req, res) => {
-  const { name, rate, comment , id} = req.body;
+  const { name, rate, comment, id } = req.body;
+  // const idOfPostingUser = "47fc16a1-f220-4c0f-912f-9d716ca29ca4";
   try {
+    // const currentUser = await getUserById(providedId)
     if (name && rate) {
       const allComments = await getComments();
-      const commentExist = allComments.find(
-        (element) => element.userId === id
-      );
+      const commentExist = allComments.find((element) => element.userId === id);
       if (!commentExist) {
         const commentCreated = await Comment.create({
           name,
@@ -19,7 +20,6 @@ router.post("/", async (req, res) => {
         });
         //relationship between comment and user:
         let userDb = await User.findOne({ where: { id: id } });
-        console.log(userDb);
         await userDb.setComment(commentCreated);
 
         console.log("Creacion del comentario exitosa!");

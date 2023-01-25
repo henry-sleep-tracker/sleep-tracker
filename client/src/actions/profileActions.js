@@ -32,8 +32,8 @@ export const updateUser = (id, info) => {
 export const updateImage = (id, file) => {
   return async function (dispatch) {
     try {
-      console.log(file);
-      const response = await fetch(`${process.env.REACT_APP_DEFAULT_URL}/changeimage/${id}`,
+      const response = await fetch(
+        `${process.env.REACT_APP_DEFAULT_URL}/changeimage/${id}`,
         {
           method: "PUT",
           headers: {
@@ -57,7 +57,7 @@ export const updateImage = (id, file) => {
 };
 
 export const changePassword = (id, newPassword) => {
-  return async function () {
+  return async function (dispatch) {
     try {
       const response = await fetch(
         `${process.env.REACT_APP_DEFAULT_URL}/user/changepassword/${id}`,
@@ -69,22 +69,19 @@ export const changePassword = (id, newPassword) => {
           body: JSON.stringify({ newPassword: newPassword }),
         }
       );
-      if (response.status === 200) {
-        alert(`La contraseña se cambio correctamente`);
-      } else {
-        alert(`Hubo un error al cambiar la contraseña. Intentelo nuevamente.`);
-      }
+      const user = await response.json();
+      return dispatch({ type: "GET_PROFILE", payload: user });
     } catch (error) {
       console.log(error);
     }
   };
 };
 
-export const deleteUser = (id, password) => {
+export const deleteUser = (id, password, idAdmin) => {
   return async function () {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_DEFAULT_URL}/user/${id}/${password}`,
+        `${process.env.REACT_APP_DEFAULT_URL}/user/${id}/${password}/${idAdmin}`,
         {
           method: "DELETE",
           headers: {
@@ -92,6 +89,7 @@ export const deleteUser = (id, password) => {
           },
         }
       );
+      return response;
     } catch (error) {
       console.log(error);
     }

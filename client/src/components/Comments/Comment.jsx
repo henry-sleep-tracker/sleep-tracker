@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, Grid, Rating, TextField, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, Grid, Paper, Rating, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import { postComment } from "../../actions/Comments/postComment";
@@ -10,6 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Helmet } from "react-helmet";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { message } from "react-message-popup";
+import { makeStyles } from "@mui/styles";
 
 const CreateComment = () => {
     const currentUser = useSelector((state) => state?.users.currentUser);
@@ -80,147 +81,165 @@ const CreateComment = () => {
         navigate("/private/home");
     }
 
+    const classes = useStyles();
+
     return (
-        <Grid
-            container
-            justifyContent="center"
-            direction="column"
-            alignItems="center"
-            spacing={3}
-        >
-            <Helmet>
-                <title>Comentario | Sleep Tracker</title>
-            </Helmet>
+        <Paper
+            className={classes.paperWraper}>
 
-            <Grid item>
-                <Typography variant="h4">Registrar comentario</Typography>
-            </Grid>
+            <Grid
+                container
+                justifyContent="center"
+                direction="column"
+                alignItems="center"
+                spacing={3}
+            >
+                <Helmet>
+                    <title>Comentario | Sleep Tracker</title>
+                </Helmet>
 
-            <Grid item>
-                {currentComment.data ? (
-                    <Box>
-                        <Typography variant='h5'>Comentario anterior:</Typography>
-                        <Typography variant="h6">{currentComment.data.comment}</Typography>
-                        <Typography variant='h5'><Rating name="read-only" value={currentComment.data.rate} readOnly size='small' /></Typography>
-                    </Box>
-                ) : (
-                    <Typography variant="h5">{currentCommentState}</Typography>
-                )}
-            </Grid>
-
-            <Grid item>
-                {!currentComment.data ? (
-                    <Button variant="outlined" disabled>
-                        Eliminar comentario previo
-                    </Button>
-                ) : (
-                    <Button
-                        variant="outlined"
-                        startIcon={<DeleteIcon />}
-                        color="error"
-                        onClick={() => handleDelete(currentUser.id)}
-                    // href='/private'
+                <Grid item>
+                    <Typography
+                        variant="h2"
+                        fontWeight='bold'
+                        paddingTop={5}
                     >
-                        Eliminar comentario previo
-                    </Button>
-                )}
-            </Grid>
+                        Registrar comentario
+                    </Typography>
+                </Grid>
 
-            <Grid item>
-                <Card variant="outlined">
-                    <CardContent>
+                <Grid item>
+                    {currentComment.data ? (
+                        <Box>
+                            <Typography variant='h5'>Comentario anterior:</Typography>
+                            <Typography variant="h6">{currentComment.data.comment}</Typography>
+                            <Typography variant='h5'><Rating name="read-only" value={currentComment.data.rate} readOnly size='small' /></Typography>
+                        </Box>
+                    ) : (
+                        <Typography variant="h5">{currentCommentState}</Typography>
+                    )}
+                </Grid>
 
-                        <Grid
-                            container
-                            justifyContent='center'
-                            direction='column'
-                            alignItems='center'
-                            spacing={3}
+                <Grid item>
+                    {!currentComment.data ? (
+                        <Button variant="outlined" disabled>
+                            Eliminar comentario previo
+                        </Button>
+                    ) : (
+                        <Button
+                            variant="outlined"
+                            startIcon={<DeleteIcon />}
+                            color="error"
+                            onClick={() => handleDelete(currentUser.id)}
+                        // href='/private'
                         >
+                            Eliminar comentario previo
+                        </Button>
+                    )}
+                </Grid>
+
+                <Grid item>
+                    <Card variant="outlined">
+                        <CardContent>
+
                             <Grid
-                                item
+                                container
+                                justifyContent='center'
+                                direction='column'
+                                alignItems='center'
+                                spacing={3}
                             >
-                                <Typography
-                                    variant='h5'
+                                <Grid
+                                    item
                                 >
-                                    Puntuacion:
-                                </Typography>
-                                {
-                                    currentComment.data ?
-                                        <Rating
-                                            id='rate'
-                                            size="large"
-                                            name="simple-controlled"
-                                            disabled
-                                        />
-                                        :
-                                        <Rating
-                                            id='rate'
-                                            size="large"
-                                            name="simple-controlled"
-                                            onChange={element => handleChangeRate(element)}
-                                        />
-                                }
+                                    <Typography
+                                        variant='h5'
+                                    >
+                                        Puntuacion:
+                                    </Typography>
+                                    {
+                                        currentComment.data ?
+                                            <Rating
+                                                id='rate'
+                                                size="large"
+                                                name="simple-controlled"
+                                                disabled
+                                            />
+                                            :
+                                            <Rating
+                                                id='rate'
+                                                size="large"
+                                                name="simple-controlled"
+                                                onChange={element => handleChangeRate(element)}
+                                            />
+                                    }
+                                </Grid>
+
+                                <Grid
+                                    item
+                                >
+                                    {
+                                        currentComment.data ?
+                                            <TextField
+                                                id='comment'
+                                                label="Comentario"
+                                                type='text'
+                                                variant="outlined"
+                                                multiline
+                                                rows={4}
+                                                disabled
+                                            />
+                                            :
+                                            <TextField
+                                                inputProps={{ maxLength: 60 }}
+                                                id='comment'
+                                                label="Comentario"
+                                                type='text'
+                                                variant="outlined"
+                                                multiline
+                                                rows={4}
+                                                onChange={(element) => handleChangeComment(element)}
+                                            />
+                                    }
+                                </Grid>
+
+                                <Grid item>
+                                    {
+                                        input.rate ?
+                                            <Button
+                                                variant="contained"
+                                                startIcon={<CheckIcon />}
+                                                types="submit"
+                                                onClick={(element) => handleSubmit(element)}
+                                            >
+                                                Enviar
+                                            </Button>
+                                            :
+                                            <Button
+                                                variant="contained"
+                                                startIcon={<CheckIcon />}
+                                                types="submit"
+                                                disabled
+                                            >
+                                                Enviar
+                                            </Button>
+                                    }
+                                </Grid>
                             </Grid>
 
-                            <Grid
-                                item
-                            >
-                                {
-                                    currentComment.data ?
-                                        <TextField
-                                            id='comment'
-                                            label="Comentario"
-                                            type='text'
-                                            variant="outlined"
-                                            multiline
-                                            rows={4}
-                                            disabled
-                                        />
-                                        :
-                                        <TextField
-                                            inputProps={{ maxLength: 60 }}
-                                            id='comment'
-                                            label="Comentario"
-                                            type='text'
-                                            variant="outlined"
-                                            multiline
-                                            rows={4}
-                                            onChange={(element) => handleChangeComment(element)}
-                                        />
-                                }
-                            </Grid>
-
-                            <Grid item>
-                                {
-                                    input.rate ?
-                                        <Button
-                                            variant="contained"
-                                            startIcon={<CheckIcon />}
-                                            types="submit"
-                                            onClick={(element) => handleSubmit(element)}
-                                        >
-                                            Enviar
-                                        </Button>
-                                        :
-                                        <Button
-                                            variant="contained"
-                                            startIcon={<CheckIcon />}
-                                            types="submit"
-                                            disabled
-                                        >
-                                            Enviar
-                                        </Button>
-                                }
-                            </Grid>
-                        </Grid>
-
-                    </CardContent>
-                </Card>
+                        </CardContent>
+                    </Card>
+                </Grid>
             </Grid>
-        </Grid>
+        </Paper>
 
     );
 };
 
 export default CreateComment;
+
+const useStyles = makeStyles(() => ({
+    paperWraper: {
+        minHeight: '100vh'
+    }
+}));

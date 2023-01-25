@@ -29,7 +29,7 @@ export default function Fitbit() {
           textDecoration: "none",
         }}
       >
-        Login with Fitbit
+        Sincronizar Fitbit
       </a>
     </Button>
   );

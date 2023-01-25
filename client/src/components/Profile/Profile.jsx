@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthContext } from "../../actions/authContext";
 import { updateUser, updateImage } from "../../actions/profileActions";
+import { nationalities } from "../../actions/nationalities";
 import {
   Button,
   Card,
@@ -9,36 +10,41 @@ import {
   Grid,
   TextField,
   Typography,
-  MenuItem
+  MenuItem,
+  Divider,
+  Box,
+  Paper,
+  Tooltip,
+  IconButton,
+  ListItemIcon,
+  Menu,
 } from "@mui/material";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import Fab from "@mui/material/Fab";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PasswordIcon from "@mui/icons-material/Password";
 import CheckIcon from "@mui/icons-material/Check";
 import PersonIcon from "@mui/icons-material/Person";
-import EmailIcon from "@mui/icons-material/Email";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import PlaceIcon from "@mui/icons-material/Place";
 import { Helmet } from "react-helmet";
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import Avatar from '@mui/material/Avatar';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import AddCommentIcon from "@mui/icons-material/AddComment";
-import PaymentIcon from "@mui/icons-material/Payment";
+import Avatar from "@mui/material/Avatar";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { makeStyles } from "@mui/styles";
+import EditIcon from "@mui/icons-material/Edit";
+import { message } from "react-message-popup";
 
 const Profile = () => {
-  const { createPassword } = useAuthContext();
+  const { createPassword, isPasswordSetUp } = useAuthContext();
   const currentUser = useSelector((state) => state.users.currentUser);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [editNames, setEditNames] = useState(false);
   const [editEmail, setEditEmail] = useState(false);
-  const [editiBirthday, setEditBirthday] = useState(false);
+  const [editBirthday, setEditBirthday] = useState(false);
   const [editNationality, setEditNationality] = useState(false);
   const [image, setImage] = useState("");
   const [inputs, setInputs] = useState({
@@ -48,10 +54,6 @@ const Profile = () => {
     birthday: "",
     nationality: "",
   });
-  console.log(inputs);
-  let nationalities = [
-    'Afganistan', 'Albania', 'Alemania', 'Andorra', 'Angola', 'Antigua y Barbuda', 'Arabia Saudita', 'Argelia', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaiyán', 'Bahamas', 'Bangladés', 'Barbados', 'Baréin', 'Bélgica', 'Belice', 'Bielorrusia', 'Benín', 'Birmania', 'Bolivia', 'Bosnia y Herzegovina', 'Botsuana', 'Brasil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Bután', 'Cabo Verde', 'Camboya', 'Camerún', 'Canadá', 'Catar', 'Chad', 'Chile', 'China', 'Chipre', 'Ciudad del Vaticano', 'Colombia', 'Comoras', 'Corea del Norte', 'Corea del Sur', 'Costa de Marfil', 'Costa Rica', 'Croacia', 'Cuba', 'Dinamarca', 'Dominica', 'Ecuador', 'Egipto', 'El Salvador', 'Emiratos Árabes Unidos', 'Eritrea', 'Eslovaquia', 'Eslovenia', 'España', 'Estados Unidos', 'Estonia', 'Etiopía', 'Filipinas', 'Finlandia', 'Fiyi', 'Francia', 'Gabón', 'Gambia', 'Georgia', 'Ghana', 'Granada', 'Grecia', 'Guatemala', 'Guinea', 'Guinea-Bisáu', 'Guinea Ecuatorial', 'Guyana', 'Haití', 'Honduras', 'Hungría', 'India', 'Indonesia', 'Irak', 'Irán', 'Irlanda', 'Islandia','Islas Marshall', 'Israel', 'Italia', 'Jamaica', 'Japón', 'Jordania', 'Kazajistán', 'Kenia', 'Kirguistán', 'Kiribati', 'Kuwait', 'Laos', 'Lesoto', 'Letonia', 'Líbano', 'Liberia', 'Libia', 'Liechtenstein', 'Lituania', 'Luxemburgo', 'Macedonia del Norte', 'Madagascar', 'Malasia', 'Malaui', 'MalGridas', 'Mali', 'Malta', 'Marruecos',  'Mauricio', 'Mauritania', 'México', 'Micronesia', 'Moldavia', 'Mónaco', 'Mongolia', 'Montenegro', 'Mozambique', 'Namibia', 'Nauru', 'Nepal', 'Nicaragua', 'Níger', 'Nigeria', 'Noruega', 'Nueva Zelanda', 'Omán', 'Países Bajos', 'Pakistán', 'Palaos', 'Palestina', 'Panamá', 'Papúa Nueva Guinea', 'Paraguay', 'Perú', 'Polonia', 'Portugal', 'Reino Unido', 'República Checa','República Centroafricana', 'República del Congo', 'República Democrática del Congo','República Dominicana', 'Ruanda', 'Rumania', 'Rusia', 'Islas Salomón', 'Samoa', 'San Cristóbal y Nieves', 'San Marino', 'San Vicente y las Granadinas', 'Santa Lucía', 'Santo Tomé y Príncipe', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leona', 'Singapur', 'Siria', 'Somalia', 'Sri Lanka', 'Suazilandia', 'Sudáfrica', 'Sudán', 'Sudán del Sur', 'Suecia', 'Suiza', 'Surinam', 'Tailandia', 'Tanzania', 'Tayikistán', 'Timor Oriental', 'Togo', 'Tonga', 'Trinidad y Tobago', 'Túnez', 'Turkmenistán', 'Turquía', 'Tuvalu', 'Ucrania', 'Uganda', 'Uruguay', 'Uzbekistán', 'Vanuatu', 'Venezuela', 'Vietnam', 'Yemen', 'Yibuti', 'Zambia', 'Zimbabue'
-  ];
   let keyNationalities = 0;
   let yourDate = new Date();
 
@@ -59,15 +61,26 @@ const Profile = () => {
     if (currentUser.hashedPassword !== null) {
       createPassword();
     }
+    if (
+      isPasswordSetUp === "false" ||
+      currentUser.nationality === null ||
+      currentUser.birthday === null
+    ) {
+      message.error(
+        `Tiene que haber completado toda su informacion de perfil para poder continuar...  
+        Contraseña, nacionalidad y cumpleaños`,
+        8000
+      );
+    }
   }, [currentUser, createPassword]);
 
-  const convertirBase64 = async (e) =>{
+  const convertirBase64 = async (e) => {
     let reader = new FileReader();
-     reader.readAsDataURL(e.target.files[0]);
-     reader.onload = function(){
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = function () {
       let base64 = reader.result;
-      setImage(base64)
-    }
+      setImage(base64);
+    };
   };
 
   const handleInputs = (e) => {
@@ -96,7 +109,7 @@ const Profile = () => {
   };
   const handleClickBirthday = (e) => {
     e.preventDefault();
-    if (!editiBirthday) {
+    if (!editBirthday) {
       setEditBirthday(true);
     } else {
       setEditBirthday(false);
@@ -114,30 +127,25 @@ const Profile = () => {
   const handleSelect = (event) => {
     setInputs({
       ...inputs,
-      nationality: event.target.value
+      nationality: event.target.value,
     });
   };
 
   const handleClickDelete = () => {
     setOpen(true);
   };
-
   const handleClickConfirm = () => {
     setOpen2(true);
   };
-
   const handleNo = () => {
     setOpen(false);
   };
-
   const handleNo2 = () => {
     setOpen2(false);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
-
   const handleClose2 = () => {
     setOpen2(false);
   };
@@ -147,21 +155,24 @@ const Profile = () => {
     try {
       setOpen(false);
       const eliminar = "";
-      dispatch(updateImage(currentUser.id, eliminar))
+      dispatch(updateImage(currentUser.id, eliminar));
       setImage("");
-    
+      message.success("Imagen eliminada", 2000);
     } catch (error) {
-      console.log("el error es:", error);
+      // console.log("el error es:", error);
+      message.error("Hubo un error intentelo nuevamente", 2000);
     }
   };
 
   const handleImage = async (e) => {
     e.preventDefault();
     try {
-      dispatch(updateImage(currentUser.id, image))
+      dispatch(updateImage(currentUser.id, image));
       setImage("");
+      message.success("Imagen actualizada", 2000);
     } catch (error) {
-      console.log("el error es:", error);
+      // console.log("el error es:", error);
+      message.error("Hubo un error intentelo nuevamente", 2000);
     }
   };
 
@@ -181,307 +192,547 @@ const Profile = () => {
       setEditEmail(false);
       setEditBirthday(false);
       setEditNationality(false);
+      message.success("Datos actualizados", 2000);
     } catch (error) {
-      console.log("el error es:", error);
+      // console.log("el error es:", error);
+      message.error("Hubo un error intentelo nuevamente", 2000);
     }
   };
 
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openAnchor = Boolean(anchorEl);
+  const handleClickAnchor = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseAnchor = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <Grid
-      container
-      justifyContent="center"
-      direction="column"
-      alignItems="center"
-      spacing={2}
-    >
+    <Paper className={classes.paperWraper}>
       <Helmet>
         <title>Perfil | Sleep Tracker</title>
       </Helmet>
 
-      <Grid item></Grid>
-
-      <Grid item>
-        <Typography variant="h2">Perfil</Typography>
-      </Grid>
-
-      {/* <Grid
-        item
-      >
-        <Button
-          variant="outlined"
-          startIcon={<ArrowBackIosNewIcon />}
-          href='/'
-        >
-          Regresar
-        </Button>
-      </Grid> */}
-
-      <Grid container
-        display= "flex"
-        justifyContent="space-evenly"
-        gap={50}
+      <Grid
+        container
+        justifyContent="center"
+        direction="column"
+        alignItems="center"
+        spacing={5}
       >
         <Grid item>
-        {/* <Link to={`/private/delete-user/${currentUser.id}`}> */}
-          <Button
-            href={`/private/change-password/${currentUser.id}`}
-            startIcon={<PasswordIcon />}
-            variant="outlined"
-            id="ButtonPassword"
-          >
-            Cambiar contraseña
-          </Button>
+          <Typography variant="h2" fontWeight="bold" paddingTop={5}>
+            Perfil
+          </Typography>
         </Grid>
 
-        <Grid item
-        >
-          <Grid container display= "flex" flexDirection= "column" gap={2}>
-          <Button
-            href={`/private/delete-user/${currentUser.id}`}
-            startIcon={<DeleteIcon />}
+        <Grid item>
+          <Card
             variant="outlined"
-            color="error"
-            id="ButtonDelete"
+            sx={{
+              width: { large: "50vw", md: "50vw", sm: "70vw", xs: "90vw" },
+            }}
           >
-            Borrar usuario
-          </Button>{currentUser.image ? <Button onClick={handleClickDelete}>Eliminar foto</Button>: null}
-          </Grid>
-        </Grid>
-        {/* </Link> */}
-      </Grid>
-
-      <Grid
-        item
-      >
-        <Grid container direction= "column" gap={1} justifyContent= "center">
-          <Avatar 
-            alt = "Not found"
-            srcSet={currentUser.image}
-            sx={{ width: 200, height: 200 }}
-          />
-          {image ? 
-            <Button color="success" size="small" variant="contained" onClick={handleImage}>Confirmar foto</Button> 
-            : 
-            <Button sx={{
-              ml: 1,
-              "&.MuiButtonBase-root:hover": {
-                bgcolor: "transparent"
-              }
-            }} 
-            startIcon = {<PhotoCamera/>} 
-            color="primary" 
-            aria-label="upload picture" 
-            component="label">
-              <input hidden accept="image/*" type="file" onChange = {(e) => convertirBase64(e)}/>
-            </Button>}
-         </Grid>
-
-      </Grid>
-
-      <Grid item>
-        <Card variant="outlined">
-          <CardContent>
-            <Grid
-              container
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              spacing={2}
-              flex={4}
-              p={2}
-            >
-              <Grid item>
-                <Typography variant="h4">Tu nombre:</Typography>
-              </Grid>
-
-              <Grid item>
-                {!editNames ? (
-                  <Typography variant="h6">
-                    {`${currentUser.names} ${currentUser.lastNames}`}
-                  </Typography>
-                ) : (
-                  <TextField
-                    variant="outlined"
-                    label="Nuevo nombre"
-                    type="text"
-                    name="names"
-                    value={inputs.names}
-                    onChange={(e) => handleInputs(e)}
-                  />
-                )}
-              </Grid>
-
-              <Grid item>
-                {!inputs.names && (
-                  <Button
-                    variant="outlined"
-                    onClick={(e) => handleClick(e)}
-                    startIcon={<PersonIcon />}
-                  >
-                    Editar
-                  </Button>
-                )}
-              </Grid>
-
-              <Grid item>
-                <Typography variant="h5">Correo electronico:</Typography>
-              </Grid>
-
-              <Grid item>
-                {!editEmail ? (
-                  <Typography variant="h6">{currentUser.email}</Typography>
-                ) : (
-                  <TextField
-                    type="text"
-                    name="email"
-                    label="Nuevo email"
-                    value={inputs.email}
-                    onChange={handleInputs}
-                  />
-                )}
-              </Grid>
-
-              <Grid item>
-                {!inputs.email && (
-                  <Button
-                    variant="outlined"
-                    onClick={(e) => handleClickEmail(e)}
-                    startIcon={<EmailIcon />}
-                  >
-                    Editar
-                  </Button>
-                )}
-              </Grid>
-
-              <Grid item>
-                <Typography variant="h5">Fecha de nacimiento:</Typography>
-              </Grid>
-
-              <Grid item>
-                {!editiBirthday ? (
-                  <Typography variant="h6">{currentUser.birthday}</Typography>
-                ) : (
-                  <TextField
-                    helperText="Fecha de nacimiento"
-                    type="date"
-                    name="birthday"
-                    min="1900-01-01" max={yourDate}
-                    placeholder=""
-                    value={inputs.birthday}
-                    onChange={handleInputs}
-                  />
-                )}
-              </Grid>
-
-              <Grid item>
-                {!inputs.birthday && (
-                  <Button
-                    variant="outlined"
-                    onClick={(e) => handleClickBirthday(e)}
-                    startIcon={<CalendarMonthIcon />}
-                  >
-                    Editar
-                  </Button>
-                )}
-              </Grid>
-
-              <Grid item>
-                <Typography variant="h5">Nacionalidad:</Typography>
-              </Grid>
-
-              <Grid item>
-                {!editNationality ? (
-                  <Typography variant="h6">
-                    {currentUser.nationality}
-                  </Typography>
-                ) : (
-                  <TextField
-                  required
-                  select
-                  label="Nacionalidad"
-                  defaultValue=""
-                  helperText="Seleccione su nacionalidad"
-                    value={inputs.nationality}
-                    onChange={handleSelect}
-                  >
-                     {nationalities?.map((nationality) => (
-                    <MenuItem key={keyNationalities++}
-                      value={nationality}
+            <CardContent>
+              <Grid
+                container
+                // sx={{
+                //   direction: {
+                //     md: 'row',
+                //     sm: 'column'
+                //   }
+                // }}
+                justifyContent="center"
+                alignItems="center"
+                paddingTop={1}
+                paddingBottom={1}
+              >
+                <Grid item>
+                  <Box>
+                    <Tooltip
+                      title={
+                        <Typography variant="h6" fontWeight="bold">
+                          Editar
+                        </Typography>
+                      }
                     >
-                      {nationality}
-                    </MenuItem>
-                  ))}
-                  </TextField>
-                )}
+                      <IconButton
+                        onClick={handleClickAnchor}
+                        size="small"
+                        sx={{ ml: 2 }}
+                        aria-controls={openAnchor ? "account-menu" : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={openAnchor ? "true" : undefined}
+                      >
+                        <ListItemIcon>
+                          {currentUser.image ? (
+                            <Avatar
+                              alt="Not found"
+                              srcSet={currentUser.image}
+                              sx={{
+                                width: 150,
+                                height: 150,
+                              }}
+                            />
+                          ) : (
+                            <Avatar
+                              sx={{
+                                width: 150,
+                                height: 150,
+                              }}
+                              alt="Not found"
+                            >
+                              <PersonIcon
+                                sx={{
+                                  width: 150,
+                                  height: 150,
+                                }}
+                              />
+                            </Avatar>
+                          )}
+                        </ListItemIcon>
+                      </IconButton>
+                    </Tooltip>
+                    <Menu
+                      anchorEl={anchorEl}
+                      id="account-menu"
+                      open={openAnchor}
+                      onClose={handleCloseAnchor}
+                      PaperProps={{
+                        elevation: 0,
+                        sx: {
+                          overflow: "visible",
+                          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                          mt: 1.5,
+                          "& .MuiAvatar-root": {
+                            width: 32,
+                            height: 32,
+                            ml: -0.5,
+                            mr: 1,
+                          },
+                          "&:before": {
+                            content: '""',
+                            display: "block",
+                            position: "absolute",
+                            top: 0,
+                            right: 14,
+                            width: 10,
+                            height: 10,
+                            bgcolor: "background.paper",
+                            transform: "translateY(-50%) rotate(45deg)",
+                            zIndex: 0,
+                          },
+                        },
+                      }}
+                      transformOrigin={{ horizontal: "right", vertical: "top" }}
+                      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                    >
+                      {image ? (
+                        <MenuItem onClick={handleImage}>
+                          <ListItemIcon>
+                            <CheckIcon color="success" />
+                          </ListItemIcon>
+                          Confirme
+                        </MenuItem>
+                      ) : (
+                        <Button
+                          size="large"
+                          sx={{
+                            "&.MuiButtonBase-root:hover": {
+                              bgcolor: "transparent",
+                            },
+                          }}
+                          color="primary"
+                          aria-label="upload picture"
+                          component="label"
+                        >
+                          <input
+                            hidden
+                            accept="image/*"
+                            type="file"
+                            onChange={(e) => convertirBase64(e)}
+                          />
+                          <MenuItem>
+                            <ListItemIcon>
+                              <EditIcon />
+                            </ListItemIcon>
+                            Cambiar
+                          </MenuItem>
+                        </Button>
+                      )}
+
+                      {currentUser.image ? (
+                        <MenuItem onClick={handleClickDelete}>
+                          <ListItemIcon>
+                            <DeleteIcon color="error" />
+                          </ListItemIcon>
+                          <Typography>Eliminar</Typography>
+                        </MenuItem>
+                      ) : null}
+                    </Menu>
+                  </Box>
+                </Grid>
               </Grid>
 
-              <Grid item>
-                {!inputs.nationality && (
-                  <Button
-                    variant="outlined"
-                    onClick={(e) => handleClickNationality(e)}
-                    startIcon={<PlaceIcon />}
+              <Divider />
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                paddingTop={1}
+                paddingBottom={1}
+                spacing={1}
+              >
+                <Grid item xs={7}>
+                  {!editNames ? (
+                    <Typography>
+                      {`${currentUser.names} ${currentUser.lastNames}`}
+                    </Typography>
+                  ) : (
+                    <Grid container gap={1}>
+                      <TextField
+                        size="small"
+                        variant="outlined"
+                        label="Nuevo nombre"
+                        type="text"
+                        name="names"
+                        value={inputs.names}
+                        onChange={(e) => handleInputs(e)}
+                      />
+                      <TextField
+                        size="small"
+                        variant="outlined"
+                        label="Nuevo apellido"
+                        type="text"
+                        name="lastNames"
+                        value={inputs.lastNames}
+                        onChange={(e) => handleInputs(e)}
+                      />
+                    </Grid>
+                  )}
+                </Grid>
+
+                <Grid item>
+                  {!inputs.names && (
+                    <Tooltip title={!editNames ? "Editar nombre" : "Cancelar"}>
+                      <Fab
+                        size="small"
+                        color={!editNames ? "primary" : "error"}
+                        onClick={(e) => handleClick(e)}
+                      >
+                        {!editNames ? <EditIcon /> : <HighlightOffIcon />}
+                      </Fab>
+                    </Tooltip>
+                  )}
+                </Grid>
+              </Grid>
+
+              <Divider />
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                paddingTop={1}
+                paddingBottom={1}
+                spacing={1}
+              >
+                <Grid item>
+                  {!editEmail ? (
+                    <Typography>{currentUser.email}</Typography>
+                  ) : (
+                    <TextField
+                      size="small"
+                      type="text"
+                      name="email"
+                      label="Nuevo email"
+                      value={inputs.email}
+                      onChange={handleInputs}
+                    />
+                  )}
+                </Grid>
+
+                <Grid
+                  item
+                  // xs={12}
+                >
+                  {!inputs.email && (
+                    <Tooltip title={!editEmail ? "Editar email" : "Cancelar"}>
+                      <Fab
+                        size="small"
+                        color={!editEmail ? "primary" : "error"}
+                        onClick={(e) => handleClickEmail(e)}
+                      >
+                        {!editEmail ? <EditIcon /> : <HighlightOffIcon />}
+                      </Fab>
+                    </Tooltip>
+                  )}
+                </Grid>
+              </Grid>
+
+              <Divider />
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                paddingTop={1}
+                paddingBottom={1}
+                spacing={1}
+              >
+                <Grid item>
+                  {!editBirthday ? (
+                    <Typography>
+                      {currentUser.birthday
+                        ? currentUser.birthday
+                        : "¡ Registra fecha de nacimiento !"}
+                    </Typography>
+                  ) : (
+                    <TextField
+                      size="small"
+                      helperText="Fecha de nacimiento"
+                      type="date"
+                      name="birthday"
+                      min="1900-01-01"
+                      max={yourDate}
+                      placeholder=""
+                      value={inputs.birthday}
+                      onChange={handleInputs}
+                    />
+                  )}
+                </Grid>
+
+                <Grid item>
+                  {!inputs.birthday && (
+                    <Tooltip
+                      title={!editBirthday ? "Editar nacimiento" : "Cancelar"}
+                    >
+                      <Fab
+                        size="small"
+                        color={!editBirthday ? "primary" : "error"}
+                        onClick={(e) => handleClickBirthday(e)}
+                      >
+                        {!editBirthday ? <EditIcon /> : <HighlightOffIcon />}
+                      </Fab>
+                    </Tooltip>
+                  )}
+                </Grid>
+              </Grid>
+
+              <Divider />
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                paddingTop={1}
+                paddingBottom={1}
+                spacing={1}
+              >
+                <Grid item>
+                  {!editNationality ? (
+                    <Typography>
+                      {currentUser.nationality
+                        ? currentUser.nationality
+                        : " ¡ Registra tu nacionalidad !"}
+                    </Typography>
+                  ) : (
+                    <TextField
+                      size="small"
+                      required
+                      select
+                      label="Nacionalidad"
+                      defaultValue=""
+                      helperText="Seleccione su nacionalidad"
+                      value={inputs.nationality}
+                      onChange={handleSelect}
+                    >
+                      {nationalities?.map((nationality) => (
+                        <MenuItem key={keyNationalities++} value={nationality}>
+                          {nationality}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
+                </Grid>
+
+                <Grid item>
+                  {!inputs.nationality && (
+                    <Tooltip
+                      title={
+                        !editNationality ? "Editar nacionalidad" : "Cancelar"
+                      }
+                    >
+                      <Fab
+                        size="small"
+                        color={!editNationality ? "primary" : "error"}
+                        onClick={(e) => handleClickNationality(e)}
+                      >
+                        {!editNationality ? <EditIcon /> : <HighlightOffIcon />}
+                      </Fab>
+                    </Tooltip>
+                  )}
+                </Grid>
+              </Grid>
+
+              <Divider />
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                paddingTop={1}
+                paddingBottom={1}
+                spacing={1}
+              >
+                <Grid item>
+                  <Typography>
+                    {currentUser.hashedPassword
+                      ? "**********"
+                      : "¡ Crea tu contraseña !"}
+                  </Typography>
+                </Grid>
+
+                <Grid item>
+                  <Tooltip
+                    title={
+                      currentUser.hashedPassword
+                        ? "Cambiar contraseña"
+                        : "Crea tu contraseña"
+                    }
                   >
-                    Editar
-                  </Button>
-                )}
+                    <Fab
+                      size="small"
+                      href={`/private/change-password/${currentUser.id}`}
+                      color="primary"
+                      sx={{
+                        ":hover": {
+                          color: "white",
+                        },
+                      }}
+                    >
+                      <PasswordIcon />
+                    </Fab>
+                  </Tooltip>
+                </Grid>
+              </Grid>
+
+              <Divider />
+
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                paddingTop={1}
+                paddingBottom={1}
+                spacing={1}
+              >
+                <Grid item>
+                  <Typography variant="h6" fontWeight="bold">
+                    Plan actual
+                  </Typography>
+                </Grid>
+
+                <Grid item>
+                  <Tooltip
+                    title={
+                      currentUser.plan
+                        ? "Cambiar plan"
+                        : "Subscribete a un plan"
+                    }
+                  >
+                    <Fab
+                      size="small"
+                      variant="extended"
+                      href="/private/planes"
+                      color="primary"
+                      sx={{
+                        ":hover": {
+                          color: "white",
+                        },
+                      }}
+                    >
+                      {currentUser.plan ? currentUser.plan?.name : "Planes"}
+                    </Fab>
+                  </Tooltip>
+                </Grid>
               </Grid>
 
               <Grid item>
-                <Typography variant="h5">Plan actual:</Typography>
+                {isPasswordSetUp === "true" || isPasswordSetUp === true ? (
+                  <Fab
+                    size="small"
+                    href={`/private/delete-user/${currentUser.id}`}
+                    variant="extended"
+                    color="error"
+                    id="ButtonDelete"
+                    sx={{
+                      ":hover": {
+                        color: "white",
+                      },
+                    }}
+                  >
+                    Borrar usuario
+                  </Fab>
+                ) : (
+                  <div></div>
+                )}
               </Grid>
-              <Grid item>
-              <Button variant="contained" href="/private/planes">
-                  {currentUser.plan?.name}
-              </Button>
-              </Grid>
-              
-      
-              <Grid item>
+
+              <Grid item paddingTop={1}>
                 {inputs.names ||
                 inputs.email ||
                 inputs.birthday ||
                 inputs.nationality ? (
-                  <Button
+                  <Fab
+                    size="small"
                     onClick={handleClickConfirm}
                     color="success"
-                    variant="contained"
-                    type="submit"
-                    id="ButtonSubmit"
-                    startIcon={<CheckIcon />}
+                    variant="extended"
                   >
                     Confirmar
-                  </Button>
+                  </Fab>
                 ) : null}
               </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-      </Grid>
+              {/* </Grid> */}
+            </CardContent>
+          </Card>
+        </Grid>
 
-      <Grid item >
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"¿ Desea eliminar la imagen de perfil ?"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Si continuas tu foto de perfil será eliminada para siempre.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={(e) => handleDelete(e)} autoFocus>Si, deseo eliminarla</Button>
-            <Button onClick={handleNo}>Cancelar</Button> 
-          </DialogActions>
-        </Dialog>
-    </Grid>
-      
-      <Grid item >
+        <Grid item>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"¿ Desea eliminar la imagen de perfil ?"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Si continuas tu foto de perfil será eliminada para siempre.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={(e) => handleDelete(e)} autoFocus>
+                Si, deseo eliminarla
+              </Button>
+              <Button onClick={handleNo}>Cancelar</Button>
+            </DialogActions>
+          </Dialog>
+        </Grid>
+
+        <Grid item>
           <Dialog
             open={open2}
             onClose={handleClose2}
@@ -493,18 +744,31 @@ const Profile = () => {
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Si continuas tus datos se modificaran con la nueva información que has colocado.
+                Si continuas tus datos se modificaran con la nueva información
+                que has colocado.
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={(e) => handleSubmit(e)} autoFocus>Si, quiero realizar los cambios</Button>
+              <Button onClick={(e) => handleSubmit(e)} autoFocus>
+                Si, quiero realizar los cambios
+              </Button>
               <Button onClick={handleNo2}>Cancelar</Button>
             </DialogActions>
           </Dialog>
+        </Grid>
       </Grid>
-
-    </Grid>
+    </Paper>
   );
 };
 
 export default Profile;
+
+const useStyles = makeStyles(() => ({
+  middle: {
+    justifyContent: "center",
+  },
+
+  paperWraper: {
+    minHeight: "100vh",
+  },
+}));

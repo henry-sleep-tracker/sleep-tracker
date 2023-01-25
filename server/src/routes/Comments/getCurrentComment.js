@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = Router();
-const { getCurrentComment } = require("../../controllers/Comment/getCurrentComment");
+const { getCurrentComment } = require("../../controllers/getCurrentComment");
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
