@@ -36,7 +36,6 @@ import {
 
 // Import images
 import checkImg from "../../images/check-mark-button_2705.png";
-import memo from "../../images/memo2.png";
 import personBed from "../../images/person-in-bed.png";
 import runingShoe from "../../images/running-shoe.png";
 import menRuning from "../../images/man-running.png";
@@ -57,17 +56,25 @@ import { dateStringToDate } from "../../helpers/string_to_date";
 import DateSelector from "./CalendarRecord";
 import TimeMealSelector from "./Time";
 import { StartTime, EndTime } from "./Time";
-import { Button, Card, CardContent, Grid, Paper, Stack, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Helmet } from "react-helmet";
-import CheckIcon from '@mui/icons-material/Check';
-import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from "@mui/icons-material/Check";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@mui/styles";
 
 //>======================>//
 //> Starts Component
 //>======================>//
 
-const Record = props => {
+const Record = (props) => {
   // variables
   let sleepTimeMinutes = "";
   let sleepTime12Format = "";
@@ -90,37 +97,37 @@ const Record = props => {
 
   /******************** Redux States Section *********************/
 
-  const userId = useSelector(state => state.users.currentUser.id);
-  const nameUser = useSelector(state => state.users.currentUser.names);
+  const userId = useSelector((state) => state.users.currentUser.id);
+  const nameUser = useSelector((state) => state.users.currentUser.names);
   const recordsUserRedux = useSelector(
-    state => state.record.recordsByUserAndDate
+    (state) => state.record.recordsByUserAndDate
   );
-  const recordStatus = useSelector(state => state.record.statusNewRecord);
-  const activityStat = useSelector(state => state.record.statusNewActivity);
-  const coffeeStat = useSelector(state => state.record.statusNewCoffeeSize);
-  const drinkStat = useSelector(state => state.record.statusNewDrink);
-  const activitiesRedux = useSelector(state => state.record.activities);
-  const coffeeSizesRedux = useSelector(state => state.record.coffeeSizes);
-  const drinksRedux = useSelector(state => state.record.drinks);
-  const sleepTime = useSelector(state => state.stage);
-  const day = useSelector(state => state.loading.day);
-  const timeR = useSelector(state => state.loading.time);
-  const sTime = useSelector(state => state.loading.startTime);
-  const eTime = useSelector(state => state.loading.endTime);
-  const syncFitbit = useSelector(state => state.loading.syncFitbit);
+  const recordStatus = useSelector((state) => state.record.statusNewRecord);
+  const activityStat = useSelector((state) => state.record.statusNewActivity);
+  const coffeeStat = useSelector((state) => state.record.statusNewCoffeeSize);
+  const drinkStat = useSelector((state) => state.record.statusNewDrink);
+  const activitiesRedux = useSelector((state) => state.record.activities);
+  const coffeeSizesRedux = useSelector((state) => state.record.coffeeSizes);
+  const drinksRedux = useSelector((state) => state.record.drinks);
+  const sleepTime = useSelector((state) => state.stage);
+  const day = useSelector((state) => state.loading.day);
+  const timeR = useSelector((state) => state.loading.time);
+  const sTime = useSelector((state) => state.loading.startTime);
+  const eTime = useSelector((state) => state.loading.endTime);
+  const syncFitbit = useSelector((state) => state.loading.syncFitbit);
 
   /******************** Functions Before load component *********************/
 
-  const temp = sleepTime?.filter(e => e.level !== 1);
+  const temp = sleepTime?.filter((e) => e.level !== 1);
   if (temp.length > 0) {
     sleepTimeMinutes = Math.floor(
-      temp.map(e => e.seconds).reduce((acc, e) => acc + e, 0) / 60
+      temp.map((e) => e.seconds).reduce((acc, e) => acc + e, 0) / 60
     );
     sleepTime12Format = time_convert(sleepTimeMinutes);
   }
 
   checkSleepRecord = Array.isArray(recordsUserRedux)
-    ? recordsUserRedux.filter(e => e.sleepTime >= 1)
+    ? recordsUserRedux.filter((e) => e.sleepTime >= 1)
     : false;
 
   let st = sTime;
@@ -193,11 +200,11 @@ const Record = props => {
 
   //! ================== Main Handlers ================= !//
 
-  const handlerOnChange = e => {
+  const handlerOnChange = (e) => {
     setRecord({ ...record, [e.target?.name]: e.target?.value });
   };
 
-  const handlerOnSubmit = e => {
+  const handlerOnSubmit = (e) => {
     e.preventDefault();
     let date = "";
     let time = "";
@@ -218,7 +225,6 @@ const Record = props => {
       et?.length <= 0
     ) {
       message.warn(`No se ingreso informacion`);
-      message.warn(`No se ingreso informacion`);
       return;
     }
 
@@ -228,7 +234,6 @@ const Record = props => {
     }
 
     if (timeR && record.description?.length < 1) {
-      message.warn(`Ingresa una breve descripcion de tu cena`);
       message.warn(`Ingresa una breve descripcion de tu cena`);
       return;
     }
@@ -249,9 +254,9 @@ const Record = props => {
       setRecord((record.sleepTime = "0"));
     }
 
-    const floorTimeActivity = record.timeActivity.map(e => Math.floor(e));
-    const floorCoffeeCups = record.coffeeCups.map(e => Math.floor(e));
-    const floorDrinks = record.drinks.map(e => Math.floor(e));
+    const floorTimeActivity = record.timeActivity.map((e) => Math.floor(e));
+    const floorCoffeeCups = record.coffeeCups.map((e) => Math.floor(e));
+    const floorDrinks = record.drinks.map((e) => Math.floor(e));
     setRecord((record.timeActivity = floorTimeActivity));
     setRecord((record.coffeeCups = floorCoffeeCups));
     setRecord((record.drinks = floorDrinks));
@@ -288,7 +293,7 @@ const Record = props => {
     dispatch(setEndTime(""));
   };
 
-  const handlerOnClear = e => {
+  const handlerOnClear = (e) => {
     e.preventDefault();
     setRecord({
       dateMeal: day,
@@ -317,7 +322,7 @@ const Record = props => {
     dispatch(setEndTime(null));
   };
 
-  const handlerHome = e => {
+  const handlerHome = (e) => {
     e.preventDefault();
     navigate("/private/home");
     dispatch(setDay(""));
@@ -325,7 +330,7 @@ const Record = props => {
 
   //! ================== SleepTime Handlers ================= !//
 
-  const handlerSync = e => {
+  const handlerSync = (e) => {
     e.preventDefault();
     setRecord((record.sleepTime = sleepTimeMinutes));
     if (record.timeMeal === "") {
@@ -364,16 +369,15 @@ const Record = props => {
 
   //! ================== Activity Handlers ================= !//
 
-  const handlerActivity = e => {
+  const handlerActivity = (e) => {
     e.preventDefault();
     const timeSelected = parseInt(timeRef.current.value) + Math.random();
     const activitySelected = activityRef.current.value;
     const timeSelectedText = timeRef.current.value;
-    const filter = activitiesRedux.filter(e => e.id === activitySelected);
+    const filter = activitiesRedux.filter((e) => e.id === activitySelected);
     const nameActivity = filter[0].activity;
 
     if (!timeSelected || !activitySelected || timeSelected < 1) {
-      message.warning("Ingresa los minutos", 2500);
       message.warning("Ingresa los minutos", 2500);
       return;
     }
@@ -389,7 +393,7 @@ const Record = props => {
     timeRef.current.value = "0";
   };
 
-  const handlerOnChangeActivity = e => {
+  const handlerOnChangeActivity = (e) => {
     e.preventDefault();
     setAddActivity({
       ...addActivity,
@@ -397,21 +401,17 @@ const Record = props => {
     });
   };
 
-  const handlerAddActivity = e => {
+  const handlerAddActivity = (e) => {
     e.preventDefault();
     let duplicated = "";
 
     if (activitiesRedux.length > 0) {
       duplicated = activitiesRedux.filter(
-        e => e.activity === addActivity.activity
+        (e) => e.activity === addActivity.activity
       );
     }
 
     if (duplicated.length > 0) {
-      message.error(
-        `La actividad ${addActivity.activity} no puede duplicarse`,
-        2500
-      );
       message.error(
         `La actividad ${addActivity.activity} no puede duplicarse`,
         2500
@@ -422,14 +422,12 @@ const Record = props => {
 
     if (!addActivity.activity) {
       message.warn(`Ingresa un nombre para la nueva actividad`, 2500);
-      message.warn(`Ingresa un nombre para la nueva actividad`, 2500);
       return;
     }
 
     dispatch(createNewActivity(addActivity));
 
     if (activityStat === null) {
-      message.success("Actividad creada exitosamente", 2500);
       message.success("Actividad creada exitosamente", 2500);
       setAddActivity({
         activity: "",
@@ -444,7 +442,7 @@ const Record = props => {
     }
   };
 
-  const handlerSetActivity = e => {
+  const handlerSetActivity = (e) => {
     e.preventDefault();
     if (e.target.value !== "default" && e.target.value !== "add_activity")
       setActivityStatus(true);
@@ -458,17 +456,19 @@ const Record = props => {
     }
   };
 
-  const eraseActivity = e => {
+  const eraseActivity = (e) => {
     e.preventDefault();
     const activityToErase = e.target.innerText;
-    const activityFilter = activity.filter(e => e !== activityToErase);
+    const activityFilter = activity.filter((e) => e !== activityToErase);
     const indexToErase = e.target.id;
     setActivity(activityFilter);
 
     const valueToRemoveTA = record.timeActivity[indexToErase];
     const valueToRemoveA = record.activity[indexToErase];
-    const timeActivity = record.timeActivity.filter(e => e !== valueToRemoveTA);
-    const activity2 = record.activity.filter(e => e !== valueToRemoveA);
+    const timeActivity = record.timeActivity.filter(
+      (e) => e !== valueToRemoveTA
+    );
+    const activity2 = record.activity.filter((e) => e !== valueToRemoveA);
     setRecord({
       ...record,
       timeActivity: timeActivity,
@@ -483,16 +483,15 @@ const Record = props => {
 
   //! ================== Coffee Handlers ================= !//
 
-  const handlerCoffee = e => {
+  const handlerCoffee = (e) => {
     e.preventDefault();
     const quantityCoffee = parseInt(cups.current.value) + Math.random();
     const cup = sizeCup.current.value;
     const coffees = cups.current.value;
-    const filter = coffeeSizesRedux.filter(e => e.id === cup);
+    const filter = coffeeSizesRedux.filter((e) => e.id === cup);
     const size = filter[0].size;
 
     if (!quantityCoffee || !cup || quantityCoffee < 1) {
-      message.warning("Ingresa el numero de tazas", 2500);
       message.warning("Ingresa el numero de tazas", 2500);
       return;
     }
@@ -508,7 +507,7 @@ const Record = props => {
     cups.current.value = "0";
   };
 
-  const handlerOnChangeCoffeSize = e => {
+  const handlerOnChangeCoffeSize = (e) => {
     e.preventDefault();
     setAddCoffeSize({
       ...addCoffeSize,
@@ -516,16 +515,15 @@ const Record = props => {
     });
   };
 
-  const handlerAddSizeCoffee = e => {
+  const handlerAddSizeCoffee = (e) => {
     e.preventDefault();
     let duplicated = "";
 
     if (coffeeSizesRedux.length > 0) {
-      duplicated = coffeeSizesRedux.filter(e => e.size === addCoffeSize.size);
+      duplicated = coffeeSizesRedux.filter((e) => e.size === addCoffeSize.size);
     }
 
     if (duplicated.length > 0) {
-      message.error(`La medida ${addCoffeSize.size} no puede duplicarse`, 2500);
       message.error(`La medida ${addCoffeSize.size} no puede duplicarse`, 2500);
       nameCoffee.current.value = "";
       return;
@@ -533,14 +531,12 @@ const Record = props => {
 
     if (!addCoffeSize.size) {
       message.warn(`Ingresa un nombre para la nueva porcion`, 2500);
-      message.warn(`Ingresa un nombre para la nueva porcion`, 2500);
       return;
     }
 
     dispatch(createNewCoffeeSize(addCoffeSize));
 
     if (coffeeStat === null) {
-      message.success("Nueva porcion creada exitosamente", 2500);
       message.success("Nueva porcion creada exitosamente", 2500);
       setAddCoffeSize({
         size: "",
@@ -555,7 +551,7 @@ const Record = props => {
     }
   };
 
-  const handlerSetCoffee = e => {
+  const handlerSetCoffee = (e) => {
     e.preventDefault();
     if (e.target.value !== "default" && e.target.value !== "add_coffee_size")
       setCoffeeStatus(true);
@@ -569,17 +565,17 @@ const Record = props => {
     }
   };
 
-  const eraseCoffee = e => {
+  const eraseCoffee = (e) => {
     e.preventDefault();
     const coffeeToErase = e.target.innerText;
-    const coffeeFilter = coffee.filter(e => e !== coffeeToErase);
+    const coffeeFilter = coffee.filter((e) => e !== coffeeToErase);
     const indexToErase = e.target.id;
     setCoffee(coffeeFilter);
 
     const valueToRemoveC = record.coffeeCups[indexToErase];
     const valueToRemoveCS = record.coffee[indexToErase];
-    const coffees = record.coffeeCups.filter(e => e !== valueToRemoveC);
-    const sizeCoffees = record.coffee.filter(e => e !== valueToRemoveCS);
+    const coffees = record.coffeeCups.filter((e) => e !== valueToRemoveC);
+    const sizeCoffees = record.coffee.filter((e) => e !== valueToRemoveCS);
     setRecord({
       ...record,
       coffeeCups: coffees,
@@ -594,16 +590,15 @@ const Record = props => {
 
   //! ================== Drinks Handlers ================= !//
 
-  const handlerDrinks = e => {
+  const handlerDrinks = (e) => {
     e.preventDefault();
     const quantityDrinks = parseInt(drinks.current.value) + Math.random();
     const typeDrinks = typeDrink.current.value;
     const drinkss = drinks.current.value;
-    const filter = drinksRedux.filter(e => e.id === typeDrinks);
+    const filter = drinksRedux.filter((e) => e.id === typeDrinks);
     const typeDrinkss = filter[0].drink;
 
     if (!quantityDrinks || !typeDrinks || quantityDrinks < 1) {
-      message.warning("Ingresa el numero de bebidas", 2500);
       message.warning("Ingresa el numero de bebidas", 2500);
       return;
     }
@@ -619,7 +614,7 @@ const Record = props => {
     drinks.current.value = "0";
   };
 
-  const handlerOnChangeDrink = e => {
+  const handlerOnChangeDrink = (e) => {
     e.preventDefault();
     setAddNewDrink({
       ...addNewDrink,
@@ -627,16 +622,15 @@ const Record = props => {
     });
   };
 
-  const handlerAddDrink = e => {
+  const handlerAddDrink = (e) => {
     e.preventDefault();
     let duplicated = "";
 
     if (drinksRedux.length > 0) {
-      duplicated = drinksRedux.filter(e => e.drink === addNewDrink.drink);
+      duplicated = drinksRedux.filter((e) => e.drink === addNewDrink.drink);
     }
 
     if (duplicated.length > 0) {
-      message.error(`La bebida ${addNewDrink.drink} no puede duplicarse`, 2500);
       message.error(`La bebida ${addNewDrink.drink} no puede duplicarse`, 2500);
       nameDrink.current.value = "";
       return;
@@ -644,14 +638,12 @@ const Record = props => {
 
     if (!addNewDrink.drink) {
       message.warn(`Ingresa un nombre para la nueva bebida`, 2500);
-      message.warn(`Ingresa un nombre para la nueva bebida`, 2500);
       return;
     }
 
     dispatch(createNewDrink(addNewDrink));
 
     if (drinkStat === null) {
-      message.success("Nueva bebida creada exitosamente", 2500);
       message.success("Nueva bebida creada exitosamente", 2500);
       setAddNewDrink({
         drink: "",
@@ -666,7 +658,7 @@ const Record = props => {
     }
   };
 
-  const handlerSetDrink = e => {
+  const handlerSetDrink = (e) => {
     e.preventDefault();
     if (e.target.value !== "default" && e.target.value !== "add_drink")
       setDrinkStatus(true);
@@ -680,17 +672,17 @@ const Record = props => {
     }
   };
 
-  const eraseDrink = e => {
+  const eraseDrink = (e) => {
     e.preventDefault();
     const drinkToErase = e.target.innerText;
-    const drinkFilter = drink.filter(e => e !== drinkToErase);
+    const drinkFilter = drink.filter((e) => e !== drinkToErase);
     const indexToErase = e.target.id;
     setDrink(drinkFilter);
 
     const valueToRemoveD = record.drinks[indexToErase];
     const valueToRemoveDT = record.drink[indexToErase];
-    const drinks2 = record.drinks.filter(e => e !== valueToRemoveD);
-    const typeDrinks = record.drink.filter(e => e !== valueToRemoveDT);
+    const drinks2 = record.drinks.filter((e) => e !== valueToRemoveD);
+    const typeDrinks = record.drink.filter((e) => e !== valueToRemoveDT);
     setRecord({
       ...record,
       drinks: drinks2,
@@ -726,20 +718,14 @@ const Record = props => {
         `${nameUser} tu registro se guardo correctamente!!`,
         2500
       );
-      message.success(
-        `${nameUser} tu registro se guardo correctamente!!`,
-        2500
-      );
       dispatch(setStatusNewRecord());
     } else {
-      message.error(`Error: al guardar registro`, 2500);
       message.error(`Error: al guardar registro`, 2500);
       dispatch(setStatusNewRecord());
     }
   }, [value, recordStatus]);
 
   const PopupActivity = () => (
-
     <Popup
       trigger={<img src={menRuning} alt="" className="popup_ico" />}
       /* contentStyle={{ width: "35%" }} */
@@ -773,16 +759,16 @@ const Record = props => {
             <option value="default">Selecciona...</option>
             {activitiesRedux.length > 0
               ? activitiesRedux.map((e, i) => {
-                return (
-                  <option
-                    key={e.id}
-                    value={e.id}
-                    disabled={record.activity?.includes(e.id) ? true : false}
-                  >
-                    {e.activity}
-                  </option>
-                );
-              })
+                  return (
+                    <option
+                      key={e.id}
+                      value={e.id}
+                      disabled={record.activity?.includes(e.id) ? true : false}
+                    >
+                      {e.activity}
+                    </option>
+                  );
+                })
               : ""}
             <option value="add_activity">Agregar Actividad</option>
           </select>
@@ -832,7 +818,6 @@ const Record = props => {
   const PopupCoffee = () => (
     <Popup
       trigger={<img src={coffeeMain} alt="" className="popup_ico" />}
-      /* contentStyle={{ width: "35%" }} */
       contentStyle={{ width: "320px" }}
       onClose={() => setNewCoffeeSize(false)}
       position="top center"
@@ -862,16 +847,16 @@ const Record = props => {
             <option value="default">Selecciona...</option>
             {coffeeSizesRedux.length > 0
               ? coffeeSizesRedux.map((e, i) => {
-                return (
-                  <option
-                    key={`coffee-${i}`}
-                    value={e.id}
-                    disabled={record.coffee?.includes(e.id) ? true : false}
-                  >
-                    {e.size}
-                  </option>
-                );
-              })
+                  return (
+                    <option
+                      key={`coffee-${i}`}
+                      value={e.id}
+                      disabled={record.coffee?.includes(e.id) ? true : false}
+                    >
+                      {e.size}
+                    </option>
+                  );
+                })
               : ""}
             <option value="add_coffee_size">Agregar Tamaño</option>
           </select>
@@ -951,16 +936,16 @@ const Record = props => {
             <option value="default">Selecciona...</option>
             {drinksRedux.length > 0
               ? drinksRedux.map((e, i) => {
-                return (
-                  <option
-                    key={`drinksRe-${i}`}
-                    value={e.id}
-                    disabled={record.drink?.includes(e.id) ? true : false}
-                  >
-                    {e.drink}
-                  </option>
-                );
-              })
+                  return (
+                    <option
+                      key={`drinksRe-${i}`}
+                      value={e.id}
+                      disabled={record.drink?.includes(e.id) ? true : false}
+                    >
+                      {e.drink}
+                    </option>
+                  );
+                })
               : ""}
             <option value="add_drink">Agregar Bebida</option>
           </select>
@@ -1011,11 +996,7 @@ const Record = props => {
 
   // Render Main Elements
   return (
-    // <div className="master">
-    <Paper
-      sx={{ minHeight: '100vh' }}
-    >
-
+    <Paper sx={{ minHeight: "100vh" }}>
       <Helmet>
         <title>Registrar actividad | Sleep Tracker</title>
       </Helmet>
@@ -1023,34 +1004,23 @@ const Record = props => {
       <Grid
         container
         justifyContent="center"
-        direction='column'
-        alignItems='center'
+        direction="column"
+        alignItems="center"
         spacing={5}
       >
-        <Grid
-          item
-        >
-          <Typography
-            variant="h2"
-            fontWeight='bold'
-            paddingTop={5}
-          >
+        <Grid item>
+          <Typography variant="h3" fontWeight="bold" paddingTop={5}>
             Registrar actividad
           </Typography>
         </Grid>
 
-        <Grid
-          item
-        >
-
+        <Grid item>
           <Card
-            variant='outlined'
+            variant="outlined"
             sx={{
-              width: '60vw',
+              width: "60vw",
               marginBottom: 10,
-              backgroundColor:
-                theme.palette.mode == 'light' &&
-                '#eeeeee',
+              backgroundColor: theme.palette.mode === "light" && "#eeeeee",
             }}
           >
             <CardContent>
@@ -1085,11 +1055,7 @@ const Record = props => {
                   paddingBottom={1}
                   spacing={3}
                 >
-
-                  <Grid
-                    item
-                  >
-
+                  <Grid item>
                     <DateSelector
                       text="Dia del registro"
                       date={record.dateMeal}
@@ -1097,49 +1063,35 @@ const Record = props => {
                     />
                     {/* </div> */}
                     {/* <div className="time_meal_container"> */}
-
                   </Grid>
 
-                  <Grid
-                    item>
-
+                  <Grid item>
                     <TimeMealSelector
                       text="Hora de tu cena"
                       clean={timeR === null ? true : false}
                     />
                   </Grid>
                 </Grid>
-
-                {/* </div> */}
-                {/* </div> */}
-                {/* </div> */}
                 <div
                   id="test_div"
                   className="meal_section"
                   hidden={timeR ? false : true}
                 >
-                  <Grid
-                    item
-                  >
-                    <Typography
-                      variant='h5'
-                    >
+                  <Grid item>
+                    <Typography variant="h5">
                       Descripcion de tu cena{" "}
                     </Typography>
                   </Grid>
                   <TextField
                     className="text_description"
                     name="description"
-                    /* cols={57} */
-                    // rows="5"
                     placeholder="Ingresa breve descripcion"
                     value={record.description}
                     onChange={handlerOnChange}
                     required={record.timeMeal?.length > 0 ? true : false}
                     multiline
                     rows={4}
-                  >
-                  </TextField>
+                  ></TextField>
                   {/* <img
                     src={checkImg}
                     alt=""
@@ -1148,7 +1100,6 @@ const Record = props => {
                     }
                     className="img_ok"
                   /> */}
-
                 </div>
                 <div
                   className="sleep_container"
@@ -1162,23 +1113,22 @@ const Record = props => {
                   /* hidden={checkSleepRecord?.length >= 1 ? true : false} */
                   hidden={syncFitbit}
                 >
-                  {/* <div> */}
-                  <Typography>
-                    <img src={personBed} alt="" className="person_bed" />
-                    Tiempo de Sueño{" "}
-                    <img
-                      src={checkImg}
-                      alt=""
-                      hidden={
-                        time?.startTime.length > 0 && time?.endTime.length > 0
-                          ? false
-                          : true
-                      }
-                      className="img_ok"
-                    />
-                  </Typography>
-                  {/* </div> */}
-
+                  <Grid>
+                    <h2>
+                      <img src={personBed} alt="" className="person_bed" />
+                      Tiempo de Sueño{" "}
+                      <img
+                        src={checkImg}
+                        alt=""
+                        hidden={
+                          time?.startTime.length > 0 && time?.endTime.length > 0
+                            ? false
+                            : true
+                        }
+                        className="img_ok"
+                      />
+                    </h2>
+                  </Grid>
                   <div className="sync_div_true" hidden={temp?.length < 1}>
                     <h5>El dia {dateStringToDate(day?.replace("-", ""))}</h5>
                     <h6>Fitbit registro {sleepTime12Format} de sueño</h6>
@@ -1186,12 +1136,9 @@ const Record = props => {
                       variant="contained"
                       onClick={handlerSync}
                       sx={{ width: "200px" }}
-                      startIcon={
-                        <CheckIcon
-                          color='success'
-                        />}
+                      startIcon={<CheckIcon color="success" />}
                     >
-                      Guardar lectura FitBit
+                      Guardar lectura
                     </Button>
                   </div>
 
@@ -1204,78 +1151,49 @@ const Record = props => {
                     paddingBottom={1}
                     spacing={3}
                   >
-
-                    {/* <div className="sleep_section" hidden={sleepTime.length > 0}> */}
-                    {/* <div className="start_time"> */}
-                    <Grid
-                      item
-                    >
-
+                    <Grid item hidden={sleepTime.length > 0}>
                       <StartTime
                         text="Dormiste"
                         clean={sTime === null ? true : false}
                       />
-                      {/* </div> */}
                     </Grid>
 
-                    <Grid
-                      item
-                    >
-
+                    <Grid item hidden={sleepTime.length > 0}>
                       <EndTime
                         text="Despertaste"
                         clean={eTime === null ? true : false}
                       />
-                      {/* </div> */}
                     </Grid>
-
-                    {/* <div className="end_time"> */}
-
-                    {/* <div
-                      className="sleep_result"
-                      hidden={sTime && eTime ? false : true}
-                    > */}
-                    {/* <h4>
-                      Dormiste:{" "}
-                      {sleepTime12Format ? sleepTime12Format : finalHours}
-                    </h4> */}
-                    {/* </div> */}
-                    {/* </div> */}
                   </Grid>
-                  {/* <label>Siesta</label>
-              <input className="input_number" type="number" step="1" min="0" />
-              <span>min.</span>
-              <button className="add_button">Agregar</button> */}
                 </div>
-                <br />
 
-                {/* <div className="reg_container"> */}
                 <div className="reg_head_container">
                   <Typography
-                    variant='h4'
+                    variant="h4"
+                    fontWeight={"medium"}
+                    sx={{ paddingTop: 5 }}
                   >
                     Registrar
                   </Typography>
                 </div>
-                {/* <div className="popup_container"> */}
 
                 <Grid
                   container
                   direction="row"
                   justifyContent="space-evenly"
                   alignItems="center"
-                  paddingTop={1}
-                  paddingBottom={1}
-                  display='flex'
-                // justifyContent='center'
+                  p={3}
+                  //paddingTop={1}
+                  //paddingBottom={1}
+                  display="flex"
+                  // justifyContent='center'
                 >
                   <Grid
                     item
                     sm={3}
                     xs={12}
-                    sx={{ display: 'flex', justifyContent: 'center' }}
+                    sx={{ display: "flex", justifyContent: "center" }}
                   >
-
                     <div className="div_popup">
                       <div
                         className="div_ok"
@@ -1291,9 +1209,8 @@ const Record = props => {
                     item
                     sm={3}
                     xs={12}
-                    sx={{ display: 'flex', justifyContent: 'center' }}
+                    sx={{ display: "flex", justifyContent: "center" }}
                   >
-
                     <div className="div_popup">
                       <div
                         className="div_ok"
@@ -1309,9 +1226,8 @@ const Record = props => {
                     item
                     sm={3}
                     xs={12}
-                    sx={{ display: 'flex', justifyContent: 'center' }}
+                    sx={{ display: "flex", justifyContent: "center" }}
                   >
-
                     <div className="div_popup">
                       <div
                         className="div_ok"
@@ -1322,14 +1238,10 @@ const Record = props => {
                       {PopupDrink()}
                     </div>
                   </Grid>
-
                 </Grid>
-                {/* </div>
-              </div> */}
 
                 {/* ====================== BUTTONS SECTION ======================= */}
 
-                {/* <div className="button_container"> */}
                 <Grid
                   container
                   direction="row"
@@ -1338,11 +1250,7 @@ const Record = props => {
                   paddingTop={1}
                   paddingBottom={1}
                 >
-
-                  <Grid
-                    item
-                  >
-
+                  <Grid item>
                     <Button
                       variant="contained"
                       onClick={handlerOnClear}
@@ -1350,21 +1258,18 @@ const Record = props => {
                         width: {
                           lg: "300px",
                           md: "300px",
-                          sm: "300px"
+                          sm: "300px",
                         },
-                        margin: "5px"
+                        margin: "5px",
                       }}
                       startIcon={<DeleteIcon />}
-                      color='error'
+                      color="error"
                     >
                       Limpiar
                     </Button>
                   </Grid>
 
-                  <Grid
-                    item
-                  >
-
+                  <Grid item>
                     <Button
                       variant="contained"
                       onClick={handlerOnSubmit}
@@ -1372,29 +1277,23 @@ const Record = props => {
                         width: {
                           lg: "300px",
                           md: "300px",
-                          sm: "300px"
+                          sm: "300px",
                         },
-                        margin: "5px"
+                        margin: "5px",
                       }}
                       startIcon={<CheckIcon />}
-                      color='success'
+                      color="success"
                     >
                       Guardar
                     </Button>
                   </Grid>
-
                 </Grid>
-                {/* </div> */}
-                {/* </div> */}
               </form>
-              {/* </div> */}
             </CardContent>
           </Card>
         </Grid>
-
       </Grid>
     </Paper>
-    // </div>
   );
 };
 
