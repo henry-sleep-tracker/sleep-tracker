@@ -534,7 +534,7 @@ const Profile = () => {
                 >
                   {!editBirthday ? (
                     <Typography>
-                      {currentUser.birthday}
+                      {currentUser.birthday ? currentUser.birthday : "¡ Registra fecha de nacimiento !"}
                     </Typography>
                   ) : (
                     <TextField
@@ -585,7 +585,7 @@ const Profile = () => {
                 >
                   {!editNationality ? (
                     <Typography>
-                      {currentUser.nationality}
+                      {currentUser.nationality ? currentUser.nationality : " ¡ Registra tu nacionalidad !"}
                     </Typography>
                   ) : (
                     <TextField
@@ -643,18 +643,18 @@ const Profile = () => {
                   item
                 >
                   <Typography>
-                    **********
+                  {currentUser.hashedPassword ? "**********" : "¡ Crea tu contraseña !"} 
                   </Typography>
+        
                 </Grid>
 
                 <Grid
                   item
                 >
-                  <Tooltip title="Cambiar contraseña">
+                  <Tooltip title={currentUser.hashedPassword ? "Cambiar contraseña" : "Crea tu contraseña"}>
                     <Fab
                       size='small'
                       href={`/private/change-password/${currentUser.id}`}
-                      variant="extended"
                       color="primary"
                       sx={{
                         ':hover': {
@@ -662,7 +662,7 @@ const Profile = () => {
                         },
                       }}
                     >
-                      Contraseña
+                      <PasswordIcon/>
                     </Fab>
                   </Tooltip>
 
@@ -696,7 +696,7 @@ const Profile = () => {
                 <Grid
                   item
                 >
-                  <Tooltip title= "Cambiar plan">
+                  <Tooltip title= {currentUser.plan.name ? "Cambiar plan" : "Subscribete a un plan"}>
                     <Fab
                       size='small'
                       variant="extended"
@@ -708,7 +708,7 @@ const Profile = () => {
                         },
                       }}
                     >
-                      {currentUser.plan?.name}
+                      {currentUser.plan.name ? currentUser.plan?.name : "Planes"}
                     </Fab>
                   </Tooltip>
                 </Grid>
