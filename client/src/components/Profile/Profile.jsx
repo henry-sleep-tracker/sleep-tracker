@@ -65,7 +65,7 @@ const Profile = () => {
       message.error(
         `Tiene que haber completado toda su informacion de perfil para poder continuar...  
         Contraseña, nacionalidad y cumpleaños`,
-        10000
+        8000
       );
     }
   }, [currentUser, createPassword]);
