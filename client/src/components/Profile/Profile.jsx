@@ -668,20 +668,24 @@ const Profile = () => {
               </Grid>
 
               <Grid item>
-                <Fab
-                  size="small"
-                  href={`/private/delete-user/${currentUser.id}`}
-                  variant="extended"
-                  color="error"
-                  id="ButtonDelete"
-                  sx={{
-                    ":hover": {
-                      color: "white",
-                    },
-                  }}
-                >
-                  Borrar usuario
-                </Fab>
+                {isPasswordSetUp === "true" ? (
+                  <Fab
+                    size="small"
+                    href={`/private/delete-user/${currentUser.id}`}
+                    variant="extended"
+                    color="error"
+                    id="ButtonDelete"
+                    sx={{
+                      ":hover": {
+                        color: "white",
+                      },
+                    }}
+                  >
+                    Borrar usuario
+                  </Fab>
+                ) : (
+                  <div></div>
+                )}
               </Grid>
 
               <Grid item paddingTop={1}>
