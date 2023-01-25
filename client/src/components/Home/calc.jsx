@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
+const isMobile = window.innerWidth < 800;
+
 const Calc = () => {
   let [aproxim, setAprox] = useState("");
 
@@ -127,21 +129,31 @@ const Calc = () => {
   }
 
   return (
-    <Card sx={{ height: 442, boxShadow: 2 }}>
+    <Card
+      sx={{
+        minWidth: 300,
+        height: !isMobile ? 442 : 500,
+        boxShadow: 2,
+      }}
+    >
       <CardContent>
         <Grid
           container
           justifyContent="center"
           alignItems="center"
           direction="column"
-          heigh={250}
           flex={4}
           p={2}
         >
-          <Grid item sx={{ padding: 0 }}>
+          <Grid item>
             <Typography
               className="titlerecomen"
-              sx={{ fontSize: 24, fontWeight: "bold", marginBottom: "20px" }}
+              sx={{
+                fontSize: !isMobile ? 24 : 22,
+                textAlign: "center",
+                fontWeight: "bold",
+                marginBottom: "20px",
+              }}
             >
               Recomendaciones por edad
             </Typography>
