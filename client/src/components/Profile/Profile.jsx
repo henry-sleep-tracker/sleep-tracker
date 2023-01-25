@@ -717,6 +717,7 @@ const Profile = () => {
               <Grid
                 item
               >
+                {isPasswordSetUp==="true"?
                 <Fab
                   size='small'
                   href={`/private/delete-user/${currentUser.id}`}
@@ -730,7 +731,7 @@ const Profile = () => {
                   }}
                 >
                   Borrar usuario
-                </Fab>
+                </Fab>:<div></div>}
               </Grid>
 
               <Grid item paddingTop = {1}>
