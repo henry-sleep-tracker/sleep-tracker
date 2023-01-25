@@ -20,6 +20,9 @@ const postUser = async (req, res) => {
   try {
     const { email, password, names, lastNames, nationality, birthday } =
       req.body;
+    if (!email || !names || !lastNames) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
     const hashedPassword = await bcrypt.hash(password, 10); //la segunda variable es el numero de rondas que se encriptara
     const customer = await stripe.customers.create(
       {
@@ -38,9 +41,6 @@ const postUser = async (req, res) => {
       birthday,
       stripeCustomerId: customer.id,
     };
-    if (!email || !names || !lastNames) {
-      return res.status(428).send("Falta enviar datos obligatorios");
-    }
     const oldUser = await findUserByEmail(email);
     if (oldUser.id !== 0) {
       return res.status(406).send(`El email ya esta registrado en la BD`);
@@ -158,7 +158,7 @@ const deleteUser = async (req, res) => {
       return bcrypt.compareSync(password, hashed);
     }
     const userDelete = await findUserById(id);
-    console.log(userDelete)
+    console.log(userDelete);
 
     if (idAdmin && idAdmin !== "NoAdmin") {
       // Solo para el Admin
@@ -167,19 +167,19 @@ const deleteUser = async (req, res) => {
         const result = await User.destroy({ where: { id: id } });
         if (result) return res.status(200).send("Usuario eliminado");
       }
-    }
-    else{
-      if (!id || !password){
+    } else {
+      if (!id || !password) {
         return res.status(428).send("Falta enviar datos obligatorios"); // Validacion de datos
       }
 
-      if (!userDelete){
+      if (!userDelete) {
         return res.status(202).send("el usuario no existe"); // Validacion de Usuario existente
-      } 
-  
-      if (copareHash(password, userDelete.hashedPassword)) { // Validacion de contraseña
+      }
+
+      if (copareHash(password, userDelete.hashedPassword)) {
+        // Validacion de contraseña
         const result = await User.destroy({ where: { id: id } });
-        if (result){
+        if (result) {
           return res.status(200).send("Usuario eliminado");
         }
       }
