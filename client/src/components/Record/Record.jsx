@@ -201,8 +201,14 @@ const Record = props => {
 
     // Before Dispatch //
 
+    if (timeR && record.description?.length < 1) {
+      message.warn(`Ingresa una breve descripcion de tu cena`);
+      return;
+    }
+
     if (
-      (timeR === null || timeR?.length <= 0 || time === undefined) &&
+      /* (!timeR || timeR?.length <= 0) &&
+      record.description.length <= 0 &&
       record.sleepTime.length <= 0 &&
       record.timeActivity.length <= 0 &&
       record.coffeeCups.length <= 0 &&
@@ -211,20 +217,25 @@ const Record = props => {
       record.drink.length <= 0 &&
       record.activity.length <= 0 &&
       st?.length <= 0 &&
-      et?.length <= 0
+      et?.length <= 0 */
+      record.dateMeal === day &&
+      !record.timeMeal &&
+      !record.description &&
+      !record.sleepTime &&
+      record.timeActivity.length < 1 &&
+      record.coffeeCups.length < 1 &&
+      record.drinks.length < 1 &&
+      record.coffee.length < 1 &&
+      record.drink.length < 1 &&
+      record.activity.length < 1 &&
+      record.userId === userId
     ) {
-      message.warn(`No se ingreso informacion`);
-      return;
+      return message.warn(`No se ingreso informacion`);
     }
 
     if (record.dateMeal === "") {
       date = date_maker();
       setRecord((record.dateMeal = date));
-    }
-
-    if (timeR && record.description?.length < 1) {
-      message.warn(`Ingresa una breve descripcion de tu cena`);
-      return;
     }
 
     if (!timeR) {
