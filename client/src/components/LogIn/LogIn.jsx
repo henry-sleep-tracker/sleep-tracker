@@ -61,6 +61,7 @@ export default function LogIn() {
         message.success("Usuario validado", 2500);
         login(
           loggedUser.id,
+          loggedUser.isAdmin,
           loggedUser.email,
           loggedUser.hashedPassword,
           planExpirationDate

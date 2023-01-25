@@ -20,9 +20,9 @@ const newUsersLastWeek = async (req, res) => {
 
     const week = [];
     
-    for (let w = 0; w < 7; w++) {
+    for (let d = 0; d < 7; d++) {
       let inicio = new Date();
-      inicio.setDate(inicio.getDate() - 7 + w);
+      inicio.setDate(inicio.getDate() - 7 + d);
 
       let cantidad = users.filter( user => {
           let userCreatedAt = new Date(user.createdAt);

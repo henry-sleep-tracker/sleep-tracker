@@ -1,10 +1,19 @@
+require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const routes = require("./index.js");
 const session = require("express-session"); //esto permite crear sesiones con un tiempo de
 require("./db.js");
+const { PORT } = process.env;
+const { Server } = require("socket.io");
+const http = require("http");
+const cors = require("cors");
+
 const server = express();
+
+server.use(cors());
+
 server.name = "API";
 
 server.use(express.urlencoded({ extended: false }));
@@ -12,7 +21,7 @@ server.use((req, res, next) => {
   if (req.originalUrl === "/webhook") {
     next();
   } else {
-    express.json({limit: "50mb"})(req, res, next);
+    express.json({ limit: "50mb" })(req, res, next);
   }
 });
 server.use(express.text());
@@ -28,12 +37,27 @@ server.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, ContentType, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-  next();
+    );
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+    next();
+  });
+  
+  server.use("/", routes);
+  
+  const serverApp = http.createServer(server);
+  const io = new Server(serverApp, {
+    cors: {
+      origin: "*",
+    },
+  });
+  io.on("connection", (socket) => {
+  socket.on("message", (message, currentUser) => {
+    socket.broadcast.emit("message", {
+      body: message,
+      from: currentUser,
+    });
+  });
 });
-
-server.use("/", routes);
 
 // Error catching endware.
 server.use((err, req, res, next) => {
@@ -44,4 +68,4 @@ server.use((err, req, res, next) => {
   res.status(status).send(message);
 });
 
-module.exports = server;
+module.exports = serverApp;

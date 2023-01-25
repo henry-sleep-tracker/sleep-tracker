@@ -20,6 +20,9 @@ const postUser = async (req, res) => {
   try {
     const { email, password, names, lastNames, nationality, birthday } =
       req.body;
+    if (!email || !names || !lastNames) {
+      return res.status(428).send("Falta enviar datos obligatorios");
+    }
     const hashedPassword = await bcrypt.hash(password, 10); //la segunda variable es el numero de rondas que se encriptara
     const customer = await stripe.customers.create(
       {
@@ -38,9 +41,6 @@ const postUser = async (req, res) => {
       birthday,
       stripeCustomerId: customer.id,
     };
-    if (!email || !names || !lastNames) {
-      return res.status(428).send("Falta enviar datos obligatorios");
-    }
     const oldUser = await findUserByEmail(email);
     if (oldUser.id !== 0) {
       return res.status(406).send(`El email ya esta registrado en la BD`);
@@ -101,8 +101,7 @@ const forgotPassword = async (req, res) => {
     const token = jwt.sign({ email: oldUser.email, id: oldUser.id }, secret, {
       expiresIn: "50m",
     });
-    const link = `${process.env.REACT_APP_BASE_FRONT_URL}/reiniciar_contrasena/${oldUser.id}/${token}`;
-    console.log("el link es:", link);
+    const link = `${process.env.BASE_FRONT_URL}/reiniciar_contrasena/${oldUser.id}/${token}`;
     res.status(200).json(link); //201 es que fue creado
   } catch (error) {
     console.log("El error controllers user forgotPassword es:", error.message);
@@ -154,28 +153,36 @@ const getUserByEmail = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const { id, password } = req.params;
+    const { id, password, idAdmin } = req.params;
     function copareHash(password, hashed) {
       return bcrypt.compareSync(password, hashed);
     }
+    const userDelete = await findUserById(id);
+    console.log(userDelete);
 
-    if (!id || !password) {
-      return res.status(428).send("Falta enviar datos obligatorios");
-    }
+    if (idAdmin && idAdmin !== "NoAdmin") {
+      // Solo para el Admin
+      const userAdmin = await findUserById(idAdmin);
+      if (userAdmin && userAdmin.isAdmin && userDelete) {
+        const result = await User.destroy({ where: { id: id } });
+        if (result) return res.status(200).send("Usuario eliminado");
+      }
+    } else {
+      if (!id || !password) {
+        return res.status(428).send("Falta enviar datos obligatorios"); // Validacion de datos
+      }
 
-    const user = await findUserById(id);
-    if (!user) {
-      return res.status(202).send("el usuario no existe");
-    }
+      if (!userDelete) {
+        return res.status(202).send("el usuario no existe"); // Validacion de Usuario existente
+      }
 
-    if (copareHash(password, user.hashedPassword)) {
-      const result = await User.destroy({
-        where: {
-          id: id,
-        },
-      });
-      console.log("RESULT DELETE", result); // 0 es que no borro y 1 es que si borro
-      return res.status(200).send("Usuario eliminado");
+      if (copareHash(password, userDelete.hashedPassword)) {
+        // Validacion de contraseña
+        const result = await User.destroy({ where: { id: id } });
+        if (result) {
+          return res.status(200).send("Usuario eliminado");
+        }
+      }
     }
   } catch (error) {
     return res.status(400).send("No se pudo eliminar el usuario");
@@ -203,7 +210,7 @@ const restoreUser = async (req, res) => {
   }
 };
 
-const restoreGoogleUser = async (req, res) => {
+const restoreUserByJustEmail = async (req, res) => {
   try {
     const { email } = req.params;
     let user = await findUserByEmail(email);
@@ -216,7 +223,6 @@ const restoreGoogleUser = async (req, res) => {
       },
     });
     user = await findUserByEmail(email);
-    console.log("user:", user);
     return res.status(200).send(user);
   } catch (error) {
     return res.status(400).send("No se pudo restaurar el usuario");
@@ -226,15 +232,12 @@ const restoreGoogleUser = async (req, res) => {
 const updateProfile = async (req, res) => {
   const { id } = req.params;
   const info = req.body;
-  console.log("ID RUTA", id);
-  console.log("INFO PROFILE", info);
   try {
     const update = await User.update(info, {
       where: {
         id: id,
       },
     });
-    console.log("ROUTE UPDATE", update);
     if (update) {
       const user = await User.findOne({
         where: { id: id },
@@ -243,7 +246,6 @@ const updateProfile = async (req, res) => {
           attributes: ["id", "name", "price", "endTime"],
         },
       });
-      console.log("ROUTE UPDATE USER", user);
       return res.status(200).jsonp(user);
     }
   } catch (error) {
@@ -253,12 +255,10 @@ const updateProfile = async (req, res) => {
 const getUserInfoById = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("id:", id);
     if (!id) {
       return res.status(428).send("Falta enviar datos obligatorios");
     }
     const user = await findUserById(id);
-    console.log("user:", user);
     if (user.id === 0) {
       return res.status(204).send(nullUser);
     } else {
@@ -275,8 +275,6 @@ const changeUserPassword = async (req, res) => {
   try {
     const { id } = req.params;
     const { newPassword } = req.body;
-    console.log("CHANGE PASSWORD ID", id);
-    console.log("NEW PASSWORD", newPassword);
     if (!id || !newPassword) {
       return res.status(428).send("Falta enviar datos obligatorios");
     }
@@ -303,5 +301,5 @@ module.exports = {
   changeUserPassword,
   getUserInfoById,
   restoreUser,
-  restoreGoogleUser,
+  restoreUserByJustEmail,
 };

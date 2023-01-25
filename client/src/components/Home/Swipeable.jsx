@@ -9,6 +9,8 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
 import { Card, CardContent, Grid } from "@mui/material";
 
+const isMobile = window.innerWidth < 800;
+
 const tips = [
   {
     tip: "Irse a la cama y despertar a la misma hora todos los días",
@@ -43,7 +45,7 @@ const tips = [
     im: "https://www.colchonexpres.com/blog/wp-content/uploads/2017/05/como-relajarse-para-dormir-1.jpg",
   },
   {
-    tip: " Deshacerse de distracciones como ruidos, luces brillantes y el televisor o computadora en el dormitorio",
+    tip: " Deshacerse de distracciones como ruidos, luces brillantes y el televisor o computadora",
     im: "https://cdnb.20m.es/sites/91/2016/07/las-bombillas-edison-apagan-europa-1346409905559.jpg",
   },
   {
@@ -78,45 +80,65 @@ function Swipeable() {
           direction="column"
           justifyContent="center"
           alignItems="center"
-          spacing={1}
-          flex={2}
-          p={1}
         >
           <Grid item>
-            <Typography sx={{ fontSize: 24, fontWeight: "bold" }}>
+            <Typography
+              sx={{
+                fontSize: !isMobile ? 24 : 22,
+                fontWeight: "bold",
+                padding: "0.8rem",
+              }}
+            >
               Tips para dormir mejor
             </Typography>
           </Grid>
-          <Grid item sx={{ width: 300, height: 240 }}>
-            <SwipeableViews
-              axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-              index={activeStep}
-              onChangeIndex={handleStepChange}
-              enableMouseEvents
-            >
-              {tips.map((step, index) => (
-                <Grid key={`step-${index}`}>
-                  {Math.abs(activeStep - index) <= 2 ? (
-                    <Box
-                      component="img"
-                      sx={{
-                        height: 200,
-                        width: 350,
-                        display: "block",
-                        borderRadius: "4px",
-                      }}
-                      src={step.im}
-                      alt={step.tip}
-                    />
-                  ) : null}
-                </Grid>
-              ))}
-            </SwipeableViews>
+          <Grid>
+            <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+              <SwipeableViews
+                axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+                index={activeStep}
+                onChangeIndex={handleStepChange}
+                enableMouseEvents
+              >
+                {tips.map((step, index) => (
+                  <div
+                    key={`step-${index}`}
+                    style={{
+                      overflow: "hidden",
+                      height: "230px",
+                      maxHeight: "230px",
+                    }}
+                  >
+                    {Math.abs(activeStep - index) <= 2 ? (
+                      <Box
+                        component="img"
+                        sx={{
+                          height: "auto",
+                          display: "block",
+                          maxWidth: 400,
+                          overflow: "hidden",
+                          width: "100%",
+                        }}
+                        src={step.im}
+                        alt={step.tip}
+                      />
+                    ) : null}
+                  </div>
+                ))}
+              </SwipeableViews>
+            </Box>
           </Grid>
 
           <Grid item>
             <Typography
-              sx={{ fontSize: 16, textAlign: "center", height: "40px" }}
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                fontSize: 16,
+                textAlign: "center",
+                height: "4rem",
+                paddingTop: "20px",
+              }}
             >
               {tips[activeStep].tip}
             </Typography>

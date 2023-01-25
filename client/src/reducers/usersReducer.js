@@ -10,6 +10,7 @@ const initialState = {
     users: [],
     total: 0,
   },
+  nationalities: [],
   currentUser: {},
 };
 
@@ -39,6 +40,11 @@ const usersReducer = function (state = initialState, action) {
       return {
         ...state,
         currentUser: action.payload,
+      };
+    case 'GET_NATIONALITIES_RESPONSE':
+      return {
+        ...state,
+        nationalities: action.payload,
       };
 
     default:

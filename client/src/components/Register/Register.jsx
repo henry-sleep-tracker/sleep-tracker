@@ -33,6 +33,7 @@ yourDate = yourDate.toISOString().split("T")[0];
 
 export default function Register() {
   const dispatch = useDispatch();
+  var passwordPattern=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
   const [input, setInput] = useState({
     names: "",
     lastNames: "",
@@ -101,6 +102,8 @@ export default function Register() {
         );
       } else if (input.password !== input.confirmPassword) {
         message.warn(`La contraseña no se confirmo correctamente`, 2500);
+      } else if (input.password.match(passwordPattern)===null) {
+        message.warn(`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`, 2500);
       } else {
         dispatch(postUser(input));
         // setInput({
@@ -132,11 +135,11 @@ export default function Register() {
     );
   }
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const [showPassword2, setShowPassword2] = React.useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
 
   const handleClickShowPassword2 = () => setShowPassword2((show) => !show);
 

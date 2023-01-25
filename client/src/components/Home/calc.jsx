@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
+const isMobile = window.innerWidth < 800;
+
 const Calc = () => {
   let [aproxim, setAprox] = useState("");
 
@@ -71,28 +73,52 @@ const Calc = () => {
 
   function SueñoI({ aproxim, tiempoDeEj, actividad }) {
     return (
-      <div>
-        <Typography sx={{ fontSize: 18, fontWeight: "medium" }}>
+      <div style={{ marginTop: "20px" }}>
+        <Typography
+          sx={{ fontSize: 16, fontWeight: "medium", marginBottom: "5px" }}
+        >
           Dormir:
         </Typography>
-        {aproxim}
-        <Typography sx={{ fontSize: 18, fontWeight: "medium" }}>
+        <Typography variant="body2" color="text.secondary">
+          {aproxim}
+        </Typography>
+
+        <Typography
+          sx={{
+            fontSize: 16,
+            fontWeight: "medium",
+            marginBottom: "5px",
+            marginTop: "5px",
+          }}
+        >
           Tiempo de actividad:
         </Typography>
-        {tiempoDeEj}
-        <Typography sx={{ fontSize: 18, fontWeight: "medium" }}>
+        <Typography variant="body2" color="text.secondary">
+          {tiempoDeEj}
+        </Typography>
+
+        <Typography
+          sx={{
+            fontSize: 16,
+            fontWeight: "medium",
+            marginBottom: "5px",
+            marginTop: "5px",
+          }}
+        >
           Actividad física:
         </Typography>
-        {actividad}
+        <Typography variant="body2" color="text.secondary">
+          {actividad}
+        </Typography>
+
         <Divider
           sx={{
             marginTop: 1,
             marginBottom: 1,
           }}
         />
-
         <Typography
-          sx={{ fontSize: 20, fontWeight: "medium" }}
+          sx={{ fontSize: 16, fontWeight: "normal", marginTop: "10px" }}
           className="recomend"
         >
           Recuerda que no importa la actividad, lo importante es estar en
@@ -103,21 +129,31 @@ const Calc = () => {
   }
 
   return (
-    <Card sx={{ height: 442, boxShadow: 2 }}>
+    <Card
+      sx={{
+        minWidth: 300,
+        height: !isMobile ? 442 : 500,
+        boxShadow: 2,
+      }}
+    >
       <CardContent>
         <Grid
           container
           justifyContent="center"
           alignItems="center"
           direction="column"
-          heigh={250}
           flex={4}
           p={2}
         >
-          <Grid item sx={{ padding: 0 }}>
+          <Grid item>
             <Typography
               className="titlerecomen"
-              sx={{ fontSize: 24, fontWeight: "bold" }}
+              sx={{
+                fontSize: !isMobile ? 24 : 22,
+                textAlign: "center",
+                fontWeight: "bold",
+                marginBottom: "20px",
+              }}
             >
               Recomendaciones por edad
             </Typography>

@@ -7,7 +7,7 @@
   margin: 0%;
   padding: 0%;
   height: 80vw;
-  
+
 }
 
 .containers {
@@ -107,26 +107,26 @@
 
 #buttonSubmit{
   border-radius: 3px;
-   border: none;
-   background-color: gray;
-   height: 30px;
+  border: none;
+  background-color: gray;
+  height: 30px;
    font-family:Verdana, Geneva, Tahoma, sans-serif;
-   font-size: 15px;
-   text-align: center;
-   cursor: pointer;
-   transition: all .3s ease-in-out 0s;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .3s ease-in-out 0s;
    position:absolute;
-   top: 1rem;
-   left: 5rem;
-   transition: all .3s ease-in-out 0s;
-   box-shadow: rgb(38, 57, 77) 0px 20px 20px -10px;
- }
- 
+  top: 1rem;
+  left: 5rem;
+  transition: all .3s ease-in-out 0s;
+  box-shadow: rgb(38, 57, 77) 0px 20px 20px -10px;
+}
+
  #buttonSubmit:hover{
-   background-color: #565658b5;
-   transform: translateX(6px);
-   outline: none;
- }
+  background-color: #565658b5;
+  transform: translateX(6px);
+  outline: none;
+}
 
 .buttonBack{
   border-radius: 3px;
@@ -170,4 +170,8 @@
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   font-size: 15px;
   cursor: pointer;
+}
+
+#mx-message-container {
+  top: 100px;
 }

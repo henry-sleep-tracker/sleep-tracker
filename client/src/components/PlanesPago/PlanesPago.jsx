@@ -2,18 +2,25 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserById } from "../../actions/index";
+import { USER_ID } from "../../actions/constants";
 import {
-  USER_ID,
-} from "../../actions/constants";
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+  Box,
+  Paper,
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { Helmet } from "react-helmet";
+import { useTheme } from "@mui/material/styles";
 
 const Pricing = () => {
   const userId = window.localStorage.getItem(USER_ID);
   const currentUser = useSelector((state) => state?.users.currentUser);
   const dispatch = useDispatch();
   const [prices, setPrices] = useState([]);
-  const planExpirationDate = useSelector(
-    (state) => state?.users.planExpirationDate
-  );
 
   useEffect(() => {
     fetchPrices();
@@ -44,126 +51,211 @@ const Pricing = () => {
     window.location.href = response.url; // obtener la url y redirigil al usuario a la url
   };
 
+  const priceProps = (
+    <Box>
+      <Typography>- Registro de actividad fisica</Typography>
+      <Typography>
+        - Registro de consumos diarios( alimentos y bebidas)
+      </Typography>
+      <Typography>
+        - Información de sueño conseguido diario y semanal
+      </Typography>
+      <Typography>- Exporta tu información completa en formato PDF</Typography>
+    </Box>
+  );
+  const classes = useStyles();
+
+  const theme = useTheme();
+
   return (
-    <div className="container">
-      <header>
-        <div className="text-center w-75 mx-auto">
-          <h1>Planes</h1>
-          <p className="fs-5 text-muted">
+    <Paper sx={{ minHeight: "100vh" }}>
+      <Helmet>
+        <title>Planes | Sleep Tracker</title>
+      </Helmet>
+
+      <Grid
+        container
+        justifyContent="center"
+        direction="column"
+        alignItems="center"
+        spacing={5}
+        paddingRight={3}
+        paddingLeft={3}
+      >
+        <Grid item>
+          <Typography variant="h2" fontWeight="bold" paddingTop={5}>
+            Planes
+          </Typography>
+        </Grid>
+
+        <Grid item>
+          <Typography variant="h6">
             Te damos los mejores beneficios para que tengas una mejor calidad de
             sueño con nuestros planes
-          </p>
-        </div>
-      </header>
-      <main>
-        <div className="row row-col-1 row-cols-md-3">
-          {!currentUser.plan?.name ? prices.map((price) => (
-                <div className="col">
-                  <div className="card text-center">
-                    <div className="card-header bg-dark text-white">
-                      <h4 className="fw-normal">{price.nickname}</h4>
-                    </div>
-                    <div className="card-body">
-                      <h1 className="card-title">
-                        ${price.unit_amount / 100}
-                        <small className="text-muted fw-light">
-                          /{price.recurring.interval}
-                        </small>
-                      </h1>
-                      <ul className="py-3">
-                        <li>Registro de actividad fisica</li>
-                        <li>
-                          Registro de consumos diarios( alimentos y bebidas)
-                        </li>
-                        <li>
-                          Información de sueño conseguido diario y semanal
-                        </li>
-                        <li>Exporta tu información completa en formato PDF</li>
-                      </ul>
-                      <button
-                        className="btn btn-lg text-white btn-success w-100"
-                        variant="outline-success"
-                        onClick={() => createSession(currentUser, price.id)}
+          </Typography>
+        </Grid>
+
+        <Grid item>
+          <Grid
+            container
+            justifyContent="center"
+            direction="row"
+            alignItems="stretch"
+            spacing={5}
+          >
+            {!currentUser.plan?.name
+              ? prices.map((price, index) => (
+                  <Grid item key={`basico-${index}`}>
+                    <Card variant="outlined" spacing={5}>
+                      <CardContent
+                        sx={{
+                          backgroundColor:
+                            theme.palette.mode == "dark"
+                              ? "#7986cb"
+                              : "#303f9f",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
                       >
-                        Comprar
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))
-            : currentUser.plan?.name === "Basico" ? prices.slice(0).map((price) => (
-                <div className="col">
-                  <div className="card text-center">
-                    <div className="card-header bg-dark text-white">
-                      <h4 className="fw-normal">{price.nickname}</h4>
-                    </div>
-                    <div className="card-body">
-                      <h1 className="card-title">
-                        ${price.unit_amount / 100}
-                        <small className="text-muted fw-light">
-                          /{price.recurring.interval}
-                        </small>
-                      </h1>
-                      <ul className="py-3">
-                        <li>Registro de actividad fisica</li>
-                        <li>
-                          Registro de consumos diarios( alimentos y bebidas)
-                        </li>
-                        <li>
-                          Información de sueño conseguido diario y semanal
-                        </li>
-                        <li>Exporta tu información completa en formato PDF</li>
-                      </ul>
-                      <button
-                        className="btn btn-lg text-white btn-success w-100"
-                        variant="outline-success"
-                        onClick={() => createSession(currentUser, price.id)}
+                        <Typography variant="h3" fontWeight="bold">
+                          {price.nickname}
+                        </Typography>
+                      </CardContent>
+
+                      <CardContent>
+                        <Typography variant="h4">
+                          ${price.unit_amount / 100}
+                          <small>/{price.recurring.interval}</small>
+                        </Typography>
+                      </CardContent>
+
+                      <CardContent>{priceProps}</CardContent>
+
+                      <CardContent
+                        sx={{ display: "flex", justifyContent: "center" }}
                       >
-                        Comprar
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))
-            : currentUser.plan?.name === "Estandar" ? prices.slice(1).map((price) => (
-                <div className="col">
-                  <div className="card text-center">
-                    <div className="card-header bg-dark text-white">
-                      <h4 className="fw-normal">{price.nickname}</h4>
-                    </div>
-                    <div className="card-body">
-                      <h1 className="card-title">
-                        ${price.unit_amount / 100}
-                        <small className="text-muted fw-light">
-                          /{price.recurring.interval}
-                        </small>
-                      </h1>
-                      <ul className="py-3">
-                        <li>Registro de actividad fisica</li>
-                        <li>
-                          Registro de consumos diarios( alimentos y bebidas)
-                        </li>
-                        <li>
-                          Información de sueño conseguido diario y semanal
-                        </li>
-                        <li>Exporta tu información completa en formato PDF</li>
-                      </ul>
-                      <button
-                        className="btn btn-lg text-white btn-success w-100"
-                        variant="outline-success"
-                        onClick={() => createSession(currentUser, price.id)}
+                        <Button
+                          variant="contained"
+                          size="large"
+                          onClick={() => createSession(currentUser, price.id)}
+                        >
+                          Comprar
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))
+              : currentUser.plan?.name === "Basico"
+              ? prices.slice(0).map((price, index) => (
+                  <Grid item key={`estandar-${index}`}>
+                    <Card variant="outlined" spacing={5}>
+                      <CardContent
+                        sx={{
+                          backgroundColor:
+                            theme.palette.mode == "dark"
+                              ? "#7986cb"
+                              : "#303f9f",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
                       >
-                        Comprar
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))
-            : null}
-        </div>
-      </main>
-    </div>
+                        <Typography variant="h3" fontWeight="bold">
+                          {price.nickname}
+                        </Typography>
+                      </CardContent>
+                      <CardContent>
+                        <Typography variant="h4">
+                          ${price.unit_amount / 100}
+                          <small>/{price.recurring.interval}</small>
+                        </Typography>
+                      </CardContent>
+                      <CardContent>
+                        {price.nickname === "Premium" && (
+                          <Typography>
+                            - Participa en el foro con otros usuarios
+                          </Typography>
+                        )}
+                        {priceProps}
+                      </CardContent>
+                      <CardContent
+                        sx={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <Button
+                          variant="contained"
+                          size="large"
+                          onClick={() => createSession(currentUser, price.id)}
+                        >
+                          Comprar
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))
+              : currentUser.plan?.name === "Estandar"
+              ? prices.slice(2).map((price, index) => (
+                  <Grid item key={`premium-${index}`}>
+                    <Card variant="outlined" spacing={6}>
+                      <CardContent
+                        sx={{
+                          backgroundColor:
+                            theme.palette.mode == "dark"
+                              ? "#7986cb"
+                              : "#303f9f",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Typography variant="h3" fontWeight="bold">
+                          {price.nickname}
+                        </Typography>
+                      </CardContent>
+
+                      <CardContent>
+                        <Typography variant="h4">
+                          ${price.unit_amount / 100}
+                          <small>/{price.recurring.interval}</small>
+                        </Typography>
+                      </CardContent>
+
+                      <CardContent>
+                        {price.nickname === "Premium" && (
+                          <Typography>
+                            - Participa en el foro con otros usuarios
+                          </Typography>
+                        )}
+                        {priceProps}
+                      </CardContent>
+
+                      <CardContent
+                        sx={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <Button
+                          variant="contained"
+                          size="large"
+                          onClick={() => createSession(currentUser, price.id)}
+                        >
+                          Comprar
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))
+              : null}
+          </Grid>
+        </Grid>
+      </Grid>
+    </Paper>
   );
 };
 
 export default Pricing;
+
+const useStyles = makeStyles(() => ({
+  middle: {
+    justifyContent: "center",
+  },
+
+  paperWraper: {
+    minHeight: "100vh",
+  },
+}));
