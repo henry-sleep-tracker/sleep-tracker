@@ -1009,7 +1009,7 @@ const Record = (props) => {
         spacing={5}
       >
         <Grid item>
-          <Typography variant="h2" fontWeight="bold" paddingTop={5}>
+          <Typography variant="h3" fontWeight="bold" paddingTop={5}>
             Registrar actividad
           </Typography>
         </Grid>
@@ -1113,20 +1113,22 @@ const Record = (props) => {
                   /* hidden={checkSleepRecord?.length >= 1 ? true : false} */
                   hidden={syncFitbit}
                 >
-                  <Typography>
-                    <img src={personBed} alt="" className="person_bed" />
-                    Tiempo de Sueño{" "}
-                    <img
-                      src={checkImg}
-                      alt=""
-                      hidden={
-                        time?.startTime.length > 0 && time?.endTime.length > 0
-                          ? false
-                          : true
-                      }
-                      className="img_ok"
-                    />
-                  </Typography>
+                  <Grid>
+                    <h2>
+                      <img src={personBed} alt="" className="person_bed" />
+                      Tiempo de Sueño{" "}
+                      <img
+                        src={checkImg}
+                        alt=""
+                        hidden={
+                          time?.startTime.length > 0 && time?.endTime.length > 0
+                            ? false
+                            : true
+                        }
+                        className="img_ok"
+                      />
+                    </h2>
+                  </Grid>
                   <div className="sync_div_true" hidden={temp?.length < 1}>
                     <h5>El dia {dateStringToDate(day?.replace("-", ""))}</h5>
                     <h6>Fitbit registro {sleepTime12Format} de sueño</h6>
@@ -1136,7 +1138,7 @@ const Record = (props) => {
                       sx={{ width: "200px" }}
                       startIcon={<CheckIcon color="success" />}
                     >
-                      Guardar lectura FitBit
+                      Guardar lectura
                     </Button>
                   </div>
 
@@ -1149,14 +1151,14 @@ const Record = (props) => {
                     paddingBottom={1}
                     spacing={3}
                   >
-                    <Grid item>
+                    <Grid item hidden={sleepTime.length > 0}>
                       <StartTime
                         text="Dormiste"
                         clean={sTime === null ? true : false}
                       />
                     </Grid>
 
-                    <Grid item>
+                    <Grid item hidden={sleepTime.length > 0}>
                       <EndTime
                         text="Despertaste"
                         clean={eTime === null ? true : false}
@@ -1164,10 +1166,15 @@ const Record = (props) => {
                     </Grid>
                   </Grid>
                 </div>
-                <br />
 
                 <div className="reg_head_container">
-                  <Typography variant="h4">Registrar</Typography>
+                  <Typography
+                    variant="h4"
+                    fontWeight={"medium"}
+                    sx={{ paddingTop: 5 }}
+                  >
+                    Registrar
+                  </Typography>
                 </div>
 
                 <Grid
@@ -1175,8 +1182,9 @@ const Record = (props) => {
                   direction="row"
                   justifyContent="space-evenly"
                   alignItems="center"
-                  paddingTop={1}
-                  paddingBottom={1}
+                  p={3}
+                  //paddingTop={1}
+                  //paddingBottom={1}
                   display="flex"
                   // justifyContent='center'
                 >
