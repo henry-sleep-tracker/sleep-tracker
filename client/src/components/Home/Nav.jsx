@@ -50,7 +50,8 @@ import AddchartIcon from "@mui/icons-material/Addchart";
 
 function ResponsiveAppBar({ mode, setMode }) {
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state?.users.currentUser);
+  const currentUser = useSelector((state) => state?.users);
+  const currentUser2 = useSelector((state) => state.users.currentUser);
   const { logout } = useAuthContext();
   const navigate = useNavigate();
 
@@ -142,9 +143,7 @@ function ResponsiveAppBar({ mode, setMode }) {
               onClick={handleDrawerToggle}
               color="inherit"
             >
-              <MenuIcon
-                sx={{ color: '#fafafa' }}
-              />
+              <MenuIcon />
             </IconButton>
 
             {mode === "light" ? (
@@ -181,10 +180,10 @@ function ResponsiveAppBar({ mode, setMode }) {
                 >
                   <ListItemButton component="a">
                     <ListItemIcon>
-                      {currentUser.image ? (
+                      {currentUser2.image ? (
                         <Avatar
                           alt="Not found"
-                          srcSet={currentUser.image}
+                          srcSet={currentUser2.image}
                           sx={{
                             width: 50,
                             height: 50,
@@ -198,7 +197,7 @@ function ResponsiveAppBar({ mode, setMode }) {
                   </ListItemButton>
                 </ListItem>
 
-                {currentUser.isAdmin && (
+                {currentUser.currentUser.isAdmin && (
                   <ListItem
                     disablePadding
                     sx={{
@@ -289,17 +288,16 @@ function ResponsiveAppBar({ mode, setMode }) {
                     />
                   </ListItemButton>
                 </ListItem>
-                {currentUser.plan?.name === "Premium" &&
-                  <ListItem disablePadding>
-                    <ListItemButton component="a">
-                      <ListItemIcon>
-                        <ForumIcon />
-                      </ListItemIcon>
-                      <ListItemText primary="Foro" onClick={handlerChat} />
-                    </ListItemButton>
-                  </ListItem>
 
-                }
+                <ListItem disablePadding>
+                  <ListItemButton component="a">
+                    <ListItemIcon>
+                      <ForumIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Chat" onClick={handlerChat} />
+                  </ListItemButton>
+                </ListItem>
+
                 <ListItem disablePadding>
                   <ListItemButton component="a">
                     <ListItemIcon>
@@ -382,26 +380,24 @@ function ResponsiveAppBar({ mode, setMode }) {
               Registrar Actividad
             </Button>
           </Box>
-          {currentUser.plan?.name === "Premium" &&
 
-            <Box
-              sx={{
-                flexGrow: 1,
-                justifyContent: "center",
-                display: { xs: "none", md: "flex" },
-              }}
+          <Box
+            sx={{
+              flexGrow: 1,
+              justifyContent: "center",
+              display: { xs: "none", md: "flex" },
+            }}
+          >
+            <Button
+              key="Chat"
+              onClick={handlerChat}
+              sx={{ my: 2, color: "white", display: "block" }}
+              startIcon={<ForumIcon />}
             >
-              <Button
-                key="Chat"
-                onClick={handlerChat}
-                sx={{ my: 2, color: "white", display: "block" }}
-                startIcon={<ForumIcon />}
-              >
-                Foro
-              </Button>
-            </Box>
+              Chat
+            </Button>
+          </Box>
 
-          }
           <Box
             sx={{
               flexGrow: 1,
@@ -426,7 +422,7 @@ function ResponsiveAppBar({ mode, setMode }) {
               display: { xs: "none", md: "flex" },
             }}
           >
-            <Tooltip title={currentUser.names}>
+            <Tooltip title={currentUser2.names}>
               <IconButton
                 onClick={handleClick}
                 size="small"
@@ -436,10 +432,10 @@ function ResponsiveAppBar({ mode, setMode }) {
                 aria-expanded={open ? "true" : undefined}
               >
                 <ListItemIcon>
-                  {currentUser.image ? (
+                  {currentUser2.image ? (
                     <Avatar
                       alt="Not found"
-                      srcSet={currentUser.image}
+                      srcSet={currentUser2.image}
                       sx={{
                         width: 50,
                         height: 50,
@@ -505,7 +501,7 @@ function ResponsiveAppBar({ mode, setMode }) {
                 </ListItemIcon>
               </MenuItem>
 
-              {currentUser.isAdmin && (
+              {currentUser.currentUser.isAdmin && (
                 <MenuItem
                   // onClick={handleClose}
                   onClick={handlerDashboard}

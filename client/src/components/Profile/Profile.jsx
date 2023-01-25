@@ -61,7 +61,7 @@ const Profile = () => {
     if (currentUser.hashedPassword !== null) {
       createPassword();
     }
-    if (isPasswordSetUp === "false" || currentUser.nationality === null || currentUser.birthday === null) {
+    if (isPasswordSetUp==="false" ||currentUser.nationality === null ||currentUser.birthday === null ) {
       message.error(
         `Tiene que haber completado toda su informacion de perfil para poder continuar...  
         Contraseña, nacionalidad y cumpleaños`,
@@ -222,6 +222,7 @@ const Profile = () => {
         direction='column'
         alignItems='center'
         spacing={5}
+
       >
         <Grid
           item
@@ -245,12 +246,12 @@ const Profile = () => {
 
               <Grid
                 container
-                // sx={{
-                //   direction: {
-                //     md: 'row',
-                //     sm: 'column'
-                //   }
-                // }}
+                sx={{
+                  direction: {
+                    md: 'row',
+                    sm: 'column'
+                  }
+                }}
                 justifyContent="center"
                 alignItems="center"
                 paddingTop={1}
@@ -364,7 +365,7 @@ const Profile = () => {
                               :
                             {
                               bgcolor: "transparent"
-                            },
+                            }
                           }}
                           color="primary"
                           aria-label="upload picture"
@@ -379,7 +380,10 @@ const Profile = () => {
                             <ListItemIcon>
                               <EditIcon />
                             </ListItemIcon>
-                            Cambiar
+                            <Typography>
+                              Editar
+                            </Typography>
+
                           </MenuItem>
                         </Button>
                       }
