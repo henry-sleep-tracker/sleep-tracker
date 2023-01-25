@@ -57,7 +57,11 @@ import { dateStringToDate } from "../../helpers/string_to_date";
 import DateSelector from "./CalendarRecord";
 import TimeMealSelector from "./Time";
 import { StartTime, EndTime } from "./Time";
-import { Button } from "@mui/material";
+import { Button, Card, CardContent, Grid, Paper, Stack, TextField, Typography } from "@mui/material";
+import { Helmet } from "react-helmet";
+import CheckIcon from '@mui/icons-material/Check';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useTheme } from "@mui/styles";
 
 //>======================>//
 //> Starts Component
@@ -713,12 +717,13 @@ const Record = props => {
   }, [value, recordStatus]);
 
   const PopupActivity = () => (
+
     <Popup
       trigger={<img src={menRuning} alt="" className="popup_ico" />}
       /* contentStyle={{ width: "35%" }} */
       contentStyle={{ width: "320px" }}
       onClose={() => setNewActivity(false)}
-      position="bottom left"
+      position="top center"
     >
       <div className="activity_container">
         <div className="actity_head_container">
@@ -746,16 +751,16 @@ const Record = props => {
             <option value="default">Selecciona...</option>
             {activitiesRedux.length > 0
               ? activitiesRedux.map((e, i) => {
-                  return (
-                    <option
-                      key={e.id}
-                      value={e.id}
-                      disabled={record.activity?.includes(e.id) ? true : false}
-                    >
-                      {e.activity}
-                    </option>
-                  );
-                })
+                return (
+                  <option
+                    key={e.id}
+                    value={e.id}
+                    disabled={record.activity?.includes(e.id) ? true : false}
+                  >
+                    {e.activity}
+                  </option>
+                );
+              })
               : ""}
             <option value="add_activity">Agregar Actividad</option>
           </select>
@@ -808,7 +813,7 @@ const Record = props => {
       /* contentStyle={{ width: "35%" }} */
       contentStyle={{ width: "320px" }}
       onClose={() => setNewCoffeeSize(false)}
-      position="bottom center"
+      position="top center"
     >
       <div className="coffee_container">
         <div className="coffee_head_container">
@@ -835,16 +840,16 @@ const Record = props => {
             <option value="default">Selecciona...</option>
             {coffeeSizesRedux.length > 0
               ? coffeeSizesRedux.map((e, i) => {
-                  return (
-                    <option
-                      key={`coffee-${i}`}
-                      value={e.id}
-                      disabled={record.coffee?.includes(e.id) ? true : false}
-                    >
-                      {e.size}
-                    </option>
-                  );
-                })
+                return (
+                  <option
+                    key={`coffee-${i}`}
+                    value={e.id}
+                    disabled={record.coffee?.includes(e.id) ? true : false}
+                  >
+                    {e.size}
+                  </option>
+                );
+              })
               : ""}
             <option value="add_coffee_size">Agregar Tamaño</option>
           </select>
@@ -897,7 +902,7 @@ const Record = props => {
       /* contentStyle={{ width: "35%" }} */
       contentStyle={{ width: "320px" }}
       onClose={() => setNewDrink(false)}
-      position="bottom right"
+      position="top center"
     >
       <div className="drink_container">
         <div className="drink_head_container">
@@ -924,16 +929,16 @@ const Record = props => {
             <option value="default">Selecciona...</option>
             {drinksRedux.length > 0
               ? drinksRedux.map((e, i) => {
-                  return (
-                    <option
-                      key={`drinksRe-${i}`}
-                      value={e.id}
-                      disabled={record.drink?.includes(e.id) ? true : false}
-                    >
-                      {e.drink}
-                    </option>
-                  );
-                })
+                return (
+                  <option
+                    key={`drinksRe-${i}`}
+                    value={e.id}
+                    disabled={record.drink?.includes(e.id) ? true : false}
+                  >
+                    {e.drink}
+                  </option>
+                );
+              })
               : ""}
             <option value="add_drink">Agregar Bebida</option>
           </select>
@@ -980,196 +985,396 @@ const Record = props => {
     </Popup>
   );
 
+  const theme = useTheme();
+
   // Render Main Elements
   return (
-    <div className="master">
-      <div className="form_container">
-        <form>
-          <div className="main_container">
-            <div className="x_container">
-              <Button variant="contained" onClick={handlerHome}>
-                X
-              </Button>
-            </div>
-            <div className="div_head">
-              <h2>
-                Nuevo Registro de {nameUser}
-                <img src={memo} alt="" className="memo" />
-              </h2>
-            </div>
-            <div className="date_time_section">
+    // <div className="master">
+    <Paper
+      sx={{ minHeight: '100vh' }}
+    >
+
+      <Helmet>
+        <title>Registrar actividad | Sleep Tracker</title>
+      </Helmet>
+
+      <Grid
+        container
+        justifyContent="center"
+        direction='column'
+        alignItems='center'
+        spacing={5}
+      >
+        <Grid
+          item
+        >
+          <Typography
+            variant="h2"
+            fontWeight='bold'
+            paddingTop={5}
+          >
+            Registrar actividad
+          </Typography>
+        </Grid>
+
+        <Grid
+          item
+        >
+
+          <Card
+            variant='outlined'
+            sx={{
+              width: '60vw',
+              marginBottom: 10,
+              backgroundColor:
+                theme.palette.mode == 'light' &&
+                '#eeeeee',
+            }}
+          >
+            <CardContent>
+              {/* <div className="form_container"> */}
+
+              <form>
+                {/* <div className="main_container"> */}
+                {/* <div className="x_container"> */}
+                {/* <Button 
+              variant="contained" 
+              onClick={handlerHome}
+              >
+                
+              </Button> */}
+                {/* </div> */}
+                {/* <div className="div_head"> */}
+                {/* <Typography
+            variant='h4'>
+              Nuevo Registro de {nameUser}
+              <img src={memo} alt="" className="memo" />
+            </Typography> */}
+                {/* </div> */}
+                {/* <div className="date_time_section">
               <div className="general_info_container">
-                <div className="date_record_container">
-                  <DateSelector
-                    text="Fecha"
-                    date={record.dateMeal}
+                <div className="date_record_container"> */}
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-evenly"
+                  alignItems="center"
+                  paddingTop={1}
+                  paddingBottom={1}
+                  spacing={3}
+                >
+
+                  <Grid
+                    item
+                  >
+
+                    <DateSelector
+                      text="Dia del registro"
+                      date={record.dateMeal}
+                      onChange={handlerOnChange}
+                    />
+                    {/* </div> */}
+                    {/* <div className="time_meal_container"> */}
+
+                  </Grid>
+
+                  <Grid
+                    item>
+
+                    <TimeMealSelector
+                      text="Hora de tu cena"
+                      clean={timeR === null ? true : false}
+                    />
+                  </Grid>
+                </Grid>
+
+                {/* </div> */}
+                {/* </div> */}
+                {/* </div> */}
+                <div
+                  id="test_div"
+                  className="meal_section"
+                  hidden={timeR ? false : true}
+                >
+                  <Grid
+                    item
+                  >
+                    <Typography
+                      variant='h5'
+                    >
+                      Descripcion de tu cena{" "}
+                    </Typography>
+                  </Grid>
+                  <TextField
+                    className="text_description"
+                    name="description"
+                    /* cols={57} */
+                    // rows="5"
+                    placeholder="Ingresa breve descripcion"
+                    value={record.description}
                     onChange={handlerOnChange}
-                  />
-                </div>
-                <div className="time_meal_container">
-                  <TimeMealSelector
-                    text="Hora de tu cena"
-                    clean={timeR === null ? true : false}
-                  />
-                </div>
-              </div>
-            </div>
-            <div
-              id="test_div"
-              className="meal_section"
-              hidden={timeR ? false : true}
-            >
-              <h5>
-                Descripcion de tu cena{" "}
-                <img
-                  src={checkImg}
-                  alt=""
-                  hidden={
-                    timeR && record.description?.length > 0 ? false : true
-                  }
-                  className="img_ok"
-                />
-              </h5>
-              <textarea
-                className="text_description"
-                name="description"
-                /* cols={57} */
-                rows="5"
-                placeholder="Ingresa breve descripcion"
-                value={record.description}
-                onChange={handlerOnChange}
-                required={record.timeMeal?.length > 0 ? true : false}
-              ></textarea>
-            </div>
-            <div
-              className="sleep_container"
-              //hidden={checkSleepRecord?.length >= 1 ? false : true}
-              hidden={!syncFitbit}
-            >
-              <h6>Este dia ya tiene registrado tu tiempo de sueño</h6>
-            </div>
-            <div
-              className="sleep_container"
-              /* hidden={checkSleepRecord?.length >= 1 ? true : false} */
-              hidden={syncFitbit}
-            >
-              <div>
-                <h2>
-                  <img src={personBed} alt="" className="person_bed" />
-                  Tiempo de Sueño{" "}
-                  <img
+                    required={record.timeMeal?.length > 0 ? true : false}
+                    multiline
+                    rows={4}
+                  >
+                  </TextField>
+                  {/* <img
                     src={checkImg}
                     alt=""
                     hidden={
-                      time?.startTime.length > 0 && time?.endTime.length > 0
-                        ? false
-                        : true
+                      timeR && record.description?.length > 0 ? false : true
                     }
                     className="img_ok"
-                  />
-                </h2>
-              </div>
+                  /> */}
 
-              <div className="sync_div_true" hidden={temp?.length < 1}>
-                <h5>El dia {dateStringToDate(day?.replace("-", ""))}</h5>
-                <h6>Fitbit registro {sleepTime12Format} de sueño</h6>
-                <Button
-                  variant="contained"
-                  onClick={handlerSync}
-                  sx={{ width: "200px" }}
-                >
-                  Guardar Lectura
-                </Button>
-              </div>
-
-              <div className="sleep_section" hidden={sleepTime.length > 0}>
-                <div className="start_time">
-                  <StartTime
-                    text="Dormiste"
-                    clean={sTime === null ? true : false}
-                  />
-                </div>
-                <div className="end_time">
-                  <EndTime
-                    text="Despertaste"
-                    clean={eTime === null ? true : false}
-                  />
                 </div>
                 <div
-                  className="sleep_result"
-                  hidden={sTime && eTime ? false : true}
+                  className="sleep_container"
+                  //hidden={checkSleepRecord?.length >= 1 ? false : true}
+                  hidden={!syncFitbit}
                 >
-                  <h4>
-                    Dormiste:{" "}
-                    {sleepTime12Format ? sleepTime12Format : finalHours}
-                  </h4>
+                  <h6>Este dia ya tiene registrado tu tiempo de sueño</h6>
                 </div>
-              </div>
+                <div
+                  className="sleep_container"
+                  /* hidden={checkSleepRecord?.length >= 1 ? true : false} */
+                  hidden={syncFitbit}
+                >
+                  {/* <div> */}
+                  <Typography>
+                    <img src={personBed} alt="" className="person_bed" />
+                    Tiempo de Sueño{" "}
+                    <img
+                      src={checkImg}
+                      alt=""
+                      hidden={
+                        time?.startTime.length > 0 && time?.endTime.length > 0
+                          ? false
+                          : true
+                      }
+                      className="img_ok"
+                    />
+                  </Typography>
+                  {/* </div> */}
 
-              {/* <label>Siesta</label>
+                  <div className="sync_div_true" hidden={temp?.length < 1}>
+                    <h5>El dia {dateStringToDate(day?.replace("-", ""))}</h5>
+                    <h6>Fitbit registro {sleepTime12Format} de sueño</h6>
+                    <Button
+                      variant="contained"
+                      onClick={handlerSync}
+                      sx={{ width: "200px" }}
+                      startIcon={
+                        <CheckIcon
+                          color='success'
+                        />}
+                    >
+                      Guardar lectura FitBit
+                    </Button>
+                  </div>
+
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-evenly"
+                    alignItems="center"
+                    paddingTop={1}
+                    paddingBottom={1}
+                    spacing={3}
+                  >
+
+                    {/* <div className="sleep_section" hidden={sleepTime.length > 0}> */}
+                    {/* <div className="start_time"> */}
+                    <Grid
+                      item
+                    >
+
+                      <StartTime
+                        text="Dormiste"
+                        clean={sTime === null ? true : false}
+                      />
+                      {/* </div> */}
+                    </Grid>
+
+                    <Grid
+                      item
+                    >
+
+                      <EndTime
+                        text="Despertaste"
+                        clean={eTime === null ? true : false}
+                      />
+                      {/* </div> */}
+                    </Grid>
+
+                    {/* <div className="end_time"> */}
+
+                    {/* <div
+                      className="sleep_result"
+                      hidden={sTime && eTime ? false : true}
+                    > */}
+                    {
+                    <h4>
+                      Dormiste:{" "}
+                      {sleepTime12Format ? sleepTime12Format : finalHours}
+                    </h4>
+                    }
+                    {/* </div> */}
+                    {/* </div> */}
+                  </Grid>
+                  {/* <label>Siesta</label>
               <input className="input_number" type="number" step="1" min="0" />
               <span>min.</span>
               <button className="add_button">Agregar</button> */}
-            </div>
-            <br />
-
-            <div className="reg_container">
-              <div className="reg_head_container">
-                <h2>Registrar</h2>
-              </div>
-              <div className="popup_container">
-                <div className="div_popup">
-                  <div
-                    className="div_ok"
-                    hidden={activity.length > 0 ? false : true}
-                  >
-                    {activity.length}
-                  </div>
-                  {PopupActivity()}
                 </div>
-                <div className="div_popup">
-                  <div
-                    className="div_ok"
-                    hidden={coffee.length > 0 ? false : true}
-                  >
-                    {coffee.length}
-                  </div>
-                  {PopupCoffee()}
-                </div>
-                <div className="div_popup">
-                  <div
-                    className="div_ok"
-                    hidden={drink.length > 0 ? false : true}
-                  >
-                    {drink.length}
-                  </div>
-                  {PopupDrink()}
-                </div>
-              </div>
-            </div>
+                <br />
 
-            {/* ====================== BUTTONS SECTION ======================= */}
+                {/* <div className="reg_container"> */}
+                <div className="reg_head_container">
+                  <Typography
+                    variant='h4'
+                  >
+                    Registrar
+                  </Typography>
+                </div>
+                {/* <div className="popup_container"> */}
 
-            <div className="button_container">
-              <Button
-                variant="contained"
-                onClick={handlerOnSubmit}
-                sx={{ width: "300px", margin: "5px" }}
-              >
-                Guardar
-              </Button>
-              <Button
-                variant="contained"
-                onClick={handlerOnClear}
-                sx={{ width: "300px", margin: "5px" }}
-              >
-                Limpiar
-              </Button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-evenly"
+                  alignItems="center"
+                  paddingTop={1}
+                  paddingBottom={1}
+                  display='flex'
+                // justifyContent='center'
+                >
+                  <Grid
+                    item
+                    sm={3}
+                    xs={12}
+                    sx={{ display: 'flex', justifyContent: 'center' }}
+                  >
+
+                    <div className="div_popup">
+                      <div
+                        className="div_ok"
+                        hidden={activity.length > 0 ? false : true}
+                      >
+                        {activity.length}
+                      </div>
+                      {PopupActivity()}
+                    </div>
+                  </Grid>
+
+                  <Grid
+                    item
+                    sm={3}
+                    xs={12}
+                    sx={{ display: 'flex', justifyContent: 'center' }}
+                  >
+
+                    <div className="div_popup">
+                      <div
+                        className="div_ok"
+                        hidden={coffee.length > 0 ? false : true}
+                      >
+                        {coffee.length}
+                      </div>
+                      {PopupCoffee()}
+                    </div>
+                  </Grid>
+
+                  <Grid
+                    item
+                    sm={3}
+                    xs={12}
+                    sx={{ display: 'flex', justifyContent: 'center' }}
+                  >
+
+                    <div className="div_popup">
+                      <div
+                        className="div_ok"
+                        hidden={drink.length > 0 ? false : true}
+                      >
+                        {drink.length}
+                      </div>
+                      {PopupDrink()}
+                    </div>
+                  </Grid>
+
+                </Grid>
+                {/* </div>
+              </div> */}
+
+                {/* ====================== BUTTONS SECTION ======================= */}
+
+                {/* <div className="button_container"> */}
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-evenly"
+                  alignItems="center"
+                  paddingTop={1}
+                  paddingBottom={1}
+                >
+
+                  <Grid
+                    item
+                  >
+
+                    <Button
+                      variant="contained"
+                      onClick={handlerOnClear}
+                      sx={{
+                        width: {
+                          lg: "300px",
+                          md: "300px",
+                          sm: "300px"
+                        },
+                        margin: "5px"
+                      }}
+                      startIcon={<DeleteIcon />}
+                      color='error'
+                    >
+                      Limpiar
+                    </Button>
+                  </Grid>
+
+                  <Grid
+                    item
+                  >
+
+                    <Button
+                      variant="contained"
+                      onClick={handlerOnSubmit}
+                      sx={{
+                        width: {
+                          lg: "300px",
+                          md: "300px",
+                          sm: "300px"
+                        },
+                        margin: "5px"
+                      }}
+                      startIcon={<CheckIcon />}
+                      color='success'
+                    >
+                      Guardar
+                    </Button>
+                  </Grid>
+
+                </Grid>
+                {/* </div> */}
+                {/* </div> */}
+              </form>
+              {/* </div> */}
+            </CardContent>
+          </Card>
+        </Grid>
+
+      </Grid>
+    </Paper>
+    // </div>
   );
 };
 

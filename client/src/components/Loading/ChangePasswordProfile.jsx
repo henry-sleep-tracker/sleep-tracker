@@ -78,7 +78,7 @@ export const DeleteUserProfile = () => {
     }, 2000);
 
     return () => {
-      message.error("El usuario ha sido eliminado.", 3000);
+      message.success("El usuario ha sido eliminado.", 3000);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

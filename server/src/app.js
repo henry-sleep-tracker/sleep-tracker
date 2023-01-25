@@ -12,12 +12,6 @@ const cors = require("cors");
 
 const server = express();
 
-const serverApp = http.createServer(server);
-const io = new Server(serverApp, {
-  cors: {
-    origin: "*",
-  },
-});
 server.use(cors());
 
 server.name = "API";
@@ -43,14 +37,20 @@ server.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, ContentType, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-  next();
-});
-
-server.use("/", routes);
-
-io.on("connection", (socket) => {
+    );
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+    next();
+  });
+  
+  server.use("/", routes);
+  
+  const serverApp = http.createServer(server);
+  const io = new Server(serverApp, {
+    cors: {
+      origin: "*",
+    },
+  });
+  io.on("connection", (socket) => {
   socket.on("message", (message, currentUser) => {
     socket.broadcast.emit("message", {
       body: message,

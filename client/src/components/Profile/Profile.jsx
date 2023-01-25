@@ -19,13 +19,12 @@ import {
   ListItemIcon,
   Menu
 } from "@mui/material";
+import Fab from '@mui/material/Fab';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import DeleteIcon from "@mui/icons-material/Delete";
 import PasswordIcon from "@mui/icons-material/Password";
 import CheckIcon from "@mui/icons-material/Check";
 import PersonIcon from "@mui/icons-material/Person";
-import EmailIcon from "@mui/icons-material/Email";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import PlaceIcon from "@mui/icons-material/Place";
 import { Helmet } from "react-helmet";
 import Avatar from '@mui/material/Avatar';
 import Dialog from '@mui/material/Dialog';
@@ -34,7 +33,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { makeStyles } from "@mui/styles";
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import EditIcon from '@mui/icons-material/Edit';
 import { message } from "react-message-popup";
 
@@ -46,7 +44,7 @@ const Profile = () => {
   const [open2, setOpen2] = useState(false);
   const [editNames, setEditNames] = useState(false);
   const [editEmail, setEditEmail] = useState(false);
-  const [editiBirthday, setEditBirthday] = useState(false);
+  const [editBirthday, setEditBirthday] = useState(false);
   const [editNationality, setEditNationality] = useState(false);
   const [image, setImage] = useState("");
   const [inputs, setInputs] = useState({
@@ -56,7 +54,6 @@ const Profile = () => {
     birthday: "",
     nationality: "",
   });
-  console.log(inputs);
   let keyNationalities = 0;
   let yourDate = new Date();
 
@@ -64,7 +61,7 @@ const Profile = () => {
     if (currentUser.hashedPassword !== null) {
       createPassword();
     }
-    if (isPasswordSetUp==="false" ||currentUser.nationality === null ||currentUser.birthday === null ) {
+    if (isPasswordSetUp === "false" || currentUser.nationality === null || currentUser.birthday === null) {
       message.error(
         `Tiene que haber completado toda su informacion de perfil para poder continuar...  
         Contraseña, nacionalidad y cumpleaños`,
@@ -108,7 +105,7 @@ const Profile = () => {
   };
   const handleClickBirthday = (e) => {
     e.preventDefault();
-    if (!editiBirthday) {
+    if (!editBirthday) {
       setEditBirthday(true);
     } else {
       setEditBirthday(false);
@@ -133,23 +130,18 @@ const Profile = () => {
   const handleClickDelete = () => {
     setOpen(true);
   };
-
   const handleClickConfirm = () => {
     setOpen2(true);
   };
-
   const handleNo = () => {
     setOpen(false);
   };
-
   const handleNo2 = () => {
     setOpen2(false);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
-
   const handleClose2 = () => {
     setOpen2(false);
   };
@@ -161,9 +153,11 @@ const Profile = () => {
       const eliminar = "";
       dispatch(updateImage(currentUser.id, eliminar))
       setImage("");
+      message.success("Imagen eliminada", 2000)
 
     } catch (error) {
-      console.log("el error es:", error);
+      // console.log("el error es:", error);
+      message.error("Hubo un error intentelo nuevamente", 2000);
     }
   };
 
@@ -172,8 +166,10 @@ const Profile = () => {
     try {
       dispatch(updateImage(currentUser.id, image))
       setImage("");
+      message.success("Imagen actualizada", 2000)
     } catch (error) {
-      console.log("el error es:", error);
+      // console.log("el error es:", error);
+      message.error("Hubo un error intentelo nuevamente", 2000);
     }
   };
 
@@ -193,8 +189,10 @@ const Profile = () => {
       setEditEmail(false);
       setEditBirthday(false);
       setEditNationality(false);
+      message.success("Datos actualizados", 2000);
     } catch (error) {
-      console.log("el error es:", error);
+      // console.log("el error es:", error);
+      message.error("Hubo un error intentelo nuevamente", 2000);
     }
   };
 
@@ -224,7 +222,6 @@ const Profile = () => {
         direction='column'
         alignItems='center'
         spacing={5}
-
       >
         <Grid
           item
@@ -242,18 +239,18 @@ const Profile = () => {
         <Grid item>
           <Card
             variant="outlined"
-            sx={{ width: '70vw' }}
+            sx={{ width: {large:'50vw', md:'50vw', sm: '70vw', xs:'90vw'} }}
           >
             <CardContent>
 
               <Grid
                 container
-                sx={{
-                  direction: {
-                    md: 'row',
-                    sm: 'column'
-                  }
-                }}
+                // sx={{
+                //   direction: {
+                //     md: 'row',
+                //     sm: 'column'
+                //   }
+                // }}
                 justifyContent="center"
                 alignItems="center"
                 paddingTop={1}
@@ -367,7 +364,7 @@ const Profile = () => {
                               :
                             {
                               bgcolor: "transparent"
-                            }
+                            },
                           }}
                           color="primary"
                           aria-label="upload picture"
@@ -382,10 +379,7 @@ const Profile = () => {
                             <ListItemIcon>
                               <EditIcon />
                             </ListItemIcon>
-                            <Typography>
-                              Editar
-                            </Typography>
-
+                            Cambiar
                           </MenuItem>
                         </Button>
                       }
@@ -423,11 +417,12 @@ const Profile = () => {
                 alignItems="center"
                 paddingTop={1}
                 paddingBottom={1}
+                spacing={1}
               >
 
                 <Grid
                   item
-                // xs={12}
+                   xs={7}
                 >
                   {!editNames ? (
                     <Typography>
@@ -435,39 +430,41 @@ const Profile = () => {
                     </Typography>
                   ) : (
                     <Grid container gap={1}>
-                      <TextField
-                        variant="outlined"
-                        label="Nuevo nombre"
-                        type="text"
-                        name="names"
-                        value={inputs.names}
-                        onChange={(e) => handleInputs(e)}
-                      />
-                      <TextField
-                        variant="outlined"
-                        label="Nuevo apellido"
-                        type="text"
-                        name="lastNames"
-                        value={inputs.lastNames}
-                        onChange={(e) => handleInputs(e)}
-                      />
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      label="Nuevo nombre"
+                      type="text"
+                      name="names"
+                      value={inputs.names}
+                      onChange={(e) => handleInputs(e)}
+                    />
+                    <TextField
+                    size="small"
+                      variant="outlined"
+                      label="Nuevo apellido"
+                      type="text"
+                      name="lastNames"
+                      value={inputs.lastNames}
+                      onChange={(e) => handleInputs(e)}
+                    />
                     </Grid>
                   )}
                 </Grid>
 
                 <Grid
                   item
-                // xs={12}
                 >
                   {!inputs.names && (
-                    <Button
-                      size='large'
-                      variant="outlined"
-                      onClick={(e) => handleClick(e)}
-                      startIcon={<PersonIcon />}
-                    >
-                      Nombre
-                    </Button>
+                    <Tooltip title= {!editNames ? "Editar nombre" : "Cancelar"}>
+                      <Fab
+                        size='small'
+                        color={!editNames ? "primary" : "error"}
+                        onClick={(e) => handleClick(e)}
+                      >
+                        {!editNames ? <EditIcon /> : <HighlightOffIcon/>}
+                      </Fab>
+                   </Tooltip>
                   )}
                 </Grid>
 
@@ -482,28 +479,17 @@ const Profile = () => {
                 alignItems="center"
                 paddingTop={1}
                 paddingBottom={1}
-              // spacing={30}
+                spacing={1}
               >
-
-                {/* <Grid
-                  item
-                >
-                  <Typography
-                    variant="h6"
-                    fontWeight='bold'
-                  >
-                    Correo electronico
-                  </Typography>
-                </Grid> */}
 
                 <Grid
                   item
-                // xs={12}
                 >
                   {!editEmail ? (
                     <Typography>{currentUser.email}</Typography>
                   ) : (
                     <TextField
+                      size="small"
                       type="text"
                       name="email"
                       label="Nuevo email"
@@ -518,14 +504,15 @@ const Profile = () => {
                 // xs={12}
                 >
                   {!inputs.email && (
-                    <Button
-                      size='large'
-                      variant="outlined"
-                      onClick={(e) => handleClickEmail(e)}
-                      startIcon={<EmailIcon />}
-                    >
-                      Correo
-                    </Button>
+                    <Tooltip title = {!editEmail ? "Editar email" : "Cancelar"}>
+                      <Fab
+                        size='small'
+                        color={!editEmail ? "primary" : "error"}
+                        onClick={(e) => handleClickEmail(e)}
+                      >
+                        {!editEmail ? <EditIcon /> : <HighlightOffIcon/>}
+                      </Fab>
+                    </Tooltip>
                   )}
                 </Grid>
               </Grid>
@@ -539,31 +526,19 @@ const Profile = () => {
                 alignItems="center"
                 paddingTop={1}
                 paddingBottom={1}
-
-              // spacing={30}
+                spacing={1}
               >
-
-                {/* <Grid
-                  item
-                >
-                  <Typography
-                    variant="h6"
-                    fontWeight='bold'
-                  >
-                    Fecha de nacimiento
-                  </Typography>
-                </Grid> */}
 
                 <Grid
                   item
-                // xs={12}
                 >
-                  {!editiBirthday ? (
+                  {!editBirthday ? (
                     <Typography>
                       {currentUser.birthday}
                     </Typography>
                   ) : (
                     <TextField
+                      size="small"
                       helperText="Fecha de nacimiento"
                       type="date"
                       name="birthday"
@@ -578,18 +553,18 @@ const Profile = () => {
 
                 <Grid
                   item
-                // xs={12}
                 >
-                  {!inputs.birthday &&
-                    <Button
-                      size='large'
-                      variant="outlined"
+                  {!inputs.birthday && (
+                    <Tooltip title = {!editBirthday ? "Editar nacimiento" : "Cancelar"}>
+                    <Fab
+                      size='small'
+                      color={!editBirthday ? "primary" : "error"}
                       onClick={(e) => handleClickBirthday(e)}
-                      startIcon={<CalendarMonthIcon />}
                     >
-                      Nacimiento
-                    </Button>
-                  }
+                      {!editBirthday ? <EditIcon /> : <HighlightOffIcon/>}
+                    </Fab>
+                  </Tooltip>
+                  )}
                 </Grid>
               </Grid>
 
@@ -602,24 +577,11 @@ const Profile = () => {
                 alignItems="center"
                 paddingTop={1}
                 paddingBottom={1}
-
-              // spacing={30}
+                spacing={1}
               >
-
-                {/* <Grid
-                  item
-                >
-                  <Typography
-                    variant="h6"
-                    fontWeight='bold'
-                  >
-                    Nacionalidad
-                  </Typography>
-                </Grid> */}
 
                 <Grid
                   item
-                // xs={12}
                 >
                   {!editNationality ? (
                     <Typography>
@@ -627,6 +589,7 @@ const Profile = () => {
                     </Typography>
                   ) : (
                     <TextField
+                      size="small"
                       required
                       select
                       label="Nacionalidad"
@@ -648,17 +611,17 @@ const Profile = () => {
 
                 <Grid
                   item
-                // xs={12}
                 >
                   {!inputs.nationality && (
-                    <Button
-                      size='large'
-                      variant="outlined"
+                    <Tooltip title = {!editNationality ? "Editar nacionalidad" : "Cancelar"}>
+                    <Fab
+                      size='small'
+                      color={!editNationality ? "primary" : "error"}
                       onClick={(e) => handleClickNationality(e)}
-                      startIcon={<PlaceIcon />}
                     >
-                      Nacionalidad
-                    </Button>
+                      {!editNationality ? <EditIcon /> : <HighlightOffIcon/>}
+                    </Fab>
+                  </Tooltip>
                   )}
                 </Grid>
 
@@ -673,24 +636,11 @@ const Profile = () => {
                 alignItems="center"
                 paddingTop={1}
                 paddingBottom={1}
-
+                spacing={1}
               >
-
-                {/* <Grid
-                  item
-                >
-                  <Typography
-                    variant="h6"
-                    fontWeight='bold'
-                  >
-                    Contraseña
-                  </Typography>
-                </Grid> */}
 
                 <Grid
                   item
-                // xs={12}
-
                 >
                   <Typography>
                     **********
@@ -699,18 +649,22 @@ const Profile = () => {
 
                 <Grid
                   item
-                // xs={12}
-
                 >
-                  <Button
-                    size='large'
-                    href={`/private/change-password/${currentUser.id}`}
-                    startIcon={<PasswordIcon />}
-                    variant="outlined"
-                    id="ButtonPassword"
-                  >
-                    Contraseña
-                  </Button>
+                  <Tooltip title="Cambiar contraseña">
+                    <Fab
+                      size='small'
+                      href={`/private/change-password/${currentUser.id}`}
+                      variant="extended"
+                      color="primary"
+                      sx={{
+                        ':hover': {
+                          color: 'white',
+                        },
+                      }}
+                    >
+                      Contraseña
+                    </Fab>
+                  </Tooltip>
 
                 </Grid>
 
@@ -725,13 +679,11 @@ const Profile = () => {
                 alignItems="center"
                 paddingTop={1}
                 paddingBottom={1}
-
-              // spacing={30}
+                spacing={1}
               >
 
                 <Grid
                   item
-                // xs={12}
                 >
                   <Typography
                     variant="h6"
@@ -743,50 +695,57 @@ const Profile = () => {
 
                 <Grid
                   item
-                // xs={12}
                 >
-                  <Button
-                    size='large'
-                    variant="outlined"
-                    href="/private/planes"
-                    startIcon={<AccountBalanceWalletIcon />}
-                  >
-                    {currentUser.plan?.name}
-                  </Button>
+                  <Tooltip title= "Cambiar plan">
+                    <Fab
+                      size='small'
+                      variant="extended"
+                      href="/private/planes"
+                      color="primary"
+                      sx={{
+                        ':hover': {
+                          color: 'white',
+                        },
+                      }}
+                    >
+                      {currentUser.plan?.name}
+                    </Fab>
+                  </Tooltip>
                 </Grid>
               </Grid>
 
               <Grid
                 item
               >
-                <Button
+                <Fab
                   size='small'
                   href={`/private/delete-user/${currentUser.id}`}
-                  startIcon={<DeleteIcon />}
-                  variant="outlined"
+                  variant="extended"
                   color="error"
                   id="ButtonDelete"
+                  sx={{
+                    ':hover': {
+                      color: 'white',
+                    },
+                  }}
                 >
                   Borrar usuario
-                </Button>
+                </Fab>
               </Grid>
 
-              <Grid item>
+              <Grid item paddingTop = {1}>
                 {inputs.names ||
                   inputs.email ||
                   inputs.birthday ||
                   inputs.nationality ? (
-                  <Button
-                    size='large'
+                  <Fab
+                    size="small"
                     onClick={handleClickConfirm}
                     color="success"
-                    variant="contained"
-                    type="submit"
-                    id="ButtonSubmit"
-                    startIcon={<CheckIcon />}
+                    variant="extended"
                   >
                     Confirmar
-                  </Button>
+                  </Fab>
                 ) : null}
               </Grid>
               {/* </Grid> */}
