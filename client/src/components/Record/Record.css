@@ -234,9 +234,11 @@ h6 {
 }
 
 .input_number {
-  max-width: 15%;
+  max-width: 35%;
   margin-left: 0.4rem;
   margin-right: 0.9rem;
+  text-align: center;
+  font-weight: bold;
 }
 
 .div_map_container {
@@ -704,9 +706,11 @@ input {
   }
 
   .input_number {
-    max-width: 15%;
+    max-width: 35%;
     margin-left: 0.4rem;
     margin-right: 0.9rem;
+    text-align: center;
+    font-weight: bold;
   }
 
   .div_map_container {
@@ -1173,9 +1177,11 @@ input {
   }
 
   .input_number {
-    max-width: 15%;
+    max-width: 35%;
     margin-left: 0.4rem;
     margin-right: 0.9rem;
+    text-align: center;
+    font-weight: bold;
   }
 
   .div_map_container {

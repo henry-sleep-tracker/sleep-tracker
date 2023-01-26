@@ -4,24 +4,37 @@ import { useDispatch, useSelector } from "react-redux";
 
 // Actions Imports
 import { getRecordByIdDate } from "../../actions/records";
-import { setTime } from "../../actions/loading";
+import {
+  setTime,
+  setStartTime,
+  setEndTime,
+  setDay,
+} from "../../actions/loading";
+
+import { getSleepStage } from "../../actions/getUserHealthData";
+
+// Import helpers
+import { date_maker } from "../../helpers/date_maker";
 
 /* ====================== STYLE IMPORTS ======================= */
 
-import "./Saving";
+import "./Saving.css";
 
 //>======================>//
 //> Starts Component
 //>======================>//
 
 const Saving = () => {
+  // Hooks init
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  /******************** Redux States Section *********************/
+
   const day = useSelector(state => state.loading.day);
   const userId = useSelector(state => state.users.currentUser.id);
 
   useEffect(() => {
-    dispatch(setTime(null));
 
     const delay = () => navigate("/private/records");
 
@@ -29,8 +42,23 @@ const Saving = () => {
       delay();
     }, 500);
 
+
     return () => {
-      dispatch(getRecordByIdDate(userId, day));
+
+      if (day) {
+        dispatch(getRecordByIdDate(userId, day));
+        dispatch(getSleepStage(day));
+        dispatch(setDay(day));
+      } else {
+        dispatch(getRecordByIdDate(userId, date_maker()));
+        dispatch(getSleepStage(date_maker()));
+        dispatch(setDay(date_maker()));
+      }
+
+      dispatch(setTime(null));
+      dispatch(setStartTime(null));
+      dispatch(setEndTime(null));
+
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
