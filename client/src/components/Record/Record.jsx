@@ -210,6 +210,7 @@ const Record = (props) => {
     let time = "";
     let min = "";
 
+
     // Before Dispatch //
 
     if (
@@ -291,6 +292,10 @@ const Record = (props) => {
     dispatch(setDay(day));
     dispatch(setStartTime(""));
     dispatch(setEndTime(""));
+
+    navigate("/private/records");
+    dispatch(setDay(""));
+
   };
 
   const handlerOnClear = (e) => {
@@ -713,15 +718,24 @@ const Record = (props) => {
     if (!recordStatus) {
       return;
     }
+    console.log('recordStatus:', recordStatus)
+    console.log('recordStatus.statusText:', recordStatus.statusText)
+
     if (recordStatus.statusText === "OK") {
       message.success(
         `${nameUser} tu registro se guardo correctamente!!`,
         2500
       );
       dispatch(setStatusNewRecord());
+      console.log('recordStatus:', recordStatus)
+      console.log('recordStatus.statusText:', recordStatus.statusText)
+
     } else {
       message.error(`Error: al guardar registro`, 2500);
       dispatch(setStatusNewRecord());
+      console.log('recordStatus:', recordStatus)
+      console.log('recordStatus.statusText:', recordStatus.statusText)
+
     }
   }, [value, recordStatus]);
 
@@ -759,16 +773,16 @@ const Record = (props) => {
             <option value="default">Selecciona...</option>
             {activitiesRedux.length > 0
               ? activitiesRedux.map((e, i) => {
-                  return (
-                    <option
-                      key={e.id}
-                      value={e.id}
-                      disabled={record.activity?.includes(e.id) ? true : false}
-                    >
-                      {e.activity}
-                    </option>
-                  );
-                })
+                return (
+                  <option
+                    key={e.id}
+                    value={e.id}
+                    disabled={record.activity?.includes(e.id) ? true : false}
+                  >
+                    {e.activity}
+                  </option>
+                );
+              })
               : ""}
             <option value="add_activity">Agregar Actividad</option>
           </select>
@@ -847,16 +861,16 @@ const Record = (props) => {
             <option value="default">Selecciona...</option>
             {coffeeSizesRedux.length > 0
               ? coffeeSizesRedux.map((e, i) => {
-                  return (
-                    <option
-                      key={`coffee-${i}`}
-                      value={e.id}
-                      disabled={record.coffee?.includes(e.id) ? true : false}
-                    >
-                      {e.size}
-                    </option>
-                  );
-                })
+                return (
+                  <option
+                    key={`coffee-${i}`}
+                    value={e.id}
+                    disabled={record.coffee?.includes(e.id) ? true : false}
+                  >
+                    {e.size}
+                  </option>
+                );
+              })
               : ""}
             <option value="add_coffee_size">Agregar Tamaño</option>
           </select>
@@ -936,16 +950,16 @@ const Record = (props) => {
             <option value="default">Selecciona...</option>
             {drinksRedux.length > 0
               ? drinksRedux.map((e, i) => {
-                  return (
-                    <option
-                      key={`drinksRe-${i}`}
-                      value={e.id}
-                      disabled={record.drink?.includes(e.id) ? true : false}
-                    >
-                      {e.drink}
-                    </option>
-                  );
-                })
+                return (
+                  <option
+                    key={`drinksRe-${i}`}
+                    value={e.id}
+                    disabled={record.drink?.includes(e.id) ? true : false}
+                  >
+                    {e.drink}
+                  </option>
+                );
+              })
               : ""}
             <option value="add_drink">Agregar Bebida</option>
           </select>
@@ -1028,14 +1042,14 @@ const Record = (props) => {
 
               <form>
                 {/* <div className="main_container"> */}
-                {/* <div className="x_container"> */}
-                {/* <Button 
-              variant="contained" 
-              onClick={handlerHome}
-              >
-                
-              </Button> */}
-                {/* </div> */}
+                {/* <div className="x_container">
+                  <Button
+                    variant="contained"
+                    onClick={handlerHome}
+                  >
+                    x
+                  </Button>
+                </div> */}
                 {/* <div className="div_head"> */}
                 {/* <Typography
             variant='h4'>
@@ -1186,7 +1200,7 @@ const Record = (props) => {
                   //paddingTop={1}
                   //paddingBottom={1}
                   display="flex"
-                  // justifyContent='center'
+                // justifyContent='center'
                 >
                   <Grid
                     item
