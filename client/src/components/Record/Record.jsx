@@ -36,7 +36,6 @@ import {
 
 // Import images
 import checkImg from "../../images/check-mark-button_2705.png";
-import memo from "../../images/memo2.png";
 import personBed from "../../images/person-in-bed.png";
 import runingShoe from "../../images/running-shoe.png";
 import menRuning from "../../images/man-running.png";
@@ -57,10 +56,18 @@ import { dateStringToDate } from "../../helpers/string_to_date";
 import DateSelector from "./CalendarRecord";
 import TimeMealSelector from "./Time";
 import { StartTime, EndTime } from "./Time";
-import { Button, Card, CardContent, Grid, Paper, Stack, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Helmet } from "react-helmet";
-import CheckIcon from '@mui/icons-material/Check';
-import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from "@mui/icons-material/Check";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@mui/styles";
 
 //>======================>//
@@ -205,30 +212,31 @@ const Record = props => {
 
     // Before Dispatch //
 
-    if (
-      (timeR === null || timeR?.length <= 0 || time === undefined) &&
-      record.sleepTime.length <= 0 &&
-      record.timeActivity.length <= 0 &&
-      record.coffeeCups.length <= 0 &&
-      record.drinks.length <= 0 &&
-      record.coffee.length <= 0 &&
-      record.drink.length <= 0 &&
-      record.activity.length <= 0 &&
-      st?.length <= 0 &&
-      et?.length <= 0
-    ) {
-      message.warn(`No se ingreso informacion`);
+    if (timeR && record.description?.length < 1) {
+      message.warn(`Ingresa una breve descripcion de tu cena`);
       return;
+    }
+
+    if (
+      record.dateMeal === day &&
+      !record.timeMeal &&
+      !record.description &&
+      !record.sleepTime &&
+      record.timeActivity.length < 1 &&
+      record.coffeeCups.length < 1 &&
+      record.drinks.length < 1 &&
+      record.coffee.length < 1 &&
+      record.drink.length < 1 &&
+      record.activity.length < 1 &&
+      record.userId === userId &&
+      (st?.length < 1 || et?.length < 1)
+    ) {
+      return message.warn(`No se ingreso informacion`);
     }
 
     if (record.dateMeal === "") {
       date = date_maker();
       setRecord((record.dateMeal = date));
-    }
-
-    if (timeR && record.description?.length < 1) {
-      message.warn(`Ingresa una breve descripcion de tu cena`);
-      return;
     }
 
     if (!timeR) {
@@ -315,11 +323,11 @@ const Record = props => {
     dispatch(setEndTime(null));
   };
 
-  const handlerHome = e => {
+  /* const handlerHome = e => {
     e.preventDefault();
     navigate("/private/home");
     dispatch(setDay(""));
-  };
+  }; */
 
   //! ================== SleepTime Handlers ================= !//
 
@@ -704,7 +712,7 @@ const Record = props => {
     if (!recordStatus) {
       return;
     }
-    if (recordStatus.statusText === "OK") {
+    if (recordStatus?.status === 200) {
       message.success(
         `${nameUser} tu registro se guardo correctamente!!`,
         2500
@@ -717,7 +725,6 @@ const Record = props => {
   }, [value, recordStatus]);
 
   const PopupActivity = () => (
-
     <Popup
       trigger={<img src={menRuning} alt="" className="popup_ico" />}
       /* contentStyle={{ width: "35%" }} */
@@ -751,16 +758,16 @@ const Record = props => {
             <option value="default">Selecciona...</option>
             {activitiesRedux.length > 0
               ? activitiesRedux.map((e, i) => {
-                return (
-                  <option
-                    key={e.id}
-                    value={e.id}
-                    disabled={record.activity?.includes(e.id) ? true : false}
-                  >
-                    {e.activity}
-                  </option>
-                );
-              })
+                  return (
+                    <option
+                      key={e.id}
+                      value={e.id}
+                      disabled={record.activity?.includes(e.id) ? true : false}
+                    >
+                      {e.activity}
+                    </option>
+                  );
+                })
               : ""}
             <option value="add_activity">Agregar Actividad</option>
           </select>
@@ -840,16 +847,16 @@ const Record = props => {
             <option value="default">Selecciona...</option>
             {coffeeSizesRedux.length > 0
               ? coffeeSizesRedux.map((e, i) => {
-                return (
-                  <option
-                    key={`coffee-${i}`}
-                    value={e.id}
-                    disabled={record.coffee?.includes(e.id) ? true : false}
-                  >
-                    {e.size}
-                  </option>
-                );
-              })
+                  return (
+                    <option
+                      key={`coffee-${i}`}
+                      value={e.id}
+                      disabled={record.coffee?.includes(e.id) ? true : false}
+                    >
+                      {e.size}
+                    </option>
+                  );
+                })
               : ""}
             <option value="add_coffee_size">Agregar Tamaño</option>
           </select>
@@ -929,16 +936,16 @@ const Record = props => {
             <option value="default">Selecciona...</option>
             {drinksRedux.length > 0
               ? drinksRedux.map((e, i) => {
-                return (
-                  <option
-                    key={`drinksRe-${i}`}
-                    value={e.id}
-                    disabled={record.drink?.includes(e.id) ? true : false}
-                  >
-                    {e.drink}
-                  </option>
-                );
-              })
+                  return (
+                    <option
+                      key={`drinksRe-${i}`}
+                      value={e.id}
+                      disabled={record.drink?.includes(e.id) ? true : false}
+                    >
+                      {e.drink}
+                    </option>
+                  );
+                })
               : ""}
             <option value="add_drink">Agregar Bebida</option>
           </select>
@@ -990,10 +997,7 @@ const Record = props => {
   // Render Main Elements
   return (
     // <div className="master">
-    <Paper
-      sx={{ minHeight: '100vh' }}
-    >
-
+    <Paper sx={{ minHeight: "100vh" }}>
       <Helmet>
         <title>Registrar actividad | Sleep Tracker</title>
       </Helmet>
@@ -1001,34 +1005,23 @@ const Record = props => {
       <Grid
         container
         justifyContent="center"
-        direction='column'
-        alignItems='center'
+        direction="column"
+        alignItems="center"
         spacing={5}
       >
-        <Grid
-          item
-        >
-          <Typography
-            variant="h2"
-            fontWeight='bold'
-            paddingTop={5}
-          >
+        <Grid item>
+          <Typography variant="h2" fontWeight="bold" paddingTop={5}>
             Registrar actividad
           </Typography>
         </Grid>
 
-        <Grid
-          item
-        >
-
+        <Grid item>
           <Card
-            variant='outlined'
+            variant="outlined"
             sx={{
-              width: '60vw',
+              width: "60vw",
               marginBottom: 10,
-              backgroundColor:
-                theme.palette.mode == 'light' &&
-                '#eeeeee',
+              backgroundColor: theme.palette.mode == "light" && "#eeeeee",
             }}
           >
             <CardContent>
@@ -1063,11 +1056,7 @@ const Record = props => {
                   paddingBottom={1}
                   spacing={3}
                 >
-
-                  <Grid
-                    item
-                  >
-
+                  <Grid item>
                     <DateSelector
                       text="Dia del registro"
                       date={record.dateMeal}
@@ -1075,12 +1064,9 @@ const Record = props => {
                     />
                     {/* </div> */}
                     {/* <div className="time_meal_container"> */}
-
                   </Grid>
 
-                  <Grid
-                    item>
-
+                  <Grid item>
                     <TimeMealSelector
                       text="Hora de tu cena"
                       clean={timeR === null ? true : false}
@@ -1096,12 +1082,8 @@ const Record = props => {
                   className="meal_section"
                   hidden={timeR ? false : true}
                 >
-                  <Grid
-                    item
-                  >
-                    <Typography
-                      variant='h5'
-                    >
+                  <Grid item>
+                    <Typography variant="h5">
                       Descripcion de tu cena{" "}
                     </Typography>
                   </Grid>
@@ -1116,8 +1098,7 @@ const Record = props => {
                     required={record.timeMeal?.length > 0 ? true : false}
                     multiline
                     rows={4}
-                  >
-                  </TextField>
+                  ></TextField>
                   {/* <img
                     src={checkImg}
                     alt=""
@@ -1126,7 +1107,6 @@ const Record = props => {
                     }
                     className="img_ok"
                   /> */}
-
                 </div>
                 <div
                   className="sleep_container"
@@ -1164,64 +1144,56 @@ const Record = props => {
                       variant="contained"
                       onClick={handlerSync}
                       sx={{ width: "200px" }}
-                      startIcon={
-                        <CheckIcon
-                          color='success'
-                        />}
+                      startIcon={<CheckIcon color="success" />}
                     >
                       Guardar lectura FitBit
                     </Button>
                   </div>
 
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-evenly"
-                    alignItems="center"
-                    paddingTop={1}
-                    paddingBottom={1}
-                    spacing={3}
-                  >
-
-                    {/* <div className="sleep_section" hidden={sleepTime.length > 0}> */}
-                    {/* <div className="start_time"> */}
+                  {sleepTime.length < 1 ? (
                     <Grid
-                      item
+                      container
+                      direction="row"
+                      justifyContent="space-evenly"
+                      alignItems="center"
+                      paddingTop={1}
+                      paddingBottom={1}
+                      spacing={3}
                     >
+                      {/* <div className="sleep_section" hidden={sleepTime.length > 0}> */}
+                      {/* <div className="start_time"> */}
+                      <Grid item>
+                        <StartTime
+                          text="Dormiste"
+                          clean={sTime === null ? true : false}
+                        />
+                        {/* </div> */}
+                      </Grid>
 
-                      <StartTime
-                        text="Dormiste"
-                        clean={sTime === null ? true : false}
-                      />
-                      {/* </div> */}
+                      <Grid item>
+                        <EndTime
+                          text="Despertaste"
+                          clean={eTime === null ? true : false}
+                        />
+                        {/* </div> */}
+                      </Grid>
+
+                      <div className="end_time">
+                        <div
+                          className="sleep_result"
+                          hidden={sTime && eTime ? false : true}
+                        >
+                          <h4>
+                            Dormiste:{" "}
+                            {sleepTime12Format ? sleepTime12Format : finalHours}
+                          </h4>
+                        </div>
+                      </div>
                     </Grid>
+                  ) : (
+                    ""
+                  )}
 
-                    <Grid
-                      item
-                    >
-
-                      <EndTime
-                        text="Despertaste"
-                        clean={eTime === null ? true : false}
-                      />
-                      {/* </div> */}
-                    </Grid>
-
-                    {/* <div className="end_time"> */}
-
-                    {/* <div
-                      className="sleep_result"
-                      hidden={sTime && eTime ? false : true}
-                    > */}
-                    {
-                    <h4>
-                      Dormiste:{" "}
-                      {sleepTime12Format ? sleepTime12Format : finalHours}
-                    </h4>
-                    }
-                    {/* </div> */}
-                    {/* </div> */}
-                  </Grid>
                   {/* <label>Siesta</label>
               <input className="input_number" type="number" step="1" min="0" />
               <span>min.</span>
@@ -1231,11 +1203,7 @@ const Record = props => {
 
                 {/* <div className="reg_container"> */}
                 <div className="reg_head_container">
-                  <Typography
-                    variant='h4'
-                  >
-                    Registrar
-                  </Typography>
+                  <Typography variant="h4">Registrar</Typography>
                 </div>
                 {/* <div className="popup_container"> */}
 
@@ -1246,16 +1214,15 @@ const Record = props => {
                   alignItems="center"
                   paddingTop={1}
                   paddingBottom={1}
-                  display='flex'
-                // justifyContent='center'
+                  display="flex"
+                  // justifyContent='center'
                 >
                   <Grid
                     item
                     sm={3}
                     xs={12}
-                    sx={{ display: 'flex', justifyContent: 'center' }}
+                    sx={{ display: "flex", justifyContent: "center" }}
                   >
-
                     <div className="div_popup">
                       <div
                         className="div_ok"
@@ -1271,9 +1238,8 @@ const Record = props => {
                     item
                     sm={3}
                     xs={12}
-                    sx={{ display: 'flex', justifyContent: 'center' }}
+                    sx={{ display: "flex", justifyContent: "center" }}
                   >
-
                     <div className="div_popup">
                       <div
                         className="div_ok"
@@ -1289,9 +1255,8 @@ const Record = props => {
                     item
                     sm={3}
                     xs={12}
-                    sx={{ display: 'flex', justifyContent: 'center' }}
+                    sx={{ display: "flex", justifyContent: "center" }}
                   >
-
                     <div className="div_popup">
                       <div
                         className="div_ok"
@@ -1302,7 +1267,6 @@ const Record = props => {
                       {PopupDrink()}
                     </div>
                   </Grid>
-
                 </Grid>
                 {/* </div>
               </div> */}
@@ -1318,11 +1282,7 @@ const Record = props => {
                   paddingTop={1}
                   paddingBottom={1}
                 >
-
-                  <Grid
-                    item
-                  >
-
+                  <Grid item>
                     <Button
                       variant="contained"
                       onClick={handlerOnClear}
@@ -1330,21 +1290,18 @@ const Record = props => {
                         width: {
                           lg: "300px",
                           md: "300px",
-                          sm: "300px"
+                          sm: "300px",
                         },
-                        margin: "5px"
+                        margin: "5px",
                       }}
                       startIcon={<DeleteIcon />}
-                      color='error'
+                      color="error"
                     >
                       Limpiar
                     </Button>
                   </Grid>
 
-                  <Grid
-                    item
-                  >
-
+                  <Grid item>
                     <Button
                       variant="contained"
                       onClick={handlerOnSubmit}
@@ -1352,17 +1309,16 @@ const Record = props => {
                         width: {
                           lg: "300px",
                           md: "300px",
-                          sm: "300px"
+                          sm: "300px",
                         },
-                        margin: "5px"
+                        margin: "5px",
                       }}
                       startIcon={<CheckIcon />}
-                      color='success'
+                      color="success"
                     >
                       Guardar
                     </Button>
                   </Grid>
-
                 </Grid>
                 {/* </div> */}
                 {/* </div> */}
@@ -1371,7 +1327,6 @@ const Record = props => {
             </CardContent>
           </Card>
         </Grid>
-
       </Grid>
     </Paper>
     // </div>
