@@ -16,15 +16,17 @@ const Chat = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
+const image = currentUser.image
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (message !== "") {
 
-      socket.emit("message", message, currentUser.names);
+      socket.emit("message", message, currentUser.names, image);
       const newMessage = {
         body: message,
         from: "Yo",
+        image: currentUser.image
       };
       setMessages([...messages, newMessage]);
       setMessage("");
@@ -139,10 +141,10 @@ const Chat = () => {
                               }
                             >
                               {/* {message.from} */}
-                              {currentUser.image ? (
+                              {message.image ? (
                                 <Avatar
                                   alt="Not found"
-                                  srcSet={currentUser.image}
+                                  srcSet={message.image}
                                   sx={{
                                     width: 30,
                                     height: 30,
