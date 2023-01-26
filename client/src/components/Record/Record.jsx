@@ -698,7 +698,6 @@ const Record = (props) => {
     dispatch(getActivitiesByUser(userId));
     dispatch(getCoffeeSizesByUser(userId));
     dispatch(getDrinksByUser(userId));
-
     if (!recordStatus) {
       return;
     }
