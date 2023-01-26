@@ -51,10 +51,11 @@ server.use((req, res, next) => {
     },
   });
   io.on("connection", (socket) => {
-  socket.on("message", (message, currentUser) => {
+  socket.on("message", (message, currentUser, image) => {
     socket.broadcast.emit("message", {
       body: message,
       from: currentUser,
+      image: image
     });
   });
 });
