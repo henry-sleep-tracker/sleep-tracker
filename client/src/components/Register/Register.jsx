@@ -25,7 +25,8 @@ import log from "../logi/log-.png";
 import { message } from "react-message-popup";
 import wakeup from "../../images/Signup/zen-balancing.jpg";
 import { makeStyles } from "@mui/styles";
-import {nationalities} from "../../actions/nationalities"
+import { nationalities } from "../../actions/nationalities";
+import styles from "./Register.module.css";
 
 let keyNationalities = 0;
 let yourDate = new Date();
@@ -33,7 +34,8 @@ yourDate = yourDate.toISOString().split("T")[0];
 
 export default function Register() {
   const dispatch = useDispatch();
-  var passwordPattern=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+  var passwordPattern =
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
   const [input, setInput] = useState({
     names: "",
     lastNames: "",
@@ -57,8 +59,9 @@ export default function Register() {
     let errors = {};
     for (let propiedad in input) {
       if (!input[propiedad]) {
-        errors[propiedad] = `${propiedad.charAt(0).toUpperCase() + propiedad.slice(1)
-          } es requerido`;
+        errors[propiedad] = `${
+          propiedad.charAt(0).toUpperCase() + propiedad.slice(1)
+        } es requerido`;
       }
     }
     return errors;
@@ -102,8 +105,11 @@ export default function Register() {
         );
       } else if (input.password !== input.confirmPassword) {
         message.warn(`La contraseña no se confirmo correctamente`, 2500);
-      } else if (input.password.match(passwordPattern)===null) {
-        message.warn(`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`, 2500);
+      } else if (input.password.match(passwordPattern) === null) {
+        message.warn(
+          `Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`,
+          2500
+        );
       } else {
         dispatch(postUser(input));
         // setInput({
@@ -147,11 +153,13 @@ export default function Register() {
     event.preventDefault();
   };
 
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
-    <Grid container height='100vh'>
-
+    <Grid
+      container
+      //height="100vh"
+    >
       <Helmet>
         <title>Registro | Sleep Tracker</title>
       </Helmet>
@@ -159,36 +167,29 @@ export default function Register() {
       <Grid
         container
         direction="row"
-        justifyContent="center"
-        alignItems="stretch"
-        width="100%"
+        justifyContent="flex-start"
+        alignItems="center"
+        // width="100%"
         columns={16}
-        className={classes.bg}
-
+        // className={classes.bg}
       >
-
-        <Grid
+        {/* <Grid
           item
           lg={9}
           md={7}
           sm={0}
           xs={0}
           sx={{
-            display: { lg: 'block', md: 'block', sm: 'none', xs: 'none' }
+            display: { lg: "block", md: "block", sm: "none", xs: "none" },
           }}
           height="100%"
           paddingTop={0}
           paddingBottom={0}
         >
-          <img
-            src={wakeup}
-            alt="wakeup login"
-            className={classes.imageStyle}
-          />
-        </Grid>
+          <img src={wakeup} alt="wakeup login" className={classes.imageStyle} />
+        </Grid> */}
 
-
-        <Grid
+        {/* <Grid
           item
           lg={7}
           md={9}
@@ -197,48 +198,43 @@ export default function Register() {
           height="100%"
           paddingTop={3}
           className={classes.bgImage}
-        >
+        > */}
+        {/* <Grid container spacing={3}>
+            <Grid container marginLeft={13} marginRight={13} direction="column"> */}
+        <Grid item xs={7} paddingTop={10} className={styles.outerCard}>
           <Grid
             container
+            justifyContent="center"
+            direction="column"
+            alignItems="center"
             spacing={3}
           >
-
             <Grid
-              container
-              marginLeft={13}
-              marginRight={13}
-              direction='column'
+              item
+              // sx={{ marginLeft: 9 }}
             >
+              <img src={log} alt="logo" width="300vw" />
+            </Grid>
 
-              <Grid
-                item
-                sx={{ marginLeft: 9 }}
-              >
-                <img
-                  src={log}
-                  alt="logo"
-                  width="300vw"
-                />
-              </Grid>
-
-
+            <Grid item>
               <Card
+                className="titleresume"
                 variant="outlined"
+                sx={{ minWidth: "30rem" }}
               >
                 <CardContent>
-
                   <Grid
                     container
                     justifyContent="center"
                     direction="column"
                     alignItems="center"
                     spacing={3}
+                    flex={4}
+                    p={2}
+                    clasName={styles.card}
                   >
-
                     <Grid item>
-                      <Typography
-                        sx={{ margin: 2, fontSize: 30, fontWeight: "medium" }}
-                      >
+                      <Typography sx={{ fontSize: 26, fontWeight: "medium" }}>
                         Registro
                       </Typography>
                     </Grid>
@@ -415,12 +411,31 @@ export default function Register() {
                 </CardContent>
               </Card>
             </Grid>
-
-
             <Grid
               item
               sx={{
-                marginLeft: 10
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                marginTop: "4vh",
+                marginLeft: "7vw",
+              }}
+            >
+              <Button
+                variant="outlined"
+                size="medium"
+                sx={{ background: "white", opacity: 0.6 }}
+                startIcon={<ArrowBackIosNewIcon />}
+                href="/"
+              >
+                Regresar
+              </Button>
+            </Grid>
+
+            {/* <Grid
+              item
+              sx={{
+                marginLeft: 10,
               }}
             >
               <Button
@@ -430,34 +445,37 @@ export default function Register() {
               >
                 Inicio
               </Button>
+            </Grid> */}
+          </Grid>
+          <Grid item xs={9}>
+            <Grid>
+              <img
+                src={wakeup}
+                alt="wakeup login"
+                className={styles.zenImage}
+              />
             </Grid>
-
           </Grid>
 
-          <br />
-
+          {/* <br /> */}
         </Grid>
-
-
-
       </Grid>
-
     </Grid>
   );
 }
 
-const useStyles = makeStyles(() => ({
-  imageStyle: {
-    width: '100%',
-    minHeight: '100vh',
-    height: '100%'
-  },
+// const useStyles = makeStyles(() => ({
+//   imageStyle: {
+//     width: "100%",
+//     minHeight: "100vh",
+//     height: "100%",
+//   },
 
-  bg: {
-    backgroundColor: '#ecefef'
-  },
+//   bg: {
+//     backgroundColor: "#ecefef",
+//   },
 
-  bgImage: {
-    backgroundImage: `url(${wakeup})`
-  },
-}));
+//   bgImage: {
+//     backgroundImage: `url(${wakeup})`,
+//   },
+// }));
