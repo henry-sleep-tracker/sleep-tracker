@@ -218,6 +218,7 @@ const Record = props => {
     }
 
     if (
+      (!sTime || !eTime) &&
       record.dateMeal === day &&
       !record.timeMeal &&
       !record.description &&
@@ -228,8 +229,7 @@ const Record = props => {
       record.coffee.length < 1 &&
       record.drink.length < 1 &&
       record.activity.length < 1 &&
-      record.userId === userId &&
-      (st?.length < 1 || et?.length < 1)
+      record.userId === userId
     ) {
       return message.warn(`No se ingreso informacion`);
     }
