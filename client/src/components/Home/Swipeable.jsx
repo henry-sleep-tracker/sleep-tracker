@@ -9,6 +9,8 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
 import { Card, CardContent, Grid } from "@mui/material";
 
+const isMobile = window.innerWidth < 800;
+
 const tips = [
   {
     tip: "Irse a la cama y despertar a la misma hora todos los días",
@@ -81,7 +83,11 @@ function Swipeable() {
         >
           <Grid item>
             <Typography
-              sx={{ fontSize: 24, fontWeight: "bold", padding: "0.8rem" }}
+              sx={{
+                fontSize: !isMobile ? 24 : 22,
+                fontWeight: "bold",
+                padding: "0.8rem",
+              }}
             >
               Tips para dormir mejor
             </Typography>

@@ -115,29 +115,78 @@ const getUsers = async (req, res) => {
     }
   }
   if (!nationality && name && !lastNames) {
-    try {
-      const responseAd = await User.findAll({
-        include: [
-          {
-            model: Plan,
-            where: {
-              name: name,
+
+    if(name === 'Ninguno'){
+      try {
+        const responseDb = await User.findAll({
+          include: [
+            {
+              model: Plan,
             },
-          },
-        ],
-        order: [["lastNames", "ASC"]],
-        paranoid: false,
-      });
-      return res.status(200).json({
-        users: responseAd.slice((page - 1) * limit, page * limit),
-        total: responseAd.length,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+          ],
+          order: [["lastNames", "ASC"]],
+          paranoid: false,
+        });
+        const responseAd = responseDb.filter( user => user.plan === null );
+        return res.status(200).json({
+          users: responseAd.slice((page - 1) * limit, page * limit),
+          total: responseAd.length,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const responseAd = await User.findAll({
+          include: [
+            {
+              model: Plan,
+              where: {
+                name: name,
+              },
+            },
+          ],
+          order: [["lastNames", "ASC"]],
+          paranoid: false,
+        });
+        return res.status(200).json({
+          users: responseAd.slice((page - 1) * limit, page * limit),
+          total: responseAd.length,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
   }
   if (!nationality && name && lastNames) {
+    if(name === 'Ninguno'){
+      try {
+        const responseDb = await User.findAll({
+          include: [
+            {
+              model: Plan,
+            },
+          ],
+
+          where: { 
+            lastNames: {
+              [Op.iLike]: `${lastNames}%`
+            } 
+          },
+
+          order: [["lastNames", "ASC"]],
+          paranoid: false,
+        });
+        const responseAd = responseDb.filter( user => user.plan === null );
+        return res.status(200).json({
+          users: responseAd.slice((page - 1) * limit, page * limit),
+          total: responseAd.length,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
       try {
         const responseAd = await User.findAll({
           include: [
@@ -165,65 +214,123 @@ const getUsers = async (req, res) => {
       } catch (error) {
         console.log(error);
       }
+    };
   }
   if (nationality && name && !lastNames) {
-    try {
-      const responseAd = await User.findAll({
-        include: [
-          {
-            model: Plan,
-            where: {
-              name: name,
-            },
-          },
-        ],
-
-        where: { nationality: nationality },
-
-        order: [["lastNames", "ASC"]],
-        paranoid: false,
-      });
-      return res.status(200).json({
-        users: responseAd.slice((page - 1) * limit, page * limit),
-        total: responseAd.length,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  if (nationality && name && lastNames) {
-    try {
-      const responseAd = await User.findAll({
-        include: [
-          {
-            model: Plan,
-            where: {
-              name: name,
-            },
-          },
-        ],
-
-        where: {
-          [Op.and]: [
+    if(name === 'Ninguno'){
+      try {
+        const responseDb = await User.findAll({
+          include: [
             {
-              lastNames: {
-                [Op.iLike]: `${lastNames}%`
-              },
-              nationality: nationality,
+              model: Plan,
             },
           ],
-        },
 
-        order: [["lastNames", "ASC"]],
-        paranoid: false,
-      });
-      return res.status(200).json({
-        users: responseAd.slice((page - 1) * limit, page * limit),
-        total: responseAd.length,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+          where: { nationality: nationality },
+
+          order: [["lastNames", "ASC"]],
+          paranoid: false,
+        });
+        const responseAd = responseDb.filter( user => user.plan === null );
+        return res.status(200).json({
+          users: responseAd.slice((page - 1) * limit, page * limit),
+          total: responseAd.length,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const responseAd = await User.findAll({
+          include: [
+            {
+              model: Plan,
+              where: {
+                name: name,
+              },
+            },
+          ],
+  
+          where: { nationality: nationality },
+  
+          order: [["lastNames", "ASC"]],
+          paranoid: false,
+        });
+        return res.status(200).json({
+          users: responseAd.slice((page - 1) * limit, page * limit),
+          total: responseAd.length,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  }
+  if (nationality && name && lastNames) {
+    if(name === 'Ninguno'){
+      try {
+        const responseDb = await User.findAll({
+          include: [
+            {
+              model: Plan,
+            },
+          ],
+
+          where: {
+            [Op.and]: [
+              {
+                lastNames: {
+                  [Op.iLike]: `${lastNames}%`
+                },
+                nationality: nationality,
+              },
+            ],
+          },
+
+          order: [["lastNames", "ASC"]],
+          paranoid: false,
+        });
+        const responseAd = responseDb.filter( user => user.plan === null );
+        return res.status(200).json({
+          users: responseAd.slice((page - 1) * limit, page * limit),
+          total: responseAd.length,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const responseAd = await User.findAll({
+          include: [
+            {
+              model: Plan,
+              where: {
+                name: name,
+              },
+            },
+          ],
+  
+          where: {
+            [Op.and]: [
+              {
+                lastNames: {
+                  [Op.iLike]: `${lastNames}%`
+                },
+                nationality: nationality,
+              },
+            ],
+          },
+  
+          order: [["lastNames", "ASC"]],
+          paranoid: false,
+        });
+        return res.status(200).json({
+          users: responseAd.slice((page - 1) * limit, page * limit),
+          total: responseAd.length,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
   }
 };
 module.exports = { getUsers };

@@ -184,6 +184,7 @@ export const getLastIdDrink = () => {
 /* ====================== POST SECTION ======================= */
 
 export const createNewRecord = obj => {
+  console.log('obj:',obj)
   return async function (dispatch) {
     try {
       let newRecord = null;

@@ -8,7 +8,7 @@ export default function AdminRoute() {
   const [mode, setMode] = useState("light");
 
   const { isAdmin } = useAuthContext();
-  if (isAdmin !== true) {
+  if (isAdmin !== true && isAdmin !== "true") {
     //si esta autenticado que vaya a la seccion privada
     return <Navigate to="/private/home" />; //aca se quita el return
   }

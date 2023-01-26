@@ -9,7 +9,6 @@ import ChangePasswordOk from "./components/Loading/ChangePasswordOk";
 import CommentCreate from "./components/Comments/Comment";
 import ConoceAlEquipo from "./components/Home/ConoceAlEquipo";
 import Dashboard from "./components/dashboard/Dashboard.js";
-import Default from "./components/dashboard/default/Default";
 import DeleteUser from "./components/Profile/DeleteProfile.jsx";
 import Fitbit from "./components/SignUp/Fitbit";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword.jsx";
@@ -33,7 +32,6 @@ import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
 import NewUserSuccess from "./components/Loading/NewUserSuccess";
 import Saving from "./components/Record/Saving";
 import UserExist from "./components/Loading/UserExist";
-import Users from "./components/dashboard/users/Users";
 import Chat from "./components/Home/chat";
 import {
   ChangePasswordOkProfile,
@@ -44,7 +42,7 @@ import {
 
 import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
-axios.defaults.baseURL = "http://localhost:3001";
+// axios.defaults.baseURL = "http://localhost:3001";
 //The following link must be un-comented on gitHub if you wanna work with on-line servers
 // axios.defaults.baseURL = 'https://sleep-tracker-production.up.railway.app'
 function App() {
