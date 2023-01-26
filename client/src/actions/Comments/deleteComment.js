@@ -4,7 +4,7 @@ import { message } from "react-message-popup";
 
 export const deleteComment = (payload) => async (dispatch) => {
   try {
-    await axios.delete("/deletecomment/" + payload);
+    await axios.delete(`${process.env.REACT_APP_DEFAULT_URL}/deletecomment/${payload}`);
     dispatch({
       type: DELETE_COMMENT,
       payload: payload,
