@@ -42,3 +42,4 @@ export default function LoadingPayment() {
     </div>
   );
 }
+ 
