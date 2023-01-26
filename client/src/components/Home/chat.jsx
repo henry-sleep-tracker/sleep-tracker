@@ -20,9 +20,7 @@ const Chat = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
-
-const image = currentUser.image
-
+  const image = currentUser.image
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -136,10 +134,12 @@ const image = currentUser.image
                       backgroundColor:
                         theme.palette.mode === "light" &&
                         "#eeeeee",
+
+                      backgroundImage:`url(${backgroundImage})`,
+                      backgroundSize: 'cover'
                     }}
                   // className={classes.bgImage}
                   >
-
 
                     <ReactScrollableFeed>
                       <List
@@ -160,7 +160,6 @@ const image = currentUser.image
                               >
                                 <Card
                                   elevation={20}
-
                                   sx={{
                                     marginLeft: 3,
                                     marginRight: 3,
@@ -324,6 +323,7 @@ const useStyles = makeStyles(() => ({
   },
 
   bgImage: {
-    backgroundImage: `url(${backgroundImage})`
+    backgroundImage: `url(${backgroundImage})`,
+    blockSize: '300px',
   },
 }));
