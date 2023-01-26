@@ -37,7 +37,7 @@ router.post("/session", async (req, res) => {
     paranoid: false,
   });
 
-  if(user.plan?.id) {
+  if(user?.plan.id) {
     const result = await Plan.destroy({
       where: {
         id: user.plan.id,
@@ -55,8 +55,8 @@ router.post("/session", async (req, res) => {
         },
       ],
       success_url: `${process.env.BASE_FRONT_URL}/private/loadingpayment`, //si todo sale bien redirigira la sgt pag
-      cancel_url: `${process.env.BASE_FRONT_URL}/private/planes`, //si todo sale mal, redirigir a otra pag
-      customer: user.stripeCustomerId,
+      cancel_url: `${process.env.BASE_FRONT_URL}/private/home`, //si todo sale mal, redirigir a otra pag
+      customer: user?.stripeCustomerId,
     },
     {
       apiKey: process.env.STRIPE_SECRET_KEY,
@@ -77,7 +77,7 @@ router.post("/session", async (req, res) => {
         ],
         success_url: `${process.env.BASE_FRONT_URL}/private/loadingpayment`, //si todo sale bien redirigira la sgt pag
         cancel_url: `${process.env.BASE_FRONT_URL}/private/planes`, //si todo sale mal, redirigir a otra pag
-        customer: user.stripeCustomerId,
+        customer: user?.stripeCustomerId,
       },
       {
         apiKey: process.env.STRIPE_SECRET_KEY,

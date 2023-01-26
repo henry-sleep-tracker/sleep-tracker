@@ -192,7 +192,7 @@ const Pricing = () => {
                   </Grid>
                 ))
               : currentUser.plan?.name === "Estandar"
-              ? prices.slice(2).map((price, index) => (
+              ? prices.slice(1).map((price, index) => (
                   <Grid item key={`premium-${index}`}>
                     <Card variant="outlined" spacing={6}>
                       <CardContent
