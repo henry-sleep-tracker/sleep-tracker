@@ -1,41 +1,44 @@
- .myMessages{
-		background-color:#1471c222;
-		
-		border-radius: 5px;
-	}
-	.OtherMessages{
-		background-color: rgba(206, 77, 146, 0.145);
-		background-size: 50%;
-		width: min-content;
-		border-radius: 5px;
-	
-	}  
-	.myMessage{
-		margin-left: 60%;
-	   width:50%;
-		border-radius: 5px;
-		font-family:'Homer';
-		font-size: large;
-		
-	}
-	.OtherMessage{
-		width:50%;
-		border-radius: 5px;
-		font-family:'Homer' ;
-		font-size:large;
-	
-	} 
+ .myMessages {
+ 	background-color: #1471c222;
 
-	#chat-window {
-    height: 20rem;
-	
-} 
+ 	border-radius: 5px;
+ }
+
+ .OtherMessages {
+ 	background-color: rgba(206, 77, 146, 0.145);
+ 	background-size: 50%;
+ 	width: min-content;
+ 	border-radius: 5px;
+
+ }
+
+ .myMessage {
+ 	margin-left: 60%;
+ 	width: 50%;
+ 	border-radius: 5px;
+ 	font-family: 'Homer';
+ 	font-size: large;
+
+ }
+
+ .OtherMessage {
+ 	width: 50%;
+ 	border-radius: 5px;
+ 	font-family: 'Homer';
+ 	font-size: large;
+
+ }
+
+ #chat-window {
+ 	height: 20rem;
+
+ }
 
  #chat-window-messages {
 
-	
-	width: 85%;
-    height: 90%;
-    overflow: auto;
-	
-}
+
+ 	width: 85%;
+ 	height: 90%;
+ 	overflow: auto;
+
+ }

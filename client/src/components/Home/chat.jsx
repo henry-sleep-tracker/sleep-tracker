@@ -8,6 +8,10 @@ import { Box } from "@mui/system"
 import SendIcon from '@mui/icons-material/Send';
 import { Helmet } from "react-helmet";
 import PersonIcon from '@mui/icons-material/Person';
+import { makeStyles } from "@mui/styles";
+import backgroundImage from '../../images/chatBackground.png'
+import { useTheme } from "@mui/material/styles";
+import ReactScrollableFeed from "react-scrollable-feed"
 
 const socket = io(`${process.env.REACT_APP_DEFAULT_URL}`);
 
@@ -16,7 +20,9 @@ const Chat = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
+
 const image = currentUser.image
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,8 +36,8 @@ const image = currentUser.image
       };
       setMessages([...messages, newMessage]);
       setMessage("");
-    }
 
+    }
   };
 
   useEffect(() => {
@@ -45,6 +51,12 @@ const image = currentUser.image
       socket.off("message", reciveMessage);
     };
   }, [messages]);
+
+  const classes = useStyles();
+
+  const theme = useTheme();
+
+  const avatarSize = 50;
 
   return (
     <Paper
@@ -83,6 +95,7 @@ const image = currentUser.image
             variant='outlined'
             sx={{
               width: '70vw',
+              height: '60vh',
               marginBottom: 10
             }}
           >
@@ -93,9 +106,9 @@ const image = currentUser.image
                 direction="column"
                 justifyContent="space-evenly"
                 alignItems="center"
-                paddingTop={1}
-                paddingLeft={1}
-                paddingBottom={1}
+                // paddingTop={1}
+                // paddingLeft={1}
+                // paddingBottom={1}
                 spacing={3}
               >
 
@@ -112,73 +125,152 @@ const image = currentUser.image
                   item
                   id="chat-window"
                   xs={12}
+                  marginTop={5}
                 >
 
-                  <Card
+                  <Paper
                     variant='outlined'
                     sx={{
                       width: '60vw',
-                      height:'60vh',
-                      marginBottom: 10
+                      height: '40vh',
+                      backgroundColor:
+                        theme.palette.mode === "light" &&
+                        "#eeeeee",
                     }}
+                  // className={classes.bgImage}
                   >
 
-                    <List
-                      id="chat-window-messages"
-                    >
-                      {
-                        messages.map((message, index) => (
-                          <ListItem
-                            key={index}
-                            className={
-                              message.from === 'Yo' ? 'myMessages' : 'OtherMessages'
-                            }
 
-                          >
-                            <Card
-                              className={
-                                message.from === 'Yo' ? 'myMessage' : 'OtherMessage'
-                              }
-                            >
-                              {/* {message.from} */}
-                              {message.image ? (
-                                <Avatar
-                                  alt="Not found"
-                                  srcSet={message.image}
+                    <ReactScrollableFeed>
+                      <List
+                        id="chat-window-messages"
+                      >
+                        {
+                          messages.map((message, index) => (
+                            message.from === 'Yo' ?
+                              <ListItem
+                                key={index}
+                                className={
+                                  message.from === 'Yo' ? 'myMessages' : 'OtherMessages'
+                                }
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: 'flex-end'
+                                }}
+                              >
+                                <Card
+                                  elevation={20}
+
                                   sx={{
-                                    width: 30,
-                                    height: 30,
+                                    marginLeft: 3,
+                                    marginRight: 3,
+                                    backgroundColor:
+                                      theme.palette.mode === "dark"
+                                        ? "#81c784"
+                                        : "#388e3c",
                                   }}
-                                  variant="dot"
-                                />
-                              ) : (
-                                <Avatar>
-                                  <PersonIcon />
-                                </Avatar>
-                              )}: {message.body}
-                            </Card>
-                          </ListItem>
-                        ))}
-                    </List>
-                  </Card>
+                                >
+                                  <CardContent >
+
+                                    <Typography
+                                      fontWeight='bold'
+                                    >
+                                      {message.body}
+                                    </Typography>
+
+                                  </CardContent>
+                                </Card>
+                                {message.image ? (
+                                  <Avatar
+                                    alt="Not found"
+                                    srcSet={message.image}
+                                    sx={{
+                                      width: avatarSize,
+                                      height: avatarSize,
+                                    }}
+                                    variant="dot"
+
+                                  />
+                                ) : (
+                                  <Avatar>
+                                    <PersonIcon
+                                      sx={{
+                                        width: avatarSize,
+                                        height: avatarSize,
+                                      }}
+                                    />
+                                  </Avatar>
+                                )}
+
+                              </ListItem>
+                              :
+                              <ListItem
+                                key={index}
+                                className={
+                                  message.from === 'Yo' ? 'myMessages' : 'OtherMessages'
+                                }
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: 'flex-start'
+                                }}
+                              >
+                                {message.image ? (
+                                  <Avatar
+                                    alt="Not found"
+                                    srcSet={message.image}
+                                    sx={{
+                                      width: avatarSize,
+                                      height: avatarSize,
+                                    }}
+                                    variant="dot"
+
+                                  />
+                                ) : (
+                                  <Avatar>
+                                    <PersonIcon
+                                      sx={{
+                                        width: avatarSize,
+                                        height: avatarSize,
+                                      }}
+                                    />
+                                  </Avatar>
+                                )}
+                                <Card
+                                  elevation={20}
+                                  sx={{
+                                    marginLeft: 3,
+                                    marginRight: 3,
+                                    backgroundColor:
+                                      theme.palette.mode === "dark"
+                                        ? "#7986cb"
+                                        : "#4fc3f7",
+                                  }}
+                                >
+                                  <CardContent>
+                                    <Typography
+                                      fontWeight='bold'
+                                    >
+                                      {message.body}
+                                    </Typography>
+                                  </CardContent>
+                                </Card>
+                              </ListItem>
+                          ))
+                        }
+
+                      </List>
+                    </ReactScrollableFeed>
+                  </Paper>
 
                 </Grid>
 
                 {/* </Grid> */}
                 {/* </Card> */}
-
-
-              </Grid>
-
-              <Grid
-                container
-                justifyContent="center"
-                direction='row'
-                alignItems='center'
-                spacing={5}
-              >
-
-                <Grid xs={9} item>
+                <Grid
+                  item
+                  xs={9}
+                  sx={{ width: '60vw' }}
+                >
                   <form onSubmit={handleSubmit} >
                     <TextField
                       onChange={(e) => setMessage(e.target.value)}
@@ -186,6 +278,7 @@ const image = currentUser.image
                       variant="outlined"
                       fullWidth
                       autoComplete="false"
+                      placeholder="Escribe un mensaje"
                       InputProps={{
                         endAdornment:
                           <InputAdornment
@@ -203,21 +296,7 @@ const image = currentUser.image
                     />
                   </form >
                 </Grid>
-                {/* 
-                <Grid
-                  item
-                // color="#f3f4fa" 
-                >
-                  <Button
-                    onClick={handleSubmit}
-                    startIcon={<SendIcon />}
-                    variant="contained"
-                    size='large'
-                    color='success'
-                  >
-                    Enviar
-                  </Button>
-                </Grid> */}
+
 
               </Grid>
 
@@ -232,3 +311,19 @@ const image = currentUser.image
 };
 
 export default Chat;
+
+const useStyles = makeStyles(() => ({
+  imageStyle: {
+    width: '100%',
+    minHeight: '100vh',
+    height: '100%'
+  },
+
+  bg: {
+    backgroundColor: '#ecefef'
+  },
+
+  bgImage: {
+    backgroundImage: `url(${backgroundImage})`
+  },
+}));

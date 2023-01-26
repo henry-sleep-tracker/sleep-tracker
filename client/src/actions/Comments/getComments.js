@@ -3,7 +3,7 @@ import axios from "axios";
 
 const getComments = () => async (dispatch) => {
   try {
-    const payload = await axios.get("/getcomments")
+    const payload = await axios.get(`${process.env.REACT_APP_DEFAULT_URL}/getcomments`)
         dispatch({
           type: GET_COMMENTS,
           payload: payload,

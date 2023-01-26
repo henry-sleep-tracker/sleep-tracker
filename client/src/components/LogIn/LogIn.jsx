@@ -30,6 +30,7 @@ import { message } from "react-message-popup";
 import { style } from "@mui/system";
 import AlertDialog from "../Alert/Alert";
 import { makeStyles } from "@mui/styles";
+import styles from "./Login.module.css";
 
 export default function LogIn() {
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -52,7 +53,11 @@ export default function LogIn() {
   gapi.load("client:auth2", start);
 
   useEffect(() => {
-    if (loggedUser.hasOwnProperty("id") && loggedUser.id !== 0 && !loggedUser.deletedAt) {
+    if (
+      loggedUser.hasOwnProperty("id") &&
+      loggedUser.id !== 0 &&
+      !loggedUser.deletedAt
+    ) {
       dispatch(getUsersPlanExpDate(loggedUser.id));
       if (
         planExpirationDate !== "1900-01-01" &&
@@ -99,14 +104,14 @@ export default function LogIn() {
     }
   }
 
-  const classes = useStyles();
+  // const classes = useStyles();
   return (
-    <Grid 
-    container
-    height='100vh'
+    <Grid
+      container
+      // height='100vh'
     >
       <AlertDialog open={open} handleClose={handleClose} input={input} />
-     
+
       <Helmet>
         <title>Iniciar sesion | Sleep Tracker</title>
       </Helmet>
@@ -115,12 +120,13 @@ export default function LogIn() {
         container
         direction="row"
         justifyContent="center"
-        alignItems="stretch"
-        width="100%"
+        alignItems="center"
+        // alignItems="stretch"
+        // width="100%"
         columns={16}
-        className={classes.bg}
+        // className={classes.bg}
       >
-        <Grid
+        {/* <Grid
           item
           lg={7}
           md={9}
@@ -129,14 +135,31 @@ export default function LogIn() {
           height="100%"
           paddingTop={10}
           className={classes.bgImage}
-        >
-          <Grid container spacing={3}>
-            <Grid container marginLeft={13} marginRight={13} direction="column">
-              <Grid item sx={{ marginLeft: 9 }}>
-                <img src={log} alt="logo" width="300vw" />
-              </Grid>
+        > */}
+        <Grid item xs={7} paddingTop={10} className={styles.outerCard}>
+          {/* <Grid container spacing={3}>
+            <Grid container marginLeft={13} marginRight={13} direction="column"> */}
+          <Grid
+            container
+            justifyContent="center"
+            direction="column"
+            alignItems="center"
+            spacing={3}
+          >
+            <Grid
+              item
+              // sx={{ marginLeft: 9 }}
+            >
+              <img src={log} alt="logo" width="300vw" />
+            </Grid>
 
-              <Card variant="outlined">
+            <Grid item>
+              <Card
+                className="titleresume"
+                variant="outlined"
+                sx={{ minWidth: "30rem" }}
+                //variant="outlined"
+              >
                 <CardContent>
                   <Grid
                     container
@@ -144,9 +167,12 @@ export default function LogIn() {
                     direction="column"
                     alignItems="center"
                     spacing={3}
+                    flex={4}
+                    p={2}
+                    clasName={styles.card}
                   >
                     <Grid item>
-                      <Typography sx={{ fontSize: 30, fontWeight: "medium" }}>
+                      <Typography sx={{ fontSize: 26, fontWeight: "medium" }}>
                         Inicia sesión
                       </Typography>
                     </Grid>
@@ -235,8 +261,28 @@ export default function LogIn() {
                 </CardContent>
               </Card>
             </Grid>
-
             <Grid
+              item
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                marginTop: "4vh",
+                marginLeft: "7vw",
+              }}
+            >
+              <Button
+                variant="outlined"
+                size="medium"
+                sx={{ background: "white", opacity: 0.6 }}
+                startIcon={<ArrowBackIosNewIcon />}
+                href="/"
+              >
+                Regresar
+              </Button>
+            </Grid>
+
+            {/* <Grid
               item
               sx={{
                 marginLeft: 10,
@@ -249,12 +295,17 @@ export default function LogIn() {
               >
                 Regresar
               </Button>
-            </Grid>
+            </Grid> */}
           </Grid>
-          <br />
+          {/* <br /> */}
+        </Grid>
+        <Grid item xs={9}>
+          <Grid>
+            <img src={wakeup} alt="wakeup login" className={styles.zenImage} />
+          </Grid>
         </Grid>
 
-        <Grid
+        {/* <Grid
           item
           lg={9}
           md={7}
@@ -268,24 +319,24 @@ export default function LogIn() {
           paddingBottom={0}
         >
           <img src={wakeup} alt="wakeup login" className={classes.imageStyle} />
-        </Grid>
+        </Grid> */}
       </Grid>
     </Grid>
   );
 }
 
-const useStyles = makeStyles(() => ({
-  imageStyle: {
-    width: '100%',
-    minHeight: '100vh',
-    height: '100%'
-  },
+// const useStyles = makeStyles(() => ({
+//   imageStyle: {
+//     width: "100%",
+//     minHeight: "100vh",
+//     height: "100%",
+//   },
 
-  bg: {
-    backgroundColor: '#ecefef'
-  },
+//   bg: {
+//     backgroundColor: "#ecefef",
+//   },
 
-  bgImage: {
-    backgroundImage: `url(${wakeup})`
-  },
-}));
+//   bgImage: {
+//     backgroundImage: `url(${wakeup})`,
+//   },
+// }));
