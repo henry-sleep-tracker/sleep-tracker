@@ -1,0 +1,33 @@
+.card {
+  box-shadow: rgb(0 0 0 / 25%) 0px 54px 55px, rgb(0 0 0 / 12%) 0px -12px 30px,
+    rgb(0 0 0 / 12%) 0px 4px 6px, rgb(0 0 0 / 17%) 0px 12px 13px,
+    rgb(0 0 0 / 9%) 0px -3px 5px;
+  z-index: 90;
+}
+
+.outerCard {
+  height: auto;
+  width: 100vw;
+  z-index: 90;
+}
+
+.zenImage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  margin-top: -5vh;
+  z-index: -1;
+  height: 120vh;
+  width: 110%;
+}
+
+@media only screen and (max-width: 600px) {
+  .zenImage {
+    display: none;
+  }
+}
+
+#mx-message-container {
+  top: 100px;
+}
