@@ -212,30 +212,30 @@ const Record = (props) => {
 
     // Before Dispatch //
 
-    if (
-      (timeR === null || timeR?.length <= 0 || time === undefined) &&
-      record.sleepTime.length <= 0 &&
-      record.timeActivity.length <= 0 &&
-      record.coffeeCups.length <= 0 &&
-      record.drinks.length <= 0 &&
-      record.coffee.length <= 0 &&
-      record.drink.length <= 0 &&
-      record.activity.length <= 0 &&
-      st?.length <= 0 &&
-      et?.length <= 0
-    ) {
-      message.warn(`No se ingreso informacion`);
+    if (timeR && record.description?.length < 1) {
+      message.warn(`Ingresa una breve descripcion de tu cena`);
       return;
+    }
+
+    if (
+      record.dateMeal === day &&
+      !record.timeMeal &&
+      !record.description &&
+      !record.sleepTime &&
+      record.timeActivity.length < 1 &&
+      record.coffeeCups.length < 1 &&
+      record.drinks.length < 1 &&
+      record.coffee.length < 1 &&
+      record.drink.length < 1 &&
+      record.activity.length < 1 &&
+      record.userId === userId
+    ) {
+      return message.warn(`No se ingreso informacion`);
     }
 
     if (record.dateMeal === "") {
       date = date_maker();
       setRecord((record.dateMeal = date));
-    }
-
-    if (timeR && record.description?.length < 1) {
-      message.warn(`Ingresa una breve descripcion de tu cena`);
-      return;
     }
 
     if (!timeR) {
@@ -713,7 +713,7 @@ const Record = (props) => {
     if (!recordStatus) {
       return;
     }
-    if (recordStatus.statusText === "OK") {
+    if (recordStatus?.status === 200) {
       message.success(
         `${nameUser} tu registro se guardo correctamente!!`,
         2500
