@@ -117,7 +117,8 @@ const Chat = () => {
                     sx={{
                       width: '60vw',
                       height:'60vh',
-                      marginBottom: 10
+                      marginBottom: 10,
+                      overflow:'scroll'
                     }}
                   >
 
