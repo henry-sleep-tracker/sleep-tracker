@@ -721,7 +721,7 @@ const Record = (props) => {
     console.log('recordStatus:', recordStatus)
     console.log('recordStatus.statusText:', recordStatus.statusText)
 
-    if (recordStatus.statusText === "OK") {
+    if (recordStatus.status === 200) {
       message.success(
         `${nameUser} tu registro se guardo correctamente!!`,
         2500
