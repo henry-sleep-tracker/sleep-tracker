@@ -20,7 +20,9 @@ const Chat = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
-  const image = currentUser.image
+
+const image = currentUser.image
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -138,6 +140,7 @@ const Chat = () => {
                   // className={classes.bgImage}
                   >
 
+
                     <ReactScrollableFeed>
                       <List
                         id="chat-window-messages"
@@ -157,6 +160,7 @@ const Chat = () => {
                               >
                                 <Card
                                   elevation={20}
+
                                   sx={{
                                     marginLeft: 3,
                                     marginRight: 3,

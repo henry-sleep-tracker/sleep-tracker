@@ -207,7 +207,9 @@ const Record = props => {
     }
 
     if (
+
       (!sTime || !eTime) &&
+
       record.dateMeal === day &&
       !record.timeMeal &&
       !record.description &&
