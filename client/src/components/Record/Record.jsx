@@ -199,7 +199,6 @@ const Record = props => {
     let time = "";
     let min = "";
 
-
     // Before Dispatch //
 
     if (timeR && record.description?.length < 1) {
@@ -282,10 +281,6 @@ const Record = props => {
     dispatch(setDay(day));
     dispatch(setStartTime(""));
     dispatch(setEndTime(""));
-
-    navigate("/private/records");
-    dispatch(setDay(""));
-
   };
 
   const handlerOnClear = e => {
@@ -434,6 +429,7 @@ const Record = props => {
       activityRef.current.value = "default";
       dispatch(getActivitiesByUser(userId));
       refresh();
+      navigate("/private/records");
     }
   };
 
@@ -541,6 +537,7 @@ const Record = props => {
       sizeCup.current.value = "default";
       dispatch(getCoffeeSizesByUser(userId));
       refresh();
+      navigate("/private/records");
     }
   };
 
@@ -648,6 +645,7 @@ const Record = props => {
       typeDrink.current.value = "default";
       dispatch(getDrinksByUser(userId));
       refresh();
+      navigate("/private/records");
     }
   };
 
@@ -711,15 +709,9 @@ const Record = props => {
         2500
       );
       dispatch(setStatusNewRecord());
-      console.log('recordStatus:', recordStatus)
-      console.log('recordStatus.statusText:', recordStatus.statusText)
-
     } else {
       message.error(`Error: al guardar registro`, 2500);
       dispatch(setStatusNewRecord());
-      console.log('recordStatus:', recordStatus)
-      console.log('recordStatus.statusText:', recordStatus.statusText)
-
     }
   }, [value, recordStatus]);
 
@@ -757,16 +749,16 @@ const Record = props => {
             <option value="default">Selecciona...</option>
             {activitiesRedux.length > 0
               ? activitiesRedux.map((e, i) => {
-                return (
-                  <option
-                    key={e.id}
-                    value={e.id}
-                    disabled={record.activity?.includes(e.id) ? true : false}
-                  >
-                    {e.activity}
-                  </option>
-                );
-              })
+                  return (
+                    <option
+                      key={e.id}
+                      value={e.id}
+                      disabled={record.activity?.includes(e.id) ? true : false}
+                    >
+                      {e.activity}
+                    </option>
+                  );
+                })
               : ""}
             <option value="add_activity">Agregar Actividad</option>
           </select>
@@ -846,16 +838,16 @@ const Record = props => {
             <option value="default">Selecciona...</option>
             {coffeeSizesRedux.length > 0
               ? coffeeSizesRedux.map((e, i) => {
-                return (
-                  <option
-                    key={`coffee-${i}`}
-                    value={e.id}
-                    disabled={record.coffee?.includes(e.id) ? true : false}
-                  >
-                    {e.size}
-                  </option>
-                );
-              })
+                  return (
+                    <option
+                      key={`coffee-${i}`}
+                      value={e.id}
+                      disabled={record.coffee?.includes(e.id) ? true : false}
+                    >
+                      {e.size}
+                    </option>
+                  );
+                })
               : ""}
             <option value="add_coffee_size">Agregar Tamaño</option>
           </select>
@@ -935,16 +927,16 @@ const Record = props => {
             <option value="default">Selecciona...</option>
             {drinksRedux.length > 0
               ? drinksRedux.map((e, i) => {
-                return (
-                  <option
-                    key={`drinksRe-${i}`}
-                    value={e.id}
-                    disabled={record.drink?.includes(e.id) ? true : false}
-                  >
-                    {e.drink}
-                  </option>
-                );
-              })
+                  return (
+                    <option
+                      key={`drinksRe-${i}`}
+                      value={e.id}
+                      disabled={record.drink?.includes(e.id) ? true : false}
+                    >
+                      {e.drink}
+                    </option>
+                  );
+                })
               : ""}
             <option value="add_drink">Agregar Bebida</option>
           </select>
