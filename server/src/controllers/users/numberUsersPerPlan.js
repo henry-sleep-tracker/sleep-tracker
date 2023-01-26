@@ -3,6 +3,8 @@ const { User, Plan } = require("../../db.js");
 const numberUsersPerPlan = async (req, res) => {
 
   try {
+    const totalUsers = await User.count();
+
     const basico = await User.count({
       include: [{
         model: Plan,
@@ -37,6 +39,7 @@ const numberUsersPerPlan = async (req, res) => {
     });
  
     let numberUsersPerPlan = [
+      { name: 'Ninguno', value : totalUsers - (basico+estandar+premium) },
       { name: 'Basico', value : basico },
       { name: 'Estandar', value : estandar },
       { name: 'Premium', value : premium },
