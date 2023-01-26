@@ -295,7 +295,7 @@ function ResponsiveAppBar({ mode, setMode }) {
                       <ListItemIcon>
                         <ForumIcon />
                       </ListItemIcon>
-                      <ListItemText primary="Foro" onClick={handlerChat} />
+                      <ListItemText primary="Sala de chat" onClick={handlerChat} />
                     </ListItemButton>
                   </ListItem>
 
@@ -397,7 +397,7 @@ function ResponsiveAppBar({ mode, setMode }) {
                 sx={{ my: 2, color: "white", display: "block" }}
                 startIcon={<ForumIcon />}
               >
-                Foro
+                Sala de chat
               </Button>
             </Box>
 
@@ -495,6 +495,18 @@ function ResponsiveAppBar({ mode, setMode }) {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
+              <MenuItem
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Typography
+                  variant="h6"
+                  fontWeight='bold'
+                >
+                  {currentUser.names}
+                </Typography>
+              </MenuItem>
+
+
               <MenuItem>
                 <ListItemIcon>
                   <Brightness4Icon />

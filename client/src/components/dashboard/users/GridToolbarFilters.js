@@ -14,6 +14,7 @@ const GridToolbarFilters = ({filters, setFilters}) => {
 
   useEffect(() => {
     dispatch(getNationalities());
+	// eslint-disable-next-line
   }, []);
 
 	return (
@@ -44,6 +45,7 @@ const GridToolbarFilters = ({filters, setFilters}) => {
 					label="plan"
 					>
 					<MenuItem value=''>Todos</MenuItem>
+					<MenuItem value='Ninguno'>Ninguno</MenuItem>
 					<MenuItem value='Basico'>Basico</MenuItem>
 					<MenuItem value='Estandar'>Estandar</MenuItem>
 					<MenuItem value='Premium'>Premium</MenuItem>
