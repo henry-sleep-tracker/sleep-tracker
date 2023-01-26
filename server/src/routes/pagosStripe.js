@@ -37,34 +37,33 @@ router.post("/session", async (req, res) => {
     paranoid: false,
   });
 
-  if(user?.plan.id) {
+  if (user?.plan?.id) {
     const result = await Plan.destroy({
       where: {
         id: user.plan.id,
       },
     });
 
-  const session = await stripe.checkout.sessions.create(
-    {
-      mode: "subscription",
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
-      success_url: `${process.env.BASE_FRONT_URL}/private/loadingpayment`, //si todo sale bien redirigira la sgt pag
-      cancel_url: `${process.env.BASE_FRONT_URL}/private/home`, //si todo sale mal, redirigir a otra pag
-      customer: user?.stripeCustomerId,
-    },
-    {
-      apiKey: process.env.STRIPE_SECRET_KEY,
-    }
-  );
-  return res.json(session);
-
-  }else{
+    const session = await stripe.checkout.sessions.create(
+      {
+        mode: "subscription",
+        payment_method_types: ["card"],
+        line_items: [
+          {
+            price: priceId,
+            quantity: 1,
+          },
+        ],
+        success_url: `${process.env.BASE_FRONT_URL}/private/loadingpayment`, //si todo sale bien redirigira la sgt pag
+        cancel_url: `${process.env.BASE_FRONT_URL}/private/home`, //si todo sale mal, redirigir a otra pag
+        customer: user?.stripeCustomerId,
+      },
+      {
+        apiKey: process.env.STRIPE_SECRET_KEY,
+      }
+    );
+    return res.json(session);
+  } else {
     const session = await stripe.checkout.sessions.create(
       {
         mode: "subscription",
