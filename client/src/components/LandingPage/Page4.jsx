@@ -15,36 +15,29 @@ import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { Link } from "react-router-dom";
 
 const Page4 = () => {
-
-  const priceProps =
+  const priceProps = (
     <Box>
       <Typography>- Registro de actividad fisica</Typography>
-      <Typography>- Registro de consumos diarios( alimentos y bebidas)</Typography>
-      <Typography>- Información de sueño conseguido diario y semanal</Typography>
+      <Typography>
+        - Registro de consumos diarios( alimentos y bebidas)
+      </Typography>
+      <Typography>
+        - Información de sueño conseguido diario y semanal
+      </Typography>
       <Typography>- Exporta tu información completa en formato PDF</Typography>
     </Box>
-    ;
-
+  );
   const classes = useStyles();
   return (
-
     <Grid
       container
       direction="column"
       justifyContent="center"
       alignItems="center"
       className={classes.mainPaper}
-
     >
-      <Grid
-        item
-        marginTop={5}
-      >
-        <Typography
-          variant="h2"
-          fontWeight='bold'
-
-        >
+      <Grid item marginTop={5}>
+        <Typography variant="h2" fontWeight="bold" align="center">
           Planes de pago
         </Typography>
       </Grid>
@@ -56,27 +49,17 @@ const Page4 = () => {
         alignItems="stretch"
         flex={4}
         p={9}
-        gap='10px'
-        height='70vh'
-
+        gap="10px"
+        height="70vh"
       >
-        <Grid
-          item
-          xs={12}
-          md={3}
-
-        >
-          <Card
-            elevation={20}
-
-          >
+        <Grid item xs={12} md={3}>
+          <Card elevation={20}>
             <CardContent>
-
               <Box
                 className={classes.mosaic}
                 sx={{
-                  marginTop: { md: '50px', xs: '5px' },
-                  marginBottom: { md: '50px', xs: '5px' }
+                  marginTop: { md: "50px", xs: "5px" },
+                  marginBottom: { md: "50px", xs: "5px" },
                 }}
               >
                 <ThumbUpIcon />
@@ -84,27 +67,24 @@ const Page4 = () => {
               <Typography
                 variant="h4"
                 sx={{ mb: 8 }}
-                fontWeight='bold'
+                fontWeight="bold"
                 className={classes.mosaic}
-
               >
                 Prueba gratis
               </Typography>
-              <Box
-                sx={{ display: { xs: "none", sm: "none", md: 'block' } }}
-              >
+              <Box sx={{ display: { xs: "none", sm: "none", md: "block" } }}>
                 <Typography>- Duracion de 30 dias</Typography>
                 {priceProps}
               </Box>
               <Box
                 className={classes.mosaic}
                 sx={{
-                  marginTop: { md: '50px', xs: '5px' },
-                  marginBottom: { md: '50px', xs: '5px' }
+                  marginTop: { md: "50px", xs: "5px" },
+                  marginBottom: { md: "50px", xs: "5px" },
                 }}
               >
                 <Link to={"/registro"} style={{ textDecoration: "none" }}>
-                  <Button variant="contained" size="large" >
+                  <Button variant="contained" size="large">
                     Gratis
                   </Button>
                 </Link>
@@ -113,23 +93,15 @@ const Page4 = () => {
           </Card>
         </Grid>
 
-        <Grid
-          item
-          xs={12}
-          md={3}
-
-        >
-          <Card
-            elevation={20}
-          >
+        <Grid item xs={12} md={3}>
+          <Card elevation={20}>
             <CardContent>
               <Box>
-
                 <Box
                   className={classes.mosaic}
                   sx={{
-                    marginTop: { md: '50px', xs: '5px' },
-                    marginBottom: { md: '50px', xs: '5px' }
+                    marginTop: { md: "50px", xs: "5px" },
+                    marginBottom: { md: "50px", xs: "5px" },
                   }}
                 >
                   <EmojiEmotionsIcon />
@@ -137,23 +109,20 @@ const Page4 = () => {
                 <Typography
                   variant="h4"
                   sx={{ mb: 8 }}
-                  fontWeight='bold'
+                  fontWeight="bold"
                   className={classes.mosaic}
-
                 >
                   Plan Estandar
                 </Typography>
-                <Box
-                  sx={{ display: { xs: "none", sm: "none", md: 'block' } }}
-                >
+                <Box sx={{ display: { xs: "none", sm: "none", md: "block" } }}>
                   {priceProps}
                   <Divider />
                 </Box>
                 <Box
                   className={classes.mosaic}
                   sx={{
-                    marginTop: { md: '50px', xs: '5px' },
-                    marginBottom: { md: '50px', xs: '5px' }
+                    marginTop: { md: "50px", xs: "5px" },
+                    marginBottom: { md: "50px", xs: "5px" },
                   }}
                 >
                   <Link to={"/registro"} style={{ textDecoration: "none" }}>
@@ -167,20 +136,14 @@ const Page4 = () => {
           </Card>
         </Grid>
 
-        <Grid
-          item
-          xs={12}
-          md={3}
-        >
-          <Card
-            elevation={20}
-          >
+        <Grid item xs={12} md={3}>
+          <Card elevation={20}>
             <CardContent>
               <Box
                 className={classes.mosaic}
                 sx={{
-                  marginTop: { md: '50px', xs: '5px' },
-                  marginBottom: { md: '50px', xs: '5px' }
+                  marginTop: { md: "50px", xs: "5px" },
+                  marginBottom: { md: "50px", xs: "5px" },
                 }}
               >
                 <AutoAwesomeIcon />
@@ -188,24 +151,24 @@ const Page4 = () => {
               <Typography
                 variant="h4"
                 sx={{ mb: 8 }}
-                fontWeight='bold'
+                fontWeight="bold"
                 className={classes.mosaic}
               >
                 Plan Premium
               </Typography>
-              <Box
-                sx={{ display: { xs: "none", sm: "none", md: 'block' } }}
-              >
+              <Box sx={{ display: { xs: "none", sm: "none", md: "block" } }}>
                 <Typography>- Descuento de $2 USD</Typography>
-                <Typography>- Participa en el foro con otros usuarios</Typography>
+                <Typography>
+                  - Participa en el foro con otros usuarios
+                </Typography>
                 {priceProps}
                 <Divider />
               </Box>
               <Box
                 className={classes.mosaic}
                 sx={{
-                  marginTop: { md: '50px', xs: '5px' },
-                  marginBottom: { md: '50px', xs: '5px' }
+                  marginTop: { md: "50px", xs: "5px" },
+                  marginBottom: { md: "50px", xs: "5px" },
                 }}
               >
                 <Link to={"/registro"} style={{ textDecoration: "none" }}>
@@ -218,10 +181,7 @@ const Page4 = () => {
           </Card>
         </Grid>
       </Grid>
-
     </Grid>
-
-
   );
 };
 
@@ -232,7 +192,7 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexwrap: "wrap",
     justifyContent: "center",
-    height: '100%'
+    height: "100%",
     // marginTop: '50px',
     // marginBottom: '50px',
   },
@@ -245,10 +205,8 @@ const useStyles = makeStyles(() => ({
   },
 
   mainPaper: {
-    width: '100vw',
-    backgroundColor: '#ecefef',
-    minHeight: '70vh',
-
+    width: "100vw",
+    backgroundColor: "#ecefef",
+    minHeight: "70vh",
   },
-
 }));
