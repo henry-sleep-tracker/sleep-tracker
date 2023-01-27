@@ -42,13 +42,15 @@ const Pricing = () => {
 
   const createSession = async (currentUser, priceId) => {
     const email = currentUser.email;
-
+    console.log("planespago", currentUser);
+    console.log("priceId", priceId);
     const { data: response } = await axios.post(
       `${process.env.REACT_APP_DEFAULT_URL}/plans/session`,
       { priceId, email }
     );
 
     window.location.href = response.url; // obtener la url y redirigil al usuario a la url
+    console.log("response", response);
   };
 
   const priceProps = (
