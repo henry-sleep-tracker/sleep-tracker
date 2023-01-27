@@ -26,8 +26,10 @@ export default function LoadingPayment() {
     payPlan(planExpirationDate);
     count2++;
   }
-  console.log("currentUser", currentUser);
+
   if (currentUser.plan && currentUser.plan !== null && planExpDate > yourDate) {
+    console.log("currentUser", currentUser);
+    console.log("planExpDate", planExpDate);
     if (isGoogleUser === "true" && isPasswordSetUp === "false") {
       return <Navigate to="/private/profile" />;
     } else {
