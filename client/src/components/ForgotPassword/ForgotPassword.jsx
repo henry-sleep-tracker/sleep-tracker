@@ -107,7 +107,6 @@ export default function ForgotPassword() {
                     direction="column"
                     alignItems="center"
                     spacing={3}
-                    clasName={styles.card}
                   >
                     <Grid item>
                       <Typography sx={{ fontSize: 30, fontWeight: "medium" }}>

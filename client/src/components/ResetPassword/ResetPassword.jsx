@@ -25,7 +25,8 @@ import styles from "./ResetPassword.module.css";
 
 export default function ResetPassword() {
   const navigate = useNavigate();
-  var passwordPattern=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+  var passwordPattern =
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
   const { id, token } = useParams();
   const dispatch = useDispatch();
   var [input, setInput] = useState({
@@ -70,8 +71,11 @@ export default function ResetPassword() {
         );
       } else if (input.password !== input.confirmPassword) {
         message.error(`La contraseña no se confirmo correctamente`, 2500);
-      } else if (input.password.match(passwordPattern)===null) {
-        message.warn(`Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`, 2500);
+      } else if (input.password.match(passwordPattern) === null) {
+        message.warn(
+          `Ocho o mas caracteres. Al menos una letra mayuscula. Al menos una letra minuscula. Al menos un caracter especial`,
+          2500
+        );
       } else {
         dispatch(resetPassword(input.password, id, token));
         setInput({
@@ -137,7 +141,6 @@ export default function ResetPassword() {
                     spacing={3}
                     flex={4}
                     p={2}
-                    clasName={styles.card}
                   >
                     <Grid item>
                       <Typography sx={{ fontSize: 26, fontWeight: "medium" }}>

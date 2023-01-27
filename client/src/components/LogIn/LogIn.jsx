@@ -169,7 +169,6 @@ export default function LogIn() {
                     spacing={3}
                     flex={4}
                     p={2}
-                    clasName={styles.card}
                   >
                     <Grid item>
                       <Typography sx={{ fontSize: 26, fontWeight: "medium" }}>

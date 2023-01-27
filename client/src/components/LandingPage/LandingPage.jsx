@@ -1,9 +1,6 @@
 import Feed from "./Feed";
 import React from "react";
-// import RightBar from "./RightBar";
-// import SideBar from "./SideBar";
 import NavegationBar from "./NavegationBar";
-// import ScrollButton from "./ScrollButton";
 import { createTheme, ThemeProvider, Box } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet";
@@ -14,7 +11,6 @@ import { useDispatch } from "react-redux";
 function LandingPage() {
   const [mode, setMode] = useState("light");
   const loggedUser = useSelector((state) => state?.users.currentUser);
-  // const [pageScroll, setPageScroll] = useState('page1')
 
   const page1 = useRef(null);
   const page2 = useRef(null);
@@ -33,8 +29,8 @@ function LandingPage() {
   };
 
   useEffect(() => {
-    if(loggedUser.deletedAt){
-      dispatch(cleanUser())
+    if (loggedUser.deletedAt) {
+      dispatch(cleanUser());
     }
     scrollToSection(currentPage);
   }, [currentPage]);
@@ -47,7 +43,6 @@ function LandingPage() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-
       <Helmet>
         <title>Sleep Tracker</title>
       </Helmet>
@@ -64,24 +59,8 @@ function LandingPage() {
         page5={page5}
         page6={page6}
       />
-
-
-      {/* <Box
-        item
-        xs={12}
-      >
-        <ScrollButton />
-      </Box> */}
-      <Box
-      >
-        {/* <Stack 
-        direction="row" 
-        spacing={2} 
-      justifyContent="space-between"> */}
-        {/* <SideBar setMode={setMode} mode={mode}/> */}
+      <Box>
         <Feed
-          // pageScroll={pageScroll}
-          // setPageScroll={setPageScroll}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           page1={page1}
@@ -91,9 +70,6 @@ function LandingPage() {
           page5={page5}
           page6={page6}
         />
-        {/* <RightBar /> */}
-        {/* </Stack> */}
-
       </Box>
     </ThemeProvider>
   );

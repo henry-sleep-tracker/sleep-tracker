@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-import { Button, Grid, ImageList, ImageListItem, Paper, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import page1SleepA from "./Images/page1SleepA.jpg";
 
 const Page1 = (
@@ -14,116 +14,78 @@ const Page1 = (
 ) => {
   const classes = useStyles();
   return (
-
     <Grid
       container
-      // display='flex'
       direction="center"
       justifyContent="center"
-      // alignItems='center'
       className={classes.mainPaper}
-
-    // flex={4}
-    // p={2}
-    // columns={12}
     >
-      <Grid
-        item
-        md={6}
-        xs={12}
-        className={classes.bg}
-      >
+      <Grid item md={6} xs={12} className={classes.bg}>
         <Grid
           container
-          direction='column'
+          direction="column"
           justifyContent="center"
           alignItems="center"
-          // width="100%"
           paddingTop={10}
           spacing={4}
         >
-          <Grid
-            item
-          >
+          <Grid item>
             <Typography
-              fontWeight='bold'
+              fontWeight="bold"
               variant="h1"
-              display='flex'
-              flexwrap='wrap'
+              display="flex"
+              flexwrap="wrap"
+              align="center"
             >
               Sleep Tracker
             </Typography>
-
           </Grid>
 
-          <Grid
-            item
-          >
+          <Grid item>
             <Typography
-              variant='h4'
-              display='flex'
-              flexwrap='wrap'
+              variant="h4"
+              display="flex"
+              flexwrap="wrap"
+              align="center"
             >
               Lleva el control de tu sueño
             </Typography>
-
           </Grid>
 
-          <Grid
-            item
-          >
-            <Button
-              variant='contained'
-              size='large'
-              href='/registro'
-            >
+          <Grid item>
+            <Button variant="contained" size="large" href="/registro">
               Comienza ya
             </Button>
-
           </Grid>
 
-          <Grid
-            item
-          >
-            <br/>
+          <Grid item>
+            <br />
           </Grid>
         </Grid>
-
       </Grid>
 
-      <Grid
-        item
-        md={6}
-        xs={12}
-      >
-
+      <Grid item md={6} xs={12}>
         <img
           src={page1SleepA}
-          alt={'imagen'}
+          alt={"imagen"}
           loading="lazy"
-          height='100%'
-          width='100%'
+          height="100%"
+          width="100%"
         />
-
       </Grid>
-
     </Grid>
-
-
   );
 };
 
 export default Page1;
 
 const useStyles = makeStyles(() => ({
-
   bg: {
-    backgroundColor: '#9fa8da'
+    backgroundColor: "#9fa8da",
   },
 
   mainPaper: {
-    width: '100vw',
-    minHeight: '60vh',
-
+    width: "100vw",
+    minHeight: "60vh",
   },
 }));
