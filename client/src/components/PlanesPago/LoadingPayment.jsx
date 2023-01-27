@@ -14,7 +14,7 @@ export default function LoadingPayment() {
     useAuthContext();
   const currentUser = useSelector((state) => state?.users?.currentUser);
   const planExpirationDate = useSelector(
-    (state) => state?.users.planExpirationDate
+    (state) => state?.users?.planExpirationDate
   );
   const dispatch = useDispatch();
   useEffect(() => {
