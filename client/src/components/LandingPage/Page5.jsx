@@ -6,7 +6,6 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  Paper,
   Typography,
 } from "@mui/material";
 import { Info } from "@mui/icons-material";
@@ -66,49 +65,22 @@ const Page5 = () => {
   ];
 
   return (
-    <Grid
-    container
-    className={classes.mainPaper}
-    justifyContent='center'
-    // paddingRight={20}
-    // paddingLeft={20}
-    >
-
-
-      <Typography 
-      variant="h2"
-      fontWeight='bold'
-      paddingTop={5}
-      color='white'
+    <Grid container className={classes.mainPaper} justifyContent="center">
+      <Typography
+        variant="h2"
+        fontWeight="bold"
+        paddingTop={5}
+        color="white"
+        align="center"
       >
         Conoce al equipo
-        </Typography>
+      </Typography>
 
-      <ImageList
-        // sx={{ width: 1000, height: 450 }} 
-        cols={1}
-        rows={1}
-      // display='flex'
-
-      >
-        <Grid
-          container
-          // direction="row"
-          justifyContent="center"
-          // alignItems="flex-start"
-          // spacing={0}
-          // display='flex'
-          flex={4}
-          p={9}
-          // height='100vh'
-          gap='10px'
-
-        >
+      <ImageList cols={1} rows={1}>
+        <Grid container justifyContent="center" flex={4} p={9} gap="10px">
           {itemData.map((item) => (
             <ImageListItem key={item.img}>
-              <Grid
-                item
-              >
+              <Grid item>
                 <img
                   src={`${item.img}?w=248&fit=crop&auto=format`}
                   srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
@@ -136,7 +108,6 @@ const Page5 = () => {
           ))}
         </Grid>
       </ImageList>
-
     </Grid>
   );
 };
@@ -149,9 +120,8 @@ const useStyles = makeStyles(() => ({
   },
 
   mainPaper: {
-    minHeight: '70vh',
-    width: '100vw',
-    backgroundColor: '#212121'
+    minHeight: "70vh",
+    width: "100vw",
+    backgroundColor: "#212121",
   },
-
 }));

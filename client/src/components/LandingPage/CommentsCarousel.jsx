@@ -1,12 +1,8 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-// import MobileStepper from '@mui/material/MobileStepper';
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-// import Button from '@mui/material/Button';
-// import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-// import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import { useSelector } from "react-redux";
@@ -37,7 +33,7 @@ const allComments = [
 
 function SwipeableTextMobileStepper({ commentsState }) {
   const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
 
   const handleStepChange = (step) => {
     setActiveStep(step);
@@ -46,7 +42,7 @@ function SwipeableTextMobileStepper({ commentsState }) {
   const currentComments = useSelector((state) => state.comments);
 
   return (
-    <Box sx={{ maxWidth: '100%', flexGrow: 1 }}>
+    <Box sx={{ maxWidth: "100%", flexGrow: 1 }}>
       <Grid
         container
         justifyContent="center"
@@ -59,11 +55,14 @@ function SwipeableTextMobileStepper({ commentsState }) {
             square
             elevation={0}
             sx={{
+              width: "100%",
               display: "flex",
               alignItems: "center",
               height: 50,
               pl: 2,
               bgcolor: "background.default",
+              backgroundColor: "#e8eaf6",
+              paddingTop: 2,
             }}
           >
             {currentComments.data[activeStep] !== undefined ? (
@@ -90,7 +89,7 @@ function SwipeableTextMobileStepper({ commentsState }) {
           )}
         </Grid>
 
-        <Grid item>
+        <Grid item sx={{ paddingBottom: 3 }}>
           {currentComments.data[activeStep] !== undefined ? (
             <AutoPlaySwipeableViews
               axis={theme.direction === "rtl" ? "x-reverse" : "x"}

@@ -1,14 +1,12 @@
 import {
   AppBar,
   styled,
-  Typography,
   IconButton,
   Box,
   Drawer,
   ListItem,
   ListItemButton,
   ListItemIcon,
-  Switch,
   ListItemText,
   Divider,
   Button,
@@ -17,7 +15,6 @@ import React from "react";
 import {
   AccountBalanceWalletSharp,
   AppRegistration,
-  DarkMode,
   DevicesOther,
   Groups2,
   Home,
@@ -27,14 +24,12 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-// import { Stack } from "@mui/system";
 import { theme } from "../../theme";
 import { ThemeProvider } from "@emotion/react";
 import LoginIcon from "@mui/icons-material/Login";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import CommentIcon from "@mui/icons-material/Comment";
 import { useSelector } from "react-redux";
-// import { makeStyles } from "@mui/styles";
 import log from "../logi/log-.png";
 
 const StyledToolbar = styled(Toolbar)({
@@ -42,13 +37,6 @@ const StyledToolbar = styled(Toolbar)({
   justifyContent: "space-between",
   alignItems: "center",
 });
-
-// const Search = styled("div")(({ theme }) => ({
-//     backgroundColor: "white",
-//     padding: "0 10px",
-//     borderRadius: theme.shape.borderRadius,
-//     width: "40%"
-// }));
 
 const Icons = styled("div")(({ theme }) => ({
   display: "none",
@@ -58,15 +46,6 @@ const Icons = styled("div")(({ theme }) => ({
     display: "flex",
   },
 }));
-
-// const UserBox = styled("div")(({ theme }) => ({
-//     display: 'flex',
-//     gap: '20px',
-//     alignItems: 'center',
-//     [theme.breakpoints.up("sm")]: {
-//         display: 'none'
-//     }
-// }));
 
 const NavegationBar = ({
   mode,
@@ -80,15 +59,11 @@ const NavegationBar = ({
   page5,
   page6,
 }) => {
-  // const [open, setOpen] = useState(false)
-
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  // const classes = useStyles();
 
   const currentComments = useSelector((state) => state.comments);
 
@@ -121,17 +96,6 @@ const NavegationBar = ({
             >
               <div>
                 <List>
-                  {/* <ListItem disablePadding>
-                                        <ListItemButton component='a'>
-                                            <ListItemIcon>
-                                                <DarkMode />
-                                            </ListItemIcon>
-                                            <Switch onChange={event => setMode(mode === "light" ? "dark" : "light")} />
-                                        </ListItemButton>
-                                    </ListItem>
-
-                                    <Divider /> */}
-
                   <ListItem disablePadding>
                     <ListItemButton component="a" href="login">
                       <ListItemIcon>
@@ -228,18 +192,12 @@ const NavegationBar = ({
               </div>
             </Drawer>
             <img
-              // sx={{ display: { xs: "none",md: "block", sm: "none" } }}
               onClick={() => setCurrentPage(page1)}
               src={log}
               alt="logo"
-              width="200px"
+              width="180"
             />
           </Box>
-
-          {/* <NightShelterIcon
-                        sx={{ display: { xs: "block", sm: "block", md: 'none' } }}
-                        onClick={() => setCurrentPage(page1)}
-                    /> */}
           <Button
             startIcon={<LoginIcon />}
             sx={{ display: { xs: "block", sm: "block", md: "none" } }}
@@ -255,14 +213,6 @@ const NavegationBar = ({
           ></Button>
 
           <Icons>
-            {/* <Badge badgeContent={4} color="error"><Mail /></Badge>
-                    <Badge badgeContent={2} color="error"><Notifications /></Badge>
-                    <Typography>Lisa</Typography>
-                    <Badge>
-                        <Avatar sx={{ width: 30, height: 30 }} src='https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-                            onClick={event => setOpen(true)}
-                        />
-                    </Badge> */}
             <Button
               sx={{ display: { xs: "none", sm: "none", md: "block" } }}
               variant="text"
@@ -281,40 +231,10 @@ const NavegationBar = ({
               Registrarse
             </Button>
           </Icons>
-          {/* <UserBox>
-                    <Badge>
-                        <Avatar sx={{ width: 30, height: 30 }} src='https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-                            onClick={event => setOpen(true)}
-                        />
-                    </Badge>
-                </UserBox> */}
         </StyledToolbar>
-        {/* <Divider />
-                <Menu
-                    id="demo-positioned-menu"
-                    aria-labelledby="demo-positioned-button"
-                    open={open}
-                    onClose={(event) => setOpen(false)}
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                    }}
-                >
-                    <MenuItem>Profile</MenuItem>
-                    <MenuItem>My account</MenuItem>
-                    <MenuItem>Logout</MenuItem>
-                </Menu> */}
       </AppBar>
     </ThemeProvider>
   );
 };
 
 export default NavegationBar;
-
-// const useStyles = makeStyles(() => ({
-
-//   }));
