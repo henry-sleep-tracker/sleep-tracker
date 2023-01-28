@@ -1026,7 +1026,7 @@ const Record = (props) => {
             sx={{
               width: "60vw",
               marginBottom: 10,
-              backgroundColor: theme.palette.mode == "light" && "#eeeeee",
+              backgroundColor: theme.palette.mode === "light" && "#eeeeee",
             }}
           >
             <CardContent>

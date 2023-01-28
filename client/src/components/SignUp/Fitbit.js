@@ -21,7 +21,7 @@ export default function Fitbit() {
   }, [searchParams, navigate, dispatch, userId]);
 
   return (
-    <Button variant="contained">
+    <Button variant="contained" size="small">
       <a
         href="https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=238Z55&scope=activity+cardio_fitness+electrocardiogram+heartrate+location+nutrition+oxygen_saturation+profile+respiratory_rate+settings+sleep+social+temperature+weight&code_challenge=7wr6vJ_VkL5qO019WLHuMLj95vJndOLsYSugmFk9r5o&code_challenge_method=S256"
         style={{
