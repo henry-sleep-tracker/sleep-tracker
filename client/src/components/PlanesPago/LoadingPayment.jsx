@@ -16,6 +16,7 @@ export default function LoadingPayment() {
   const planExpirationDate = useSelector(
     (state) => state?.users?.planExpirationDate
   );
+  console.log("planExpirationDate", planExpirationDate);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUsersPlanExpDate(currentUser.id));
