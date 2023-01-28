@@ -31,14 +31,11 @@ router.get("/prices", async (req, res) => {
 
 router.post("/session", async (req, res) => {
   const { priceId, email } = req.body;
-  console.log("pagosServer", priceId, email);
   const user = await User.findOne({
     where: { email: email },
     include: { model: Plan, attributes: ["id", "name", "price", "endTime"] },
     paranoid: false,
   });
-
-  console.log("sessionUser", user);
 
   if (user?.plan?.id) {
     const result = await Plan.destroy({
@@ -65,7 +62,6 @@ router.post("/session", async (req, res) => {
         apiKey: process.env.STRIPE_SECRET_KEY,
       }
     );
-    console.log("serversession", session);
     return res.json(session);
   } else {
     const session = await stripe.checkout.sessions.create(

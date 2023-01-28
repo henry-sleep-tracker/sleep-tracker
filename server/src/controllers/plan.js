@@ -61,18 +61,23 @@ const createNewPlan = async (planPrice, userId) => {
       where: { id: userId },
     });
     const foundPlan = await userInfo.getPlan();
+    console.log("FOUND PLAN", foundPlan);
     if (foundPlan === null) {
+      console.log("FOUND PLAN NULL BODY", body);
       const newPlan = await Plan.create(body);
+      console.log("NEW PLAN", newPlan);
       await userInfo.setPlan(newPlan);
+    } else if (
+      foundPlan.dataValues.endTime === body.endTime &&
+      foundPlan.dataValues.name === body.name
+    ) {
+      console.log("do nothing");
+      return;
     } else {
-      if (
-        foundPlan.dataValues.endTime === body.endTime &&
-        foundPlan.dataValues.name === body.name
-      ) {
-      } else {
-        const newPlan = await Plan.create(body);
-        await userInfo.setPlan(newPlan);
-      }
+      console.log("BODY 2", body);
+      const newPlan = await Plan.create(body);
+      console.log("NEW PLAN 2", newPlan);
+      await userInfo.setPlan(newPlan);
     }
   } catch (error) {
     console.log("El error controllers plan createNewPlan es:", error.message);
