@@ -121,7 +121,7 @@ const Resume = () => {
   return (
     <Card
       sx={{
-        height: !isMobile ? 442 : 500,
+        height: !isMobile ? 438 : 510,
         boxShadow: 2,
       }}
     >

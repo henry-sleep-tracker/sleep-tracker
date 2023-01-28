@@ -8,10 +8,10 @@ import {
   AreaChart,
   Area,
 } from "recharts";
+import Fitbit from "../SignUp/Fitbit";
+import Calendario from "../Calendario/Calendario";
 import { useSelector } from "react-redux";
 import { Card, Grid, Typography } from "@mui/material";
-
-const isMobile = window.innerWidth < 800;
 
 export default function GraphHome() {
   const stages = useSelector((state) => state.stage);
@@ -71,10 +71,18 @@ export default function GraphHome() {
 
   return (
     <Card sx={{ boxShadow: 2 }}>
-      <Typography fontSize="2rem" fontWeight={"bold"} align="center" p={3}>
+      <Typography fontSize="2rem" fontWeight={"bold"} align="center" p={2}>
         Etapas de sueño por noche
       </Typography>
-      <ResponsiveContainer width="95%" height={500}>
+
+      <Grid
+        item
+        sx={{ display: "flex", justifyContent: "center", paddingBottom: 2 }}
+      >
+        <Calendario />
+      </Grid>
+
+      <ResponsiveContainer width="95%" height={407}>
         <AreaChart data={data}>
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -104,15 +112,27 @@ export default function GraphHome() {
           />
         </AreaChart>
       </ResponsiveContainer>
-      <Grid p={!isMobile ? 3 : 0}>
-        <Typography fontSize="1rem" color="grey" align="center">
-          En esta grafica puedes visualizar cada etapa de tu ciclo de sueño.
-        </Typography>
-        <Typography fontSize="1rem" color="grey" align="center">
-          Durante una noche, nuestro sueño pasa por distintas etapas. Usualmente
-          se mueve de sueño ligero, a sueño profundo, regresa a sueño ligero,
-          para despues pasar a REM.
-        </Typography>
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        direction="column"
+        spacing={1}
+        p={1.5}
+      >
+        <Grid item>
+          <Fitbit />
+        </Grid>
+        <Grid item sx={{ paddingBottom: 1 }}>
+          <Typography fontSize="0.9rem" color="grey" align="center">
+            En esta grafica puedes visualizar cada etapa de tu ciclo de sueño.
+          </Typography>
+          <Typography fontSize="0.9rem" color="grey" align="center">
+            Durante una noche, nuestro sueño pasa por distintas etapas.
+            Usualmente se mueve de sueño ligero, a sueño profundo, regresa a
+            sueño ligero, para despues pasar a REM.
+          </Typography>
+        </Grid>
       </Grid>
     </Card>
   );
