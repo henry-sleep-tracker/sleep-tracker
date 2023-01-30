@@ -5,21 +5,37 @@ import Calc from "./calc";
 import Swipeable from "./Swipeable";
 import { getUsersPlanExpDate } from "../../actions/plan";
 import { useAuthContext } from "../../actions/authContext";
-import { getSleepStage } from "../../actions/getUserHealthData";
+import {
+  getSleepSession,
+  getSleepStage,
+} from "../../actions/getUserHealthData";
 import { getRecordsQuery } from "../../actions/records_data";
-import Calendario from "../Calendario/Calendario";
 import GraphHome from "../Graphs/Graph-home";
 import CollapsibleTable from "../Graph-Week/CollapsibleTable";
-import Fitbit from "../SignUp/Fitbit";
-import { Grid, Paper, Typography, Box } from "@mui/material";
+import {
+  Grid,
+  Paper,
+  Typography,
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/styles";
 import { Helmet } from "react-helmet";
+import greeting from "../../images/bar-chart.png";
+import sleep from "../../images/sleep.png";
+import moon from "../../images/full-moon.png";
+import sun from "../../images/sun.png";
 
 const yesterday = new Date(Date.now() - 28800000).toISOString().split("T")[0];
+const isMobile = window.innerWidth < 800;
 
 const Home = () => {
   const { payPlan } = useAuthContext();
   const currentUser = useSelector((state) => state?.users.currentUser);
+  const session = useSelector((state) => state.session);
   const planExpirationDate = useSelector(
     (state) => state?.users.planExpirationDate
   );
@@ -27,6 +43,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getSleepStage(yesterday));
+    dispatch(getSleepSession(yesterday));
     dispatch(getRecordsQuery(currentUser.id, yesterday));
     dispatch(getUsersPlanExpDate(currentUser.id));
     payPlan(planExpirationDate);
@@ -50,7 +67,16 @@ const Home = () => {
     return text;
   };
 
+  const sleepSession = session?.map((s) => {
+    let obj = {};
+    obj["duration"] = (parseInt(s.duration, 10) / 3600000).toFixed(1);
+    obj["bedTime"] = s.start_time.split("T")[1].split(".")[0];
+    obj["wakeupTime"] = s.end_time.split("T")[1].split(".")[0];
+    return obj;
+  });
+  console.log("sleepSession", sleepSession);
   const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <Paper className={classes.paperWraper}>
@@ -59,26 +85,112 @@ const Home = () => {
         justifyContent="center"
         alignItems="center"
         direction="column"
-        spacing={3}
-        flex={4}
-        p={"2rem"}
+        p={!isMobile ? "3rem" : "0.5rem"}
       >
         <Helmet>
           <title>Inicio | Sleep Tracker</title>
         </Helmet>
 
-        <Grid item>
-          <Typography variant="h3" fontWeight="bold" paddingTop={2}>
-            ¡Hola {user.name}, {greet()}
-          </Typography>
-        </Grid>
-
-        <Grid item>
-          <Fitbit />
-        </Grid>
-
-        <Grid item>
-          <Calendario />
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="flex-start"
+          spacing={{ xs: 4, md: 6 }}
+          sx={{ paddingRight: "2rem", paddingLeft: "2rem" }}
+        >
+          <Grid item sm={12} md={8}>
+            <Card
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                backgroundColor: "#f1f1f9",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <CardContent>
+                  <Typography
+                    variant="h4"
+                    fontWeight="medium"
+                    align="center"
+                    color="black"
+                  >
+                    ¡Hola {user.name}, {greet()}
+                  </Typography>
+                </CardContent>
+              </Box>
+              <CardMedia
+                component="img"
+                sx={{ width: 151, padding: 1 }}
+                image={greeting}
+                alt="bar chart"
+              />
+            </Card>
+          </Grid>
+          <Grid item sx={12} md={4}>
+            <Card
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                backgroundColor: "#f1f1f9",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {sleepSession?.map((s, i) => (
+                  <CardContent>
+                    <Typography
+                      key={`day${i}`}
+                      fontSize={26}
+                      color="black"
+                      fontWeight={"bold"}
+                      paddingLeft={3}
+                    >
+                      Promedio: {s.duration} h
+                    </Typography>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: 5,
+                        color: "black",
+                      }}
+                    >
+                      <div style={{ paddingLeft: 20 }}>
+                        <img src={moon} height="30px" alt="moon" />
+                        {s.bedTime.split(":")[0]}:{s.bedTime.split(":")[1]} h
+                      </div>
+                      <div style={{ paddingLeft: 15 }}>
+                        <img src={sun} height="30px" alt="moon" />
+                        {s.wakeupTime.split(":")[0]}:{s.bedTime.split(":")[1]} h
+                      </div>
+                    </div>
+                  </CardContent>
+                ))}
+              </Box>
+              <CardMedia
+                component="img"
+                sx={{ width: !isMobile ? 150 : 0, padding: 3 }}
+                image={sleep}
+                alt="bar chart"
+              />
+            </Card>
+          </Grid>
         </Grid>
 
         <Grid
@@ -89,11 +201,11 @@ const Home = () => {
           spacing={{ xs: 4, md: 6 }}
           p={"2rem"}
         >
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} sm={12} md={8}>
             <GraphHome />
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid item sm={12} md={4}>
             <CollapsibleTable />
           </Grid>
         </Grid>
@@ -102,19 +214,19 @@ const Home = () => {
           direction="row"
           justifyContent="center"
           alignItems="center"
-          p={"2rem"}
+          sx={{ paddingRight: "2rem", paddingLeft: "2rem" }}
           spacing={{ xs: 4, md: 6 }}
           columns={{ xs: 4, sm: 8, md: 15 }}
         >
-          <Grid item xs={12} md={5}>
+          <Grid item sm={12} md={5}>
             <Resume />
           </Grid>
 
-          <Grid item xs={12} md={5}>
+          <Grid item sm={12} md={5}>
             <Swipeable className={classes.swipeable} />
           </Grid>
 
-          <Grid item xs={12} md={5}>
+          <Grid item sm={12} md={5}>
             <Calc />
           </Grid>
         </Grid>

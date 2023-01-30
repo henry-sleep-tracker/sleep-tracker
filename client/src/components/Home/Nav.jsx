@@ -142,9 +142,7 @@ function ResponsiveAppBar({ mode, setMode }) {
               onClick={handleDrawerToggle}
               color="inherit"
             >
-              <MenuIcon
-                sx={{ color: '#fafafa' }}
-              />
+              <MenuIcon sx={{ color: "#fafafa" }} />
             </IconButton>
 
             {mode === "light" ? (
@@ -289,17 +287,19 @@ function ResponsiveAppBar({ mode, setMode }) {
                     />
                   </ListItemButton>
                 </ListItem>
-                {currentUser.plan?.name === "Premium" &&
+                {currentUser.plan?.name === "Premium" && (
                   <ListItem disablePadding>
                     <ListItemButton component="a">
                       <ListItemIcon>
                         <ForumIcon />
                       </ListItemIcon>
-                      <ListItemText primary="Sala de chat" onClick={handlerChat} />
+                      <ListItemText
+                        primary="Sala de chat"
+                        onClick={handlerChat}
+                      />
                     </ListItemButton>
                   </ListItem>
-
-                }
+                )}
                 <ListItem disablePadding>
                   <ListItemButton component="a">
                     <ListItemIcon>
@@ -359,7 +359,7 @@ function ResponsiveAppBar({ mode, setMode }) {
             <Button
               key="Graficas"
               onClick={handleGraph}
-              sx={{ my: 2, color: "white", display: "block" }}
+              sx={{ my: 2, color: "white", display: "flex" }}
               startIcon={<TimelineIcon />}
             >
               Graficas
@@ -376,14 +376,13 @@ function ResponsiveAppBar({ mode, setMode }) {
             <Button
               key="Registrar Actividad"
               onClick={handlerRecord}
-              sx={{ my: 2, color: "white", display: "block" }}
+              sx={{ my: 2, color: "white", display: "flex" }}
               startIcon={<AddchartIcon />}
             >
               Registrar Actividad
             </Button>
           </Box>
-          {currentUser.plan?.name === "Premium" &&
-
+          {currentUser.plan?.name === "Premium" && (
             <Box
               sx={{
                 flexGrow: 1,
@@ -394,14 +393,13 @@ function ResponsiveAppBar({ mode, setMode }) {
               <Button
                 key="Chat"
                 onClick={handlerChat}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{ my: 2, color: "white", display: "flex" }}
                 startIcon={<ForumIcon />}
               >
                 Sala de chat
               </Button>
             </Box>
-
-          }
+          )}
           <Box
             sx={{
               flexGrow: 1,
@@ -412,7 +410,7 @@ function ResponsiveAppBar({ mode, setMode }) {
             <Button
               key="conoce al equipo"
               onClick={handleConoce}
-              sx={{ my: 2, color: "white", display: "block" }}
+              sx={{ my: 2, color: "white", display: "flex" }}
               startIcon={<Groups2 />}
             >
               conoce al equipo
@@ -495,17 +493,11 @@ function ResponsiveAppBar({ mode, setMode }) {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                <Typography
-                  variant="h6"
-                  fontWeight='bold'
-                >
+              <MenuItem sx={{ display: "flex", justifyContent: "center" }}>
+                <Typography variant="h6" fontWeight="bold">
                   {currentUser.names}
                 </Typography>
               </MenuItem>
-
 
               <MenuItem>
                 <ListItemIcon>
