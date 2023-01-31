@@ -45,9 +45,7 @@ router.post(
     try {
       switch (eventType) {
         case "invoice.payment_succeeded":
-          console.log("CASE invoice.payment_succeeded", data);
           const user = await getUserByStripeCustomerId(data.object.customer);
-          console.log("USER invoice.payment_succeeded", user);
 
           await createNewPlan(data.object.amount_paid, user.id);
           if (data.object.amount_paid === 0) {
