@@ -44,7 +44,8 @@ import "./App.css";
 //The following link must be un-comented on gitHub if you wanna work with your "npm start" running
 // axios.defaults.baseURL = "http://localhost:3001";
 //The following link must be un-comented on gitHub if you wanna work with on-line servers
-// axios.defaults.baseURL = 'https://sleep-tracker-production.up.railway.app'
+axios.defaults.baseURL = "https://sleep-tracker-production.up.railway.app";
+
 function App() {
   return (
     <AuthContextProvider>
@@ -81,7 +82,11 @@ function App() {
         <Route path="/private" element={<PrivateRoute />}>
           <Route path="/private" element={<GeneralRoutes />}>
             <Route path="/private/dashboard" element={<AdminRoute />}>
-              <Route index path="/private/dashboard/*" element={<Dashboard />} />
+              <Route
+                index
+                path="/private/dashboard/*"
+                element={<Dashboard />}
+              />
             </Route>
 
             <Route index path="/private/home" element={<Home />} />
