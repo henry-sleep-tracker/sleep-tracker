@@ -69,10 +69,10 @@ const Home = () => {
 
   const sleepSession = useMemo(() => {
     let obj = {};
-    obj["duration"] = (parseInt(session[0].duration, 10) / 3600000).toFixed(1);
-    obj["bedTime"] = session[0].start_time?.split("T")[1].split(".")[0];
-    obj["wakeupTime"] = session[0].end_time?.split("T")[1].split(".")[0];
-    obj["date"] = session[0].date;
+    obj["duration"] = (parseInt(session[0]?.duration, 10) / 3600000).toFixed(1);
+    obj["bedTime"] = session[0]?.start_time?.split("T")[1].split(".")[0];
+    obj["wakeupTime"] = session[0]?.end_time?.split("T")[1].split(".")[0];
+    obj["date"] = session[0]?.date;
     return obj;
   }, [session]);
 
@@ -172,13 +172,13 @@ const Home = () => {
                   >
                     <div style={{ paddingLeft: 20, color: "grey" }}>
                       <img src={moon} height="30px" alt="moon" />
-                      {sleepSession.bedTime.split(":")[0]}:
-                      {sleepSession.bedTime.split(":")[1]} h
+                      {sleepSession.bedTime?.split(":")[0]}:
+                      {sleepSession.bedTime?.split(":")[1]} h
                     </div>
                     <div style={{ paddingLeft: 15, color: "grey" }}>
                       <img src={sun} height="30px" alt="moon" />
-                      {sleepSession.wakeupTime.split(":")[0]}:
-                      {sleepSession.bedTime.split(":")[1]} h
+                      {sleepSession.wakeupTime?.split(":")[0]}:
+                      {sleepSession.bedTime?.split(":")[1]} h
                     </div>
                   </div>
                 </CardContent>
