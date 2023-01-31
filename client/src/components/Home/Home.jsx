@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Resume from "./resume";
 import Calc from "./calc";
@@ -32,6 +32,20 @@ import sun from "../../images/sun.png";
 const yesterday = new Date(Date.now() - 28800000).toISOString().split("T")[0];
 const isMobile = window.innerWidth < 800;
 
+const greet = () => {
+  var text = "";
+  var now = new Date();
+  var time = now.getHours();
+  if (time >= 5 && time < 13) {
+    text = "buenos días!  ";
+  } else if (time >= 13 && time < 21) {
+    text = "buenas tardes! ";
+  } else {
+    text = "buenas noches!  ";
+  }
+  return text;
+};
+
 const Home = () => {
   const { payPlan } = useAuthContext();
   const currentUser = useSelector((state) => state?.users.currentUser);
@@ -53,30 +67,19 @@ const Home = () => {
     name: currentUser.names ? currentUser.names : "🥰",
   };
 
-  const greet = () => {
-    var text = "";
-    var now = new Date();
-    var time = now.getHours();
-    if (time >= 5 && time < 13) {
-      text = "buenos días!  ";
-    } else if (time >= 13 && time < 21) {
-      text = "buenas tardes! ";
-    } else {
-      text = "buenas noches!  ";
-    }
-    return text;
-  };
-
-  const sleepSession = session?.map((s) => {
+  const sleepSession = useMemo(() => {
     let obj = {};
-    obj["duration"] = (parseInt(s.duration, 10) / 3600000).toFixed(1);
-    obj["bedTime"] = s.start_time.split("T")[1].split(".")[0];
-    obj["wakeupTime"] = s.end_time.split("T")[1].split(".")[0];
+    obj["duration"] = (parseInt(session[0].duration, 10) / 3600000).toFixed(1);
+    obj["bedTime"] = session[0].start_time?.split("T")[1].split(".")[0];
+    obj["wakeupTime"] = session[0].end_time?.split("T")[1].split(".")[0];
+    obj["date"] = session[0].date;
     return obj;
-  });
+  }, [session]);
+
+  console.log("session", session);
   console.log("sleepSession", sleepSession);
   const classes = useStyles();
-  const theme = useTheme();
+  // const theme = useTheme();
 
   return (
     <Paper className={classes.paperWraper}>
@@ -150,38 +153,35 @@ const Home = () => {
                   justifyContent: "center",
                 }}
               >
-                {sleepSession?.map((s, i) => (
-                  <CardContent>
-                    <Typography
-                      key={`day${i}`}
-                      fontSize={26}
-                      color="black"
-                      fontWeight={"bold"}
-                      paddingLeft={3}
-                    >
-                      Promedio: {s.duration} h
-                    </Typography>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        padding: 5,
-                        color: "black",
-                      }}
-                    >
-                      <div style={{ paddingLeft: 20 }}>
-                        <img src={moon} height="30px" alt="moon" />
-                        {s.bedTime.split(":")[0]}:{s.bedTime.split(":")[1]} h
-                      </div>
-                      <div style={{ paddingLeft: 15 }}>
-                        <img src={sun} height="30px" alt="moon" />
-                        {s.wakeupTime.split(":")[0]}:{s.bedTime.split(":")[1]} h
-                      </div>
+                <CardContent>
+                  <Typography fontSize={16} color="black" paddingLeft={3}>
+                    Fecha: {sleepSession.date}
+                  </Typography>
+                  <Typography fontSize={16} color="black" paddingLeft={3}>
+                    Promedio: {sleepSession.duration} h
+                  </Typography>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: 5,
+                      color: "black",
+                    }}
+                  >
+                    <div style={{ paddingLeft: 20, color: "grey" }}>
+                      <img src={moon} height="30px" alt="moon" />
+                      {sleepSession.bedTime.split(":")[0]}:
+                      {sleepSession.bedTime.split(":")[1]} h
                     </div>
-                  </CardContent>
-                ))}
+                    <div style={{ paddingLeft: 15, color: "grey" }}>
+                      <img src={sun} height="30px" alt="moon" />
+                      {sleepSession.wakeupTime.split(":")[0]}:
+                      {sleepSession.bedTime.split(":")[1]} h
+                    </div>
+                  </div>
+                </CardContent>
               </Box>
               <CardMedia
                 component="img"
