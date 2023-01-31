@@ -76,10 +76,7 @@ const Home = () => {
     return obj;
   }, [session]);
 
-  console.log("session", session);
-  console.log("sleepSession", sleepSession);
   const classes = useStyles();
-  // const theme = useTheme();
 
   return (
     <Paper className={classes.paperWraper}>
@@ -155,10 +152,10 @@ const Home = () => {
               >
                 <CardContent>
                   <Typography fontSize={16} color="black" paddingLeft={3}>
-                    Fecha: {sleepSession.date}
+                    Fecha: {sleepSession?.date}
                   </Typography>
                   <Typography fontSize={16} color="black" paddingLeft={3}>
-                    Promedio: {sleepSession.duration} h
+                    Promedio: {sleepSession?.duration} h
                   </Typography>
                   <div
                     style={{
